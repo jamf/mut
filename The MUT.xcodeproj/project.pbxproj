@@ -1,0 +1,545 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F7333BD11DB55EDF00F89C00 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7333BD01DB55EDF00F89C00 /* AppDelegate.swift */; };
+		F7333BD31DB55EDF00F89C00 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7333BD21DB55EDF00F89C00 /* ViewController.swift */; };
+		F7333BD61DB55EDF00F89C00 /* The_MUT.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F7333BD41DB55EDF00F89C00 /* The_MUT.xcdatamodeld */; };
+		F7333BD81DB55EDF00F89C00 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F7333BD71DB55EDF00F89C00 /* Assets.xcassets */; };
+		F7333BDB1DB55EDF00F89C00 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F7333BD91DB55EDF00F89C00 /* Main.storyboard */; };
+		F7333BE61DB55EDF00F89C00 /* The_MUTTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7333BE51DB55EDF00F89C00 /* The_MUTTests.swift */; };
+		F7333BF11DB55EDF00F89C00 /* The_MUTUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7333BF01DB55EDF00F89C00 /* The_MUTUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F7333BE21DB55EDF00F89C00 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F7333BC51DB55EDF00F89C00 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F7333BCC1DB55EDF00F89C00;
+			remoteInfo = "The MUT";
+		};
+		F7333BED1DB55EDF00F89C00 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F7333BC51DB55EDF00F89C00 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F7333BCC1DB55EDF00F89C00;
+			remoteInfo = "The MUT";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		F7333BCD1DB55EDF00F89C00 /* The MUT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "The MUT.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7333BD01DB55EDF00F89C00 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		F7333BD21DB55EDF00F89C00 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		F7333BD51DB55EDF00F89C00 /* The_MUT.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = The_MUT.xcdatamodel; sourceTree = "<group>"; };
+		F7333BD71DB55EDF00F89C00 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F7333BDA1DB55EDF00F89C00 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		F7333BDC1DB55EDF00F89C00 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F7333BE11DB55EDF00F89C00 /* The MUTTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "The MUTTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7333BE51DB55EDF00F89C00 /* The_MUTTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = The_MUTTests.swift; sourceTree = "<group>"; };
+		F7333BE71DB55EDF00F89C00 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F7333BEC1DB55EDF00F89C00 /* The MUTUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "The MUTUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7333BF01DB55EDF00F89C00 /* The_MUTUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = The_MUTUITests.swift; sourceTree = "<group>"; };
+		F7333BF21DB55EDF00F89C00 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F7333BCA1DB55EDF00F89C00 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F7333BDE1DB55EDF00F89C00 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F7333BE91DB55EDF00F89C00 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F7333BC41DB55EDF00F89C00 = {
+			isa = PBXGroup;
+			children = (
+				F7333BCF1DB55EDF00F89C00 /* The MUT */,
+				F7333BE41DB55EDF00F89C00 /* The MUTTests */,
+				F7333BEF1DB55EDF00F89C00 /* The MUTUITests */,
+				F7333BCE1DB55EDF00F89C00 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F7333BCE1DB55EDF00F89C00 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F7333BCD1DB55EDF00F89C00 /* The MUT.app */,
+				F7333BE11DB55EDF00F89C00 /* The MUTTests.xctest */,
+				F7333BEC1DB55EDF00F89C00 /* The MUTUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F7333BCF1DB55EDF00F89C00 /* The MUT */ = {
+			isa = PBXGroup;
+			children = (
+				F7333BD01DB55EDF00F89C00 /* AppDelegate.swift */,
+				F7333BD21DB55EDF00F89C00 /* ViewController.swift */,
+				F7333BD71DB55EDF00F89C00 /* Assets.xcassets */,
+				F7333BD91DB55EDF00F89C00 /* Main.storyboard */,
+				F7333BDC1DB55EDF00F89C00 /* Info.plist */,
+				F7333BD41DB55EDF00F89C00 /* The_MUT.xcdatamodeld */,
+			);
+			path = "The MUT";
+			sourceTree = "<group>";
+		};
+		F7333BE41DB55EDF00F89C00 /* The MUTTests */ = {
+			isa = PBXGroup;
+			children = (
+				F7333BE51DB55EDF00F89C00 /* The_MUTTests.swift */,
+				F7333BE71DB55EDF00F89C00 /* Info.plist */,
+			);
+			path = "The MUTTests";
+			sourceTree = "<group>";
+		};
+		F7333BEF1DB55EDF00F89C00 /* The MUTUITests */ = {
+			isa = PBXGroup;
+			children = (
+				F7333BF01DB55EDF00F89C00 /* The_MUTUITests.swift */,
+				F7333BF21DB55EDF00F89C00 /* Info.plist */,
+			);
+			path = "The MUTUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F7333BCC1DB55EDF00F89C00 /* The MUT */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F7333BF51DB55EDF00F89C00 /* Build configuration list for PBXNativeTarget "The MUT" */;
+			buildPhases = (
+				F7333BC91DB55EDF00F89C00 /* Sources */,
+				F7333BCA1DB55EDF00F89C00 /* Frameworks */,
+				F7333BCB1DB55EDF00F89C00 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "The MUT";
+			productName = "The MUT";
+			productReference = F7333BCD1DB55EDF00F89C00 /* The MUT.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F7333BE01DB55EDF00F89C00 /* The MUTTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F7333BF81DB55EDF00F89C00 /* Build configuration list for PBXNativeTarget "The MUTTests" */;
+			buildPhases = (
+				F7333BDD1DB55EDF00F89C00 /* Sources */,
+				F7333BDE1DB55EDF00F89C00 /* Frameworks */,
+				F7333BDF1DB55EDF00F89C00 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F7333BE31DB55EDF00F89C00 /* PBXTargetDependency */,
+			);
+			name = "The MUTTests";
+			productName = "The MUTTests";
+			productReference = F7333BE11DB55EDF00F89C00 /* The MUTTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		F7333BEB1DB55EDF00F89C00 /* The MUTUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F7333BFB1DB55EDF00F89C00 /* Build configuration list for PBXNativeTarget "The MUTUITests" */;
+			buildPhases = (
+				F7333BE81DB55EDF00F89C00 /* Sources */,
+				F7333BE91DB55EDF00F89C00 /* Frameworks */,
+				F7333BEA1DB55EDF00F89C00 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F7333BEE1DB55EDF00F89C00 /* PBXTargetDependency */,
+			);
+			name = "The MUTUITests";
+			productName = "The MUTUITests";
+			productReference = F7333BEC1DB55EDF00F89C00 /* The MUTUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F7333BC51DB55EDF00F89C00 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0800;
+				LastUpgradeCheck = 0800;
+				ORGANIZATIONNAME = "Levenick Enterprises LLC";
+				TargetAttributes = {
+					F7333BCC1DB55EDF00F89C00 = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = X6CF4FM9JH;
+						ProvisioningStyle = Automatic;
+					};
+					F7333BE01DB55EDF00F89C00 = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = X6CF4FM9JH;
+						ProvisioningStyle = Automatic;
+						TestTargetID = F7333BCC1DB55EDF00F89C00;
+					};
+					F7333BEB1DB55EDF00F89C00 = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = X6CF4FM9JH;
+						ProvisioningStyle = Automatic;
+						TestTargetID = F7333BCC1DB55EDF00F89C00;
+					};
+				};
+			};
+			buildConfigurationList = F7333BC81DB55EDF00F89C00 /* Build configuration list for PBXProject "The MUT" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F7333BC41DB55EDF00F89C00;
+			productRefGroup = F7333BCE1DB55EDF00F89C00 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F7333BCC1DB55EDF00F89C00 /* The MUT */,
+				F7333BE01DB55EDF00F89C00 /* The MUTTests */,
+				F7333BEB1DB55EDF00F89C00 /* The MUTUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F7333BCB1DB55EDF00F89C00 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F7333BD81DB55EDF00F89C00 /* Assets.xcassets in Resources */,
+				F7333BDB1DB55EDF00F89C00 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F7333BDF1DB55EDF00F89C00 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F7333BEA1DB55EDF00F89C00 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F7333BC91DB55EDF00F89C00 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F7333BD31DB55EDF00F89C00 /* ViewController.swift in Sources */,
+				F7333BD61DB55EDF00F89C00 /* The_MUT.xcdatamodeld in Sources */,
+				F7333BD11DB55EDF00F89C00 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F7333BDD1DB55EDF00F89C00 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F7333BE61DB55EDF00F89C00 /* The_MUTTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F7333BE81DB55EDF00F89C00 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F7333BF11DB55EDF00F89C00 /* The_MUTUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F7333BE31DB55EDF00F89C00 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F7333BCC1DB55EDF00F89C00 /* The MUT */;
+			targetProxy = F7333BE21DB55EDF00F89C00 /* PBXContainerItemProxy */;
+		};
+		F7333BEE1DB55EDF00F89C00 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F7333BCC1DB55EDF00F89C00 /* The MUT */;
+			targetProxy = F7333BED1DB55EDF00F89C00 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		F7333BD91DB55EDF00F89C00 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F7333BDA1DB55EDF00F89C00 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		F7333BF31DB55EDF00F89C00 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		F7333BF41DB55EDF00F89C00 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+			};
+			name = Release;
+		};
+		F7333BF61DB55EDF00F89C00 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = X6CF4FM9JH;
+				INFOPLIST_FILE = "The MUT/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.levenick.The-MUT";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		F7333BF71DB55EDF00F89C00 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = X6CF4FM9JH;
+				INFOPLIST_FILE = "The MUT/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.levenick.The-MUT";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		F7333BF91DB55EDF00F89C00 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = X6CF4FM9JH;
+				INFOPLIST_FILE = "The MUTTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.levenick.The-MUTTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/The MUT.app/Contents/MacOS/The MUT";
+			};
+			name = Debug;
+		};
+		F7333BFA1DB55EDF00F89C00 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = X6CF4FM9JH;
+				INFOPLIST_FILE = "The MUTTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.levenick.The-MUTTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/The MUT.app/Contents/MacOS/The MUT";
+			};
+			name = Release;
+		};
+		F7333BFC1DB55EDF00F89C00 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = X6CF4FM9JH;
+				INFOPLIST_FILE = "The MUTUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.levenick.The-MUTUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = "The MUT";
+			};
+			name = Debug;
+		};
+		F7333BFD1DB55EDF00F89C00 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = X6CF4FM9JH;
+				INFOPLIST_FILE = "The MUTUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.levenick.The-MUTUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = "The MUT";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F7333BC81DB55EDF00F89C00 /* Build configuration list for PBXProject "The MUT" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F7333BF31DB55EDF00F89C00 /* Debug */,
+				F7333BF41DB55EDF00F89C00 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F7333BF51DB55EDF00F89C00 /* Build configuration list for PBXNativeTarget "The MUT" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F7333BF61DB55EDF00F89C00 /* Debug */,
+				F7333BF71DB55EDF00F89C00 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		F7333BF81DB55EDF00F89C00 /* Build configuration list for PBXNativeTarget "The MUTTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F7333BF91DB55EDF00F89C00 /* Debug */,
+				F7333BFA1DB55EDF00F89C00 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		F7333BFB1DB55EDF00F89C00 /* Build configuration list for PBXNativeTarget "The MUTUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F7333BFC1DB55EDF00F89C00 /* Debug */,
+				F7333BFD1DB55EDF00F89C00 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		F7333BD41DB55EDF00F89C00 /* The_MUT.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				F7333BD51DB55EDF00F89C00 /* The_MUT.xcdatamodel */,
+			);
+			currentVersion = F7333BD51DB55EDF00F89C00 /* The_MUT.xcdatamodel */;
+			path = The_MUT.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = F7333BC51DB55EDF00F89C00 /* Project object */;
+}
