@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F7321D1F1DB729C0007A1E94 /* ServerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7321D1E1DB729C0007A1E94 /* ServerView.swift */; };
+		F7321D211DB72B90007A1E94 /* CredentialsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7321D201DB72B90007A1E94 /* CredentialsView.swift */; };
+		F7321D231DB72C5F007A1E94 /* AttributesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7321D221DB72C5F007A1E94 /* AttributesView.swift */; };
+		F7321D251DB72C69007A1E94 /* RunView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7321D241DB72C69007A1E94 /* RunView.swift */; };
 		F7333BD11DB55EDF00F89C00 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7333BD01DB55EDF00F89C00 /* AppDelegate.swift */; };
 		F7333BD31DB55EDF00F89C00 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7333BD21DB55EDF00F89C00 /* ViewController.swift */; };
 		F7333BD61DB55EDF00F89C00 /* The_MUT.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F7333BD41DB55EDF00F89C00 /* The_MUT.xcdatamodeld */; };
@@ -34,6 +38,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F7321D1E1DB729C0007A1E94 /* ServerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerView.swift; sourceTree = "<group>"; };
+		F7321D201DB72B90007A1E94 /* CredentialsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CredentialsView.swift; sourceTree = "<group>"; };
+		F7321D221DB72C5F007A1E94 /* AttributesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributesView.swift; sourceTree = "<group>"; };
+		F7321D241DB72C69007A1E94 /* RunView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunView.swift; sourceTree = "<group>"; };
 		F7333BCD1DB55EDF00F89C00 /* The MUT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "The MUT.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7333BD01DB55EDF00F89C00 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F7333BD21DB55EDF00F89C00 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -103,6 +111,10 @@
 				F7333BD91DB55EDF00F89C00 /* Main.storyboard */,
 				F7333BDC1DB55EDF00F89C00 /* Info.plist */,
 				F7333BD41DB55EDF00F89C00 /* The_MUT.xcdatamodeld */,
+				F7321D1E1DB729C0007A1E94 /* ServerView.swift */,
+				F7321D221DB72C5F007A1E94 /* AttributesView.swift */,
+				F7321D241DB72C69007A1E94 /* RunView.swift */,
+				F7321D201DB72B90007A1E94 /* CredentialsView.swift */,
 			);
 			path = "The MUT";
 			sourceTree = "<group>";
@@ -262,7 +274,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				F7333BD31DB55EDF00F89C00 /* ViewController.swift in Sources */,
+				F7321D211DB72B90007A1E94 /* CredentialsView.swift in Sources */,
+				F7321D1F1DB729C0007A1E94 /* ServerView.swift in Sources */,
+				F7321D231DB72C5F007A1E94 /* AttributesView.swift in Sources */,
 				F7333BD61DB55EDF00F89C00 /* The_MUT.xcdatamodeld in Sources */,
+				F7321D251DB72C69007A1E94 /* RunView.swift in Sources */,
 				F7333BD11DB55EDF00F89C00 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -408,6 +424,7 @@
 				DEVELOPMENT_TEAM = X6CF4FM9JH;
 				INFOPLIST_FILE = "The MUT/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.levenick.The-MUT";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
@@ -422,6 +439,7 @@
 				DEVELOPMENT_TEAM = X6CF4FM9JH;
 				INFOPLIST_FILE = "The MUT/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.levenick.The-MUT";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
@@ -509,6 +527,7 @@
 				F7333BF71DB55EDF00F89C00 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F7333BF81DB55EDF00F89C00 /* Build configuration list for PBXNativeTarget "The MUTTests" */ = {
 			isa = XCConfigurationList;
@@ -517,6 +536,7 @@
 				F7333BFA1DB55EDF00F89C00 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F7333BFB1DB55EDF00F89C00 /* Build configuration list for PBXNativeTarget "The MUTUITests" */ = {
 			isa = XCConfigurationList;
@@ -525,6 +545,7 @@
 				F7333BFD1DB55EDF00F89C00 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
