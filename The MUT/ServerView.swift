@@ -15,7 +15,7 @@ class ServerView: NSViewController {
     
     override func viewWillAppear() {
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 600, height: 327)
+        preferredContentSize = NSSize(width: 600, height: 400)
     }
     
     @IBOutlet weak var radioHosted: NSButton!
@@ -29,6 +29,9 @@ class ServerView: NSViewController {
     override func viewDidLoad() {
         
         
+    }
+    @IBAction func btnDismissServer(_ sender: AnyObject) {
+        self.dismissViewController(self)
     }
     
 
