@@ -9,12 +9,16 @@
 import Cocoa
 
 class ViewController: NSViewController {
+    
+    
    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+                preferredContentSize = NSSize(width: 600, height: 400)
 
         // Do any additional setup after loading the view.
+        
     }
 
     override var representedObject: Any? {
@@ -22,6 +26,7 @@ class ViewController: NSViewController {
         // Update the view, if already loaded.
         }
     }
+    @IBOutlet weak var lblTest: NSTextField!
 
 
 }

@@ -16,7 +16,7 @@ class CredentialsView: NSViewController {
     
     override func viewWillAppear() {
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 600, height: 225)
+        preferredContentSize = NSSize(width: 600, height: 303)
     }
     
     override func viewDidLoad() {
