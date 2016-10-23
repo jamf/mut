@@ -23,6 +23,9 @@ class AttributesView: NSViewController {
     override func viewDidLoad() {
 
     }
+    @IBAction func btnDismissAttributes(_ sender: AnyObject) {
+        self.dismissViewController(self)
+    }
     
     
 }

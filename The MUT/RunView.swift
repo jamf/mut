@@ -20,6 +20,9 @@ class RunView: NSViewController {
     override func viewDidLoad() {
         
     }
+    @IBAction func btnDismissRun(_ sender: AnyObject) {
+        self.dismissViewController(self)
+    }
     
     
 }

@@ -21,6 +21,9 @@ class CredentialsView: NSViewController {
     
     override func viewDidLoad() {
     }
+    @IBAction func btnDismissCredentials(_ sender: AnyObject) {
+        self.dismissViewController(self)
+    }
     
     
 }
