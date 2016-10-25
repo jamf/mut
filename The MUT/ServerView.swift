@@ -83,17 +83,23 @@ class ServerView: NSViewController {
                     // Dismiss the server controller
                     self.dismissViewController(self)
                 } else {
-                    let _ = dialogueWarning(question: "No Server Info", text: "You have selected the option for a hosted JSS instance but no instance name was entered. Please enter your instance name and try again.")
+                    let _ = dialogueWarning(question: "No Server Info", text: "You have selected the option for a hosted Jamf server, but no instance name was entered. Please enter your instance name and try again.")
                 }
 
             }
             
             // If Prem Radio Chekced
-            if radioPrem.state == 1 && txtPrem.stringValue != "" {
-                let serverURL = txtPrem.stringValue
-                delegateURL?.userDidEnterURL(serverURL: serverURL)
-                // Dismiss the server controller
-                self.dismissViewController(self)
+            if radioPrem.state == 1 {
+                if txtPrem.stringValue != "" {
+                    var serverURL = "\(txtPrem.stringValue)/JSSResource/"
+                    serverURL = serverURL.replacingOccurrences(of: "//JSSResource", with: "/JSSResource")
+                    delegateURL?.userDidEnterURL(serverURL: serverURL)
+                    // Dismiss the server controller
+                    self.dismissViewController(self)
+                } else {
+                    let _ = dialogueWarning(question: "No Server Info", text: "You have selected the option for an on prem server, but no server URL was entered. Please enter your instance name and try again.")
+                }
+
             }
         }
         
