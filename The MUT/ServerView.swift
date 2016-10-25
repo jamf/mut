@@ -18,6 +18,18 @@ protocol DataSentURL {
 
 
 class ServerView: NSViewController {
+
+    func dialogueWarning (question: String, text: String) -> Bool {
+        
+        let myPopup: NSAlert = NSAlert()
+        myPopup.messageText = question
+        myPopup.informativeText = text
+        myPopup.alertStyle = NSAlertStyle.warning
+        myPopup.addButton(withTitle: "OK")
+        return myPopup.runModal() == NSAlertFirstButtonReturn
+        
+    }
+
     
     // Declare variable to use for delegate
     var delegateURL: DataSentURL? = nil
@@ -63,21 +75,29 @@ class ServerView: NSViewController {
         // Pass back URL Delegate Info
         if delegateURL != nil {
             
-            // If hosted radio checked
+            // If hosted radio checked and instance filled
             if radioHosted.state == 1 {
-                let serverURL = "https://\(txtHosted.stringValue).jamfcloud.com/JSSResource/"
-                delegateURL?.userDidEnterURL(serverURL: serverURL)
+                if txtHosted.stringValue != "" {
+                    let serverURL = "https://\(txtHosted.stringValue).jamfcloud.com/JSSResource/"
+                    delegateURL?.userDidEnterURL(serverURL: serverURL)
+                    // Dismiss the server controller
+                    self.dismissViewController(self)
+                } else {
+                    let _ = dialogueWarning(question: "No Server Info", text: "You have selected the option for a hosted JSS instance but no instance name was entered. Please enter your instance name and try again.")
+                }
+
             }
             
             // If Prem Radio Chekced
-            if radioPrem.state == 1 {
+            if radioPrem.state == 1 && txtPrem.stringValue != "" {
                 let serverURL = txtPrem.stringValue
                 delegateURL?.userDidEnterURL(serverURL: serverURL)
+                // Dismiss the server controller
+                self.dismissViewController(self)
             }
         }
         
-        // Dismiss the server controller
-        self.dismissViewController(self)
+
     }
     
 

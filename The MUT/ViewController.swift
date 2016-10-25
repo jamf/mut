@@ -11,7 +11,7 @@ import Cocoa
 
 
 class ViewController: NSViewController, DataSentURL {
-    
+    var globalServerURL: String!
     
     // Takes place right after view loads
     override func viewDidLoad() {
@@ -37,7 +37,9 @@ class ViewController: NSViewController, DataSentURL {
     
     func userDidEnterURL(serverURL: String) {
         lblTest.stringValue = serverURL
+        globalServerURL = serverURL
         btnServer.image = NSImage(named: "NSStatusAvailable")
+        btnServer.isEnabled = false
     }
     
     // Function for segue variable passing
@@ -54,6 +56,9 @@ class ViewController: NSViewController, DataSentURL {
         
     }
     
+    @IBAction func printInfo(_ sender: AnyObject) {
+        print(globalServerURL)
+    }
     
 
 }
