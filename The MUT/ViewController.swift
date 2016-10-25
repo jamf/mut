@@ -8,17 +8,15 @@
 
 import Cocoa
 
-class ViewController: NSViewController {
+
+
+class ViewController: NSViewController, DataSentURL {
     
     
-   
-    
+    // Takes place right after view loads
     override func viewDidLoad() {
         super.viewDidLoad()
-                preferredContentSize = NSSize(width: 600, height: 400)
-
-        // Do any additional setup after loading the view.
-        
+        preferredContentSize = NSSize(width: 600, height: 400)
     }
 
     override var representedObject: Any? {
@@ -26,7 +24,36 @@ class ViewController: NSViewController {
         // Update the view, if already loaded.
         }
     }
-    @IBOutlet weak var lblTest: NSTextField!
 
+    
+    // Declare outlets for debug labels
+    @IBOutlet weak var lblTest: NSTextField!
+    @IBOutlet weak var lblTest2: NSTextField!
+    @IBOutlet weak var lblTest3: NSTextField!
+    
+    // Declare outlets for Buttons
+    @IBOutlet weak var btnServer: NSButton!
+    
+    
+    func userDidEnterURL(serverURL: String) {
+        lblTest.stringValue = serverURL
+        btnServer.image = NSImage(named: "NSStatusAvailable")
+    }
+    
+    // Function for segue variable passing
+    override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
+        if segue.identifier == "segueServer" {
+            let ServerView: ServerView = segue.destinationController as! ServerView
+            ServerView.delegateURL = self
+        }
+        
+        //if segue.identifier == "mySegue2" {
+        //    let SendingVC2: SendingVC2 = segue.destinationController as! SendingVC2
+        //    SendingVC2.delegateURL = self
+        //}
+        
+    }
+    
+    
 
 }

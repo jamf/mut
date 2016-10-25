@@ -11,23 +11,39 @@
 import Foundation
 import Cocoa
 
+// Protocol to pass back server URL
+protocol DataSentURL {
+    func userDidEnterURL(serverURL: String)
+}
+
+
 class ServerView: NSViewController {
     
+    // Declare variable to use for delegate
+    var delegateURL: DataSentURL? = nil
     
+    // Takes place right before view appears
     override func viewWillAppear() {
         super.viewWillAppear()
         preferredContentSize = NSSize(width: 600, height: 400)
     }
     
+    // Declaration of Outlets
     @IBOutlet weak var radioHosted: NSButton!
     @IBOutlet weak var radioPrem: NSButton!
     @IBOutlet weak var txtHosted: NSTextField!
     @IBOutlet weak var txtPrem: NSTextField!
+    
+    // Declaration of Radio Action
     @IBAction func radioServerType(_ sender: AnyObject) {
+        
+        // Disable On-Prem if Hosted = TRUE
         if radioHosted.state == 1 {
             txtPrem.isEnabled = false
             txtHosted.isEnabled = true
             txtHosted.becomeFirstResponder()
+            
+        // Else Disable Hosted if Hosted = FALSE
         } else {
             txtHosted.isEnabled = false
             txtPrem.isEnabled = true
@@ -36,12 +52,31 @@ class ServerView: NSViewController {
         
     }
     
-    
+    // Takes place after view loads
     override func viewDidLoad() {
         
     }
+    
+    // Dismiss button
     @IBAction func btnDismissServer(_ sender: AnyObject) {
         
+        // Pass back URL Delegate Info
+        if delegateURL != nil {
+            
+            // If hosted radio checked
+            if radioHosted.state == 1 {
+                let serverURL = "https://\(txtHosted.stringValue).jamfcloud.com/JSSResource/"
+                delegateURL?.userDidEnterURL(serverURL: serverURL)
+            }
+            
+            // If Prem Radio Chekced
+            if radioPrem.state == 1 {
+                let serverURL = txtPrem.stringValue
+                delegateURL?.userDidEnterURL(serverURL: serverURL)
+            }
+        }
+        
+        // Dismiss the server controller
         self.dismissViewController(self)
     }
     
