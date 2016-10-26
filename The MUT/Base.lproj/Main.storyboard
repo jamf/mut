@@ -381,7 +381,7 @@
         <!--View Controller-->
         <scene sceneID="Id2-45-lJz">
             <objects>
-                <viewController id="Wso-JF-mtF" customClass="ViewController" customModule="The_MUT" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController identifier="MainViewRestore" storyboardIdentifier="MainViewID" id="Wso-JF-mtF" customClass="ViewController" customModule="The_MUT" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="xfl-iX-lsl">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="400"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -476,7 +476,7 @@
         <!--Server-->
         <scene sceneID="ocD-Y0-IKu">
             <objects>
-                <viewController title="Server" id="DtC-Bo-3qF" customClass="ServerView" customModule="The_MUT" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Server" identifier="ServerViewRestore" storyboardIdentifier="ServerViewID" id="DtC-Bo-3qF" customClass="ServerView" customModule="The_MUT" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="FMQ-hl-tI1">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="400"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -595,7 +595,7 @@ DQ
         <!--Attribute-->
         <scene sceneID="ZM5-wB-hTK">
             <objects>
-                <viewController title="Attribute" id="w43-eq-tNT" customClass="AttributesView" customModule="The_MUT" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Attribute" identifier="AttributesViewRestore" storyboardIdentifier="AttributesViewID" id="w43-eq-tNT" customClass="AttributesView" customModule="The_MUT" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="Ugd-Wo-F4R">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="400"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -655,7 +655,7 @@ DQ
         <!--Credentials-->
         <scene sceneID="AWh-s7-m2X">
             <objects>
-                <viewController title="Credentials" id="91u-dn-gVH" customClass="CredentialsView" customModule="The_MUT" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Credentials" identifier="CredentialsViewRestore" storyboardIdentifier="CredentialsViewID" id="91u-dn-gVH" customClass="CredentialsView" customModule="The_MUT" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="RgQ-gm-nL0">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="303"/>
                         <autoresizingMask key="autoresizingMask"/>

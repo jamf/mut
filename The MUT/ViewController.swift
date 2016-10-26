@@ -11,12 +11,22 @@ import Cocoa
 
 
 class ViewController: NSViewController, DataSentURL {
+    
     var globalServerURL: String!
+    let colorState = UserDefaults.standard
     
     // Takes place right after view loads
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Resize the window
         preferredContentSize = NSSize(width: 600, height: 400)
+        
+        // Restore icons if they are not null
+        if colorState.value(forKey: "ServerIcon") != nil {
+            let iconServer = colorState.value(forKey: "ServerIcon") as! String
+            btnServer.image = NSImage(named: iconServer)
+        }
     }
 
     override var representedObject: Any? {
@@ -39,7 +49,11 @@ class ViewController: NSViewController, DataSentURL {
         lblTest.stringValue = serverURL
         globalServerURL = serverURL
         btnServer.image = NSImage(named: "NSStatusAvailable")
-        btnServer.isEnabled = false
+        
+        colorState.set("NSStatusAvailable", forKey: "ServerIcon")
+        colorState.synchronize()
+        
+        //btnServer.isEnabled = false
     }
     
     // Function for segue variable passing

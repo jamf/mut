@@ -18,7 +18,9 @@ protocol DataSentURL {
 
 
 class ServerView: NSViewController {
-
+    
+    let defaultURL = UserDefaults.standard
+    
     func dialogueWarning (question: String, text: String) -> Bool {
         
         let myPopup: NSAlert = NSAlert()
@@ -66,7 +68,9 @@ class ServerView: NSViewController {
     
     // Takes place after view loads
     override func viewDidLoad() {
-        
+        if defaultURL.value(forKey: "HostedInstanceName") != nil {
+            txtHosted.stringValue = defaultURL.value(forKey: "HostedInstanceName") as! String
+        }
     }
     
     // Dismiss button
@@ -78,9 +82,17 @@ class ServerView: NSViewController {
             // If hosted radio checked and instance filled
             if radioHosted.state == 1 {
                 if txtHosted.stringValue != "" {
+                    
                     let serverURL = "https://\(txtHosted.stringValue).jamfcloud.com/JSSResource/"
+                    let instanceName = txtHosted.stringValue
                     delegateURL?.userDidEnterURL(serverURL: serverURL)
                     // Dismiss the server controller
+                    
+                    
+
+                    defaultURL.set(instanceName, forKey: "HostedInstanceName")
+                    defaultURL.synchronize()
+                    
                     self.dismissViewController(self)
                 } else {
                     let _ = dialogueWarning(question: "No Server Info", text: "You have selected the option for a hosted Jamf server, but no instance name was entered. Please enter your instance name and try again.")
