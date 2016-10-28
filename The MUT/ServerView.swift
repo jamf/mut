@@ -19,7 +19,7 @@ protocol DataSentURL {
 
 class ServerView: NSViewController {
     
-    let defaultURL = UserDefaults.standard
+    let serverViewDefaults = UserDefaults.standard
     
     func dialogueWarning (question: String, text: String) -> Bool {
         
@@ -67,13 +67,13 @@ class ServerView: NSViewController {
     override func viewDidLoad() {
         
         // Restore Instance Name if Hosted
-        if defaultURL.value(forKey: "HostedInstanceName") != nil {
-            txtHosted.stringValue = defaultURL.value(forKey: "HostedInstanceName") as! String
+        if serverViewDefaults.value(forKey: "HostedInstanceName") != nil {
+            txtHosted.stringValue = serverViewDefaults.value(forKey: "HostedInstanceName") as! String
         }
         
         // Restore Prem URL if on prem
-        if defaultURL.value(forKey: "PremInstanceURL") != nil {
-            txtPrem.stringValue = defaultURL.value(forKey: "PremInstanceURL") as! String
+        if serverViewDefaults.value(forKey: "PremInstanceURL") != nil {
+            txtPrem.stringValue = serverViewDefaults.value(forKey: "PremInstanceURL") as! String
             radioPrem.state = 1
             txtPrem.becomeFirstResponder()
             txtHosted.isEnabled = false
@@ -97,9 +97,9 @@ class ServerView: NSViewController {
                     // Save the hosted instance and wipe saved prem server
                     let instanceName = txtHosted.stringValue
                     delegateURL?.userDidEnterURL(serverURL: serverURL) // Delegate for passing info to main view
-                    defaultURL.set(instanceName, forKey: "HostedInstanceName")
-                    defaultURL.removeObject(forKey: "PremInstanceURL")
-                    defaultURL.synchronize()
+                    serverViewDefaults.set(instanceName, forKey: "HostedInstanceName")
+                    serverViewDefaults.removeObject(forKey: "PremInstanceURL")
+                    serverViewDefaults.synchronize()
                     
                     // Dismiss the server controller
                     self.dismissViewController(self)
@@ -123,9 +123,9 @@ class ServerView: NSViewController {
                     // Save the prem URL and wipe saved hosted names
                     let serverSave = txtPrem.stringValue
                     delegateURL?.userDidEnterURL(serverURL: serverURL) // Delegate for passing info to main view
-                    defaultURL.set(serverSave, forKey: "PremInstanceURL")
-                    defaultURL.removeObject(forKey: "HostedInstanceName")
-                    defaultURL.synchronize()
+                    serverViewDefaults.set(serverSave, forKey: "PremInstanceURL")
+                    serverViewDefaults.removeObject(forKey: "HostedInstanceName")
+                    serverViewDefaults.synchronize()
                     
                     // Dismiss the server controller
                     self.dismissViewController(self)

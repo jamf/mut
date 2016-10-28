@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1108" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
     </dependencies>
@@ -419,7 +419,7 @@
                                     <string key="keyEquivalent">c</string>
                                 </buttonCell>
                                 <connections>
-                                    <segue destination="91u-dn-gVH" kind="sheet" id="56W-HW-p27"/>
+                                    <segue destination="91u-dn-gVH" kind="sheet" identifier="segueCredentials" id="56W-HW-p27"/>
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EFS-09-7zt">
@@ -463,6 +463,7 @@
                         </subviews>
                     </view>
                     <connections>
+                        <outlet property="btnCredentials" destination="aCs-sx-Baw" id="pmJ-td-ebC"/>
                         <outlet property="btnServer" destination="4d2-L2-4qZ" id="thm-Lm-ARz"/>
                         <outlet property="lblTest" destination="EFS-09-7zt" id="hjJ-fk-moV"/>
                         <outlet property="lblTest2" destination="uGh-PV-Msr" id="FeJ-wy-X8y"/>

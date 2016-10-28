@@ -10,7 +10,7 @@ import Cocoa
 
 
 
-class ViewController: NSViewController, DataSentURL {
+class ViewController: NSViewController, DataSentURL, DataSentCredentials {
     
     var globalServerURL: String!
     let mainViewDefaults = UserDefaults.standard
@@ -46,6 +46,8 @@ class ViewController: NSViewController, DataSentURL {
     
     // Declare outlets for Buttons
     @IBOutlet weak var btnServer: NSButton!
+    @IBOutlet weak var btnCredentials: NSButton!
+
     
     
     func userDidEnterURL(serverURL: String) {
@@ -59,6 +61,11 @@ class ViewController: NSViewController, DataSentURL {
         //btnServer.isEnabled = false
     }
     
+    func userDidEnterCredentials(serverCredentials: String) {
+        lblTest2.stringValue = serverCredentials
+        btnCredentials.image = NSImage(named: "NSStatusAvailable")
+    }
+    
     // Function for segue variable passing
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueServer" {
@@ -66,10 +73,10 @@ class ViewController: NSViewController, DataSentURL {
             ServerView.delegateURL = self
         }
         
-        //if segue.identifier == "mySegue2" {
-        //    let SendingVC2: SendingVC2 = segue.destinationController as! SendingVC2
-        //    SendingVC2.delegateURL = self
-        //}
+        if segue.identifier == "segueCredentials" {
+            let CredentialsView: CredentialsView = segue.destinationController as! CredentialsView
+            CredentialsView.delegateCredentials = self
+        }
         
     }
     
