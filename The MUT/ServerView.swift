@@ -29,9 +29,7 @@ class ServerView: NSViewController {
         myPopup.alertStyle = NSAlertStyle.warning
         myPopup.addButton(withTitle: "OK")
         return myPopup.runModal() == NSAlertFirstButtonReturn
-        
     }
-
     
     // Declare variable to use for delegate
     var delegateURL: DataSentURL? = nil
@@ -63,13 +61,23 @@ class ServerView: NSViewController {
             txtPrem.isEnabled = true
             txtPrem.becomeFirstResponder()
         }
-        
     }
     
     // Takes place after view loads
     override func viewDidLoad() {
+        
+        // Restore Instance Name if Hosted
         if defaultURL.value(forKey: "HostedInstanceName") != nil {
             txtHosted.stringValue = defaultURL.value(forKey: "HostedInstanceName") as! String
+        }
+        
+        // Restore Prem URL if on prem
+        if defaultURL.value(forKey: "PremInstanceURL") != nil {
+            txtPrem.stringValue = defaultURL.value(forKey: "PremInstanceURL") as! String
+            radioPrem.state = 1
+            txtPrem.becomeFirstResponder()
+            txtHosted.isEnabled = false
+            txtPrem.isEnabled = true
         }
     }
     
@@ -83,18 +91,20 @@ class ServerView: NSViewController {
             if radioHosted.state == 1 {
                 if txtHosted.stringValue != "" {
                     
+                    // Add JSS Resource and jamfcloud info
                     let serverURL = "https://\(txtHosted.stringValue).jamfcloud.com/JSSResource/"
+                    
+                    // Save the hosted instance and wipe saved prem server
                     let instanceName = txtHosted.stringValue
-                    delegateURL?.userDidEnterURL(serverURL: serverURL)
-                    // Dismiss the server controller
-                    
-                    
-
+                    delegateURL?.userDidEnterURL(serverURL: serverURL) // Delegate for passing info to main view
                     defaultURL.set(instanceName, forKey: "HostedInstanceName")
+                    defaultURL.removeObject(forKey: "PremInstanceURL")
                     defaultURL.synchronize()
                     
+                    // Dismiss the server controller
                     self.dismissViewController(self)
                 } else {
+                    // If no URL is filled, warn user
                     let _ = dialogueWarning(question: "No Server Info", text: "You have selected the option for a hosted Jamf server, but no instance name was entered. Please enter your instance name and try again.")
                 }
 
@@ -102,22 +112,29 @@ class ServerView: NSViewController {
             
             // If Prem Radio Chekced
             if radioPrem.state == 1 {
+                
+                // Check if URL is filled
                 if txtPrem.stringValue != "" {
+                    
+                    // Add JSS Resource and remove double slashes
                     var serverURL = "\(txtPrem.stringValue)/JSSResource/"
                     serverURL = serverURL.replacingOccurrences(of: "//JSSResource", with: "/JSSResource")
-                    delegateURL?.userDidEnterURL(serverURL: serverURL)
+                    
+                    // Save the prem URL and wipe saved hosted names
+                    let serverSave = txtPrem.stringValue
+                    delegateURL?.userDidEnterURL(serverURL: serverURL) // Delegate for passing info to main view
+                    defaultURL.set(serverSave, forKey: "PremInstanceURL")
+                    defaultURL.removeObject(forKey: "HostedInstanceName")
+                    defaultURL.synchronize()
+                    
                     // Dismiss the server controller
                     self.dismissViewController(self)
+                    
                 } else {
+                    // If no URL is filled, warn user
                     let _ = dialogueWarning(question: "No Server Info", text: "You have selected the option for an on prem server, but no server URL was entered. Please enter your instance name and try again.")
                 }
-
             }
         }
-        
-
     }
-    
-
-    
 }

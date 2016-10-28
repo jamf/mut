@@ -13,7 +13,7 @@ import Cocoa
 class ViewController: NSViewController, DataSentURL {
     
     var globalServerURL: String!
-    let colorState = UserDefaults.standard
+    let mainViewDefaults = UserDefaults.standard
     
     // Takes place right after view loads
     override func viewDidLoad() {
@@ -23,9 +23,12 @@ class ViewController: NSViewController, DataSentURL {
         preferredContentSize = NSSize(width: 600, height: 400)
         
         // Restore icons if they are not null
-        if colorState.value(forKey: "ServerIcon") != nil {
-            let iconServer = colorState.value(forKey: "ServerIcon") as! String
+        if mainViewDefaults.value(forKey: "ServerIcon") != nil && mainViewDefaults.value(forKey: "GlobalURL") != nil{
+            let iconServer = mainViewDefaults.value(forKey: "ServerIcon") as! String
+            globalServerURL = mainViewDefaults.value(forKey: "GlobalURL") as! String
             btnServer.image = NSImage(named: iconServer)
+            lblTest.stringValue = globalServerURL
+            
         }
     }
 
@@ -49,9 +52,9 @@ class ViewController: NSViewController, DataSentURL {
         lblTest.stringValue = serverURL
         globalServerURL = serverURL
         btnServer.image = NSImage(named: "NSStatusAvailable")
-        
-        colorState.set("NSStatusAvailable", forKey: "ServerIcon")
-        colorState.synchronize()
+        mainViewDefaults.set(globalServerURL, forKey: "GlobalURL")
+        mainViewDefaults.set("NSStatusAvailable", forKey: "ServerIcon")
+        mainViewDefaults.synchronize()
         
         //btnServer.isEnabled = false
     }
@@ -73,6 +76,4 @@ class ViewController: NSViewController, DataSentURL {
     @IBAction func printInfo(_ sender: AnyObject) {
         print(globalServerURL)
     }
-    
-
 }

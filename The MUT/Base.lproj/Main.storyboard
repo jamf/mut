@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16B2555" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1108" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
     </dependencies>
@@ -713,6 +713,9 @@ DQ
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" size="30" name="HelveticaNeue-Thin"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="btnVerifyCredentials:" target="91u-dn-gVH" id="G7y-ry-tGK"/>
+                                </connections>
                             </button>
                             <secureTextField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XHa-8M-xpd">
                                 <rect key="frame" x="305" y="167" width="275" height="41"/>
@@ -728,6 +731,10 @@ DQ
                             </secureTextField>
                         </subviews>
                     </view>
+                    <connections>
+                        <outlet property="txtPass" destination="XHa-8M-xpd" id="t7S-nf-0KO"/>
+                        <outlet property="txtUser" destination="y43-hB-7D1" id="DUT-v8-kkF"/>
+                    </connections>
                 </viewController>
                 <customObject id="g8G-qI-RUo" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
