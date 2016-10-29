@@ -105,7 +105,7 @@ class ServerView: NSViewController {
                     self.dismissViewController(self)
                 } else {
                     // If no URL is filled, warn user
-                    let _ = dialogueWarning(question: "No Server Info", text: "You have selected the option for a hosted Jamf server, but no instance name was entered. Please enter your instance name and try again.")
+                    _ = dialogueWarning(question: "No Server Info", text: "You have selected the option for a hosted Jamf server, but no instance name was entered. Please enter your instance name and try again.")
                 }
 
             }
@@ -132,7 +132,7 @@ class ServerView: NSViewController {
                     
                 } else {
                     // If no URL is filled, warn user
-                    let _ = dialogueWarning(question: "No Server Info", text: "You have selected the option for an on prem server, but no server URL was entered. Please enter your instance name and try again.")
+                    _ = dialogueWarning(question: "No Server Info", text: "You have selected the option for an on prem server, but no server URL was entered. Please enter your instance name and try again.")
                 }
             }
         }

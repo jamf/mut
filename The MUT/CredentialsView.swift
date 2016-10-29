@@ -66,9 +66,15 @@ class CredentialsView: NSViewController {
         
         if delegateCredentials != nil {
             
-            if globalServerCredentials != nil {
-                delegateCredentials?.userDidEnterCredentials(serverCredentials: globalServerCredentials) // Delegate for passing to main view
-                self.dismissViewController(self)
+            if txtUser.stringValue != "" && txtPass.stringValue != "" {
+                
+                if globalServerCredentials != nil {
+                    delegateCredentials?.userDidEnterCredentials(serverCredentials: globalServerCredentials) // Delegate for passing to main view
+                    self.dismissViewController(self)
+                }
+                
+            } else {
+                _ = dialogueWarning(question: "No Server Info", text: "You have selected the option for an on prem server, but no server URL was entered. Please enter your instance name and try again.")
             }
         }
     }
