@@ -80,8 +80,11 @@ class ServerView: NSViewController {
             txtPrem.isEnabled = true
         }
     }
+    @IBAction func btnCancel(_ sender: AnyObject) {
+        self.dismissViewController(self)
+    }
     
-    // Dismiss button
+    // Accept button
     @IBAction func btnDismissServer(_ sender: AnyObject) {
         
         // Pass back URL Delegate Info

@@ -592,6 +592,20 @@ DQ
                                     <action selector="btnDismissServer:" target="DtC-Bo-3qF" id="j19-kf-QRf"/>
                                 </connections>
                             </button>
+                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="22K-Eq-v4h">
+                                <rect key="frame" x="257" y="20" width="154" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="square" title="Cancel" bezelStyle="shadowlessSquare" image="NSStopProgressTemplate" imagePosition="right" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="VJO-5t-Eqf">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" size="30" name="HelveticaNeue-Thin"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="btnCancel:" target="DtC-Bo-3qF" id="2bP-rj-ISP"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
@@ -692,12 +706,12 @@ DQ
                                 </textFieldCell>
                             </textField>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0jA-fY-579">
-                                <rect key="frame" x="20" y="105" width="32" height="32"/>
+                                <rect key="frame" x="20" y="102" width="32" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSInfo" id="7Nc-AC-Dld"/>
                             </imageView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z9k-1T-W3S">
-                                <rect key="frame" x="58" y="103" width="524" height="36"/>
+                                <rect key="frame" x="58" y="100" width="524" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Full access, Administrator recommended." allowsEditingTextAttributes="YES" id="6pT-AF-fmh">
                                     <font key="font" size="30" name="HelveticaNeue-Thin"/>
@@ -706,9 +720,9 @@ DQ
                                 </textFieldCell>
                             </textField>
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="f2O-Lk-ngA">
-                                <rect key="frame" x="295" y="20" width="285" height="48"/>
+                                <rect key="frame" x="426" y="20" width="154" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="square" title="Verify and Accept" bezelStyle="shadowlessSquare" image="NSMenuOnStateTemplate" imagePosition="right" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="KNv-Yf-hAJ">
+                                <buttonCell key="cell" type="square" title="Accept" bezelStyle="shadowlessSquare" image="NSMenuOnStateTemplate" imagePosition="right" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="KNv-Yf-hAJ">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" size="30" name="HelveticaNeue-Thin"/>
                                     <string key="keyEquivalent" base64-UTF8="YES">
@@ -734,10 +748,24 @@ DQ
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oo6-1h-4nP">
                                 <rect key="frame" x="20" y="20" width="213" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="square" title="Store Username" bezelStyle="shadowlessSquare" imagePosition="left" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="KUR-On-JdR">
+                                <buttonCell key="cell" type="square" title="Store Username" bezelStyle="shadowlessSquare" imagePosition="left" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="KUR-On-JdR">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                                     <font key="font" size="30" name="HelveticaNeue-Thin"/>
                                 </buttonCell>
+                            </button>
+                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cJt-sk-Ep5">
+                                <rect key="frame" x="252" y="20" width="154" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="square" title="Cancel" bezelStyle="shadowlessSquare" image="NSStopProgressTemplate" imagePosition="right" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="yZj-GW-fJb">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" size="30" name="HelveticaNeue-Thin"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="btnCancel:" target="91u-dn-gVH" id="yQv-IY-Kby"/>
+                                </connections>
                             </button>
                         </subviews>
                     </view>
@@ -756,5 +784,6 @@ DQ
         <image name="NSInfo" width="32" height="32"/>
         <image name="NSMenuOnStateTemplate" width="12" height="12"/>
         <image name="NSStatusNone" width="16" height="16"/>
+        <image name="NSStopProgressTemplate" width="11" height="11"/>
     </resources>
 </document>

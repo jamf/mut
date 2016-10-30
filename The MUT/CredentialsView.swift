@@ -74,6 +74,13 @@ class CredentialsView: NSViewController {
     }
 */
     
+    
+    
+    @IBAction func btnCancel(_ sender: AnyObject) {
+        self .dismissViewController(self)
+    }
+    
+    // Accept Credentials Button
     @IBAction func btnDismissCredentials(_ sender: AnyObject) {
         
         
