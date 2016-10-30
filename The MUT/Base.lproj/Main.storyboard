@@ -680,12 +680,12 @@ DQ
                                 </textFieldCell>
                             </textField>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0jA-fY-579">
-                                <rect key="frame" x="20" y="100" width="32" height="32"/>
+                                <rect key="frame" x="20" y="105" width="32" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSInfo" id="7Nc-AC-Dld"/>
                             </imageView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z9k-1T-W3S">
-                                <rect key="frame" x="58" y="98" width="524" height="36"/>
+                                <rect key="frame" x="58" y="103" width="524" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Full access, Administrator recommended." allowsEditingTextAttributes="YES" id="6pT-AF-fmh">
                                     <font key="font" size="30" name="HelveticaNeue-Thin"/>
@@ -694,9 +694,9 @@ DQ
                                 </textFieldCell>
                             </textField>
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="f2O-Lk-ngA">
-                                <rect key="frame" x="426" y="20" width="154" height="48"/>
+                                <rect key="frame" x="295" y="20" width="285" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="square" title="Accept" bezelStyle="shadowlessSquare" image="NSMenuOnStateTemplate" imagePosition="right" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="KNv-Yf-hAJ">
+                                <buttonCell key="cell" type="square" title="Verify and Accept" bezelStyle="shadowlessSquare" image="NSMenuOnStateTemplate" imagePosition="right" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="KNv-Yf-hAJ">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" size="30" name="HelveticaNeue-Thin"/>
                                     <string key="keyEquivalent" base64-UTF8="YES">
@@ -705,17 +705,6 @@ DQ
                                 </buttonCell>
                                 <connections>
                                     <action selector="btnDismissCredentials:" target="91u-dn-gVH" id="Q3R-cE-YAB"/>
-                                </connections>
-                            </button>
-                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="r5n-nv-ay6">
-                                <rect key="frame" x="20" y="20" width="228" height="48"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="square" title="Verify Credentials" bezelStyle="shadowlessSquare" imagePosition="left" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="7DI-f9-yzC">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" size="30" name="HelveticaNeue-Thin"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="btnVerifyCredentials:" target="91u-dn-gVH" id="G7y-ry-tGK"/>
                                 </connections>
                             </button>
                             <secureTextField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XHa-8M-xpd">
@@ -730,9 +719,18 @@ DQ
                                     </allowedInputSourceLocales>
                                 </secureTextFieldCell>
                             </secureTextField>
+                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oo6-1h-4nP">
+                                <rect key="frame" x="20" y="20" width="213" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="square" title="Store Username" bezelStyle="shadowlessSquare" imagePosition="left" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="KUR-On-JdR">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                    <font key="font" size="30" name="HelveticaNeue-Thin"/>
+                                </buttonCell>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
+                        <outlet property="btnStoreUser" destination="oo6-1h-4nP" id="z6Z-cV-wMp"/>
                         <outlet property="txtPass" destination="XHa-8M-xpd" id="t7S-nf-0KO"/>
                         <outlet property="txtUser" destination="y43-hB-7D1" id="DUT-v8-kkF"/>
                     </connections>

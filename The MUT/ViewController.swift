@@ -10,7 +10,7 @@ import Cocoa
 
 
 
-class ViewController: NSViewController, DataSentURL, DataSentCredentials {
+class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSentUsername {
     
     var globalServerURL: String!
     let mainViewDefaults = UserDefaults.standard
@@ -28,7 +28,11 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials {
             globalServerURL = mainViewDefaults.value(forKey: "GlobalURL") as! String
             btnServer.image = NSImage(named: iconServer)
             lblTest.stringValue = globalServerURL
-            
+        }
+        if mainViewDefaults.value(forKey: "UserName") != nil {
+            let iconCredentials = "NSStatusPartiallyAvailable"
+            btnCredentials.image = NSImage(named: iconCredentials)
+            lblTest3.stringValue = mainViewDefaults.value(forKey: "UserName") as! String
         }
     }
 
@@ -66,6 +70,11 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials {
         btnCredentials.image = NSImage(named: "NSStatusAvailable")
     }
     
+    func userDidSaveUsername(savedUser: String) {
+        lblTest3.stringValue = savedUser
+        mainViewDefaults.set(savedUser, forKey: "UserName")
+    }
+    
     // Function for segue variable passing
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueServer" {
@@ -76,6 +85,7 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials {
         if segue.identifier == "segueCredentials" {
             let CredentialsView: CredentialsView = segue.destinationController as! CredentialsView
             CredentialsView.delegateCredentials = self
+            CredentialsView.delegateUsername = self
         }
         
     }
