@@ -401,7 +401,7 @@
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="flU-GQ-aVo">
                                 <rect key="frame" x="399" y="333" width="181" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="square" title="Attribute" bezelStyle="shadowlessSquare" image="NSStatusNone" imagePosition="left" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="YIU-h2-qXh">
+                                <buttonCell key="cell" type="square" title="Attribute" bezelStyle="shadowlessSquare" image="NSStatusNone" imagePosition="left" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="YIU-h2-qXh">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" size="30" name="HelveticaNeue-Thin"/>
                                     <string key="keyEquivalent">a</string>
@@ -413,7 +413,7 @@
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aCs-sx-Baw">
                                 <rect key="frame" x="181" y="333" width="199" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="square" title="Credentials" bezelStyle="shadowlessSquare" image="NSStatusNone" imagePosition="left" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="3II-3i-CC7">
+                                <buttonCell key="cell" type="square" title="Credentials" bezelStyle="shadowlessSquare" image="NSStatusNone" imagePosition="left" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="3II-3i-CC7">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" size="30" name="HelveticaNeue-Thin"/>
                                     <string key="keyEquivalent">c</string>
@@ -450,9 +450,9 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PQM-r1-O3H">
-                                <rect key="frame" x="58" y="106" width="81" height="32"/>
+                                <rect key="frame" x="66" y="106" width="66" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Button" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9rZ-W1-DMu">
+                                <buttonCell key="cell" type="push" title="Test" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9rZ-W1-DMu">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -460,9 +460,21 @@
                                     <action selector="printInfo:" target="Wso-JF-mtF" id="ucC-AQ-49o"/>
                                 </connections>
                             </button>
+                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OuZ-14-LPv">
+                                <rect key="frame" x="20" y="20" width="174" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="square" title="Clear all stored values" bezelStyle="shadowlessSquare" imagePosition="left" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="EpM-9c-qdM">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                    <font key="font" size="18" name="HelveticaNeue-Thin"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="btnClearStored:" target="Wso-JF-mtF" id="Obj-1G-TjG"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
+                        <outlet property="btnAttribute" destination="flU-GQ-aVo" id="xKO-jl-enH"/>
                         <outlet property="btnCredentials" destination="aCs-sx-Baw" id="pmJ-td-ebC"/>
                         <outlet property="btnServer" destination="4d2-L2-4qZ" id="thm-Lm-ARz"/>
                         <outlet property="lblTest" destination="EFS-09-7zt" id="hjJ-fk-moV"/>

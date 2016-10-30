@@ -28,6 +28,7 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
             globalServerURL = mainViewDefaults.value(forKey: "GlobalURL") as! String
             btnServer.image = NSImage(named: iconServer)
             lblTest.stringValue = globalServerURL
+            btnCredentials.isEnabled = true
         }
         if mainViewDefaults.value(forKey: "UserName") != nil {
             let iconCredentials = "NSStatusPartiallyAvailable"
@@ -51,6 +52,7 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     // Declare outlets for Buttons
     @IBOutlet weak var btnServer: NSButton!
     @IBOutlet weak var btnCredentials: NSButton!
+    @IBOutlet weak var btnAttribute: NSButton!
 
     
     
@@ -61,6 +63,7 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
         mainViewDefaults.set(globalServerURL, forKey: "GlobalURL")
         mainViewDefaults.set("NSStatusAvailable", forKey: "ServerIcon")
         mainViewDefaults.synchronize()
+        btnCredentials.isEnabled = true
         
         //btnServer.isEnabled = false
     }
@@ -68,6 +71,8 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     func userDidEnterCredentials(serverCredentials: String) {
         lblTest2.stringValue = serverCredentials
         btnCredentials.image = NSImage(named: "NSStatusAvailable")
+        btnAttribute.isEnabled = true
+        
     }
     
     func userDidSaveUsername(savedUser: String) {
@@ -88,6 +93,14 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
             CredentialsView.delegateUsername = self
         }
         
+    }
+    
+    @IBAction func btnClearStored(_ sender: AnyObject) {
+        
+        // Clear all stored values
+        if let bundle = Bundle.main.bundleIdentifier {
+            UserDefaults.standard.removePersistentDomain(forName: bundle)
+        }
     }
     
     @IBAction func printInfo(_ sender: AnyObject) {
