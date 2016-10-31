@@ -427,7 +427,7 @@
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EFS-09-7zt">
-                                <rect key="frame" x="73" y="244" width="401" height="26"/>
+                                <rect key="frame" x="73" y="244" width="451" height="26"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="Szt-3c-mFl">
                                     <font key="font" metaFont="system"/>
@@ -436,7 +436,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uGh-PV-Msr">
-                                <rect key="frame" x="73" y="210" width="165" height="26"/>
+                                <rect key="frame" x="73" y="210" width="451" height="26"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="TOe-tj-Hlp">
                                     <font key="font" metaFont="system"/>
@@ -445,7 +445,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RJI-e5-aud">
-                                <rect key="frame" x="73" y="176" width="165" height="26"/>
+                                <rect key="frame" x="73" y="176" width="451" height="26"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="zua-Xa-zag">
                                     <font key="font" metaFont="system"/>

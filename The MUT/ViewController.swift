@@ -74,9 +74,15 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     }
     
     func userDidEnterCredentials(serverCredentials: String) {
-        lblTest2.stringValue = serverCredentials
-        btnCredentials.image = NSImage(named: "NSStatusAvailable")
-        btnAttribute.isEnabled = true
+        if serverCredentials != "CREDENTIAL AUTHENTICATION FAILURE" {
+            lblTest2.stringValue = serverCredentials
+            btnCredentials.image = NSImage(named: "NSStatusAvailable")
+            btnAttribute.isEnabled = true
+        } else {
+            btnCredentials.image = NSImage(named: "NSStatusUnavailable")
+            lblTest2.stringValue = serverCredentials
+        }
+
         
     }
     

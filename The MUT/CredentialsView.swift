@@ -98,6 +98,7 @@ class CredentialsView: NSViewController {
     
     
     @IBAction func btnCancel(_ sender: AnyObject) {
+        delegateCredentials?.userDidEnterCredentials(serverCredentials: "CREDENTIAL AUTHENTICATION FAILURE")
         self .dismissViewController(self)
     }
     
@@ -144,6 +145,18 @@ class CredentialsView: NSViewController {
                         //self.responseResult = results
                         if response.result.isSuccess {
                             _ = self.dialogueWarning(question: "It's good!", text: "Your permissions are working perfectly.")
+                            self.delegateCredentials?.userDidEnterCredentials(serverCredentials: self.globalServerCredentials) // Delegate for passing to main view
+                            
+                            // Store username if button pressed
+                            if self.btnStoreUser.state == 1 {
+                                self.credentialsViewDefaults.set(self.txtUser.stringValue, forKey: "UserName")
+                                self.credentialsViewDefaults.synchronize()
+                                self.delegateUsername?.userDidSaveUsername(savedUser: self.txtUser.stringValue)
+                            } else {
+                                self.credentialsViewDefaults.removeObject(forKey: "UserName")
+                                self.credentialsViewDefaults.synchronize()
+                            }
+
                             self.dismissViewController(self)
                         }
                         if response.result.isFailure {
