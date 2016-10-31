@@ -28,6 +28,7 @@ class CredentialsView: NSViewController {
     var base64Credentials: String!
     var globalServerCredentials: String!
     let credentialsViewDefaults = UserDefaults.standard
+    var responseResult: String!
     
     func dialogueWarning (question: String, text: String) -> Bool {
         
@@ -78,7 +79,7 @@ class CredentialsView: NSViewController {
         print (base64Credentials)
         globalServerCredentials = base64Credentials!
     }
-*/
+
     
     @IBAction func btnTest(_ sender: Any) {
         
@@ -93,6 +94,7 @@ class CredentialsView: NSViewController {
         }
         
     }
+ */
     
     
     @IBAction func btnCancel(_ sender: AnyObject) {
@@ -115,7 +117,9 @@ class CredentialsView: NSViewController {
             if txtUser.stringValue != "" && txtPass.stringValue != "" {
                 
                 if globalServerCredentials != nil {
-                    delegateCredentials?.userDidEnterCredentials(serverCredentials: globalServerCredentials) // Delegate for passing to main view
+                    
+                    //UNCOMMENT IF THIS DOESN"T WORK
+                    /* delegateCredentials?.userDidEnterCredentials(serverCredentials: globalServerCredentials) // Delegate for passing to main view
                     
                     // Store username if button pressed
                     if btnStoreUser.state == 1 {
@@ -125,9 +129,28 @@ class CredentialsView: NSViewController {
                     } else {
                         credentialsViewDefaults.removeObject(forKey: "UserName")
                         credentialsViewDefaults.synchronize()
+                    }*/
+                    
+                    // Test the credentials
+                    let headers: HTTPHeaders = [
+                        "Authorization": "Basic \(base64Credentials!)",
+                        "Accept": "application/json"
+                    ]
+                    
+                    Alamofire.request("\(ApprovedURL!)activationcode", headers: headers).responseJSON { response in
+                        //debugPrint(response)
+                        print(response.result)
+                        //let results = response.result as! String
+                        //self.responseResult = results
+                        if response.result.isSuccess {
+                            _ = self.dialogueWarning(question: "It's good!", text: "Your permissions are working perfectly.")
+                            self.dismissViewController(self)
+                        }
+                        if response.result.isFailure {
+                            _ = self.dialogueWarning(question: "Invalid Credentials", text: "The credentials you entered do not seem to have sufficient permissions. This could be due to an incorrect user/password, or possibly from insufficient permissions. MUT tests this against the user's ability to view the Activation Code via the API.")
+                        }
                     }
                     
-                    //self.dismissViewController(self)
                     
                 }
                 

@@ -771,17 +771,6 @@ Gw
                                     <action selector="btnCancel:" target="91u-dn-gVH" id="yQv-IY-Kby"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CzU-TN-BR6">
-                                <rect key="frame" x="506" y="264" width="80" height="19"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="roundRect" title="Round Rect" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ceq-lc-is3">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="cellTitle"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="btnTest:" target="91u-dn-gVH" id="QsY-0y-CXg"/>
-                                </connections>
-                            </button>
                         </subviews>
                     </view>
                     <connections>
