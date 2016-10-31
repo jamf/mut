@@ -18,9 +18,7 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     // Takes place right after view loads
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Resize the window
-        preferredContentSize = NSSize(width: 600, height: 400)
+
         
         // Restore icons if they are not null
         if mainViewDefaults.value(forKey: "ServerIcon") != nil && mainViewDefaults.value(forKey: "GlobalURL") != nil{
@@ -35,6 +33,13 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
             btnCredentials.image = NSImage(named: iconCredentials)
             lblTest3.stringValue = mainViewDefaults.value(forKey: "UserName") as! String
         }
+    }
+    
+    override func viewWillAppear() {
+        
+        //resize the view
+        super.viewWillAppear()
+        preferredContentSize = NSSize(width: 600, height: 400)
     }
 
     override var representedObject: Any? {
@@ -91,6 +96,7 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
             let CredentialsView: CredentialsView = segue.destinationController as! CredentialsView
             CredentialsView.delegateCredentials = self
             CredentialsView.delegateUsername = self
+            CredentialsView.representedObject = globalServerURL as String
         }
         
     }

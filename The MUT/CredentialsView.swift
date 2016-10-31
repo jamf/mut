@@ -24,6 +24,7 @@ protocol DataSentUsername {
 
 class CredentialsView: NSViewController {
     
+    var base64Credentials: String!
     var globalServerCredentials: String!
     let credentialsViewDefaults = UserDefaults.standard
     
@@ -41,6 +42,9 @@ class CredentialsView: NSViewController {
     var delegateCredentials: DataSentCredentials? = nil
     var delegateUsername: DataSentUsername? = nil
     
+    // Declare global var for URL passed in
+    var ApprovedURL: String!
+    
     // Define Outlets for User and Password
     @IBOutlet weak var txtUser: NSTextField!
     @IBOutlet weak var txtPass: NSSecureTextField!
@@ -51,6 +55,9 @@ class CredentialsView: NSViewController {
         //resize the view
         super.viewWillAppear()
         preferredContentSize = NSSize(width: 600, height: 303)
+        ApprovedURL = self.representedObject as! String
+        _ = dialogueWarning(question: "No Server Info", text: ApprovedURL)
+        
     }
     
     override func viewDidLoad() {
@@ -89,7 +96,7 @@ class CredentialsView: NSViewController {
             
             let concatCredentials = "\(txtUser.stringValue):\(txtPass.stringValue)"
             let utf8Credentials = concatCredentials.data(using: String.Encoding.utf8)
-            let base64Credentials = utf8Credentials?.base64EncodedString()
+            base64Credentials = utf8Credentials?.base64EncodedString()
             print (base64Credentials)
             globalServerCredentials = base64Credentials!
             
