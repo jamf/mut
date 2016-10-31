@@ -11,6 +11,7 @@
 
 import Foundation
 import Cocoa
+import Alamofire
 
 // Protocol to pass back credentials
 protocol DataSentCredentials {
@@ -56,8 +57,6 @@ class CredentialsView: NSViewController {
         super.viewWillAppear()
         preferredContentSize = NSSize(width: 600, height: 303)
         ApprovedURL = self.representedObject as! String
-        _ = dialogueWarning(question: "No Server Info", text: ApprovedURL)
-        
     }
     
     override func viewDidLoad() {
@@ -81,6 +80,19 @@ class CredentialsView: NSViewController {
     }
 */
     
+    @IBAction func btnTest(_ sender: Any) {
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Basic \(base64Credentials!)",
+            "Accept": "application/json"
+        ]
+        
+        Alamofire.request("\(ApprovedURL!)activationcode", headers: headers).responseJSON { response in
+            //debugPrint(response)
+            print(response.result)
+        }
+        
+    }
     
     
     @IBAction func btnCancel(_ sender: AnyObject) {
@@ -115,12 +127,12 @@ class CredentialsView: NSViewController {
                         credentialsViewDefaults.synchronize()
                     }
                     
-                    self.dismissViewController(self)
+                    //self.dismissViewController(self)
                     
                 }
                 
             } else {
-                _ = dialogueWarning(question: "No Server Info", text: "You have selected the option for an on prem server, but no server URL was entered. Please enter your instance name and try again.")
+                _ = dialogueWarning(question: "Missing Credentials", text: "Either the username or the password field was left blank. Please fill in both the username and password field to verify credentials.")
             }
         }
     }
