@@ -20,6 +20,8 @@
 		F7333BDB1DB55EDF00F89C00 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F7333BD91DB55EDF00F89C00 /* Main.storyboard */; };
 		F7333BE61DB55EDF00F89C00 /* The_MUTTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7333BE51DB55EDF00F89C00 /* The_MUTTests.swift */; };
 		F7333BF11DB55EDF00F89C00 /* The_MUTUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7333BF01DB55EDF00F89C00 /* The_MUTUITests.swift */; };
+		F75F5F0D1DCA4FCC002EF6E4 /* viewHelpWelcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = F75F5F0C1DCA4FCC002EF6E4 /* viewHelpWelcome.swift */; };
+		F7FCCA531DCA560C00D3EAC8 /* viewHelpCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7FCCA521DCA560C00D3EAC8 /* viewHelpCredentials.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +66,8 @@
 		F7333BEC1DB55EDF00F89C00 /* The MUTUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "The MUTUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7333BF01DB55EDF00F89C00 /* The_MUTUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = The_MUTUITests.swift; sourceTree = "<group>"; };
 		F7333BF21DB55EDF00F89C00 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F75F5F0C1DCA4FCC002EF6E4 /* viewHelpWelcome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = viewHelpWelcome.swift; sourceTree = "<group>"; };
+		F7FCCA521DCA560C00D3EAC8 /* viewHelpCredentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = viewHelpCredentials.swift; sourceTree = "<group>"; };
 		F9E8CFD6D7EFF2CD00336F2D /* Pods-The MUTTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-The MUTTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-The MUTTests/Pods-The MUTTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -150,7 +154,9 @@
 				F7333BDC1DB55EDF00F89C00 /* Info.plist */,
 				F7333BD41DB55EDF00F89C00 /* The_MUT.xcdatamodeld */,
 				F7321D1E1DB729C0007A1E94 /* ServerView.swift */,
+				F7FCCA521DCA560C00D3EAC8 /* viewHelpCredentials.swift */,
 				F7321D221DB72C5F007A1E94 /* AttributesView.swift */,
+				F75F5F0C1DCA4FCC002EF6E4 /* viewHelpWelcome.swift */,
 				F7321D201DB72B90007A1E94 /* CredentialsView.swift */,
 			);
 			path = "The MUT";
@@ -460,8 +466,10 @@
 				F7333BD31DB55EDF00F89C00 /* ViewController.swift in Sources */,
 				F7321D211DB72B90007A1E94 /* CredentialsView.swift in Sources */,
 				F7321D1F1DB729C0007A1E94 /* ServerView.swift in Sources */,
+				F75F5F0D1DCA4FCC002EF6E4 /* viewHelpWelcome.swift in Sources */,
 				F7321D231DB72C5F007A1E94 /* AttributesView.swift in Sources */,
 				F7333BD61DB55EDF00F89C00 /* The_MUT.xcdatamodeld in Sources */,
+				F7FCCA531DCA560C00D3EAC8 /* viewHelpCredentials.swift in Sources */,
 				F7333BD11DB55EDF00F89C00 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

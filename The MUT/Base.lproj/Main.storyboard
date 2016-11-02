@@ -382,10 +382,10 @@
             </objects>
             <point key="canvasLocation" x="499" y="224"/>
         </scene>
-        <!--View Controller-->
+        <!--View Help Credentials-->
         <scene sceneID="30u-Or-9Qg">
             <objects>
-                <viewController id="r72-za-GjZ" sceneMemberID="viewController">
+                <viewController id="r72-za-GjZ" customClass="viewHelpCredentials" customModule="The_MUT" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="V4x-jQ-r0v">
                         <rect key="frame" x="0.0" y="0.0" width="576" height="135"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -429,10 +429,10 @@
             </objects>
             <point key="canvasLocation" x="1883" y="-212.5"/>
         </scene>
-        <!--View Controller-->
+        <!--View Help Welcome-->
         <scene sceneID="TAO-Yd-hiP">
             <objects>
-                <viewController id="eb2-i4-i45" sceneMemberID="viewController">
+                <viewController id="eb2-i4-i45" customClass="viewHelpWelcome" customModule="The_MUT" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="X3d-vI-2YQ">
                         <rect key="frame" x="0.0" y="0.0" width="462" height="100"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -769,13 +769,13 @@ DQ
                             <popUpButton fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PHa-n3-o7c">
                                 <rect key="frame" x="257" y="267" width="323" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <popUpButtonCell key="cell" type="square" title=" iOS Devices" bezelStyle="shadowlessSquare" imagePosition="left" alignment="left" lineBreakMode="truncatingTail" borderStyle="border" imageScaling="proportionallyDown" inset="2" preferredEdge="maxY" selectedItem="atr-kW-4L4" id="AhU-iZ-Rua">
+                                <popUpButtonCell key="cell" type="square" title=" iOS Devices" bezelStyle="shadowlessSquare" imagePosition="left" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" preferredEdge="maxY" selectedItem="atr-kW-4L4" id="AhU-iZ-Rua">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" size="30" name="HelveticaNeue-Thin"/>
                                     <menu key="menu" id="zhE-k0-U8s">
                                         <items>
-                                            <menuItem title=" iOS Devices" id="atr-kW-4L4"/>
-                                            <menuItem title=" MacOS Devices" state="on" id="BvJ-rs-bkh">
+                                            <menuItem title=" iOS Devices" state="on" id="atr-kW-4L4"/>
+                                            <menuItem title=" MacOS Devices" id="BvJ-rs-bkh">
                                                 <attributedString key="attributedTitle"/>
                                             </menuItem>
                                             <menuItem title=" Users" id="nEq-4a-sjt">
