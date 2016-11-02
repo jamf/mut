@@ -56,7 +56,7 @@ class CredentialsView: NSViewController {
         
         //resize the view
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 600, height: 303)
+        preferredContentSize = NSSize(width: 600, height: 203)
         ApprovedURL = self.representedObject as! String
     }
     
@@ -66,7 +66,6 @@ class CredentialsView: NSViewController {
         if credentialsViewDefaults.value(forKey: "UserName") != nil {
             txtUser.stringValue = credentialsViewDefaults.value(forKey: "UserName") as! String
             btnStoreUser.state = 1
-            txtPass.becomeFirstResponder()
         }
         
     }
@@ -144,7 +143,7 @@ class CredentialsView: NSViewController {
                         //let results = response.result as! String
                         //self.responseResult = results
                         if response.result.isSuccess {
-                            _ = self.dialogueWarning(question: "It's good!", text: "Your permissions are working perfectly.")
+                            // _ = self.dialogueWarning(question: "It's good!", text: "Your permissions are working perfectly.")
                             self.delegateCredentials?.userDidEnterCredentials(serverCredentials: self.globalServerCredentials) // Delegate for passing to main view
                             
                             // Store username if button pressed

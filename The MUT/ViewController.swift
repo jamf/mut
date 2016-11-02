@@ -28,11 +28,13 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
             lblTest.stringValue = globalServerURL
             btnCredentials.isEnabled = true
         }
+        
         if mainViewDefaults.value(forKey: "UserName") != nil {
             let iconCredentials = "NSStatusPartiallyAvailable"
             btnCredentials.image = NSImage(named: iconCredentials)
             lblTest3.stringValue = mainViewDefaults.value(forKey: "UserName") as! String
         }
+        
     }
     
     override func viewWillAppear() {

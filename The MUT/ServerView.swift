@@ -37,7 +37,7 @@ class ServerView: NSViewController {
     // Takes place right before view appears
     override func viewWillAppear() {
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 600, height: 400)
+        preferredContentSize = NSSize(width: 600, height: 344)
     }
     
     // Declaration of Outlets
