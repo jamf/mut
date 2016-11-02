@@ -42,12 +42,20 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
         //resize the view
         super.viewWillAppear()
         preferredContentSize = NSSize(width: 600, height: 400)
+
+    }
+    
+    override func viewDidAppear() {
+        if mainViewDefaults.value(forKey: "GlobalURL") == nil {
+            performSegue(withIdentifier: "segueStartHere", sender: self)
+            
+        }
     }
 
     override var representedObject: Any? {
         didSet {
         // Update the view, if already loaded.
-        }
+                    }
     }
 
     
@@ -118,6 +126,8 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     }
     
     @IBAction func printInfo(_ sender: AnyObject) {
-        print(globalServerURL)
+        // print(globalServerURL)
+
+        
     }
 }
