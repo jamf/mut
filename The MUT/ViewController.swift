@@ -50,6 +50,10 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
             performSegue(withIdentifier: "segueStartHere", sender: self)
             
         }
+        if mainViewDefaults.value(forKey: "UserName") != nil && mainViewDefaults.value(forKey: "didDisplayNoPass") == nil {
+            performSegue(withIdentifier: "segueNoPass", sender: self)
+            mainViewDefaults.set("true", forKey: "didDisplayNoPass")
+        }
     }
 
     override var representedObject: Any? {
