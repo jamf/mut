@@ -7,12 +7,13 @@
 //
 
 import Cocoa
-
+import Alamofire
 
 
 class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSentUsername {
     
     var globalServerURL: String!
+    var globalServerCredentials: String!
     let mainViewDefaults = UserDefaults.standard
     
     // Takes place right after view loads
@@ -92,6 +93,7 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
             lblTest2.stringValue = serverCredentials
             btnCredentials.image = NSImage(named: "NSStatusAvailable")
             btnAttribute.isEnabled = true
+            globalServerCredentials = serverCredentials
         } else {
             btnCredentials.image = NSImage(named: "NSStatusUnavailable")
             lblTest2.stringValue = serverCredentials
@@ -130,8 +132,28 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     }
     
     @IBAction func printInfo(_ sender: AnyObject) {
-        // print(globalServerURL)
-
+        var id = 573
+        let endid = 580
         
+        while id <= endid {
+
+            let fullRequestURL = globalServerURL + "computers/id/\(id)"
+            let encodedURL = NSURL(string: fullRequestURL)
+            let xml = "<computer><general><name>New Swif</name></general></computer>"
+            let encodedXML = xml.data(using: String.Encoding.utf8)
+            var request = URLRequest(url: encodedURL as! URL)
+            request.httpMethod = "PUT"
+            request.addValue("application/xml", forHTTPHeaderField: "Content-Type")
+            request.addValue("Basic \(globalServerCredentials!)", forHTTPHeaderField: "Authorization")
+            
+            request.httpBody = encodedXML
+            
+            Alamofire.request(request).responseString { response in
+                print ("Response String: \(response.response!.statusCode)")
+                print ("URL: \(response.request!.url!)")
+            }
+            id = id + 1
+        }
+
     }
 }
