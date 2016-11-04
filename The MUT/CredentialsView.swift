@@ -66,36 +66,12 @@ class CredentialsView: NSViewController {
         if credentialsViewDefaults.value(forKey: "UserName") != nil {
             txtUser.stringValue = credentialsViewDefaults.value(forKey: "UserName") as! String
             btnStoreUser.state = 1
+            //txtPass.stringValue = " "
+            txtUser.refusesFirstResponder = true
+            txtPass.becomeFirstResponder()
         }
-        
-    }
-    
-/*
-     @IBAction func btnVerifyCredentials(_ sender: AnyObject) {
-        let concatCredentials = "\(txtUser.stringValue):\(txtPass.stringValue)"
-        let utf8Credentials = concatCredentials.data(using: String.Encoding.utf8)
-        let base64Credentials = utf8Credentials?.base64EncodedString()
-        print (base64Credentials)
-        globalServerCredentials = base64Credentials!
     }
 
-    
-    @IBAction func btnTest(_ sender: Any) {
-        
-        let headers: HTTPHeaders = [
-            "Authorization": "Basic \(base64Credentials!)",
-            "Accept": "application/json"
-        ]
-        
-        Alamofire.request("\(ApprovedURL!)activationcode", headers: headers).responseJSON { response in
-            //debugPrint(response)
-            print(response.result)
-        }
-        
-    }
- */
-    
-    
     @IBAction func btnCancel(_ sender: AnyObject) {
         delegateCredentials?.userDidEnterCredentials(serverCredentials: "CREDENTIAL AUTHENTICATION FAILURE")
         self .dismissViewController(self)
@@ -103,9 +79,7 @@ class CredentialsView: NSViewController {
     
     // Accept Credentials Button
     @IBAction func btnDismissCredentials(_ sender: AnyObject) {
-        
-        
-        
+
         if delegateCredentials != nil {
             
             let concatCredentials = "\(txtUser.stringValue):\(txtPass.stringValue)"
@@ -117,19 +91,6 @@ class CredentialsView: NSViewController {
             if txtUser.stringValue != "" && txtPass.stringValue != "" {
                 
                 if globalServerCredentials != nil {
-                    
-                    //UNCOMMENT IF THIS DOESN"T WORK
-                    /* delegateCredentials?.userDidEnterCredentials(serverCredentials: globalServerCredentials) // Delegate for passing to main view
-                    
-                    // Store username if button pressed
-                    if btnStoreUser.state == 1 {
-                        credentialsViewDefaults.set(txtUser.stringValue, forKey: "UserName")
-                        credentialsViewDefaults.synchronize()
-                        delegateUsername?.userDidSaveUsername(savedUser: txtUser.stringValue)
-                    } else {
-                        credentialsViewDefaults.removeObject(forKey: "UserName")
-                        credentialsViewDefaults.synchronize()
-                    }*/
                     
                     // Test the credentials
                     let headers: HTTPHeaders = [
@@ -162,8 +123,7 @@ class CredentialsView: NSViewController {
                             _ = self.dialogueWarning(question: "Invalid Credentials", text: "The credentials you entered do not seem to have sufficient permissions. This could be due to an incorrect user/password, or possibly from insufficient permissions. MUT tests this against the user's ability to view the Activation Code via the API.")
                         }
                     }
-                    
-                    
+
                 }
                 
             } else {
