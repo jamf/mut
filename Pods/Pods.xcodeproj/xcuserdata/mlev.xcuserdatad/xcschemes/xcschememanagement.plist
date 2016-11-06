@@ -9,6 +9,21 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>CSVImporter.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>FileKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>HandySwift.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-The MUT.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -27,7 +42,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>390FA10385A30CBF1688D29E29783BB8</key>
+		<key>2B7894CA7491CC44AAD68AABF59EC469</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>6AB3B4A58AD4226CDF1020C54B3E8B21</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8139523F2FC0E6903D247401047A3BFE</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -43,6 +68,11 @@
 			<true/>
 		</dict>
 		<key>AC9BA38DE6C8782E043981F46EBBD29C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DE1822458464D2A3BCE574FE4CE62753</key>
 		<dict>
 			<key>primary</key>
 			<true/>

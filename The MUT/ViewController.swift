@@ -132,11 +132,9 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     }
     
     @IBAction func printInfo(_ sender: AnyObject) {
-        var id = 573
+        var id = 1
         let endid = 580
-        
         while id <= endid {
-
             let fullRequestURL = globalServerURL + "computers/id/\(id)"
             let encodedURL = NSURL(string: fullRequestURL)
             let xml = "<computer><general><name>New Swif</name></general></computer>"
@@ -154,6 +152,5 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
             }
             id = id + 1
         }
-
     }
 }
