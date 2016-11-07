@@ -10,11 +10,24 @@
 
 import Foundation
 import Cocoa
+import CSVImporter
+
+// Protocol to pass back Attribute info and CSV path
+protocol DataSentAttributes {
+    func userDidEnterAttributes(updateAttributes: String)
+}
+protocol DataSentPath {
+    func userDidEnterPath(csvPath: String)
+}
 
 class AttributesView: NSViewController {
     
+    // Variables for passing CSV Path and Attributes
+    var delegateAttributes: DataSentAttributes? = nil
+    var delegatePath: DataSentPath? = nil
     var globalPathToCSV: NSURL!
     
+    // Declare outlets
     @IBOutlet weak var popDeviceOutlet: NSPopUpButton!
     @IBOutlet weak var popIDOutlet: NSPopUpButton!
     @IBOutlet weak var popAttributeOutlet: NSPopUpButton!
@@ -22,26 +35,14 @@ class AttributesView: NSViewController {
     
     override func viewWillAppear() {
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 600, height: 326)
+        preferredContentSize = NSSize(width: 600, height: 326) // Set the view size
+        
+        // Set up the attribute outlet drop down
         popAttributeOutlet.removeAllItems()
-        popAttributeOutlet.addItem(withTitle: " Asset Tag")
-        popAttributeOutlet.addItem(withTitle: " Username")
-        popAttributeOutlet.addItem(withTitle: " Full Name")
-        popAttributeOutlet.addItem(withTitle: " Email")
-        popAttributeOutlet.addItem(withTitle: " Position")
-        popAttributeOutlet.addItem(withTitle: " Department")
-        popAttributeOutlet.addItem(withTitle: " Building")
-        popAttributeOutlet.addItem(withTitle: " Room")
-        popAttributeOutlet.addItem(withTitle: " Site by ID")
-        popAttributeOutlet.addItem(withTitle: " Site by Name")
-        popAttributeOutlet.addItem(withTitle: " Extension Attribute")
+        popAttributeOutlet.addItems(withTitles: [" Device Name"," Asset Tag"," Username"," Full Name"," Email"," Position"," Department"," Building"," Room"," Site by ID"," Site by Name"," Extension Attribute"])
     }
     
-    override func viewDidLoad() {
-
-    }
-    
-    
+    // Set up the dropdown items depending on what record type is selected
     @IBAction func popDeviceAction(_ sender: Any) {
         
         if popDeviceOutlet.titleOfSelectedItem == " Users" {
@@ -51,44 +52,19 @@ class AttributesView: NSViewController {
             popAttributeOutlet.removeAllItems()
             popAttributeOutlet.addItems(withTitles: [" User's Username"," User's Full Name"," Email Address"," User's Position"," Phone Number"," User's Site by ID"," User's Site by Name"," User Extension Attribute"])
         }
-        
         if popDeviceOutlet.titleOfSelectedItem == " iOS Devices" {
             popIDOutlet.removeAllItems()
-            popIDOutlet.addItem(withTitle: " Serial Number")
-            popIDOutlet.addItem(withTitle: " ID Number")
+            popIDOutlet.addItems(withTitles: [" Serial Number"," ID Number"])
             
             popAttributeOutlet.removeAllItems()
-            popAttributeOutlet.addItem(withTitle: " Asset Tag")
-            popAttributeOutlet.addItem(withTitle: " Username")
-            popAttributeOutlet.addItem(withTitle: " Full Name")
-            popAttributeOutlet.addItem(withTitle: " Email")
-            popAttributeOutlet.addItem(withTitle: " Position")
-            popAttributeOutlet.addItem(withTitle: " Department")
-            popAttributeOutlet.addItem(withTitle: " Building")
-            popAttributeOutlet.addItem(withTitle: " Room")
-            popAttributeOutlet.addItem(withTitle: " Site by ID")
-            popAttributeOutlet.addItem(withTitle: " Site by Name")
-            popAttributeOutlet.addItem(withTitle: " Extension Attribute")
+            popAttributeOutlet.addItems(withTitles: [" Device Name"," Asset Tag"," Username"," Full Name"," Email"," Position"," Department"," Building"," Room"," Site by ID"," Site by Name"," Extension Attribute"])
         }
-        
         if popDeviceOutlet.titleOfSelectedItem == " MacOS Devices" {
             popIDOutlet.removeAllItems()
-            popIDOutlet.addItem(withTitle: " Serial Number")
-            popIDOutlet.addItem(withTitle: " ID Number")
+            popIDOutlet.addItems(withTitles: [" Serial Number"," ID Number"])
             
             popAttributeOutlet.removeAllItems()
-            popAttributeOutlet.addItem(withTitle: " Device Name")
-            popAttributeOutlet.addItem(withTitle: " Asset Tag")
-            popAttributeOutlet.addItem(withTitle: " Username")
-            popAttributeOutlet.addItem(withTitle: " Full Name")
-            popAttributeOutlet.addItem(withTitle: " Email")
-            popAttributeOutlet.addItem(withTitle: " Position")
-            popAttributeOutlet.addItem(withTitle: " Department")
-            popAttributeOutlet.addItem(withTitle: " Building")
-            popAttributeOutlet.addItem(withTitle: " Room")
-            popAttributeOutlet.addItem(withTitle: " Site by ID")
-            popAttributeOutlet.addItem(withTitle: " Site by Name")
-            popAttributeOutlet.addItem(withTitle: " Extension Attribute")
+            popAttributeOutlet.addItems(withTitles: [" Device name"," Asset Tag"," Username"," Full Name"," Email"," Position"," Department"," Building"," Room"," Site by ID"," Site by Name"," Extension Attribute"])
         }
     }
     
@@ -114,13 +90,25 @@ class AttributesView: NSViewController {
                 self.txtPathToCSV.stringValue = self.globalPathToCSV.path!
             }
         }
-
     }
     
     @IBAction func btnDismissAttributes(_ sender: AnyObject) {
+        self.delegateAttributes?.userDidEnterAttributes(updateAttributes: "Test")
+        self.delegatePath?.userDidEnterPath(csvPath: txtPathToCSV.stringValue)
         self.dismissViewController(self)
     }
     
+    @IBAction func btnParse(_ sender: Any) {
+        let path = txtPathToCSV.stringValue
+        let importer = CSVImporter<[String]>(path: path)
+        importer.startImportingRecords { $0 }.onFinish { importedRecords in
+            for record in importedRecords {
+                print(record[0])
+                print(record[1])
+                print("break")
+            }
+        }
+    }
     @IBAction func btnCancel(_ sender: Any) {
         self.dismissViewController(self)
     }

@@ -10,11 +10,21 @@ import Cocoa
 import Alamofire
 
 
-class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSentUsername {
+class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSentUsername, DataSentPath, DataSentAttributes {
     
+
     var globalServerURL: String!
     var globalServerCredentials: String!
     let mainViewDefaults = UserDefaults.standard
+    
+    // Declare outlets for Buttons
+    @IBOutlet weak var btnServer: NSButton!
+    @IBOutlet weak var btnCredentials: NSButton!
+    @IBOutlet weak var btnAttribute: NSButton!
+    @IBOutlet var MainViewController: NSView!
+    
+    @IBOutlet weak var txtMain: NSScrollView!
+    
     
     // Takes place right after view loads
     override func viewDidLoad() {
@@ -26,24 +36,20 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
             let iconServer = mainViewDefaults.value(forKey: "ServerIcon") as! String
             globalServerURL = mainViewDefaults.value(forKey: "GlobalURL") as! String
             btnServer.image = NSImage(named: iconServer)
-            lblTest.stringValue = globalServerURL
             btnCredentials.isEnabled = true
         }
         
         if mainViewDefaults.value(forKey: "UserName") != nil {
             let iconCredentials = "NSStatusPartiallyAvailable"
             btnCredentials.image = NSImage(named: iconCredentials)
-            lblTest3.stringValue = mainViewDefaults.value(forKey: "UserName") as! String
         }
         
     }
     
     override func viewWillAppear() {
-        
         //resize the view
         super.viewWillAppear()
         preferredContentSize = NSSize(width: 600, height: 400)
-
     }
     
     override func viewDidAppear() {
@@ -60,50 +66,41 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     override var representedObject: Any? {
         didSet {
         // Update the view, if already loaded.
-                    }
+        }
     }
 
-    
-    // Declare outlets for debug labels
-    @IBOutlet weak var lblTest: NSTextField!
-    @IBOutlet weak var lblTest2: NSTextField!
-    @IBOutlet weak var lblTest3: NSTextField!
-    
-    // Declare outlets for Buttons
-    @IBOutlet weak var btnServer: NSButton!
-    @IBOutlet weak var btnCredentials: NSButton!
-    @IBOutlet weak var btnAttribute: NSButton!
 
-    
-    
     func userDidEnterURL(serverURL: String) {
-        lblTest.stringValue = serverURL
         globalServerURL = serverURL
         btnServer.image = NSImage(named: "NSStatusAvailable")
         mainViewDefaults.set(globalServerURL, forKey: "GlobalURL")
         mainViewDefaults.set("NSStatusAvailable", forKey: "ServerIcon")
         mainViewDefaults.synchronize()
         btnCredentials.isEnabled = true
-        
-        //btnServer.isEnabled = false
     }
     
+    // Pass back the base 64 encoded credentials, or auth failure
     func userDidEnterCredentials(serverCredentials: String) {
         if serverCredentials != "CREDENTIAL AUTHENTICATION FAILURE" {
-            lblTest2.stringValue = serverCredentials
             btnCredentials.image = NSImage(named: "NSStatusAvailable")
             btnAttribute.isEnabled = true
             globalServerCredentials = serverCredentials
         } else {
             btnCredentials.image = NSImage(named: "NSStatusUnavailable")
-            lblTest2.stringValue = serverCredentials
         }
-
+    }
+    
+    // Pass back the Attribute information
+    func userDidEnterAttributes(updateAttributes: String) {
+    }
+    
+    // Pass back the CSV Path
+    func userDidEnterPath(csvPath: String) {
         
     }
     
+    // Pass back the Username alone to store if selected
     func userDidSaveUsername(savedUser: String) {
-        lblTest3.stringValue = savedUser
         mainViewDefaults.set(savedUser, forKey: "UserName")
     }
     
@@ -121,10 +118,14 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
             CredentialsView.representedObject = globalServerURL as String
         }
         
+        if segue.identifier == "segueAttributes" {
+            let AttributesView: AttributesView = segue.destinationController as! AttributesView
+            AttributesView.delegatePath = self
+            AttributesView.delegateAttributes = self
+        }
     }
     
     @IBAction func btnClearStored(_ sender: AnyObject) {
-        
         // Clear all stored values
         if let bundle = Bundle.main.bundleIdentifier {
             UserDefaults.standard.removePersistentDomain(forName: bundle)

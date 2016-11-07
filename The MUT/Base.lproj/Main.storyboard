@@ -359,7 +359,7 @@
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="The_MUT" customModuleProvider="target"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="331" y="-52"/>
+            <point key="canvasLocation" x="382" y="-407"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
@@ -375,12 +375,13 @@
                         <value key="maxSize" type="size" width="600" height="400"/>
                     </window>
                     <connections>
+                        <outlet property="window" destination="IQv-IB-iLA" id="bzv-DN-daQ"/>
                         <segue destination="Wso-JF-mtF" kind="relationship" relationship="window.shadowedContentViewController" id="c3Q-uy-nix"/>
                     </connections>
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="499" y="224"/>
+            <point key="canvasLocation" x="550" y="-131"/>
         </scene>
         <!--View Help Credentials-->
         <scene sceneID="30u-Or-9Qg">
@@ -427,7 +428,7 @@
                 </viewController>
                 <customObject id="z9R-Jd-cmf" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1883" y="-212.5"/>
+            <point key="canvasLocation" x="526" y="382"/>
         </scene>
         <!--View Help Welcome-->
         <scene sceneID="TAO-Yd-hiP">
@@ -465,7 +466,7 @@
                 </viewController>
                 <customObject id="72K-Rf-Cg8" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1340" y="-203"/>
+            <point key="canvasLocation" x="526" y="198"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="Id2-45-lJz">
@@ -496,7 +497,7 @@
                                     <string key="keyEquivalent">a</string>
                                 </buttonCell>
                                 <connections>
-                                    <segue destination="w43-eq-tNT" kind="sheet" id="s2P-mZ-CqM"/>
+                                    <segue destination="w43-eq-tNT" kind="sheet" identifier="segueAttributes" id="s2P-mZ-CqM"/>
                                 </connections>
                             </button>
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aCs-sx-Baw">
@@ -509,44 +510,6 @@
                                 </buttonCell>
                                 <connections>
                                     <segue destination="91u-dn-gVH" kind="sheet" identifier="segueCredentials" id="56W-HW-p27"/>
-                                </connections>
-                            </button>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EFS-09-7zt">
-                                <rect key="frame" x="73" y="244" width="451" height="26"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="Szt-3c-mFl">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uGh-PV-Msr">
-                                <rect key="frame" x="73" y="210" width="451" height="26"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="TOe-tj-Hlp">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RJI-e5-aud">
-                                <rect key="frame" x="73" y="176" width="451" height="26"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="zua-Xa-zag">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PQM-r1-O3H">
-                                <rect key="frame" x="66" y="106" width="66" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Test" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9rZ-W1-DMu">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="printInfo:" target="Wso-JF-mtF" id="ucC-AQ-49o"/>
                                 </connections>
                             </button>
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OuZ-14-LPv">
@@ -582,20 +545,57 @@
                                     <segue destination="r72-za-GjZ" kind="popover" identifier="segueNoPass" popoverAnchorView="m1N-xw-dKz" popoverBehavior="t" preferredEdge="maxY" id="fUN-Zd-S6C"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PQM-r1-O3H">
+                                <rect key="frame" x="366" y="13" width="66" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Test" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9rZ-W1-DMu">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="printInfo:" target="Wso-JF-mtF" id="ucC-AQ-49o"/>
+                                </connections>
+                            </button>
+                            <scrollView fixedFrame="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IBu-Ru-60L">
+                                <rect key="frame" x="20" y="61" width="560" height="259"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <clipView key="contentView" ambiguous="YES" id="3kT-H1-zZT">
+                                    <rect key="frame" x="1" y="1" width="543" height="257"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <textView ambiguous="YES" importsGraphics="NO" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" smartInsertDelete="YES" id="TBu-u8-I0T">
+                                            <rect key="frame" x="0.0" y="0.0" width="543" height="257"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <size key="minSize" width="543" height="257"/>
+                                            <size key="maxSize" width="568" height="10000000"/>
+                                            <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                        </textView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </clipView>
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="X5E-qD-ZvR">
+                                    <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="h9j-XK-BQP">
+                                    <rect key="frame" x="544" y="1" width="15" height="257"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
                         </subviews>
                     </view>
                     <connections>
+                        <outlet property="MainViewController" destination="xfl-iX-lsl" id="7M1-6i-wAx"/>
                         <outlet property="btnAttribute" destination="flU-GQ-aVo" id="xKO-jl-enH"/>
                         <outlet property="btnCredentials" destination="aCs-sx-Baw" id="pmJ-td-ebC"/>
                         <outlet property="btnServer" destination="4d2-L2-4qZ" id="thm-Lm-ARz"/>
-                        <outlet property="lblTest" destination="EFS-09-7zt" id="hjJ-fk-moV"/>
-                        <outlet property="lblTest2" destination="uGh-PV-Msr" id="FeJ-wy-X8y"/>
-                        <outlet property="lblTest3" destination="RJI-e5-aud" id="o0C-ih-KlC"/>
+                        <outlet property="txtMain" destination="IBu-Ru-60L" id="6JY-AU-w2I"/>
                     </connections>
                 </viewController>
                 <customObject id="2xO-s3-DkC" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1374" y="186"/>
+            <point key="canvasLocation" x="1351" y="-94"/>
         </scene>
         <!--Server-->
         <scene sceneID="ocD-Y0-IKu">
@@ -869,6 +869,17 @@ Gw
                                 </buttonCell>
                                 <connections>
                                     <action selector="btnCancel:" target="w43-eq-tNT" id="Qw0-5E-Gmg"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3QA-83-yXR">
+                                <rect key="frame" x="95" y="40" width="74" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="parse" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="x11-w7-9rt">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="btnParse:" target="w43-eq-tNT" id="dhm-hd-1ex"/>
                                 </connections>
                             </button>
                         </subviews>
