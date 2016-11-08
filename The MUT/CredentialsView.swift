@@ -29,6 +29,7 @@ class CredentialsView: NSViewController {
     var globalServerCredentials: String!
     let credentialsViewDefaults = UserDefaults.standard
     var responseResult: String!
+    var allowUntrustedURL: String!
     
     func dialogueWarning (question: String, text: String) -> Bool {
         
@@ -39,6 +40,30 @@ class CredentialsView: NSViewController {
         myPopup.addButton(withTitle: "OK")
         return myPopup.runModal() == NSAlertFirstButtonReturn
     }
+    
+    private static var Manager: Alamofire.SessionManager = {
+        
+        // Create the server trust policies
+        let serverTrustPolicies: [String: ServerTrustPolicy] = [
+            "support.q.jamfsw.corp": .disableEvaluation
+            
+        ]
+        /*let serverTrustPolicy = ServerTrustPolicy.pinCertificates(
+            certificates: ServerTrustPolicy.certificatesInBundle(),
+            validateCertificateChain: true,
+            validateHost: true
+        )*/
+        
+        // Create custom manager
+        let configuration = URLSessionConfiguration.default
+        configuration.httpAdditionalHeaders = Alamofire.SessionManager.defaultHTTPHeaders
+        let manager = Alamofire.SessionManager(
+            configuration: URLSessionConfiguration.default,
+            serverTrustPolicyManager: ServerTrustPolicyManager(policies: serverTrustPolicies)
+        )
+        
+        return manager
+    }()
     
     // Declare variable to use for delegate
     var delegateCredentials: DataSentCredentials? = nil
@@ -58,6 +83,9 @@ class CredentialsView: NSViewController {
         super.viewWillAppear()
         preferredContentSize = NSSize(width: 600, height: 203)
         ApprovedURL = self.representedObject as! String
+        allowUntrustedURL = ApprovedURL.replacingOccurrences(of: "https://", with: "")
+        allowUntrustedURL = allowUntrustedURL.replacingOccurrences(of: ":8443/JSSResource/", with: "")
+        print(allowUntrustedURL)
     }
     
     override func viewDidLoad() {
@@ -98,7 +126,7 @@ class CredentialsView: NSViewController {
                         "Accept": "application/json"
                     ]
                     
-                    Alamofire.request("\(ApprovedURL!)activationcode", headers: headers).responseJSON { response in
+                    CredentialsView.Manager.request("\(ApprovedURL!)activationcode", headers: headers).responseJSON { response in
                         //debugPrint(response)
                         print(response.result)
                         //let results = response.result as! String
