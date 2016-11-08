@@ -21,7 +21,8 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     var globalAttributeType: String!
     
     let mainViewDefaults = UserDefaults.standard
-    let myFontAttribute = [ NSFontAttributeName: NSFont(name: "Consolas", size: 12.0)! ]
+    let myFontAttribute = [ NSFontAttributeName: NSFont(name: "Inconsolata", size: 12.0)! ]
+    let myHeaderAttribute = [ NSFontAttributeName: NSFont(name: "Helvetica Neue Thin", size: 18.0)! ]
 
     
     // Declare outlets for Buttons
@@ -37,7 +38,9 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     // Takes place right after view loads
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        txtMain.textStorage?.append(NSAttributedString(string: "Welcome to The MUT v3.0", attributes: myHeaderAttribute))
+        printLineBreak()
+        printLineBreak()
         
         // Restore icons if they are not null
         if mainViewDefaults.value(forKey: "ServerIcon") != nil && mainViewDefaults.value(forKey: "GlobalURL") != nil{
@@ -45,11 +48,16 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
             globalServerURL = mainViewDefaults.value(forKey: "GlobalURL") as! String
             btnServer.image = NSImage(named: iconServer)
             btnCredentials.isEnabled = true
+            printString(stringToPrint: "Stored URL: ")
+            let cleanURL = globalServerURL.replacingOccurrences(of: "JSSResource/", with: "")
+            appendLogString(stringToAppend: cleanURL)
         }
         
         if mainViewDefaults.value(forKey: "UserName") != nil {
             let iconCredentials = "NSStatusPartiallyAvailable"
             btnCredentials.image = NSImage(named: iconCredentials)
+            printString(stringToPrint: "Stored Username: ")
+            appendLogString(stringToAppend: mainViewDefaults.value(forKey: "UserName") as! String)
         }
         
     }
@@ -72,7 +80,7 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
         //resize the view
         super.viewWillAppear()
         preferredContentSize = NSSize(width: 600, height: 400)
-//        txtMain.textStorage?.append(NSAttributedString(string: "Welcome to The MUT v3.0", attributes: myFontAttribute))
+        
         
     }
     
@@ -101,6 +109,8 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
         mainViewDefaults.set("NSStatusAvailable", forKey: "ServerIcon")
         mainViewDefaults.synchronize()
         btnCredentials.isEnabled = true
+        let cleanURL = globalServerURL.replacingOccurrences(of: "JSSResource/", with: "")
+        appendLogString(stringToAppend: "URL: \(cleanURL)")
     }
     
     // Pass back the base 64 encoded credentials, or auth failure
@@ -109,8 +119,12 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
             btnCredentials.image = NSImage(named: "NSStatusAvailable")
             btnAttribute.isEnabled = true
             globalServerCredentials = serverCredentials
+            printLineBreak()
+            appendLogString(stringToAppend: "Credentials Successfully Verified.")
         } else {
             btnCredentials.image = NSImage(named: "NSStatusUnavailable")
+            printLineBreak()
+            appendLogString(stringToAppend: "Authentication Failure! Go to the Credentials screen to retry.")
         }
     }
     
@@ -195,10 +209,10 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
                 
                 print(record[0])
                 print(record[1])
-                print("break")
+                print("")
                 self.appendLogString(stringToAppend: record[0])
                 self.appendLogString(stringToAppend: record[1])
-                self.appendLogString(stringToAppend: "BREAK")
+                self.printLineBreak()
 
             }
         }
