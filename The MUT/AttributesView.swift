@@ -14,7 +14,7 @@ import CSVImporter
 
 // Protocol to pass back Attribute info and CSV path
 protocol DataSentAttributes {
-    func userDidEnterAttributes(updateAttributes: String)
+    func userDidEnterAttributes(updateAttributes: Array<Any>)
 }
 protocol DataSentPath {
     func userDidEnterPath(csvPath: String)
@@ -93,22 +93,14 @@ class AttributesView: NSViewController {
     }
     
     @IBAction func btnDismissAttributes(_ sender: AnyObject) {
-        self.delegateAttributes?.userDidEnterAttributes(updateAttributes: "Test")
+        self.delegateAttributes?.userDidEnterAttributes(updateAttributes: [popDeviceOutlet.titleOfSelectedItem!,popIDOutlet.titleOfSelectedItem!,popAttributeOutlet.titleOfSelectedItem!])
         self.delegatePath?.userDidEnterPath(csvPath: txtPathToCSV.stringValue)
         self.dismissViewController(self)
     }
     
     @IBAction func btnParse(_ sender: Any) {
-        let path = txtPathToCSV.stringValue
-        let importer = CSVImporter<[String]>(path: path)
-        importer.startImportingRecords { $0 }.onFinish { importedRecords in
-            for record in importedRecords {
-                print(record[0])
-                print(record[1])
-                print("break")
-            }
-        }
     }
+    
     @IBAction func btnCancel(_ sender: Any) {
         self.dismissViewController(self)
     }

@@ -8,23 +8,31 @@
 
 import Cocoa
 import Alamofire
-
+import CSVImporter
 
 class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSentUsername, DataSentPath, DataSentAttributes {
     
 
     var globalServerURL: String!
     var globalServerCredentials: String!
+    var globalCSVPath: String!
+    var globalDeviceType: String!
+    var globalIDType: String!
+    var globalAttributeType: String!
+    
     let mainViewDefaults = UserDefaults.standard
+    let myFontAttribute = [ NSFontAttributeName: NSFont(name: "Consolas", size: 12.0)! ]
+
     
     // Declare outlets for Buttons
     @IBOutlet weak var btnServer: NSButton!
     @IBOutlet weak var btnCredentials: NSButton!
     @IBOutlet weak var btnAttribute: NSButton!
     @IBOutlet var MainViewController: NSView!
+
+    @IBOutlet var txtMain: NSTextView!
     
-    @IBOutlet weak var txtMain: NSScrollView!
-    
+    @IBOutlet weak var txtMainWrapper: NSScrollView!
     
     // Takes place right after view loads
     override func viewDidLoad() {
@@ -46,10 +54,26 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
         
     }
     
+    func printLineBreak() {
+        self.txtMain.textStorage?.append(NSAttributedString(string: "\n", attributes: self.myFontAttribute))
+    }
+    func printString(stringToPrint: String) {
+        self.txtMain.textStorage?.append(NSAttributedString(string: "\(stringToPrint)", attributes: self.myFontAttribute))
+    }
+    func appendLogString(stringToAppend: String) {
+        self.txtMain.textStorage?.append(NSAttributedString(string: "\(stringToAppend)\n", attributes: self.myFontAttribute))
+        self.txtMain.scrollToEndOfDocument(self)
+    }
+    func clearLog() {
+        self.txtMain.textStorage?.setAttributedString(NSAttributedString(string: "", attributes: self.myFontAttribute))
+    }
+    
     override func viewWillAppear() {
         //resize the view
         super.viewWillAppear()
         preferredContentSize = NSSize(width: 600, height: 400)
+//        txtMain.textStorage?.append(NSAttributedString(string: "Welcome to The MUT v3.0", attributes: myFontAttribute))
+        
     }
     
     override func viewDidAppear() {
@@ -91,12 +115,19 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     }
     
     // Pass back the Attribute information
-    func userDidEnterAttributes(updateAttributes: String) {
+    func userDidEnterAttributes(updateAttributes: Array<Any>) {
+        btnAttribute.image = NSImage(named: "NSStatusAvailable")
+        globalDeviceType = updateAttributes[0] as! String
+        globalIDType = updateAttributes[1] as! String
+        globalAttributeType = updateAttributes[2] as! String
+        appendLogString(stringToAppend: "Device Type: \(globalDeviceType!)")
+        appendLogString(stringToAppend: "ID Type: \(globalIDType!)")
+        appendLogString(stringToAppend: "Attribute Type: \(globalAttributeType!)")
     }
     
     // Pass back the CSV Path
     func userDidEnterPath(csvPath: String) {
-        
+        globalCSVPath = csvPath
     }
     
     // Pass back the Username alone to store if selected
@@ -133,7 +164,7 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     }
     
     @IBAction func printInfo(_ sender: AnyObject) {
-        var id = 1
+        /*var id = 560
         let endid = 580
         while id <= endid {
             let fullRequestURL = globalServerURL + "computers/id/\(id)"
@@ -150,8 +181,32 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
             Alamofire.request(request).responseString { response in
                 print ("Response String: \(response.response!.statusCode)")
                 print ("URL: \(response.request!.url!)")
+                self.txtNewMain.textStorage?.append(NSAttributedString(string: "\nURL: \(response.request!.url!)", attributes: self.myFontAttribute))
+                self.txtNewMain.textStorage?.append(NSAttributedString(string: "\nResponse Code: \(response.response!.statusCode)", attributes: self.myFontAttribute))
+                self.txtNewMain.scrollToEndOfDocument(self)
             }
             id = id + 1
         }
+        */
+//      let path = globalCSVPath
+        let importer = CSVImporter<[String]>(path: globalCSVPath)
+        importer.startImportingRecords { $0 }.onFinish { importedRecords in
+            for record in importedRecords {
+                
+                print(record[0])
+                print(record[1])
+                print("break")
+                self.appendLogString(stringToAppend: record[0])
+                self.appendLogString(stringToAppend: record[1])
+                self.appendLogString(stringToAppend: "BREAK")
+
+            }
+        }
+        
+        
+      
+    }
+    @IBAction func btnClearText(_ sender: Any) {
+        clearLog()
     }
 }
