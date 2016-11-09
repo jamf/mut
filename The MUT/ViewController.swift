@@ -20,8 +20,16 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     var globalIDType: String!
     var globalAttributeType: String!
     
+    var globalEndpoint: String!
+    var globalXMLDevice: String!
+    var globalXMLSubset: String!
+    var globalXMLAttribute: String!
+    var globalXMLExtraStart: String!
+    var globalXMLExtraEnd: String!
+    var globalEndpointID: String!
+    
     let mainViewDefaults = UserDefaults.standard
-    let myFontAttribute = [ NSFontAttributeName: NSFont(name: "Inconsolata", size: 12.0)! ]
+    let myFontAttribute = [ NSFontAttributeName: NSFont(name: "Courier", size: 12.0)! ]
     let myHeaderAttribute = [ NSFontAttributeName: NSFont(name: "Helvetica Neue Thin", size: 18.0)! ]
 
     
@@ -137,6 +145,131 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
         appendLogString(stringToAppend: "Device Type: \(globalDeviceType!)")
         appendLogString(stringToAppend: "ID Type: \(globalIDType!)")
         appendLogString(stringToAppend: "Attribute Type: \(globalAttributeType!)")
+        
+        // Switches to set XML and Endpoint values
+        switch (globalDeviceType) {
+            case " iOS Devices" :
+                globalXMLDevice = "mobile_device"
+                globalEndpoint = "mobiledevices"
+                print("iOS")
+            case " MacOS Devices" :
+                globalXMLDevice = "computer"
+                globalEndpoint = "computers"
+                print("MacOS")
+            case " Users" :
+                globalXMLDevice = "user"
+                globalEndpoint = "users"
+                print("MacOS")
+            default:
+                print("Something Broke")
+        }
+        
+        // Switches to set Identifier type
+        switch (globalIDType) {
+            case " Serial Number" :
+                globalEndpointID = "serialnumber"
+                print("Serial")
+            case " ID Number" :
+                globalEndpointID = "id"
+                print("ID")
+            case " Username" :
+                globalEndpointID = "name"
+                print("ID")
+            default:
+                print("Something Broke")
+        }
+        
+        // Switches for attributes and subsets
+        switch (globalAttributeType) {
+        // iOS and MacOS
+            case " Device Name" :
+                if globalDeviceType == " iOS Devices" {
+                    
+                } else {
+                    globalXMLSubset = "general"
+                    globalXMLAttribute = "name"
+                    print ("General Name")
+                }
+            case " Asset Tag" :
+                globalXMLSubset = "general"
+                globalXMLAttribute = "asset_tag"
+                print("General AssetTag")
+            case " Username" :
+                globalXMLSubset = "location"
+                globalXMLAttribute = "username"
+                print("Location Username")
+            case " Full Name" :
+                globalXMLSubset = "location"
+                globalXMLAttribute = "real_name"
+                print("Location RealName")
+            case " Email" :
+                globalXMLSubset = "location"
+                globalXMLAttribute = "email_address"
+                print("Location EmailAddress")
+            case " Position" :
+                globalXMLSubset = "location"
+                globalXMLAttribute = "position"
+                print("Location Position")
+            case " Department" :
+                globalXMLSubset = "location"
+                globalXMLAttribute = "department"
+                print("Location Department")
+            case " Building" :
+                globalXMLSubset = "location"
+                globalXMLAttribute = "building"
+                print("Location Building")
+            case " Room" :
+                globalXMLSubset = "location"
+                globalXMLAttribute = "room"
+                print("Location Room")
+            case " Site by ID" :
+                globalXMLSubset = "general"
+                globalXMLAttribute = "site"
+                print("Site by ID General")
+            case " Site by Name" :
+                globalXMLSubset = "general"
+                globalXMLAttribute = "site"
+                print("Site by Name General")
+            case " Extension Attribute" :
+                globalEndpointID = "serialnumber"
+                print("Serial")
+            
+        // Users
+            case " User's Username" :
+                globalXMLSubset = "general"
+                globalXMLAttribute = "site"
+                print("Site by ID General")
+            case " User's Full Name" :
+                globalXMLSubset = "general"
+                globalXMLAttribute = "site"
+                print("Site by ID General")
+            case " Email Address" :
+                globalXMLSubset = "general"
+                globalXMLAttribute = "site"
+                print("Site by ID General")
+            case " User's Position" :
+                globalXMLSubset = "general"
+                globalXMLAttribute = "site"
+                print("Site by ID General")
+            case " Phone Number" :
+                globalXMLSubset = "general"
+                globalXMLAttribute = "site"
+                print("Site by ID General")
+            case " User's Site by ID" :
+                globalXMLSubset = "general"
+                globalXMLAttribute = "site"
+                print("Site by ID General")
+            case " User's Site by Name" :
+                globalXMLSubset = "general"
+                globalXMLAttribute = "site"
+                print("Site by ID General")
+            case " User Extension Attribute" :
+                globalXMLSubset = "general"
+                globalXMLAttribute = "site"
+                print("Site by ID General")
+            default:
+                print("Something Broke")
+        }
     }
     
     // Pass back the CSV Path
@@ -206,6 +339,11 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
         let importer = CSVImporter<[String]>(path: globalCSVPath)
         importer.startImportingRecords { $0 }.onFinish { importedRecords in
             for record in importedRecords {
+                
+                let fullRequestURL = self.globalServerURL + "computers/id/\(record[0])"
+                let encodedURL = NSURL(string: fullRequestURL)
+                let xml = "<computer><general><name>New Swif</name></general></computer>"
+                let encodedXML = xml.data(using: String.Encoding.utf8)
                 
                 print(record[0])
                 print(record[1])
