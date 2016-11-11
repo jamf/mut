@@ -37,6 +37,7 @@ class AttributesView: NSViewController {
         super.viewWillAppear()
         preferredContentSize = NSSize(width: 600, height: 326) // Set the view size
         
+        
         // Set up the attribute outlet drop down
         popAttributeOutlet.removeAllItems()
         popAttributeOutlet.addItems(withTitles: [" Device Name"," Asset Tag"," Username"," Full Name"," Email"," Position"," Department"," Building"," Room"," Site by ID"," Site by Name"," Extension Attribute"])
@@ -64,7 +65,7 @@ class AttributesView: NSViewController {
             popIDOutlet.addItems(withTitles: [" Serial Number"," ID Number"])
             
             popAttributeOutlet.removeAllItems()
-            popAttributeOutlet.addItems(withTitles: [" Device name"," Asset Tag"," Username"," Full Name"," Email"," Position"," Department"," Building"," Room"," Site by ID"," Site by Name"," Extension Attribute"])
+            popAttributeOutlet.addItems(withTitles: [" Device Name"," Asset Tag"," Username"," Full Name"," Email"," Position"," Department"," Building"," Room"," Site by ID"," Site by Name"," Extension Attribute"])
         }
     }
     
@@ -93,9 +94,14 @@ class AttributesView: NSViewController {
     }
     
     @IBAction func btnDismissAttributes(_ sender: AnyObject) {
-        self.delegateAttributes?.userDidEnterAttributes(updateAttributes: [popDeviceOutlet.titleOfSelectedItem!,popIDOutlet.titleOfSelectedItem!,popAttributeOutlet.titleOfSelectedItem!])
-        self.delegatePath?.userDidEnterPath(csvPath: txtPathToCSV.stringValue)
-        self.dismissViewController(self)
+        if txtPathToCSV.stringValue != "" {
+            self.delegateAttributes?.userDidEnterAttributes(updateAttributes: [popDeviceOutlet.titleOfSelectedItem!,popIDOutlet.titleOfSelectedItem!,popAttributeOutlet.titleOfSelectedItem!])
+            self.delegatePath?.userDidEnterPath(csvPath: txtPathToCSV.stringValue)
+            self.dismissViewController(self)
+        } else {
+            _ = self.dialogueWarning(question: "No CSV Selected", text: "There is no CSV file selected. Please press the Browse button and navigate to your CSV file, or press Cancel.")
+        }
+
     }
     
     @IBAction func btnParse(_ sender: Any) {
@@ -104,5 +110,13 @@ class AttributesView: NSViewController {
     @IBAction func btnCancel(_ sender: Any) {
         self.dismissViewController(self)
     }
-    
+    func dialogueWarning (question: String, text: String) -> Bool {
+        
+        let myPopup: NSAlert = NSAlert()
+        myPopup.messageText = question
+        myPopup.informativeText = text
+        myPopup.alertStyle = NSAlertStyle.warning
+        myPopup.addButton(withTitle: "OK")
+        return myPopup.runModal() == NSAlertFirstButtonReturn
+    }
 }

@@ -22,7 +22,6 @@ protocol DataSentUsername {
     func userDidSaveUsername(savedUser: String)
 }
 
-
 class CredentialsView: NSViewController {
     
     var base64Credentials: String!
@@ -30,17 +29,7 @@ class CredentialsView: NSViewController {
     let credentialsViewDefaults = UserDefaults.standard
     var responseResult: String!
     var allowUntrustedURL: String!
-    
-    func dialogueWarning (question: String, text: String) -> Bool {
-        
-        let myPopup: NSAlert = NSAlert()
-        myPopup.messageText = question
-        myPopup.informativeText = text
-        myPopup.alertStyle = NSAlertStyle.warning
-        myPopup.addButton(withTitle: "OK")
-        return myPopup.runModal() == NSAlertFirstButtonReturn
-    }
-    
+
     private static var Manager: Alamofire.SessionManager = {
         
         // Create the server trust policies
@@ -76,6 +65,8 @@ class CredentialsView: NSViewController {
     @IBOutlet weak var txtUser: NSTextField!
     @IBOutlet weak var txtPass: NSSecureTextField!
     @IBOutlet weak var btnStoreUser: NSButton!
+    @IBOutlet weak var btnAcceptOutlet: NSButton!
+    @IBOutlet weak var spinWheel: NSProgressIndicator!
     
     override func viewWillAppear() {
         
@@ -86,6 +77,7 @@ class CredentialsView: NSViewController {
         allowUntrustedURL = ApprovedURL.replacingOccurrences(of: "https://", with: "")
         allowUntrustedURL = allowUntrustedURL.replacingOccurrences(of: ":8443/JSSResource/", with: "")
         print(allowUntrustedURL)
+        btnAcceptOutlet.isHidden = false
     }
     
     override func viewDidLoad() {
@@ -120,6 +112,8 @@ class CredentialsView: NSViewController {
                 
                 if globalServerCredentials != nil {
                     
+                    btnAcceptOutlet.isHidden = true
+                    spinWheel.startAnimation(self)
                     // Test the credentials
                     let headers: HTTPHeaders = [
                         "Authorization": "Basic \(base64Credentials!)",
@@ -144,10 +138,12 @@ class CredentialsView: NSViewController {
                                 self.credentialsViewDefaults.removeObject(forKey: "UserName")
                                 self.credentialsViewDefaults.synchronize()
                             }
-
+                            self.spinWheel.stopAnimation(self)
                             self.dismissViewController(self)
                         }
                         if response.result.isFailure {
+                            self.spinWheel.stopAnimation(self)
+                            self.btnAcceptOutlet.isHidden = false
                             _ = self.dialogueWarning(question: "Invalid Credentials", text: "The credentials you entered do not seem to have sufficient permissions. This could be due to an incorrect user/password, or possibly from insufficient permissions. MUT tests this against the user's ability to view the Activation Code via the API.")
                         }
                     }
@@ -158,5 +154,14 @@ class CredentialsView: NSViewController {
                 _ = dialogueWarning(question: "Missing Credentials", text: "Either the username or the password field was left blank. Please fill in both the username and password field to verify credentials.")
             }
         }
+    }
+    func dialogueWarning (question: String, text: String) -> Bool {
+        
+        let myPopup: NSAlert = NSAlert()
+        myPopup.messageText = question
+        myPopup.informativeText = text
+        myPopup.alertStyle = NSAlertStyle.warning
+        myPopup.addButton(withTitle: "OK")
+        return myPopup.runModal() == NSAlertFirstButtonReturn
     }
 }

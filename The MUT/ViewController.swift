@@ -129,6 +129,7 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
             globalServerCredentials = serverCredentials
             printLineBreak()
             appendLogString(stringToAppend: "Credentials Successfully Verified.")
+            printLineBreak()
         } else {
             btnCredentials.image = NSImage(named: "NSStatusUnavailable")
             printLineBreak()
@@ -145,6 +146,7 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
         appendLogString(stringToAppend: "Device Type: \(globalDeviceType!)")
         appendLogString(stringToAppend: "ID Type: \(globalIDType!)")
         appendLogString(stringToAppend: "Attribute Type: \(globalAttributeType!)")
+        //printLineBreak()
         
         // Switches to set XML and Endpoint values
         switch (globalDeviceType) {
@@ -185,7 +187,8 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
             case " Device Name" :
                 if globalDeviceType == " iOS Devices" {
                     
-                } else {
+                }
+                if globalDeviceType == " MacOS Devices"{
                     globalXMLSubset = "general"
                     globalXMLAttribute = "name"
                     print ("General Name")
@@ -275,6 +278,8 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     // Pass back the CSV Path
     func userDidEnterPath(csvPath: String) {
         globalCSVPath = csvPath
+        appendLogString(stringToAppend: "CSV: \(globalCSVPath!)")
+        printLineBreak()
     }
     
     // Pass back the Username alone to store if selected
@@ -340,23 +345,26 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
         importer.startImportingRecords { $0 }.onFinish { importedRecords in
             for record in importedRecords {
                 
-                let fullRequestURL = self.globalServerURL + "computers/id/\(record[0])"
+                let fullRequestURL = self.globalServerURL + "\(self.globalEndpoint!)/\(self.globalEndpointID!)/\(record[0])"
                 let encodedURL = NSURL(string: fullRequestURL)
-                let xml = "<computer><general><name>New Swif</name></general></computer>"
+                let xml = "<\(self.globalXMLDevice!)><\(self.globalXMLSubset!)><\(self.globalXMLAttribute!)>\(record[1])</\(self.globalXMLAttribute!)></\(self.globalXMLSubset!)></\(self.globalXMLDevice!)>"
                 let encodedXML = xml.data(using: String.Encoding.utf8)
+
+                var request = URLRequest(url: encodedURL as! URL)
+                request.httpMethod = "PUT"
+                request.addValue("application/xml", forHTTPHeaderField: "Content-Type")
+                request.addValue("Basic \(self.globalServerCredentials!)", forHTTPHeaderField: "Authorization")
                 
-                print(record[0])
-                print(record[1])
-                print("")
-                self.appendLogString(stringToAppend: record[0])
-                self.appendLogString(stringToAppend: record[1])
-                self.printLineBreak()
+                request.httpBody = encodedXML
+                
+                Alamofire.request(request).responseString { response in
+                    self.appendLogString(stringToAppend: "URL: \(response.request!.url!)")
+                    self.appendLogString(stringToAppend: "Response Code: \(response.response!.statusCode)")
+                    self.printLineBreak()
+                }
 
             }
         }
-        
-        
-      
     }
     @IBAction func btnClearText(_ sender: Any) {
         clearLog()

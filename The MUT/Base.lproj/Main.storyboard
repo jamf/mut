@@ -986,10 +986,16 @@ Gw
                                     <font key="font" size="30" name="HelveticaNeue-Thin"/>
                                 </buttonCell>
                             </button>
+                            <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="tsN-11-r9P">
+                                <rect key="frame" x="487" y="28" width="32" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </progressIndicator>
                         </subviews>
                     </view>
                     <connections>
+                        <outlet property="btnAcceptOutlet" destination="f2O-Lk-ngA" id="qzN-Wh-SBU"/>
                         <outlet property="btnStoreUser" destination="oo6-1h-4nP" id="z6Z-cV-wMp"/>
+                        <outlet property="spinWheel" destination="tsN-11-r9P" id="jQW-yp-CiQ"/>
                         <outlet property="txtPass" destination="XHa-8M-xpd" id="t7S-nf-0KO"/>
                         <outlet property="txtUser" destination="y43-hB-7D1" id="DUT-v8-kkF"/>
                     </connections>
