@@ -78,7 +78,7 @@ class CredentialsView: NSViewController {
         allowUntrustedURL = allowUntrustedURL.replacingOccurrences(of: ":8443/JSSResource/", with: "")
         print(allowUntrustedURL)
         btnAcceptOutlet.isHidden = false
-    }
+        }
     
     override func viewDidLoad() {
         
@@ -120,7 +120,7 @@ class CredentialsView: NSViewController {
                         "Accept": "application/json"
                     ]
                     
-                    CredentialsView.Manager.request("\(ApprovedURL!)activationcode", headers: headers).responseJSON { response in
+                    Alamofire.request("\(ApprovedURL!)activationcode", headers: headers).responseJSON { response in
                         //debugPrint(response)
                         print(response.result)
                         //let results = response.result as! String

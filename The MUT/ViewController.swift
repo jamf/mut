@@ -369,4 +369,10 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     @IBAction func btnClearText(_ sender: Any) {
         clearLog()
     }
+    @IBAction func btnAllow(_ sender: Any) {
+        mainViewDefaults.set("yes", forKey: "AllowInsecure")
+    }
+    @IBAction func btnDisallow(_ sender: Any) {
+        mainViewDefaults.set("no", forKey: "AllowInsecure")
+    }
 }

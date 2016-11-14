@@ -26,6 +26,8 @@ import Foundation
 
 /// Responsible for handling all delegate callbacks for the underlying session.
 open class SessionDelegate: NSObject {
+    
+    let SessionDelegateDefaults = UserDefaults.standard
 
     // MARK: URLSessionDelegate Overrides
 
@@ -239,7 +241,14 @@ extension SessionDelegate: URLSessionDelegate {
                     disposition = .useCredential
                     credential = URLCredential(trust: serverTrust)
                 } else {
-                    disposition = .cancelAuthenticationChallenge
+                    //let allowSSLValue = SessionDelegateDefaults.value(forKey: "AllowInsecure") as! String
+                    //if allowSSLValue == "allow" {
+                    //    disposition = .useCredential
+                    //    credential = URLCredential(trust: serverTrust)
+                    //} else {
+                        disposition = .cancelAuthenticationChallenge
+                    //}
+
                 }
             }
         }
