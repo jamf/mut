@@ -30,6 +30,14 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     let mainViewDefaults = UserDefaults.standard
     let myFontAttribute = [ NSFontAttributeName: NSFont(name: "Courier", size: 12.0)! ]
     let myHeaderAttribute = [ NSFontAttributeName: NSFont(name: "Helvetica Neue Thin", size: 18.0)! ]
+    let myOKFontAttribute = [
+        NSFontAttributeName: NSFont(name: "Courier", size: 12.0)!,
+        NSForegroundColorAttributeName: NSColor(deviceRed: 0.0, green: 0.8, blue: 0.0, alpha: 1.0)
+    ]
+    let myFailFontAttribute = [
+        NSFontAttributeName: NSFont(name: "Courier", size: 12.0)!,
+        NSForegroundColorAttributeName: NSColor(deviceRed: 0.8, green: 0.0, blue: 0.0, alpha: 1.0)
+    ]
 
     
     // Declare outlets for Buttons
@@ -42,6 +50,12 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     
     @IBOutlet weak var txtMainWrapper: NSScrollView!
     
+    @IBOutlet weak var lblLine: NSTextField!
+    
+    @IBOutlet weak var barProgress: NSProgressIndicator!
+    
+    @IBOutlet weak var btnSubmitOutlet: NSButton!
+
     // Takes place right after view loads
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,6 +88,14 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     }
     func printString(stringToPrint: String) {
         self.txtMain.textStorage?.append(NSAttributedString(string: "\(stringToPrint)", attributes: self.myFontAttribute))
+    }
+    func appendGreen(stringToPrint: String) {
+        self.txtMain.textStorage?.append(NSAttributedString(string: "\(stringToPrint)\n", attributes: self.myOKFontAttribute))
+        self.txtMain.scrollToEndOfDocument(self)
+    }
+    func appendRed(stringToPrint: String) {
+        self.txtMain.textStorage?.append(NSAttributedString(string: "\(stringToPrint)\n", attributes: self.myFailFontAttribute))
+        self.txtMain.scrollToEndOfDocument(self)
     }
     func appendLogString(stringToAppend: String) {
         self.txtMain.textStorage?.append(NSAttributedString(string: "\(stringToAppend)\n", attributes: self.myFontAttribute))
@@ -315,18 +337,56 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
         }
     }
     
-    @IBAction func printInfo(_ sender: AnyObject) {
+    @IBAction func submitRequests(_ sender: AnyObject) {
         
+        let backgroundQueue = OperationQueue()
+        //let counter = 0
+        backgroundQueue.maxConcurrentOperationCount = 1
+        btnSubmitOutlet.isHidden = true
+        barProgress.startAnimation(self)
         let importer = CSVImporter<[String]>(path: globalCSVPath)
         importer.startImportingRecords { $0 }.onFinish { importedRecords in
             for record in importedRecords {
-                
-                let xml = "<\(self.globalXMLDevice!)><\(self.globalXMLSubset!)><\(self.globalXMLAttribute!)>\(record[1])</\(self.globalXMLAttribute!)></\(self.globalXMLSubset!)></\(self.globalXMLDevice!)>"
-                let encodedXML = xml.data(using: String.Encoding.utf8)
+                //self.lblLine.stringValue = record[0]
+                backgroundQueue.addOperation {
+                    self.lblLine.stringValue = "\(record[0])"
+                    //self.txtMain.textStorage?.append(NSAttributedString(string: "\(record[0])\n", attributes: self.myFontAttribute))
+                    let endpoint = "\(self.globalEndpoint!)/\(self.globalEndpointID!)/\(record[0])"
+                    let client = JSSClient(urlString: self.globalServerURL!, allowUntrusted: true)
+                    let xml = "<\(self.globalXMLDevice!)><\(self.globalXMLSubset!)><\(self.globalXMLAttribute!)>\(record[1])</\(self.globalXMLAttribute!)></\(self.globalXMLSubset!)></\(self.globalXMLDevice!)>"
+                    let encodedXML = xml.data(using: String.Encoding.utf8)
+                    
+                    let response = client.sendRequestAndWait(endpoint: endpoint, method: .put, base64credentials: self.globalServerCredentials!, dataType: .xml, body: encodedXML)
+                    
+                    switch response {
+                    case .badRequest:
+                        self.appendLogString(stringToAppend: "Device with \(self.globalEndpointID!) \(record[0]) does not like the request.")
+                        
+                    case .error(let error):
+                        self.appendLogString(stringToAppend: "Device with \(self.globalEndpointID!) \(record[0]) threw \(error)")
+                        
+                    case .httpCode(let code):
+                        self.printString(stringToPrint: "Device with \(self.globalEndpointID!) \(record[0]) - ")
+                        self.appendRed(stringToPrint: "Failed with code \(code)!")
+                        
+                    case .json:
+                        self.appendLogString(stringToAppend: "Device with \(self.globalEndpointID!) \(record[0]) returned JSON??")
+                        
+                    case .success:
+                        self.printString(stringToPrint: "Device with \(self.globalEndpointID!) \(record[0]) - ")
+                        self.appendGreen(stringToPrint: "OK!")
+                        
+                    case .xml:
+                        self.printString(stringToPrint: "Device with \(self.globalEndpointID!) \(record[0]) - ")
+                        self.appendGreen(stringToPrint: "OK!")
+                    }
 
+                }
+                
             }
 
         }
+        //barProgress.stopAnimation(self)
     }
     @IBAction func btnClearText(_ sender: Any) {
         clearLog()
@@ -362,8 +422,5 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
             id = id + 1
         }
 
-    }
-    @IBAction func btnDisallow(_ sender: Any) {
-        mainViewDefaults.set("no", forKey: "AllowInsecure")
     }
 }

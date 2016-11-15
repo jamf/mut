@@ -104,9 +104,6 @@ class AttributesView: NSViewController {
 
     }
     
-    @IBAction func btnParse(_ sender: Any) {
-    }
-    
     @IBAction func btnCancel(_ sender: Any) {
         self.dismissViewController(self)
     }

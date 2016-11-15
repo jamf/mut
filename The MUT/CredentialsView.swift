@@ -74,53 +74,55 @@ class CredentialsView: NSViewController {
     }
     
     // Accept Credentials Button
-    @IBAction func btnDismissCredentials(_ sender: AnyObject) {
+    @IBAction func btnAcceptCredentials(_ sender: AnyObject) {
 
         if delegateCredentials != nil {
+            
+            btnAcceptOutlet.isHidden = true
+            spinWheel.startAnimation(self)
             let concatCredentials = "\(txtUser.stringValue):\(txtPass.stringValue)"
             let utf8Credentials = concatCredentials.data(using: String.Encoding.utf8)
             base64Credentials = utf8Credentials?.base64EncodedString()
             print (base64Credentials)
             
             if txtUser.stringValue != "" && txtPass.stringValue != "" {
-                
-                    btnAcceptOutlet.isHidden = true
-                    spinWheel.startAnimation(self)
 
-                    let client = JSSClient(urlString: ApprovedURL, allowUntrusted: true)
-                    
-                    let response = client.sendRequestAndWait(endpoint:  "activationcode", method: .get,base64credentials: base64Credentials!, dataType: .xml, body: nil)
-                    
-                    print("Response recieved")
+                let client = JSSClient(urlString: ApprovedURL, allowUntrusted: true)
+                DispatchQueue.main.async {
+                    let response = client.sendRequestAndWait(endpoint:  "activationcode", method: .get,base64credentials: self.base64Credentials!, dataType: .xml, body: nil)
                     
                     switch response {
-                        case .xml:
-                            self.delegateCredentials?.userDidEnterCredentials(serverCredentials: self.base64Credentials) // Delegate for passing to main view
-                            
-                            // Store username if button pressed
-                            if self.btnStoreUser.state == 1 {
-                                self.credentialsViewDefaults.set(self.txtUser.stringValue, forKey: "UserName")
-                                self.credentialsViewDefaults.synchronize()
-                                self.delegateUsername?.userDidSaveUsername(savedUser: self.txtUser.stringValue)
-                            } else {
-                                self.credentialsViewDefaults.removeObject(forKey: "UserName")
-                                self.credentialsViewDefaults.synchronize()
-                            }
-                            self.spinWheel.stopAnimation(self)
-                            self.dismissViewController(self)
+                    case .xml:
+                        self.delegateCredentials?.userDidEnterCredentials(serverCredentials: self.base64Credentials) // Delegate for passing to main view
+                        
+                        // Store username if button pressed
+                        if self.btnStoreUser.state == 1 {
+                            self.credentialsViewDefaults.set(self.txtUser.stringValue, forKey: "UserName")
+                            self.credentialsViewDefaults.synchronize()
+                            self.delegateUsername?.userDidSaveUsername(savedUser: self.txtUser.stringValue)
+                        } else {
+                            self.credentialsViewDefaults.removeObject(forKey: "UserName")
+                            self.credentialsViewDefaults.synchronize()
+                        }
+                        self.spinWheel.stopAnimation(self)
+                        self.dismissViewController(self)
+                        
+                        
+                    default:
+                        self.spinWheel.stopAnimation(self)
+                        self.btnAcceptOutlet.isHidden = false
+                        _ = self.dialogueWarning(question: "Invalid Credentials", text: "The credentials you entered do not seem to have sufficient permissions. This could be due to an incorrect user/password, or possibly from insufficient permissions. MUT tests this against the user's ability to view the Activation Code via the API.")
 
-
-                        default:
-                            self.spinWheel.stopAnimation(self)
-                            self.btnAcceptOutlet.isHidden = false
-                            _ = self.dialogueWarning(question: "Invalid Credentials", text: "The credentials you entered do not seem to have sufficient permissions. This could be due to an incorrect user/password, or possibly from insufficient permissions. MUT tests this against the user's ability to view the Activation Code via the API.")
                     }
+                }
                     
-                    print("Completed")
+                print("Completed")
                 
                 
             } else {
                 _ = dialogueWarning(question: "Missing Credentials", text: "Either the username or the password field was left blank. Please fill in both the username and password field to verify credentials.")
+                self.spinWheel.stopAnimation(self)
+                self.btnAcceptOutlet.isHidden = false
             }
         }
     }

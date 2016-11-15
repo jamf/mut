@@ -477,7 +477,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4d2-L2-4qZ">
-                                <rect key="frame" x="20" y="333" width="144" height="35"/>
+                                <rect key="frame" x="20" y="345" width="144" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="square" title="Server" bezelStyle="shadowlessSquare" image="NSStatusNone" imagePosition="left" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="8Fc-WV-NJN">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -489,7 +489,7 @@
                                 </connections>
                             </button>
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="flU-GQ-aVo">
-                                <rect key="frame" x="399" y="333" width="181" height="35"/>
+                                <rect key="frame" x="399" y="345" width="181" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="square" title="Attribute" bezelStyle="shadowlessSquare" image="NSStatusNone" imagePosition="left" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="YIU-h2-qXh">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -501,7 +501,7 @@
                                 </connections>
                             </button>
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aCs-sx-Baw">
-                                <rect key="frame" x="181" y="333" width="199" height="35"/>
+                                <rect key="frame" x="181" y="345" width="199" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="square" title="Credentials" bezelStyle="shadowlessSquare" image="NSStatusNone" imagePosition="left" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="3II-3i-CC7">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -524,7 +524,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RL7-OH-wQT">
-                                <rect key="frame" x="51" y="333" width="81" height="32"/>
+                                <rect key="frame" x="51" y="345" width="81" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Button" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" transparent="YES" imageScaling="proportionallyDown" inset="2" id="zPx-5b-2O2">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -535,7 +535,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m1N-xw-dKz">
-                                <rect key="frame" x="246" y="333" width="81" height="32"/>
+                                <rect key="frame" x="246" y="345" width="81" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Button" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" transparent="YES" imageScaling="proportionallyDown" inset="2" id="tlH-ks-HCP">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -545,29 +545,18 @@
                                     <segue destination="r72-za-GjZ" kind="popover" identifier="segueNoPass" popoverAnchorView="m1N-xw-dKz" popoverBehavior="t" preferredEdge="maxY" id="fUN-Zd-S6C"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PQM-r1-O3H">
-                                <rect key="frame" x="366" y="13" width="66" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Test" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9rZ-W1-DMu">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="printInfo:" target="Wso-JF-mtF" id="ucC-AQ-49o"/>
-                                </connections>
-                            </button>
                             <scrollView wantsLayer="YES" focusRingType="none" fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CeX-aA-cNt">
-                                <rect key="frame" x="20" y="61" width="560" height="259"/>
+                                <rect key="frame" x="20" y="79" width="560" height="253"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <clipView key="contentView" focusRingType="none" ambiguous="YES" copiesOnScroll="NO" id="87T-zj-177">
-                                    <rect key="frame" x="1" y="1" width="558" height="257"/>
+                                    <rect key="frame" x="1" y="1" width="558" height="251"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView focusRingType="none" ambiguous="YES" editable="NO" importsGraphics="NO" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" id="dBh-lq-H5l">
-                                            <rect key="frame" x="0.0" y="-1" width="558" height="257"/>
+                                            <rect key="frame" x="0.0" y="-1" width="558" height="251"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <size key="minSize" width="558" height="257"/>
+                                            <size key="minSize" width="558" height="251"/>
                                             <size key="maxSize" width="560" height="10000000"/>
                                             <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         </textView>
@@ -583,47 +572,49 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dT4-L0-Mzc">
-                                <rect key="frame" x="260" y="6" width="81" height="32"/>
+                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yi8-lJ-HaJ">
+                                <rect key="frame" x="448" y="20" width="132" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Button" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="c5J-Qm-WjR">
+                                <buttonCell key="cell" type="square" title="Submit Updates" bezelStyle="shadowlessSquare" imagePosition="left" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="I9Y-YU-cLK">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" size="18" name="HelveticaNeue-Thin"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="btnClearText:" target="Wso-JF-mtF" id="wOp-Y1-ifd"/>
+                                    <action selector="submitRequests:" target="Wso-JF-mtF" id="5yk-gl-Szv"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tww-nM-DiS">
-                                <rect key="frame" x="487" y="22" width="71" height="32"/>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xys-cz-Tsi">
+                                <rect key="frame" x="405" y="24" width="37" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="allow" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="arj-6F-2c8">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="btnAllow:" target="Wso-JF-mtF" id="ikb-pW-I8I"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4gh-bc-V2L">
-                                <rect key="frame" x="478" y="-1" width="89" height="32"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="0" id="XIw-Sf-qxJ">
+                                    <font key="font" size="18" name="HelveticaNeue-Thin"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JFU-8B-dxp">
+                                <rect key="frame" x="266" y="24" width="100" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="disallow" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="SCv-Eb-bL4">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="btnDisallow:" target="Wso-JF-mtF" id="rau-1T-V2a"/>
-                                </connections>
-                            </button>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Current Line:" id="VGz-A7-fjW">
+                                    <font key="font" size="18" name="HelveticaNeue-Thin"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <progressIndicator wantsLayer="YES" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="L4q-Q6-Qdc">
+                                <rect key="frame" x="498" y="19" width="32" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </progressIndicator>
                         </subviews>
                     </view>
                     <connections>
                         <outlet property="MainViewController" destination="xfl-iX-lsl" id="7M1-6i-wAx"/>
+                        <outlet property="barProgress" destination="L4q-Q6-Qdc" id="wav-aM-J2n"/>
                         <outlet property="btnAttribute" destination="flU-GQ-aVo" id="xKO-jl-enH"/>
                         <outlet property="btnCredentials" destination="aCs-sx-Baw" id="pmJ-td-ebC"/>
-                        <outlet property="btnDisallow" destination="4gh-bc-V2L" id="5qC-Z9-d62"/>
                         <outlet property="btnServer" destination="4d2-L2-4qZ" id="thm-Lm-ARz"/>
+                        <outlet property="btnSubmitOutlet" destination="yi8-lJ-HaJ" id="yKL-La-qw5"/>
+                        <outlet property="lblLine" destination="Xys-cz-Tsi" id="NKZ-5R-DAV"/>
                         <outlet property="txtMain" destination="dBh-lq-H5l" id="TO3-JU-rQc"/>
                         <outlet property="txtMainWrapper" destination="CeX-aA-cNt" id="lFz-94-1kg"/>
                     </connections>
@@ -906,17 +897,6 @@ Gw
                                     <action selector="btnCancel:" target="w43-eq-tNT" id="Qw0-5E-Gmg"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3QA-83-yXR">
-                                <rect key="frame" x="95" y="40" width="74" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="parse" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="x11-w7-9rt">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="btnParse:" target="w43-eq-tNT" id="dhm-hd-1ex"/>
-                                </connections>
-                            </button>
                         </subviews>
                     </view>
                     <connections>
@@ -972,7 +952,7 @@ DQ
 </string>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="btnDismissCredentials:" target="91u-dn-gVH" id="Q3R-cE-YAB"/>
+                                    <action selector="btnAcceptCredentials:" target="91u-dn-gVH" id="1OI-Ga-8GR"/>
                                 </connections>
                             </button>
                             <secureTextField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XHa-8M-xpd">
