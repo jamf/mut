@@ -130,6 +130,7 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
             printLineBreak()
             appendLogString(stringToAppend: "Credentials Successfully Verified.")
             printLineBreak()
+            //print("Main view has \(globalServerCredentials)")
         } else {
             btnCredentials.image = NSImage(named: "NSStatusUnavailable")
             printLineBreak()
@@ -370,7 +371,35 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
         clearLog()
     }
     @IBAction func btnAllow(_ sender: Any) {
-        mainViewDefaults.set("yes", forKey: "AllowInsecure")
+        let client = JSSClient(urlString: globalServerURL!, allowUntrusted: true)
+        let xmlbody = "<computer><general><name>SYNC BABY YEAH</name></general></computer>"
+        let encodedXML = xmlbody.data(using: String.Encoding.utf8)
+        var id = 560
+        let endid = 580
+        while id <= endid {
+            let response = client.sendRequestAndWait(endpoint: "computers/id/\(id)", method: .put, base64credentials: globalServerCredentials!, dataType: .xml, body: encodedXML)
+            print("Response recieved")
+            
+            switch response {
+            case .badRequest:
+                print("Bad request")
+            case .error(let error):
+                print("Receieved error:\n\(error)")
+            case .httpCode(let code):
+                print("Request failed with http status code \(code)")
+            case .json(let json):
+                print("Received JSON response:\n\(json)")
+            case .success:
+                print("Success with empty response")
+            case .xml(let xml):
+                print("Received XML response:\n\(xml.xmlString(withOptions: Int(XMLNode.Options.nodePrettyPrint.rawValue)))")
+            }
+            
+            print("Completed \(id)")
+            
+            id = id + 1
+        }
+
     }
     @IBAction func btnDisallow(_ sender: Any) {
         mainViewDefaults.set("no", forKey: "AllowInsecure")

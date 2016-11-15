@@ -13,6 +13,7 @@ import Foundation
 import Cocoa
 import Alamofire
 
+
 // Protocol to pass back credentials
 protocol DataSentCredentials {
     func userDidEnterCredentials(serverCredentials: String)
@@ -25,34 +26,9 @@ protocol DataSentUsername {
 class CredentialsView: NSViewController {
     
     var base64Credentials: String!
-    var globalServerCredentials: String!
     let credentialsViewDefaults = UserDefaults.standard
     var responseResult: String!
     var allowUntrustedURL: String!
-
-    private static var Manager: Alamofire.SessionManager = {
-        
-        // Create the server trust policies
-        let serverTrustPolicies: [String: ServerTrustPolicy] = [
-            "support.q.jamfsw.corp": .disableEvaluation
-            
-        ]
-        /*let serverTrustPolicy = ServerTrustPolicy.pinCertificates(
-            certificates: ServerTrustPolicy.certificatesInBundle(),
-            validateCertificateChain: true,
-            validateHost: true
-        )*/
-        
-        // Create custom manager
-        let configuration = URLSessionConfiguration.default
-        configuration.httpAdditionalHeaders = Alamofire.SessionManager.defaultHTTPHeaders
-        let manager = Alamofire.SessionManager(
-            configuration: URLSessionConfiguration.default,
-            serverTrustPolicyManager: ServerTrustPolicyManager(policies: serverTrustPolicies)
-        )
-        
-        return manager
-    }()
     
     // Declare variable to use for delegate
     var delegateCredentials: DataSentCredentials? = nil
@@ -89,6 +65,7 @@ class CredentialsView: NSViewController {
             //txtPass.stringValue = " "
             txtUser.refusesFirstResponder = true
             txtPass.becomeFirstResponder()
+            
         }
     }
 
@@ -101,33 +78,25 @@ class CredentialsView: NSViewController {
     @IBAction func btnDismissCredentials(_ sender: AnyObject) {
 
         if delegateCredentials != nil {
-            
             let concatCredentials = "\(txtUser.stringValue):\(txtPass.stringValue)"
             let utf8Credentials = concatCredentials.data(using: String.Encoding.utf8)
             base64Credentials = utf8Credentials?.base64EncodedString()
             print (base64Credentials)
-            globalServerCredentials = base64Credentials!
             
             if txtUser.stringValue != "" && txtPass.stringValue != "" {
                 
-                if globalServerCredentials != nil {
-                    
                     btnAcceptOutlet.isHidden = true
                     spinWheel.startAnimation(self)
-                    // Test the credentials
-                    let headers: HTTPHeaders = [
-                        "Authorization": "Basic \(base64Credentials!)",
-                        "Accept": "application/json"
-                    ]
+
+                    let client = JSSClient(urlString: ApprovedURL, allowUntrusted: true)
                     
-                    Alamofire.request("\(ApprovedURL!)activationcode", headers: headers).responseJSON { response in
-                        //debugPrint(response)
-                        print(response.result)
-                        //let results = response.result as! String
-                        //self.responseResult = results
-                        if response.result.isSuccess {
-                            // _ = self.dialogueWarning(question: "It's good!", text: "Your permissions are working perfectly.")
-                            self.delegateCredentials?.userDidEnterCredentials(serverCredentials: self.globalServerCredentials) // Delegate for passing to main view
+                    let response = client.sendRequestAndWait(endpoint:  "activationcode", method: .get,base64credentials: base64Credentials!, dataType: .xml, body: nil)
+                    
+                    print("Response recieved")
+                    
+                    switch response {
+                        case .xml:
+                            self.delegateCredentials?.userDidEnterCredentials(serverCredentials: self.base64Credentials) // Delegate for passing to main view
                             
                             // Store username if button pressed
                             if self.btnStoreUser.state == 1 {
@@ -140,15 +109,16 @@ class CredentialsView: NSViewController {
                             }
                             self.spinWheel.stopAnimation(self)
                             self.dismissViewController(self)
-                        }
-                        if response.result.isFailure {
+
+
+                        default:
                             self.spinWheel.stopAnimation(self)
                             self.btnAcceptOutlet.isHidden = false
                             _ = self.dialogueWarning(question: "Invalid Credentials", text: "The credentials you entered do not seem to have sufficient permissions. This could be due to an incorrect user/password, or possibly from insufficient permissions. MUT tests this against the user's ability to view the Activation Code via the API.")
-                        }
                     }
-
-                }
+                    
+                    print("Completed")
+                
                 
             } else {
                 _ = dialogueWarning(question: "Missing Credentials", text: "Either the username or the password field was left blank. Please fill in both the username and password field to verify credentials.")
