@@ -7,7 +7,6 @@
 //
 
 import Cocoa
-import Alamofire
 import CSVImporter
 
 class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSentUsername, DataSentPath, DataSentAttributes {
@@ -317,59 +316,22 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     }
     
     @IBAction func printInfo(_ sender: AnyObject) {
-        /*var id = 560
-        let endid = 580
-        while id <= endid {
-            let fullRequestURL = globalServerURL + "computers/id/\(id)"
-            let encodedURL = NSURL(string: fullRequestURL)
-            let xml = "<computer><general><name>New Swif</name></general></computer>"
-            let encodedXML = xml.data(using: String.Encoding.utf8)
-            var request = URLRequest(url: encodedURL as! URL)
-            request.httpMethod = "PUT"
-            request.addValue("application/xml", forHTTPHeaderField: "Content-Type")
-            request.addValue("Basic \(globalServerCredentials!)", forHTTPHeaderField: "Authorization")
-            
-            request.httpBody = encodedXML
-            
-            Alamofire.request(request).responseString { response in
-                print ("Response String: \(response.response!.statusCode)")
-                print ("URL: \(response.request!.url!)")
-                self.txtNewMain.textStorage?.append(NSAttributedString(string: "\nURL: \(response.request!.url!)", attributes: self.myFontAttribute))
-                self.txtNewMain.textStorage?.append(NSAttributedString(string: "\nResponse Code: \(response.response!.statusCode)", attributes: self.myFontAttribute))
-                self.txtNewMain.scrollToEndOfDocument(self)
-            }
-            id = id + 1
-        }
-        */
-//      let path = globalCSVPath
+        
         let importer = CSVImporter<[String]>(path: globalCSVPath)
         importer.startImportingRecords { $0 }.onFinish { importedRecords in
             for record in importedRecords {
                 
-                let fullRequestURL = self.globalServerURL + "\(self.globalEndpoint!)/\(self.globalEndpointID!)/\(record[0])"
-                let encodedURL = NSURL(string: fullRequestURL)
                 let xml = "<\(self.globalXMLDevice!)><\(self.globalXMLSubset!)><\(self.globalXMLAttribute!)>\(record[1])</\(self.globalXMLAttribute!)></\(self.globalXMLSubset!)></\(self.globalXMLDevice!)>"
                 let encodedXML = xml.data(using: String.Encoding.utf8)
 
-                var request = URLRequest(url: encodedURL as! URL)
-                request.httpMethod = "PUT"
-                request.addValue("application/xml", forHTTPHeaderField: "Content-Type")
-                request.addValue("Basic \(self.globalServerCredentials!)", forHTTPHeaderField: "Authorization")
-                
-                request.httpBody = encodedXML
-                
-                Alamofire.request(request).responseString { response in
-                    self.appendLogString(stringToAppend: "URL: \(response.request!.url!)")
-                    self.appendLogString(stringToAppend: "Response Code: \(response.response!.statusCode)")
-                    self.printLineBreak()
-                }
-
             }
+
         }
     }
     @IBAction func btnClearText(_ sender: Any) {
         clearLog()
     }
+
     @IBAction func btnAllow(_ sender: Any) {
         let client = JSSClient(urlString: globalServerURL!, allowUntrusted: true)
         let xmlbody = "<computer><general><name>SYNC BABY YEAH</name></general></computer>"

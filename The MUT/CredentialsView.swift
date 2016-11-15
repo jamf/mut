@@ -11,7 +11,6 @@
 
 import Foundation
 import Cocoa
-import Alamofire
 
 
 // Protocol to pass back credentials

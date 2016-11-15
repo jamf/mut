@@ -4,11 +4,6 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Alamofire.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>CSVImporter.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -47,17 +42,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6AB3B4A58AD4226CDF1020C54B3E8B21</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>8139523F2FC0E6903D247401047A3BFE</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>88E9EC28B8B46C3631E6B242B50F4442</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -73,6 +58,11 @@
 			<true/>
 		</dict>
 		<key>DE1822458464D2A3BCE574FE4CE62753</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F2650E994D5689C1469D5C8CA8DCB42A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
