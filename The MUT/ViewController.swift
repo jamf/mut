@@ -55,6 +55,7 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     @IBOutlet weak var barProgress: NSProgressIndicator!
     
     @IBOutlet weak var btnSubmitOutlet: NSButton!
+    @IBOutlet weak var lblCurrent: NSTextField!
 
     // Takes place right after view loads
     override func viewDidLoad() {
@@ -161,6 +162,7 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     
     // Pass back the Attribute information
     func userDidEnterAttributes(updateAttributes: Array<Any>) {
+        btnSubmitOutlet.isHidden = false
         btnAttribute.image = NSImage(named: "NSStatusAvailable")
         globalDeviceType = updateAttributes[0] as! String
         globalIDType = updateAttributes[1] as! String
@@ -340,16 +342,20 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     @IBAction func submitRequests(_ sender: AnyObject) {
         
         let backgroundQueue = OperationQueue()
-        //let counter = 0
+        lblCurrent.isHidden = false
+        lblLine.isHidden = false
+        var counter = 0
         backgroundQueue.maxConcurrentOperationCount = 1
         btnSubmitOutlet.isHidden = true
         barProgress.startAnimation(self)
         let importer = CSVImporter<[String]>(path: globalCSVPath)
         importer.startImportingRecords { $0 }.onFinish { importedRecords in
             for record in importedRecords {
-                //self.lblLine.stringValue = record[0]
-                backgroundQueue.addOperation {
-                    self.lblLine.stringValue = "\(record[0])"
+                
+                //backgroundQueue.addOperation {
+                    counter += 1
+                    self.lblLine.stringValue = "\(counter)"
+                    //self.lblLine.stringValue = record[0]
                     //self.txtMain.textStorage?.append(NSAttributedString(string: "\(record[0])\n", attributes: self.myFontAttribute))
                     let endpoint = "\(self.globalEndpoint!)/\(self.globalEndpointID!)/\(record[0])"
                     let client = JSSClient(urlString: self.globalServerURL!, allowUntrusted: true)
@@ -381,10 +387,11 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
                         self.appendGreen(stringToPrint: "OK!")
                     }
 
-                }
+              //  }
                 
             }
-
+            self.barProgress.stopAnimation(self)
+            self.btnSubmitOutlet.isHidden = false
         }
         //barProgress.stopAnimation(self)
     }

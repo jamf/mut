@@ -36,6 +36,9 @@ class CredentialsView: NSViewController {
     // Declare global var for URL passed in
     var ApprovedURL: String!
     
+    let newclient = JSSClient(urlString: "https://master.q.jamfsw.corp:8443/", allowUntrusted: true)
+    
+    
     // Define Outlets for User and Password
     @IBOutlet weak var txtUser: NSTextField!
     @IBOutlet weak var txtPass: NSSecureTextField!
@@ -69,6 +72,7 @@ class CredentialsView: NSViewController {
     }
 
     @IBAction func btnCancel(_ sender: AnyObject) {
+        
         delegateCredentials?.userDidEnterCredentials(serverCredentials: "CREDENTIAL AUTHENTICATION FAILURE")
         self .dismissViewController(self)
     }
@@ -126,6 +130,7 @@ class CredentialsView: NSViewController {
             }
         }
     }
+    
     func dialogueWarning (question: String, text: String) -> Bool {
         
         let myPopup: NSAlert = NSAlert()
@@ -135,4 +140,6 @@ class CredentialsView: NSViewController {
         myPopup.addButton(withTitle: "OK")
         return myPopup.runModal() == NSAlertFirstButtonReturn
     }
+    
+    
 }

@@ -135,7 +135,7 @@ class JSSClient: NSObject, URLSessionDelegate {
     
     //  MARK: - URLSessionDelegate
     
-    @nonobjc public func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+    public func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         if allowUntrusted {
             completionHandler(.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
         } else {

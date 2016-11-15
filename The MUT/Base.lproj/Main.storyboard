@@ -546,17 +546,17 @@
                                 </connections>
                             </button>
                             <scrollView wantsLayer="YES" focusRingType="none" fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CeX-aA-cNt">
-                                <rect key="frame" x="20" y="79" width="560" height="253"/>
+                                <rect key="frame" x="20" y="66" width="560" height="266"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <clipView key="contentView" focusRingType="none" ambiguous="YES" copiesOnScroll="NO" id="87T-zj-177">
-                                    <rect key="frame" x="1" y="1" width="558" height="251"/>
+                                    <rect key="frame" x="1" y="1" width="558" height="264"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView focusRingType="none" ambiguous="YES" editable="NO" importsGraphics="NO" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" id="dBh-lq-H5l">
-                                            <rect key="frame" x="0.0" y="-1" width="558" height="251"/>
+                                            <rect key="frame" x="0.0" y="-1" width="558" height="264"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <size key="minSize" width="558" height="251"/>
+                                            <size key="minSize" width="558" height="264"/>
                                             <size key="maxSize" width="560" height="10000000"/>
                                             <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         </textView>
@@ -572,7 +572,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yi8-lJ-HaJ">
+                            <button hidden="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yi8-lJ-HaJ">
                                 <rect key="frame" x="448" y="20" width="132" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="square" title="Submit Updates" bezelStyle="shadowlessSquare" imagePosition="left" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="I9Y-YU-cLK">
@@ -583,7 +583,7 @@
                                     <action selector="submitRequests:" target="Wso-JF-mtF" id="5yk-gl-Szv"/>
                                 </connections>
                             </button>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xys-cz-Tsi">
+                            <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xys-cz-Tsi">
                                 <rect key="frame" x="405" y="24" width="37" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="0" id="XIw-Sf-qxJ">
@@ -592,7 +592,7 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JFU-8B-dxp">
+                            <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JFU-8B-dxp">
                                 <rect key="frame" x="266" y="24" width="100" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Current Line:" id="VGz-A7-fjW">
@@ -614,6 +614,7 @@
                         <outlet property="btnCredentials" destination="aCs-sx-Baw" id="pmJ-td-ebC"/>
                         <outlet property="btnServer" destination="4d2-L2-4qZ" id="thm-Lm-ARz"/>
                         <outlet property="btnSubmitOutlet" destination="yi8-lJ-HaJ" id="yKL-La-qw5"/>
+                        <outlet property="lblCurrent" destination="JFU-8B-dxp" id="ogP-vm-4VO"/>
                         <outlet property="lblLine" destination="Xys-cz-Tsi" id="NKZ-5R-DAV"/>
                         <outlet property="txtMain" destination="dBh-lq-H5l" id="TO3-JU-rQc"/>
                         <outlet property="txtMainWrapper" destination="CeX-aA-cNt" id="lFz-94-1kg"/>
