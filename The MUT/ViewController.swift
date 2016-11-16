@@ -27,6 +27,8 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     var globalXMLExtraEnd: String!
     var globalEndpointID: String!
     
+    
+    
     let mainViewDefaults = UserDefaults.standard
     let myFontAttribute = [ NSFontAttributeName: NSFont(name: "Courier", size: 12.0)! ]
     let myHeaderAttribute = [ NSFontAttributeName: NSFont(name: "Helvetica Neue Thin", size: 18.0)! ]
@@ -340,54 +342,83 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     }
     
     @IBAction func submitRequests(_ sender: AnyObject) {
-        
-        let backgroundQueue = OperationQueue()
         lblCurrent.isHidden = false
         lblLine.isHidden = false
-        var counter = 0
-        backgroundQueue.maxConcurrentOperationCount = 1
         btnSubmitOutlet.isHidden = true
         barProgress.startAnimation(self)
+        var sentCounter = 0
+        var doneCounter = 0
+        
         let importer = CSVImporter<[String]>(path: globalCSVPath)
         importer.startImportingRecords { $0 }.onFinish { importedRecords in
             for record in importedRecords {
                 
-                //backgroundQueue.addOperation {
-                    counter += 1
-                    self.lblLine.stringValue = "\(counter)"
-                    //self.lblLine.stringValue = record[0]
-                    //self.txtMain.textStorage?.append(NSAttributedString(string: "\(record[0])\n", attributes: self.myFontAttribute))
-                    let endpoint = "\(self.globalEndpoint!)/\(self.globalEndpointID!)/\(record[0])"
-                    let client = JSSClient(urlString: self.globalServerURL!, allowUntrusted: true)
-                    let xml = "<\(self.globalXMLDevice!)><\(self.globalXMLSubset!)><\(self.globalXMLAttribute!)>\(record[1])</\(self.globalXMLAttribute!)></\(self.globalXMLSubset!)></\(self.globalXMLDevice!)>"
-                    let encodedXML = xml.data(using: String.Encoding.utf8)
-                    
-                    let response = client.sendRequestAndWait(endpoint: endpoint, method: .put, base64credentials: self.globalServerCredentials!, dataType: .xml, body: encodedXML)
-                    
-                    switch response {
-                    case .badRequest:
-                        self.appendLogString(stringToAppend: "Device with \(self.globalEndpointID!) \(record[0]) does not like the request.")
-                        
-                    case .error(let error):
-                        self.appendLogString(stringToAppend: "Device with \(self.globalEndpointID!) \(record[0]) threw \(error)")
-                        
-                    case .httpCode(let code):
-                        self.printString(stringToPrint: "Device with \(self.globalEndpointID!) \(record[0]) - ")
-                        self.appendRed(stringToPrint: "Failed with code \(code)!")
-                        
-                    case .json:
-                        self.appendLogString(stringToAppend: "Device with \(self.globalEndpointID!) \(record[0]) returned JSON??")
-                        
-                    case .success:
-                        self.printString(stringToPrint: "Device with \(self.globalEndpointID!) \(record[0]) - ")
-                        self.appendGreen(stringToPrint: "OK!")
-                        
-                    case .xml:
-                        self.printString(stringToPrint: "Device with \(self.globalEndpointID!) \(record[0]) - ")
-                        self.appendGreen(stringToPrint: "OK!")
+                let endpoint = "\(self.globalEndpoint!)/\(self.globalEndpointID!)/\(record[0])"
+                let client = JSSClient(urlString: self.globalServerURL!, allowUntrusted: true)
+                let xml = "<\(self.globalXMLDevice!)><\(self.globalXMLSubset!)><\(self.globalXMLAttribute!)>\(record[1])</\(self.globalXMLAttribute!)></\(self.globalXMLSubset!)></\(self.globalXMLDevice!)>"
+                let encodedXML = xml.data(using: String.Encoding.utf8)
+                sentCounter += 1
+                
+                func goto(label: String) {
+                    switch label {
+                    case "check":
+                        if ( sentCounter - doneCounter ) <= 2 {
+                            print("2 or less unresolved, sending new.")
+                            print(record[0])
+                            print(record[1])
+                            goto(label: "execute")
+                        } else {
+                            print("3 or more unresolved, waiting...")
+                            goto(label: "wait")
+                        }
+                    case "wait":
+                        sleep(1)
+                        goto(label: "check")
+                    case "execute":
+                        print("Sending")
+                        client.sendRequest(endpoint: endpoint, method: .put, base64credentials: self.globalServerCredentials!, dataType: .xml, body: encodedXML, queue: DispatchQueue.main) { (response) in
+                            
+                            print("YEAH IT WENT")
+                            switch response {
+                            case .badRequest:
+                                self.appendLogString(stringToAppend: "Device with \(self.globalEndpointID!) \(record[0]) does not like the request.")
+                                doneCounter += 1
+                                
+                            case .error(let error):
+                                self.appendLogString(stringToAppend: "Device with \(self.globalEndpointID!) \(record[0]) threw \(error)")
+                                doneCounter += 1
+                                
+                            case .httpCode(let code):
+                                self.printString(stringToPrint: "Device with \(self.globalEndpointID!) \(record[0]) - ")
+                                self.appendRed(stringToPrint: "Failed with code \(code)!")
+                                print("code")
+                                doneCounter += 1
+                                
+                            case .json:
+                                self.appendLogString(stringToAppend: "Device with \(self.globalEndpointID!) \(record[0]) returned JSON??")
+                                doneCounter += 1
+                                
+                            case .success:
+                                self.printString(stringToPrint: "Device with \(self.globalEndpointID!) \(record[0]) - ")
+                                self.appendGreen(stringToPrint: "OK!")
+                                doneCounter += 1
+                                
+                            case .xml:
+                                self.printString(stringToPrint: "Device with \(self.globalEndpointID!) \(record[0]) - ")
+                                self.appendGreen(stringToPrint: "OK!")
+                                print("good")
+                                doneCounter += 1
+                            }
+                        }
+                    default: break
                     }
+                }
+                goto(label: "check")
 
-              //  }
+                
+                
+                
+                
                 
             }
             self.barProgress.stopAnimation(self)
@@ -395,39 +426,8 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
         }
         //barProgress.stopAnimation(self)
     }
+
     @IBAction func btnClearText(_ sender: Any) {
         clearLog()
-    }
-
-    @IBAction func btnAllow(_ sender: Any) {
-        let client = JSSClient(urlString: globalServerURL!, allowUntrusted: true)
-        let xmlbody = "<computer><general><name>SYNC BABY YEAH</name></general></computer>"
-        let encodedXML = xmlbody.data(using: String.Encoding.utf8)
-        var id = 560
-        let endid = 580
-        while id <= endid {
-            let response = client.sendRequestAndWait(endpoint: "computers/id/\(id)", method: .put, base64credentials: globalServerCredentials!, dataType: .xml, body: encodedXML)
-            print("Response recieved")
-            
-            switch response {
-            case .badRequest:
-                print("Bad request")
-            case .error(let error):
-                print("Receieved error:\n\(error)")
-            case .httpCode(let code):
-                print("Request failed with http status code \(code)")
-            case .json(let json):
-                print("Received JSON response:\n\(json)")
-            case .success:
-                print("Success with empty response")
-            case .xml(let xml):
-                print("Received XML response:\n\(xml.xmlString(withOptions: Int(XMLNode.Options.nodePrettyPrint.rawValue)))")
-            }
-            
-            print("Completed \(id)")
-            
-            id = id + 1
-        }
-
     }
 }
