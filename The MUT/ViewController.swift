@@ -27,7 +27,8 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     var globalXMLExtraEnd: String!
     var globalEndpointID: String!
     
-    
+    var sentCounter = 0
+    var doneCounter = 0
     
     let mainViewDefaults = UserDefaults.standard
     let myFontAttribute = [ NSFontAttributeName: NSFont(name: "Courier", size: 12.0)! ]
@@ -346,23 +347,23 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
         lblLine.isHidden = false
         btnSubmitOutlet.isHidden = true
         barProgress.startAnimation(self)
-        var sentCounter = 0
-        var doneCounter = 0
+        self.sentCounter = 0
+        self.doneCounter = 0
         
         let importer = CSVImporter<[String]>(path: globalCSVPath)
         importer.startImportingRecords { $0 }.onFinish { importedRecords in
             for record in importedRecords {
                 
                 let endpoint = "\(self.globalEndpoint!)/\(self.globalEndpointID!)/\(record[0])"
-                let client = JSSClient(urlString: self.globalServerURL!, allowUntrusted: true)
                 let xml = "<\(self.globalXMLDevice!)><\(self.globalXMLSubset!)><\(self.globalXMLAttribute!)>\(record[1])</\(self.globalXMLAttribute!)></\(self.globalXMLSubset!)></\(self.globalXMLDevice!)>"
                 let encodedXML = xml.data(using: String.Encoding.utf8)
-                sentCounter += 1
                 
-                func goto(label: String) {
+                self.sentCounter += 1
+                
+                /*func goto(label: String) {
                     switch label {
                     case "check":
-                        if ( sentCounter - doneCounter ) <= 2 {
+                        if ( self.sentCounter - self.doneCounter ) <= 2 {
                             print("2 or less unresolved, sending new.")
                             print(record[0])
                             print(record[1])
@@ -375,45 +376,12 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
                         sleep(1)
                         goto(label: "check")
                     case "execute":
-                        print("Sending")
-                        client.sendRequest(endpoint: endpoint, method: .put, base64credentials: self.globalServerCredentials!, dataType: .xml, body: encodedXML, queue: DispatchQueue.main) { (response) in
-                            
-                            print("YEAH IT WENT")
-                            switch response {
-                            case .badRequest:
-                                self.appendLogString(stringToAppend: "Device with \(self.globalEndpointID!) \(record[0]) does not like the request.")
-                                doneCounter += 1
-                                
-                            case .error(let error):
-                                self.appendLogString(stringToAppend: "Device with \(self.globalEndpointID!) \(record[0]) threw \(error)")
-                                doneCounter += 1
-                                
-                            case .httpCode(let code):
-                                self.printString(stringToPrint: "Device with \(self.globalEndpointID!) \(record[0]) - ")
-                                self.appendRed(stringToPrint: "Failed with code \(code)!")
-                                print("code")
-                                doneCounter += 1
-                                
-                            case .json:
-                                self.appendLogString(stringToAppend: "Device with \(self.globalEndpointID!) \(record[0]) returned JSON??")
-                                doneCounter += 1
-                                
-                            case .success:
-                                self.printString(stringToPrint: "Device with \(self.globalEndpointID!) \(record[0]) - ")
-                                self.appendGreen(stringToPrint: "OK!")
-                                doneCounter += 1
-                                
-                            case .xml:
-                                self.printString(stringToPrint: "Device with \(self.globalEndpointID!) \(record[0]) - ")
-                                self.appendGreen(stringToPrint: "OK!")
-                                print("good")
-                                doneCounter += 1
-                            }
-                        }
-                    default: break
+                        print("Sending")*/
+                        self.putData(credentials: self.globalServerCredentials!, body: encodedXML!, endpoint: endpoint, identifier: record[0])
+                    //default: break
                     }
-                }
-                goto(label: "check")
+                //}
+                //goto(label: "check")
 
                 
                 
@@ -423,11 +391,51 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
             }
             self.barProgress.stopAnimation(self)
             self.btnSubmitOutlet.isHidden = false
-        }
+        //}
         //barProgress.stopAnimation(self)
     }
 
     @IBAction func btnClearText(_ sender: Any) {
         clearLog()
     }
+
+    func putData(credentials: String, body: Data, endpoint: String, identifier: String) {
+    let client = JSSClient(urlString: self.globalServerURL!, allowUntrusted: true)
+    
+        client.sendRequest(endpoint: endpoint, method: .put, base64credentials: credentials, dataType: .xml, body: body, queue: DispatchQueue.main) { (response) in
+            
+                print("YEAH IT WENT")
+                switch response {
+                case .badRequest:
+                    self.appendLogString(stringToAppend: "Device with \(self.globalEndpointID!) \(identifier) does not like the request.")
+                    self.doneCounter += 1
+                    
+                case .error(let error):
+                    self.appendLogString(stringToAppend: "Device with \(self.globalEndpointID!) \(identifier) threw \(error)")
+                    self.doneCounter += 1
+                    
+                case .httpCode(let code):
+                    self.printString(stringToPrint: "Device with \(self.globalEndpointID!) \(identifier) - ")
+                    self.appendRed(stringToPrint: "Failed with code \(code)!")
+                    print("code")
+                    self.doneCounter += 1
+                    
+                case .json:
+                    self.appendLogString(stringToAppend: "Device with \(self.globalEndpointID!) \(identifier) returned JSON??")
+                    self.doneCounter += 1
+                    
+                case .success:
+                    self.printString(stringToPrint: "Device with \(self.globalEndpointID!) \(identifier) - ")
+                    self.appendGreen(stringToPrint: "OK!")
+                    self.doneCounter += 1
+                    
+                case .xml:
+                    self.printString(stringToPrint: "Device with \(self.globalEndpointID!) \(identifier) - ")
+                    self.appendGreen(stringToPrint: "OK!")
+                    print("good")
+                    self.doneCounter += 1
+                }
+
+            }
+        }
 }
