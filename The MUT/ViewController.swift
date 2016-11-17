@@ -343,6 +343,7 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     }
     
     @IBAction func submitRequests(_ sender: AnyObject) {
+        
         lblCurrent.isHidden = false
         lblLine.isHidden = false
         btnSubmitOutlet.isHidden = true
@@ -350,39 +351,44 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
         self.sentCounter = 0
         self.doneCounter = 0
         
-        let importer = CSVImporter<[String]>(path: globalCSVPath)
-        importer.startImportingRecords { $0 }.onFinish { importedRecords in
-            for record in importedRecords {
-                
-                let endpoint = "\(self.globalEndpoint!)/\(self.globalEndpointID!)/\(record[0])"
-                let xml = "<\(self.globalXMLDevice!)><\(self.globalXMLSubset!)><\(self.globalXMLAttribute!)>\(record[1])</\(self.globalXMLAttribute!)></\(self.globalXMLSubset!)></\(self.globalXMLDevice!)>"
-                let encodedXML = xml.data(using: String.Encoding.utf8)
-                
-                self.sentCounter += 1
-                
-                /*func goto(label: String) {
-                    switch label {
-                    case "check":
-                        if ( self.sentCounter - self.doneCounter ) <= 2 {
-                            print("2 or less unresolved, sending new.")
-                            print(record[0])
-                            print(record[1])
-                            goto(label: "execute")
-                        } else {
-                            print("3 or more unresolved, waiting...")
-                            goto(label: "wait")
-                        }
-                    case "wait":
-                        sleep(1)
-                        goto(label: "check")
-                    case "execute":
-                        print("Sending")*/
-                        self.putData(credentials: self.globalServerCredentials!, body: encodedXML!, endpoint: endpoint, identifier: record[0])
-                    //default: break
-                    }
-                //}
-                //goto(label: "check")
 
+            let importer = CSVImporter<[String]>(path: globalCSVPath)
+            importer.startImportingRecords { $0 }.onFinish { importedRecords in
+                for record in importedRecords {
+                    
+                    let endpoint = "\(self.globalEndpoint!)/\(self.globalEndpointID!)/\(record[0])"
+                    let xml = "<\(self.globalXMLDevice!)><\(self.globalXMLSubset!)><\(self.globalXMLAttribute!)>\(record[1])</\(self.globalXMLAttribute!)></\(self.globalXMLSubset!)></\(self.globalXMLDevice!)>"
+                    let encodedXML = xml.data(using: String.Encoding.utf8)
+                    
+                    self.sentCounter += 1
+                    
+                    func goto(label: String) {
+                     switch label {
+                     case "check":
+                     if ( self.sentCounter - self.doneCounter ) <= 2 {
+                     print("2 or less unresolved, sending new.")
+                     print(record[0])
+                     print(record[1])
+                     goto(label: "execute")
+                     } else {
+                     print("3 or more unresolved, waiting...")
+                     goto(label: "wait")
+                     }
+                     case "wait":
+                     sleep(1)
+                     goto(label: "check")
+                     case "execute":
+                     print("Sending")
+                        DispatchQueue.global().async {
+                            self.lblLine.stringValue = "\(self.sentCounter)"
+                            self.putDataAsync(credentials: self.globalServerCredentials!, body: encodedXML!, endpoint: endpoint, identifier: record[0])
+                        }
+                    
+                    default: break
+                }
+                }
+                goto(label: "check")
+                
                 
                 
                 
@@ -391,20 +397,58 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
             }
             self.barProgress.stopAnimation(self)
             self.btnSubmitOutlet.isHidden = false
-        //}
-        //barProgress.stopAnimation(self)
+            }
+            //barProgress.stopAnimation(self)
     }
 
     @IBAction func btnClearText(_ sender: Any) {
         clearLog()
     }
 
-    func putData(credentials: String, body: Data, endpoint: String, identifier: String) {
-    let client = JSSClient(urlString: self.globalServerURL!, allowUntrusted: true)
-    
-        client.sendRequest(endpoint: endpoint, method: .put, base64credentials: credentials, dataType: .xml, body: body, queue: DispatchQueue.main) { (response) in
+    func putDataSync(credentials: String, body: Data, endpoint: String, identifier: String) {
+        let client = JSSClient(urlString: self.globalServerURL!, allowUntrusted: true)
             
-                print("YEAH IT WENT")
+            print("Request sent for \(identifier)")
+            let response = client.sendRequestAndWait(endpoint: endpoint, method: .put, base64credentials: credentials, dataType: .xml, body: body)
+            
+                    switch response {
+                    case .badRequest:
+                        self.appendLogString(stringToAppend: "Device with \(self.globalEndpointID!) \(identifier) does not like the request.")
+                        self.doneCounter += 1
+                        
+                    case .error(let error):
+                        self.appendLogString(stringToAppend: "Device with \(self.globalEndpointID!) \(identifier) threw \(error)")
+                        self.doneCounter += 1
+                        
+                    case .httpCode(let code):
+                        self.printString(stringToPrint: "Device with \(self.globalEndpointID!) \(identifier) - ")
+                        self.appendRed(stringToPrint: "Failed with code \(code)!")
+                        print("Code \(code) on \(identifier)")
+                        self.doneCounter += 1
+                        
+                    case .json:
+                        self.appendLogString(stringToAppend: "Device with \(self.globalEndpointID!) \(identifier) returned JSON??")
+                        self.doneCounter += 1
+                        
+                    case .success:
+                        self.printString(stringToPrint: "Device with \(self.globalEndpointID!) \(identifier) - ")
+                        self.appendGreen(stringToPrint: "OK!")
+                        self.doneCounter += 1
+                        
+                    case .xml:
+                        self.printString(stringToPrint: "Device with \(self.globalEndpointID!) \(identifier) - ")
+                        self.appendGreen(stringToPrint: "OK!")
+                        print("Success on \(identifier)")
+                        self.doneCounter += 1
+                    }
+
+            
+        }
+    func putDataAsync(credentials: String, body: Data, endpoint: String, identifier: String) {
+        let client = JSSClient(urlString: self.globalServerURL!, allowUntrusted: true)
+        
+        print("Request sent for \(identifier)")
+        client.sendRequest(endpoint: endpoint, method: .put, base64credentials: credentials, dataType: .xml, body: body, queue: DispatchQueue.main){ (response) in
                 switch response {
                 case .badRequest:
                     self.appendLogString(stringToAppend: "Device with \(self.globalEndpointID!) \(identifier) does not like the request.")
@@ -417,7 +461,7 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
                 case .httpCode(let code):
                     self.printString(stringToPrint: "Device with \(self.globalEndpointID!) \(identifier) - ")
                     self.appendRed(stringToPrint: "Failed with code \(code)!")
-                    print("code")
+                    print("Code \(code) on \(identifier)")
                     self.doneCounter += 1
                     
                 case .json:
@@ -432,10 +476,10 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
                 case .xml:
                     self.printString(stringToPrint: "Device with \(self.globalEndpointID!) \(identifier) - ")
                     self.appendGreen(stringToPrint: "OK!")
-                    print("good")
+                    print("Success on \(identifier)")
                     self.doneCounter += 1
                 }
-
-            }
         }
+        
+    }
 }

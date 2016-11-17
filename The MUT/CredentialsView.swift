@@ -54,7 +54,7 @@ class CredentialsView: NSViewController {
         ApprovedURL = self.representedObject as! String
         allowUntrustedURL = ApprovedURL.replacingOccurrences(of: "https://", with: "")
         allowUntrustedURL = allowUntrustedURL.replacingOccurrences(of: ":8443/JSSResource/", with: "")
-        print(allowUntrustedURL)
+
         btnAcceptOutlet.isHidden = false
         }
     
@@ -87,7 +87,6 @@ class CredentialsView: NSViewController {
             let concatCredentials = "\(txtUser.stringValue):\(txtPass.stringValue)"
             let utf8Credentials = concatCredentials.data(using: String.Encoding.utf8)
             base64Credentials = utf8Credentials?.base64EncodedString()
-            print (base64Credentials)
             
             if txtUser.stringValue != "" && txtPass.stringValue != "" {
 
@@ -119,8 +118,6 @@ class CredentialsView: NSViewController {
 
                     }
                 }
-                    
-                print("Completed")
                 
                 
             } else {
