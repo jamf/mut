@@ -8,6 +8,7 @@
 
 import Cocoa
 import CSVImporter
+import Foundation
 
 class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSentUsername, DataSentPath, DataSentAttributes {
     
@@ -26,6 +27,9 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     var globalXMLExtraStart: String!
     var globalXMLExtraEnd: String!
     var globalEndpointID: String!
+    
+    var globalCSVContent: String!
+    var globalParsedCSV: CSwiftV!
     
     var sentCounter = 0
     var doneCounter = 0
@@ -173,6 +177,8 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
         appendLogString(stringToAppend: "Device Type: \(globalDeviceType!)")
         appendLogString(stringToAppend: "ID Type: \(globalIDType!)")
         appendLogString(stringToAppend: "Attribute Type: \(globalAttributeType!)")
+
+        
         //printLineBreak()
         
         // Switches to set XML and Endpoint values
@@ -306,6 +312,8 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     func userDidEnterPath(csvPath: String) {
         globalCSVPath = csvPath
         appendLogString(stringToAppend: "CSV: \(globalCSVPath!)")
+        globalCSVContent = try! NSString(contentsOfFile: globalCSVPath, encoding: String.Encoding.utf8.rawValue) as String!
+        globalParsedCSV = CSwiftV(with: globalCSVContent as String, separator: ",", headers: ["Device", "Attribute"])
         printLineBreak()
     }
     
@@ -340,6 +348,7 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
         if let bundle = Bundle.main.bundleIdentifier {
             UserDefaults.standard.removePersistentDomain(forName: bundle)
         }
+        cswiftvtest()
     }
     
     @IBAction func submitRequests(_ sender: AnyObject) {
@@ -482,4 +491,52 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
         }
         
     }
+    func cswiftvtest() {
+        
+
+        
+        self.sentCounter = 0
+        self.doneCounter = 0
+        var rowCounter = 0
+        lblLine.isHidden = false
+        //let row = globalParsedCSV.rows
+        //print (row[0])
+        let myOpQueue = OperationQueue()
+        myOpQueue.maxConcurrentOperationCount = 3
+        let semaphore = DispatchSemaphore(value: 0)
+        var i = 0
+        while i < 10 {
+            myOpQueue.addOperation {
+                let myURL = NSURL(string: "https://mlevenick.jamfcloud.com/JSSResource/computers/id/\(i)")
+                let request = NSMutableURLRequest(url: myURL! as URL)
+                request.httpMethod = "GET"
+                let configuration = URLSessionConfiguration.default
+                configuration.httpAdditionalHeaders = ["Authorization" : "Basic YXBpYWRtaW46amFtZjEyMzQ=", "Content-Type" : "text/xml", "Accept" : "text/xml"]
+                let session = Foundation.URLSession(configuration: configuration)
+                let task = session.dataTask(with: request as URLRequest, completionHandler: {
+                    (data, response, error) -> Void in
+                    if let httpResponse = response as? HTTPURLResponse {
+                        print(httpResponse.statusCode)
+                        semaphore.signal()
+                        self.lblLine.stringValue = "\(i)"
+                        self.appendLogString(stringToAppend: "\(httpResponse.statusCode)")
+                        print(myURL!)
+                        
+                    }
+                    if error == nil {
+                        print("No Errors")
+                        print("")
+                    } else {
+                        print(error!)
+                    }
+                })
+                
+                task.resume()
+                semaphore.wait()
+
+            }
+            i += 1
+        }
+    }
+
 }
