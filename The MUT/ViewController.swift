@@ -505,9 +505,10 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
         myOpQueue.maxConcurrentOperationCount = 3
         let semaphore = DispatchSemaphore(value: 0)
         var i = 0
-        while i < 10 {
+        while i < 20 {
+            let myURL = NSURL(string: "https://mlevenick.jamfcloud.com/JSSResource/computers/id/\(i)")
             myOpQueue.addOperation {
-                let myURL = NSURL(string: "https://mlevenick.jamfcloud.com/JSSResource/computers/id/\(i)")
+
                 let request = NSMutableURLRequest(url: myURL! as URL)
                 request.httpMethod = "GET"
                 let configuration = URLSessionConfiguration.default
@@ -518,9 +519,10 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
                     if let httpResponse = response as? HTTPURLResponse {
                         print(httpResponse.statusCode)
                         semaphore.signal()
-                        self.lblLine.stringValue = "\(i)"
                         self.appendLogString(stringToAppend: "\(httpResponse.statusCode)")
                         print(myURL!)
+                        rowCounter += 1
+                        self.lblLine.stringValue = "\(rowCounter)"
                         
                     }
                     if error == nil {
@@ -538,5 +540,4 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
             i += 1
         }
     }
-
 }
