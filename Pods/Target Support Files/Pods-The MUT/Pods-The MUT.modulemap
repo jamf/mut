@@ -1,6 +1,0 @@
-framework module Pods_The_MUT {
-  umbrella header "Pods-The MUT-umbrella.h"
-
-  export *
-  module * { export * }
-}

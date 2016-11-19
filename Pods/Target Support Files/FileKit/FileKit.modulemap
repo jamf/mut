@@ -1,6 +1,0 @@
-framework module FileKit {
-  umbrella header "FileKit-umbrella.h"
-
-  export *
-  module * { export * }
-}

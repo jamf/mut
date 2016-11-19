@@ -583,7 +583,7 @@
                                 </connections>
                             </button>
                             <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xys-cz-Tsi">
-                                <rect key="frame" x="405" y="24" width="37" height="22"/>
+                                <rect key="frame" x="295" y="24" width="62" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="0" id="XIw-Sf-qxJ">
                                     <font key="font" size="18" name="HelveticaNeue-Thin"/>
@@ -591,8 +591,17 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bYj-C5-1zd">
+                                <rect key="frame" x="385" y="24" width="62" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="0" id="Rni-El-Axe">
+                                    <font key="font" size="18" name="HelveticaNeue-Thin"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                             <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JFU-8B-dxp">
-                                <rect key="frame" x="266" y="24" width="100" height="22"/>
+                                <rect key="frame" x="196" y="24" width="100" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Current Line:" id="VGz-A7-fjW">
                                     <font key="font" size="18" name="HelveticaNeue-Thin"/>
@@ -600,21 +609,27 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <progressIndicator wantsLayer="YES" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="L4q-Q6-Qdc">
-                                <rect key="frame" x="498" y="19" width="32" height="32"/>
+                            <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1BZ-dR-A3V">
+                                <rect key="frame" x="361" y="24" width="19" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            </progressIndicator>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="of" id="P5L-yX-J88">
+                                    <font key="font" size="18" name="HelveticaNeue-Thin"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                     </view>
                     <connections>
                         <outlet property="MainViewController" destination="xfl-iX-lsl" id="7M1-6i-wAx"/>
-                        <outlet property="barProgress" destination="L4q-Q6-Qdc" id="wav-aM-J2n"/>
                         <outlet property="btnAttribute" destination="flU-GQ-aVo" id="xKO-jl-enH"/>
                         <outlet property="btnCredentials" destination="aCs-sx-Baw" id="pmJ-td-ebC"/>
                         <outlet property="btnServer" destination="4d2-L2-4qZ" id="thm-Lm-ARz"/>
                         <outlet property="btnSubmitOutlet" destination="yi8-lJ-HaJ" id="yKL-La-qw5"/>
-                        <outlet property="lblCurrent" destination="JFU-8B-dxp" id="ogP-vm-4VO"/>
+                        <outlet property="lblCurrent" destination="JFU-8B-dxp" id="pj1-jR-ctj"/>
+                        <outlet property="lblEndLine" destination="bYj-C5-1zd" id="23j-tR-gVX"/>
                         <outlet property="lblLine" destination="Xys-cz-Tsi" id="NKZ-5R-DAV"/>
+                        <outlet property="lblOf" destination="1BZ-dR-A3V" id="sKo-GV-BNM"/>
                         <outlet property="txtMain" destination="dBh-lq-H5l" id="TO3-JU-rQc"/>
                         <outlet property="txtMainWrapper" destination="CeX-aA-cNt" id="lFz-94-1kg"/>
                     </connections>

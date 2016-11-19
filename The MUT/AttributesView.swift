@@ -10,7 +10,6 @@
 
 import Foundation
 import Cocoa
-import CSVImporter
 
 // Protocol to pass back Attribute info and CSV path
 protocol DataSentAttributes {
