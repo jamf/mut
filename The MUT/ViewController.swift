@@ -311,9 +311,33 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     // Pass back the CSV Path
     func userDidEnterPath(csvPath: String) {
         globalCSVPath = csvPath
+        printLineBreak()
         appendLogString(stringToAppend: "CSV: \(globalCSVPath!)")
         globalCSVContent = try! NSString(contentsOfFile: globalCSVPath, encoding: String.Encoding.utf8.rawValue) as String!
         globalParsedCSV = CSwiftV(with: globalCSVContent as String, separator: ",", headers: ["Device", "Attribute"])
+        appendLogString(stringToAppend: "Found \(globalParsedCSV.rows.count) rows in the CSV.")
+        printLineBreak()
+        if globalParsedCSV.rows.count > 1 {
+            let line1 = globalParsedCSV.rows[1]
+            if line1.count >= 2 {
+                self.appendLogString(stringToAppend: "Example row from your CSV:")
+                self.appendLogString(stringToAppend: "\(globalIDType!.replacingOccurrences(of: " ", with: "")): \(line1[0]), \(globalAttributeType.replacingOccurrences(of: " ", with: "")): \(line1[1])")
+            } else {
+                self.appendRed(stringToPrint: "Not enough columns in your CSV!!!")
+            }
+        } else if globalParsedCSV.rows.count > 0 {
+            let line1 = globalParsedCSV.rows[0]
+            if line1.count >= 2 {
+                self.appendLogString(stringToAppend: "Example row from your CSV:")
+                self.appendLogString(stringToAppend: "\(globalIDType.replacingOccurrences(of: " ", with: "")): \(line1[0]), \(globalAttributeType.replacingOccurrences(of: " ", with: "")): \(line1[1])")
+            } else {
+                self.appendRed(stringToPrint: "Not enough columns in your CSV!!!")
+            }
+        } else {
+            appendRed(stringToPrint: "No rows found in your CSV!!!")
+        }
+
+        
         printLineBreak()
     }
     
@@ -345,9 +369,9 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     
     @IBAction func btnClearStored(_ sender: AnyObject) {
         // Clear all stored values
-        if let bundle = Bundle.main.bundleIdentifier {
-            UserDefaults.standard.removePersistentDomain(forName: bundle)
-        }
+        //if let bundle = Bundle.main.bundleIdentifier {
+        //    UserDefaults.standard.removePersistentDomain(forName: bundle)
+        //}
         cswiftvtest()
     }
     
@@ -499,28 +523,35 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
         self.doneCounter = 0
         var rowCounter = 0
         lblLine.isHidden = false
-        //let row = globalParsedCSV.rows
+        lblCurrent.isHidden = false
+        let row = globalParsedCSV.rows
+        let lastrow = row.count - 1
+        
         //print (row[0])
         let myOpQueue = OperationQueue()
-        myOpQueue.maxConcurrentOperationCount = 3
+        myOpQueue.maxConcurrentOperationCount = 1
         let semaphore = DispatchSemaphore(value: 0)
         var i = 0
-        while i < 20 {
-            let myURL = NSURL(string: "https://mlevenick.jamfcloud.com/JSSResource/computers/id/\(i)")
+        while i < lastrow {
+            let currentRow = row[i]
+            let myURL = "\(self.globalServerURL!)\(self.globalEndpoint!)/\(self.globalEndpointID!)/\(currentRow[0])"
+            print(myURL)
+            let encodedURL = NSURL(string: myURL)
             myOpQueue.addOperation {
 
-                let request = NSMutableURLRequest(url: myURL! as URL)
+                let request = NSMutableURLRequest(url: encodedURL! as URL)
                 request.httpMethod = "GET"
                 let configuration = URLSessionConfiguration.default
-                configuration.httpAdditionalHeaders = ["Authorization" : "Basic YXBpYWRtaW46amFtZjEyMzQ=", "Content-Type" : "text/xml", "Accept" : "text/xml"]
+                configuration.httpAdditionalHeaders = ["Authorization" : "Basic \(self.globalServerCredentials!)", "Content-Type" : "text/xml", "Accept" : "text/xml"]
                 let session = Foundation.URLSession(configuration: configuration)
                 let task = session.dataTask(with: request as URLRequest, completionHandler: {
                     (data, response, error) -> Void in
                     if let httpResponse = response as? HTTPURLResponse {
                         print(httpResponse.statusCode)
                         semaphore.signal()
+                        self.appendLogString(stringToAppend: "\(myURL)")
                         self.appendLogString(stringToAppend: "\(httpResponse.statusCode)")
-                        print(myURL!)
+                        print(encodedURL!)
                         rowCounter += 1
                         self.lblLine.stringValue = "\(rowCounter)"
                         
@@ -535,7 +566,7 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
                 
                 task.resume()
                 semaphore.wait()
-
+ 
             }
             i += 1
         }
