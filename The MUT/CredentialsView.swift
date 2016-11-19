@@ -89,8 +89,55 @@ class CredentialsView: NSViewController {
             base64Credentials = utf8Credentials?.base64EncodedString()
             
             if txtUser.stringValue != "" && txtPass.stringValue != "" {
+                
+                DispatchQueue.main.async {
+                    let myURL = "\(self.ApprovedURL!)activationcode"
+                    let encodedURL = NSURL(string: myURL)
+                    let request = NSMutableURLRequest(url: encodedURL as! URL)
+                    request.httpMethod = "GET"
+                    let configuration = URLSessionConfiguration.default
+                    configuration.httpAdditionalHeaders = ["Authorization" : "Basic \(self.base64Credentials!)", "Content-Type" : "text/xml", "Accept" : "text/xml"]
+                    let session = Foundation.URLSession(configuration: configuration)
+                    let task = session.dataTask(with: request as URLRequest, completionHandler: {
+                        (data, response, error) -> Void in
+                        if let httpResponse = response as? HTTPURLResponse {
+                            //print(httpResponse.statusCode)
+                            
+                            if httpResponse.statusCode >= 199 && httpResponse.statusCode <= 299 {
+                                self.delegateCredentials?.userDidEnterCredentials(serverCredentials: self.base64Credentials) // Delegate for passing to main view
+                                
+                                // Store username if button pressed
+                                if self.btnStoreUser.state == 1 {
+                                    self.credentialsViewDefaults.set(self.txtUser.stringValue, forKey: "UserName")
+                                    self.credentialsViewDefaults.synchronize()
+                                    self.delegateUsername?.userDidSaveUsername(savedUser: self.txtUser.stringValue)
+                                } else {
+                                    self.credentialsViewDefaults.removeObject(forKey: "UserName")
+                                    self.credentialsViewDefaults.synchronize()
+                                }
+                                self.spinWheel.stopAnimation(self)
+                                self.dismissViewController(self)
+                            } else {
+                                DispatchQueue.main.async {
+                                    self.spinWheel.stopAnimation(self)
+                                    self.btnAcceptOutlet.isHidden = false
+                                    _ = self.dialogueWarning(question: "Invalid Credentials", text: "The credentials you entered do not seem to have sufficient permissions. This could be due to an incorrect user/password, or possibly from insufficient permissions. MUT tests this against the user's ability to view the Activation Code via the API.")
+                                }
 
-                let client = JSSClient(urlString: ApprovedURL, allowUntrusted: true)
+                            }
+                        }
+                        if error != nil {
+                            NSLog(error! as! String)
+                        }
+                    })
+                    
+                    task.resume()
+
+                }
+                
+                
+                
+                /*let client = JSSClient(urlString: ApprovedURL, allowUntrusted: true)
                 DispatchQueue.main.async {
                     let response = client.sendRequestAndWait(endpoint:  "activationcode", method: .get,base64credentials: self.base64Credentials!, dataType: .xml, body: nil)
                     
@@ -117,7 +164,7 @@ class CredentialsView: NSViewController {
                         _ = self.dialogueWarning(question: "Invalid Credentials", text: "The credentials you entered do not seem to have sufficient permissions. This could be due to an incorrect user/password, or possibly from insufficient permissions. MUT tests this against the user's ability to view the Activation Code via the API.")
 
                     }
-                }
+                }*/
                 
                 
             } else {
