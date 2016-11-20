@@ -36,8 +36,6 @@ class CredentialsView: NSViewController {
     // Declare global var for URL passed in
     var ApprovedURL: String!
     
-    let newclient = JSSClient(urlString: "https://master.q.jamfsw.corp:8443/", allowUntrusted: true)
-    
     
     // Define Outlets for User and Password
     @IBOutlet weak var txtUser: NSTextField!
@@ -134,37 +132,6 @@ class CredentialsView: NSViewController {
                     task.resume()
 
                 }
-                
-                
-                
-                /*let client = JSSClient(urlString: ApprovedURL, allowUntrusted: true)
-                DispatchQueue.main.async {
-                    let response = client.sendRequestAndWait(endpoint:  "activationcode", method: .get,base64credentials: self.base64Credentials!, dataType: .xml, body: nil)
-                    
-                    switch response {
-                    case .xml:
-                        self.delegateCredentials?.userDidEnterCredentials(serverCredentials: self.base64Credentials) // Delegate for passing to main view
-                        
-                        // Store username if button pressed
-                        if self.btnStoreUser.state == 1 {
-                            self.credentialsViewDefaults.set(self.txtUser.stringValue, forKey: "UserName")
-                            self.credentialsViewDefaults.synchronize()
-                            self.delegateUsername?.userDidSaveUsername(savedUser: self.txtUser.stringValue)
-                        } else {
-                            self.credentialsViewDefaults.removeObject(forKey: "UserName")
-                            self.credentialsViewDefaults.synchronize()
-                        }
-                        self.spinWheel.stopAnimation(self)
-                        self.dismissViewController(self)
-                        
-                        
-                    default:
-                        self.spinWheel.stopAnimation(self)
-                        self.btnAcceptOutlet.isHidden = false
-                        _ = self.dialogueWarning(question: "Invalid Credentials", text: "The credentials you entered do not seem to have sufficient permissions. This could be due to an incorrect user/password, or possibly from insufficient permissions. MUT tests this against the user's ability to view the Activation Code via the API.")
-
-                    }
-                }*/
                 
                 
             } else {
