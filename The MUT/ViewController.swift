@@ -26,7 +26,9 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     var globalXMLAttribute: String!
     var globalXMLExtraStart: String!
     var globalXMLExtraEnd: String!
+    var globalXML: String!
     var globalEndpointID: String!
+    var globalEAID: String!
     var concurrentRuns = 3
     var delimiter = ","
     var globalCSVContent: String!
@@ -201,6 +203,7 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
         globalDeviceType = updateAttributes[0] as! String
         globalIDType = updateAttributes[1] as! String
         globalAttributeType = updateAttributes[2] as! String
+        globalEAID = updateAttributes[3] as! String
         appendLogString(stringToAppend: "Device Type: \(globalDeviceType!)")
         appendLogString(stringToAppend: "ID Type: \(globalIDType!)")
         appendLogString(stringToAppend: "Attribute Type: \(globalAttributeType!)")
@@ -292,41 +295,33 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
                 globalXMLSubset = "general"
                 globalXMLAttribute = "site"
                 print("Site by Name General")
-            case " Extension Attribute" : // TODO: Add EA stuff
+            case " Extension Attribute" : // TODO: Add EA stuff and sites
                 globalEndpointID = "serialnumber"
                 print("Serial")
             
         // Users
             case " User's Username" :
-                globalXMLSubset = "general"
-                globalXMLAttribute = "site"
-                print("Site by ID General")
+                globalXMLAttribute = "name"
+                print("Username")
             case " User's Full Name" :
-                globalXMLSubset = "general"
-                globalXMLAttribute = "site"
-                print("Site by ID General")
+                globalXMLAttribute = "full_name"
+                print("Full name")
             case " Email Address" :
-                globalXMLSubset = "general"
-                globalXMLAttribute = "site"
-                print("Site by ID General")
+                globalXMLAttribute = "email"
+                print("Email")
             case " User's Position" :
-                globalXMLSubset = "general"
-                globalXMLAttribute = "site"
-                print("Site by ID General")
+                globalXMLAttribute = "position"
+                print("Position")
             case " Phone Number" :
-                globalXMLSubset = "general"
-                globalXMLAttribute = "site"
-                print("Site by ID General")
+                globalXMLAttribute = "phone_number"
+                print("Phone Number")
             case " User's Site by ID" :
-                globalXMLSubset = "general"
                 globalXMLAttribute = "site"
                 print("Site by ID General")
             case " User's Site by Name" :
-                globalXMLSubset = "general"
                 globalXMLAttribute = "site"
-                print("Site by ID General")
+                print("Site by ID General") // TODO: Fix EA STuff and Sites
             case " User Extension Attribute" :
-                globalXMLSubset = "general"
                 globalXMLAttribute = "site"
                 print("Site by ID General")
             default:
@@ -445,12 +440,21 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
             let myURL = "\(self.globalServerURL!)\(self.globalEndpoint!)/\(self.globalEndpointID!)/\(currentRow[0])"
             
             // Concatenate the XML from attribute page variables and CSV, then encode it
-            let xml =   "<\(self.globalXMLDevice!)>" +
-                            "<\(self.globalXMLSubset!)>" +
-                                "<\(self.globalXMLAttribute!)>\(currentRow[1])</\(self.globalXMLAttribute!)>" +
-                            "</\(self.globalXMLSubset!)>" +
-                        "</\(self.globalXMLDevice!)>"
-            let encodedXML = xml.data(using: String.Encoding.utf8)
+            
+            if self.globalXMLDevice == "user" {
+                self.globalXML =    "<\(self.globalXMLDevice!)>" +
+                                        "<\(self.globalXMLAttribute!)>\(currentRow[1])</\(self.globalXMLAttribute!)>" +
+                                    "</\(self.globalXMLDevice!)>"
+            } else {
+                self.globalXML =    "<\(self.globalXMLDevice!)>" +
+                                        "<\(self.globalXMLSubset!)>" +
+                                            "<\(self.globalXMLAttribute!)>\(currentRow[1])</\(self.globalXMLAttribute!)>" +
+                                        "</\(self.globalXMLSubset!)>" +
+                                    "</\(self.globalXMLDevice!)>"
+            }
+
+            print(globalXML)
+            let encodedXML = globalXML.data(using: String.Encoding.utf8)
 
             // Add a PUT request to the operation queue
             myOpQueue.addOperation {
@@ -520,6 +524,8 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
             i += 1
         }
     }
+    
+    // MARK: - Cancel function
     // Allow cancelling the run early, and print verbose information if it happens
     @IBOutlet weak var btnCancel: NSButton!
     @IBAction func btnCancel(_ sender: Any) {

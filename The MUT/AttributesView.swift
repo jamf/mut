@@ -31,6 +31,7 @@ class AttributesView: NSViewController {
     @IBOutlet weak var popIDOutlet: NSPopUpButton!
     @IBOutlet weak var popAttributeOutlet: NSPopUpButton!
     @IBOutlet weak var txtPathToCSV: NSTextField!
+    @IBOutlet weak var txtEAID: NSTextField!
     
     override func viewWillAppear() {
         super.viewWillAppear()
@@ -73,6 +74,11 @@ class AttributesView: NSViewController {
     }
     
     @IBAction func popAttributeAction(_ sender: Any) {
+        if popAttributeOutlet.titleOfSelectedItem == " Extension Attribute" {
+            txtEAID.isEnabled = true
+        } else {
+            txtEAID.isEnabled = false
+        }
     }
     
     @IBAction func btnBrowse(_ sender: Any) {
@@ -93,21 +99,24 @@ class AttributesView: NSViewController {
     }
     
     @IBAction func btnDismissAttributes(_ sender: AnyObject) {
-        if txtPathToCSV.stringValue != "" {
-            self.delegateAttributes?.userDidEnterAttributes(updateAttributes: [popDeviceOutlet.titleOfSelectedItem!,popIDOutlet.titleOfSelectedItem!,popAttributeOutlet.titleOfSelectedItem!])
-            self.delegatePath?.userDidEnterPath(csvPath: txtPathToCSV.stringValue)
-            self.dismissViewController(self)
+        if popAttributeOutlet.titleOfSelectedItem == " Extension Attribute" && txtEAID.stringValue == "" {
+            _ = self.dialogueWarning(question: "Please enter EA ID", text: "You have selected Extension Attribute, but have not entered an ID number for the extension attribute. Please enter your extension attribute ID number in the box.")
         } else {
-            _ = self.dialogueWarning(question: "No CSV Selected", text: "There is no CSV file selected. Please press the Browse button and navigate to your CSV file, or press Cancel.")
+            if txtPathToCSV.stringValue != "" {
+                self.delegateAttributes?.userDidEnterAttributes(updateAttributes: [popDeviceOutlet.titleOfSelectedItem!,popIDOutlet.titleOfSelectedItem!,popAttributeOutlet.titleOfSelectedItem!,txtEAID.stringValue])
+                self.delegatePath?.userDidEnterPath(csvPath: txtPathToCSV.stringValue)
+                self.dismissViewController(self)
+            } else {
+                _ = self.dialogueWarning(question: "No CSV Selected", text: "There is no CSV file selected. Please press the Browse button and navigate to your CSV file, or press Cancel.")
+            }
         }
-
     }
     
     @IBAction func btnCancel(_ sender: Any) {
         self.dismissViewController(self)
     }
+    
     func dialogueWarning (question: String, text: String) -> Bool {
-        
         let myPopup: NSAlert = NSAlert()
         myPopup.messageText = question
         myPopup.informativeText = text

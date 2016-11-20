@@ -387,11 +387,11 @@
             <objects>
                 <viewController id="r72-za-GjZ" customClass="viewHelpCredentials" customModule="The_MUT" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="V4x-jQ-r0v">
-                        <rect key="frame" x="0.0" y="0.0" width="576" height="135"/>
+                        <rect key="frame" x="0.0" y="0.0" width="611" height="129"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xPf-hB-Otn">
-                                <rect key="frame" x="92" y="88" width="445" height="27"/>
+                                <rect key="frame" x="127" y="85" width="445" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="MUT remembers your server and username, but" allowsEditingTextAttributes="YES" id="vSb-GE-eIk">
                                     <font key="font" size="22" name="HelveticaNeue-Thin"/>
@@ -400,7 +400,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="r7M-Lb-azg">
-                                <rect key="frame" x="92" y="55" width="466" height="27"/>
+                                <rect key="frame" x="127" y="52" width="466" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="you'll need to click here to re-enter your password." allowsEditingTextAttributes="YES" id="qgh-l7-X9O">
                                     <font key="font" size="22" name="HelveticaNeue-Thin"/>
@@ -409,7 +409,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tvh-py-xki">
-                                <rect key="frame" x="92" y="20" width="167" height="27"/>
+                                <rect key="frame" x="127" y="17" width="167" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="It's safer that way." allowsEditingTextAttributes="YES" id="weY-XX-Uev">
                                     <font key="font" size="22" name="HelveticaNeue-Thin"/>
@@ -418,7 +418,7 @@
                                 </textFieldCell>
                             </textField>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="p6q-4M-bj4">
-                                <rect key="frame" x="20" y="39" width="66" height="60"/>
+                                <rect key="frame" x="5" y="8" width="124" height="113"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="512" id="mlb-kt-KOC"/>
                             </imageView>
@@ -427,18 +427,18 @@
                 </viewController>
                 <customObject id="z9R-Jd-cmf" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="526" y="382"/>
+            <point key="canvasLocation" x="499.5" y="378.5"/>
         </scene>
         <!--View Help Welcome-->
         <scene sceneID="TAO-Yd-hiP">
             <objects>
                 <viewController id="eb2-i4-i45" customClass="viewHelpWelcome" customModule="The_MUT" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="X3d-vI-2YQ">
-                        <rect key="frame" x="0.0" y="0.0" width="462" height="100"/>
+                        <rect key="frame" x="0.0" y="0.0" width="499" height="124"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iU4-DO-u6e">
-                                <rect key="frame" x="84" y="20" width="352" height="27"/>
+                                <rect key="frame" x="129" y="37" width="352" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Start by entering your server info here." allowsEditingTextAttributes="YES" id="RmI-su-vZi">
                                     <font key="font" size="22" name="HelveticaNeue-Thin"/>
@@ -446,13 +446,8 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nUs-IP-qi1">
-                                <rect key="frame" x="12" y="20" width="66" height="60"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="512" id="Rj7-GT-4hG"/>
-                            </imageView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xao-5Y-bwp">
-                                <rect key="frame" x="84" y="53" width="97" height="27"/>
+                                <rect key="frame" x="129" y="70" width="97" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Welcome!" allowsEditingTextAttributes="YES" id="5F4-cz-nZm">
                                     <font key="font" size="22" name="HelveticaNeue-Thin"/>
@@ -460,12 +455,17 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rNE-gh-Pzp">
+                                <rect key="frame" x="10" y="5" width="113" height="113"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="512" id="gJs-YX-qWe"/>
+                            </imageView>
                         </subviews>
                     </view>
                 </viewController>
                 <customObject id="72K-Rf-Cg8" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="526" y="198"/>
+            <point key="canvasLocation" x="519.5" y="210"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="Id2-45-lJz">
@@ -784,11 +784,11 @@ Gw
             <objects>
                 <viewController title="Attribute" identifier="AttributesViewRestore" storyboardIdentifier="AttributesViewID" id="w43-eq-tNT" customClass="AttributesView" customModule="The_MUT" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="Ugd-Wo-F4R">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="326"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="377"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="50u-sL-xPT">
-                                <rect key="frame" x="38" y="270" width="213" height="36"/>
+                                <rect key="frame" x="38" y="321" width="213" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="I want to update:" allowsEditingTextAttributes="YES" id="AS1-R3-ZQp">
                                     <font key="font" size="30" name="HelveticaNeue-Thin"/>
@@ -825,7 +825,7 @@ DQ
                                 </connections>
                             </button>
                             <popUpButton fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PHa-n3-o7c">
-                                <rect key="frame" x="257" y="267" width="323" height="42"/>
+                                <rect key="frame" x="257" y="318" width="323" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="square" title=" iOS Devices" bezelStyle="shadowlessSquare" imagePosition="left" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" preferredEdge="maxY" selectedItem="atr-kW-4L4" id="AhU-iZ-Rua">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -847,7 +847,7 @@ DQ
                                 </connections>
                             </popUpButton>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bgS-LD-QPq">
-                                <rect key="frame" x="118" y="210" width="133" height="36"/>
+                                <rect key="frame" x="118" y="261" width="133" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Based on:" allowsEditingTextAttributes="YES" id="42E-zh-9Ci">
                                     <font key="font" size="30" name="HelveticaNeue-Thin"/>
@@ -856,7 +856,7 @@ DQ
                                 </textFieldCell>
                             </textField>
                             <popUpButton fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="K4q-Ev-c0G">
-                                <rect key="frame" x="257" y="207" width="323" height="42"/>
+                                <rect key="frame" x="257" y="258" width="323" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="square" title=" Serial Number" bezelStyle="shadowlessSquare" imagePosition="left" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" preferredEdge="maxY" selectedItem="wPS-cg-OaB" id="RRq-3Q-ZUA">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -877,7 +877,7 @@ DQ
                                 </connections>
                             </popUpButton>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6bV-QW-Ksv">
-                                <rect key="frame" x="32" y="150" width="219" height="36"/>
+                                <rect key="frame" x="32" y="201" width="219" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="I want to change:" allowsEditingTextAttributes="YES" id="sd3-qK-sk2">
                                     <font key="font" size="30" name="HelveticaNeue-Thin"/>
@@ -885,8 +885,26 @@ DQ
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PWs-lq-fxU">
+                                <rect key="frame" x="170" y="146" width="81" height="36"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="EA ID:" allowsEditingTextAttributes="YES" id="gk3-Wz-V53">
+                                    <font key="font" size="30" name="HelveticaNeue-Thin"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mEa-aS-n2g">
+                                <rect key="frame" x="425" y="146" width="152" height="36"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="( If needed )" allowsEditingTextAttributes="YES" id="Dr9-7r-MTA">
+                                    <font key="font" size="30" name="HelveticaNeue-Thin"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                             <popUpButton fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JbY-gP-QYS">
-                                <rect key="frame" x="257" y="147" width="323" height="42"/>
+                                <rect key="frame" x="257" y="198" width="323" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="square" title=" Asset Tag" bezelStyle="shadowlessSquare" imagePosition="left" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" preferredEdge="maxY" selectedItem="cF1-pR-irp" id="Ysd-1N-KHF">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -929,18 +947,28 @@ Gw
                                     <action selector="btnCancel:" target="w43-eq-tNT" id="Qw0-5E-Gmg"/>
                                 </connections>
                             </button>
+                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6zd-dF-5QE">
+                                <rect key="frame" x="257" y="143" width="156" height="41"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" placeholderString="1" drawsBackground="YES" id="JHS-HF-Xnm">
+                                    <font key="font" size="30" name="HelveticaNeue-Thin"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                     </view>
                     <connections>
                         <outlet property="popAttributeOutlet" destination="JbY-gP-QYS" id="jU0-oE-rys"/>
                         <outlet property="popDeviceOutlet" destination="PHa-n3-o7c" id="gIc-j0-h4V"/>
                         <outlet property="popIDOutlet" destination="K4q-Ev-c0G" id="DHf-NJ-hKv"/>
+                        <outlet property="txtEAID" destination="6zd-dF-5QE" id="Zhy-En-f9D"/>
                         <outlet property="txtPathToCSV" destination="4pS-EG-IQd" id="fWK-5m-Rl6"/>
                     </connections>
                 </viewController>
                 <customObject id="Q4f-ch-Hze" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1391" y="749"/>
+            <point key="canvasLocation" x="1391" y="774.5"/>
         </scene>
         <!--Credentials-->
         <scene sceneID="AWh-s7-m2X">
