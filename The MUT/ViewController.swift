@@ -567,7 +567,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
                     }
                     // Log errors if received (we probably shouldn't ever end up needing this)
                     if error != nil {
-                        NSLog(error! as! String)
+                        _ = self.dialogueWarning(question: "Fatal Error", text: "The MUT received a fatal error while uploading. \n\n \(error!.localizedDescription)")
                     }
                 })
                 // Send the request and then wait for the semaphore signal
@@ -689,7 +689,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
                     }
                     // Log errors if received (we probably shouldn't ever end up needing this)
                     if error != nil {
-                        NSLog(error! as! String)
+                        _ = self.dialogueWarning(question: "Fatal Error", text: "The MUT received a fatal error while uploading. \n\n \(error!.localizedDescription)")
                     }
                 })
                 // Send the request and then wait for the semaphore signal
@@ -770,5 +770,14 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
         
         completionHandler(Foundation.URLSession.AuthChallengeDisposition.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
         
+    }
+    func dialogueWarning (question: String, text: String) -> Bool {
+        
+        let myPopup: NSAlert = NSAlert()
+        myPopup.messageText = question
+        myPopup.informativeText = text
+        myPopup.alertStyle = NSAlertStyle.warning
+        myPopup.addButton(withTitle: "OK")
+        return myPopup.runModal() == NSAlertFirstButtonReturn
     }
 }
