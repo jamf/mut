@@ -680,7 +680,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </box>
                             <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="KCV-Nh-fAp">
-                                <rect key="frame" x="323" y="201" width="257" height="5"/>
+                                <rect key="frame" x="323" y="201" width="257" height="4"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </box>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Uug-tf-W1C">
@@ -839,15 +839,15 @@ DQ
                             <popUpButton fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PHa-n3-o7c">
                                 <rect key="frame" x="257" y="318" width="323" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <popUpButtonCell key="cell" type="square" title=" MacOS Devices" bezelStyle="shadowlessSquare" imagePosition="left" alignment="left" lineBreakMode="truncatingTail" borderStyle="border" imageScaling="proportionallyDown" inset="2" preferredEdge="maxY" selectedItem="BvJ-rs-bkh" id="AhU-iZ-Rua">
+                                <popUpButtonCell key="cell" type="square" title=" MacOS Devices" bezelStyle="shadowlessSquare" imagePosition="left" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" preferredEdge="maxY" selectedItem="BvJ-rs-bkh" id="AhU-iZ-Rua">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" size="30" name="HelveticaNeue-Thin"/>
                                     <menu key="menu" id="zhE-k0-U8s">
                                         <items>
-                                            <menuItem title=" MacOS Devices" id="BvJ-rs-bkh">
+                                            <menuItem title=" MacOS Devices" state="on" id="BvJ-rs-bkh">
                                                 <attributedString key="attributedTitle"/>
                                             </menuItem>
-                                            <menuItem title=" iOS Devices" state="on" id="atr-kW-4L4"/>
+                                            <menuItem title=" iOS Devices" id="atr-kW-4L4"/>
                                             <menuItem title=" Users" id="nEq-4a-sjt">
                                                 <attributedString key="attributedTitle"/>
                                             </menuItem>

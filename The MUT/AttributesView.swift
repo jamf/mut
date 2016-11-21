@@ -35,7 +35,7 @@ class AttributesView: NSViewController {
     
     override func viewWillAppear() {
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 600, height: 326) // Set the view size
+        preferredContentSize = NSSize(width: 600, height: 377) // Set the view size
         
         
         // Set up the attribute outlet drop down

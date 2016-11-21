@@ -22,7 +22,7 @@ protocol DataSentUsername {
     func userDidSaveUsername(savedUser: String)
 }
 
-class CredentialsView: NSViewController {
+class CredentialsView: NSViewController, URLSessionDelegate {
     
     var base64Credentials: String!
     let credentialsViewDefaults = UserDefaults.standard
@@ -95,7 +95,7 @@ class CredentialsView: NSViewController {
                     request.httpMethod = "GET"
                     let configuration = URLSessionConfiguration.default
                     configuration.httpAdditionalHeaders = ["Authorization" : "Basic \(self.base64Credentials!)", "Content-Type" : "text/xml", "Accept" : "text/xml"]
-                    let session = Foundation.URLSession(configuration: configuration)
+                    let session = Foundation.URLSession(configuration: configuration, delegate: self, delegateQueue: OperationQueue.main)
                     let task = session.dataTask(with: request as URLRequest, completionHandler: {
                         (data, response, error) -> Void in
                         if let httpResponse = response as? HTTPURLResponse {
@@ -121,19 +121,14 @@ class CredentialsView: NSViewController {
                                     self.btnAcceptOutlet.isHidden = false
                                     _ = self.dialogueWarning(question: "Invalid Credentials", text: "The credentials you entered do not seem to have sufficient permissions. This could be due to an incorrect user/password, or possibly from insufficient permissions. MUT tests this against the user's ability to view the Activation Code via the API.")
                                 }
-
                             }
                         }
                         if error != nil {
-                            NSLog(error! as! String)
+                            _ = self.dialogueWarning(question: "Fatal Error", text: "The MUT received a fatal error at authentication. The most common cause of this is an incorrect server URL. The full error output is below. \n\n \(error!.localizedDescription)")
                         }
                     })
-                    
                     task.resume()
-
                 }
-                
-                
             } else {
                 _ = dialogueWarning(question: "Missing Credentials", text: "Either the username or the password field was left blank. Please fill in both the username and password field to verify credentials.")
                 self.spinWheel.stopAnimation(self)
@@ -152,5 +147,9 @@ class CredentialsView: NSViewController {
         return myPopup.runModal() == NSAlertFirstButtonReturn
     }
     
-    
+    func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        
+        completionHandler(Foundation.URLSession.AuthChallengeDisposition.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
+        
+    }
 }

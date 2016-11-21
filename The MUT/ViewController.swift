@@ -9,7 +9,7 @@
 import Cocoa
 import Foundation
 
-class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSentUsername, DataSentPath, DataSentAttributes {
+class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSentCredentials, DataSentUsername, DataSentPath, DataSentAttributes {
     
     // MARK: - Declarations
     
@@ -504,7 +504,7 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
         let semaphore = DispatchSemaphore(value: 0)
         
 
-        while i <= lastrow {
+        while i < lastrow {
             // Sets the current row to the row of the loop
             let currentRow = row[i]
             
@@ -532,7 +532,7 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
                 request.httpBody = encodedXML!
                 let configuration = URLSessionConfiguration.default
                 configuration.httpAdditionalHeaders = ["Authorization" : "Basic \(self.globalServerCredentials!)", "Content-Type" : "text/xml", "Accept" : "text/xml"]
-                let session = Foundation.URLSession(configuration: configuration)
+                let session = Foundation.URLSession(configuration: configuration, delegate: self, delegateQueue: OperationQueue.main)
                 let task = session.dataTask(with: request as URLRequest, completionHandler: {
                     (data, response, error) -> Void in
                     
@@ -654,7 +654,7 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
                 request.httpBody = encodedXML!
                 let configuration = URLSessionConfiguration.default
                 configuration.httpAdditionalHeaders = ["Authorization" : "Basic \(self.globalServerCredentials!)", "Content-Type" : "text/xml", "Accept" : "text/xml"]
-                let session = Foundation.URLSession(configuration: configuration)
+                let session = Foundation.URLSession(configuration: configuration, delegate: self, delegateQueue: OperationQueue.main)
                 let task = session.dataTask(with: request as URLRequest, completionHandler: {
                     (data, response, error) -> Void in
                     
@@ -765,5 +765,10 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
 
             }
         }
+    }
+    func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        
+        completionHandler(Foundation.URLSession.AuthChallengeDisposition.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
+        
     }
 }
