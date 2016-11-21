@@ -49,16 +49,19 @@ class AttributesView: NSViewController {
         if popDeviceOutlet.titleOfSelectedItem == " Users" {
             popIDOutlet.removeAllItems()
             popIDOutlet.addItems(withTitles: [" Username"," ID Number"])
-            
             popAttributeOutlet.removeAllItems()
-            popAttributeOutlet.addItems(withTitles: [" User's Username"," User's Full Name"," Email Address"," User's Position"," Phone Number"," User's Site by ID"," User's Site by Name"," User Extension Attribute"])
+            popAttributeOutlet.addItems(withTitles: [" User's Username"," User's Full Name"," Email Address"," User's Position"," Phone Number",/*" User's Site by ID"," User's Site by Name",*/" User Extension Attribute"]) // Removed sites for now, they appear to not be working
         }
         if popDeviceOutlet.titleOfSelectedItem == " iOS Devices" {
-            popIDOutlet.removeAllItems()
-            popIDOutlet.addItems(withTitles: [" Serial Number"," ID Number"])
-            
+            if popAttributeOutlet.titleOfSelectedItem == " Device Name" {
+                popIDOutlet.removeAllItems()
+                popIDOutlet.addItems(withTitles: [" Serial Number"])
+            } else {
+                popIDOutlet.removeAllItems()
+                popIDOutlet.addItems(withTitles: [" Serial Number"," ID Number"])
+            }
             popAttributeOutlet.removeAllItems()
-            popAttributeOutlet.addItems(withTitles: [" Device Name"," Asset Tag"," Username"," Full Name"," Email"," Position"," Department"," Building"," Room"," Site by ID"," Site by Name"," Extension Attribute"])
+            popAttributeOutlet.addItems(withTitles: [" Device Name"," Asset Tag"," Username"," Full Name"," Email"," Position"," Department"," Building"," Room",/*" Site by ID"," Site by Name",*/" Extension Attribute"]) // Removed Sites for now, they appear to not be working
         }
         if popDeviceOutlet.titleOfSelectedItem == " MacOS Devices" {
             popIDOutlet.removeAllItems()
@@ -74,10 +77,17 @@ class AttributesView: NSViewController {
     }
     
     @IBAction func popAttributeAction(_ sender: Any) {
-        if popAttributeOutlet.titleOfSelectedItem == " Extension Attribute" {
+        if popAttributeOutlet.titleOfSelectedItem == " Extension Attribute" || popAttributeOutlet.titleOfSelectedItem == " User Extension Attribute" {
             txtEAID.isEnabled = true
         } else {
             txtEAID.isEnabled = false
+        }
+        if popAttributeOutlet.titleOfSelectedItem == " Device Name" && popDeviceOutlet.titleOfSelectedItem == " iOS Devices" {
+            popIDOutlet.removeAllItems()
+            popIDOutlet.addItems(withTitles: [" Serial Number"])
+        } else {
+            popIDOutlet.removeAllItems()
+            popIDOutlet.addItems(withTitles: [" Serial Number"," ID Number"])
         }
     }
     

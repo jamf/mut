@@ -512,9 +512,9 @@
                                 </connections>
                             </button>
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OuZ-14-LPv">
-                                <rect key="frame" x="20" y="20" width="174" height="30"/>
+                                <rect key="frame" x="20" y="20" width="180" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="square" title="Clear all stored values" bezelStyle="shadowlessSquare" imagePosition="left" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="EpM-9c-qdM">
+                                <buttonCell key="cell" type="square" title="Clear stored URL/User" bezelStyle="shadowlessSquare" imagePosition="left" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="EpM-9c-qdM">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" size="18" name="HelveticaNeue-Thin"/>
                                 </buttonCell>
@@ -601,7 +601,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JFU-8B-dxp">
-                                <rect key="frame" x="196" y="24" width="100" height="22"/>
+                                <rect key="frame" x="205" y="24" width="100" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Current Line:" id="VGz-A7-fjW">
                                     <font key="font" size="18" name="HelveticaNeue-Thin"/>
@@ -633,6 +633,17 @@
                                     <action selector="btnCancel:" target="Wso-JF-mtF" id="ECZ-ge-47f"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Pe-FS-dAs">
+                                <rect key="frame" x="244" y="20" width="154" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="square" title="Save Log Contents" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="rSI-dZ-agh">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" size="18" name="HelveticaNeue-Thin"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="btnSaveLog:" target="Wso-JF-mtF" id="5VZ-9K-aLM"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
@@ -641,6 +652,7 @@
                         <outlet property="btnAttribute" destination="flU-GQ-aVo" id="xKO-jl-enH"/>
                         <outlet property="btnCancelOutlet" destination="wMD-Ob-Eb7" id="uyr-7A-wQ0"/>
                         <outlet property="btnCredentials" destination="aCs-sx-Baw" id="pmJ-td-ebC"/>
+                        <outlet property="btnSaveOutlet" destination="0Pe-FS-dAs" id="7c4-GC-a7n"/>
                         <outlet property="btnServer" destination="4d2-L2-4qZ" id="thm-Lm-ARz"/>
                         <outlet property="btnSubmitOutlet" destination="yi8-lJ-HaJ" id="yKL-La-qw5"/>
                         <outlet property="lblCurrent" destination="JFU-8B-dxp" id="pj1-jR-ctj"/>
@@ -827,15 +839,15 @@ DQ
                             <popUpButton fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PHa-n3-o7c">
                                 <rect key="frame" x="257" y="318" width="323" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <popUpButtonCell key="cell" type="square" title=" iOS Devices" bezelStyle="shadowlessSquare" imagePosition="left" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" preferredEdge="maxY" selectedItem="atr-kW-4L4" id="AhU-iZ-Rua">
+                                <popUpButtonCell key="cell" type="square" title=" MacOS Devices" bezelStyle="shadowlessSquare" imagePosition="left" alignment="left" lineBreakMode="truncatingTail" borderStyle="border" imageScaling="proportionallyDown" inset="2" preferredEdge="maxY" selectedItem="BvJ-rs-bkh" id="AhU-iZ-Rua">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" size="30" name="HelveticaNeue-Thin"/>
                                     <menu key="menu" id="zhE-k0-U8s">
                                         <items>
-                                            <menuItem title=" iOS Devices" state="on" id="atr-kW-4L4"/>
                                             <menuItem title=" MacOS Devices" id="BvJ-rs-bkh">
                                                 <attributedString key="attributedTitle"/>
                                             </menuItem>
+                                            <menuItem title=" iOS Devices" state="on" id="atr-kW-4L4"/>
                                             <menuItem title=" Users" id="nEq-4a-sjt">
                                                 <attributedString key="attributedTitle"/>
                                             </menuItem>

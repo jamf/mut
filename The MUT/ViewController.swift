@@ -22,7 +22,8 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     var globalAttributeType: String!
     var globalEndpoint: String!
     var globalXMLDevice: String!
-    var globalXMLSubset: String!
+    var globalXMLSubsetStart: String!
+    var globalXMLSubsetEnd: String!
     var globalXMLAttribute: String!
     var globalXMLExtraStart: String!
     var globalXMLExtraEnd: String!
@@ -59,6 +60,7 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     @IBOutlet weak var btnAttribute: NSButton!
     @IBOutlet weak var btnCancelOutlet: NSButton!
     @IBOutlet weak var btnSubmitOutlet: NSButton!
+    @IBOutlet weak var btnSaveOutlet: NSButton!
     
     // Declare outlet for entire controller
     @IBOutlet var MainViewController: NSView!
@@ -215,15 +217,15 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
             case " iOS Devices" :
                 globalXMLDevice = "mobile_device"
                 globalEndpoint = "mobiledevices"
-                print("iOS")
+                //print("iOS")
             case " MacOS Devices" :
                 globalXMLDevice = "computer"
                 globalEndpoint = "computers"
-                print("MacOS")
+                //print("MacOS")
             case " Users" :
                 globalXMLDevice = "user"
                 globalEndpoint = "users"
-                print("MacOS")
+                //print("MacOS")
             default:
                 print("Something Broke")
         }
@@ -232,13 +234,13 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
         switch (globalIDType) {
             case " Serial Number" :
                 globalEndpointID = "serialnumber"
-                print("Serial")
+                //print("Serial")
             case " ID Number" :
                 globalEndpointID = "id"
-                print("ID")
+                //print("ID")
             case " Username" :
                 globalEndpointID = "name"
-                print("ID")
+                //print("ID")
             default:
                 print("Something Broke")
         }
@@ -248,82 +250,147 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
         // iOS and MacOS
             case " Device Name" :
                 if globalDeviceType == " iOS Devices" {
+                    //print("GOING TO ENFORCE")
                     // TODO: Add name enforcement function
                 }
                 if globalDeviceType == " MacOS Devices"{
-                    globalXMLSubset = "general"
+                    globalXMLSubsetStart = "<general>"
+                    globalXMLSubsetEnd = "</general>"
                     globalXMLAttribute = "name"
-                    print ("General Name")
+                    globalXMLExtraStart = ""
+                    globalXMLExtraEnd = ""
+                    //print ("General Name")
                 }
             case " Asset Tag" :
-                globalXMLSubset = "general"
+                globalXMLSubsetStart = "<general>"
+                globalXMLSubsetEnd = "</general>"
                 globalXMLAttribute = "asset_tag"
-                print("General AssetTag")
+                globalXMLExtraStart = ""
+                globalXMLExtraEnd = ""
+                //print("General AssetTag")
             case " Username" :
-                globalXMLSubset = "location"
+                globalXMLSubsetStart = "<location>"
+                globalXMLSubsetEnd = "</location>"
                 globalXMLAttribute = "username"
-                print("Location Username")
+                globalXMLExtraStart = ""
+                globalXMLExtraEnd = ""
+                //print("Location Username")
             case " Full Name" :
-                globalXMLSubset = "location"
+                globalXMLSubsetStart = "<location>"
+                globalXMLSubsetEnd = "</location>"
                 globalXMLAttribute = "real_name"
-                print("Location RealName")
+                //print("Location RealName")
             case " Email" :
-                globalXMLSubset = "location"
+                globalXMLSubsetStart = "<location>"
+                globalXMLSubsetEnd = "</location>"
                 globalXMLAttribute = "email_address"
-                print("Location EmailAddress")
+                globalXMLExtraStart = ""
+                globalXMLExtraEnd = ""
+                //print("Location EmailAddress")
             case " Position" :
-                globalXMLSubset = "location"
+                globalXMLSubsetStart = "<location>"
+                globalXMLSubsetEnd = "</location>"
                 globalXMLAttribute = "position"
-                print("Location Position")
+                //print("Location Position")
             case " Department" :
-                globalXMLSubset = "location"
+                globalXMLSubsetStart = "<location>"
+                globalXMLSubsetEnd = "</location>"
                 globalXMLAttribute = "department"
-                print("Location Department")
+                globalXMLExtraStart = ""
+                globalXMLExtraEnd = ""
+                //print("Location Department")
             case " Building" :
-                globalXMLSubset = "location"
+                globalXMLSubsetStart = "<location>"
+                globalXMLSubsetEnd = "</location>"
                 globalXMLAttribute = "building"
-                print("Location Building")
+                globalXMLExtraStart = ""
+                globalXMLExtraEnd = ""
+                //print("Location Building")
             case " Room" :
-                globalXMLSubset = "location"
+                globalXMLSubsetStart = "<location>"
+                globalXMLSubsetEnd = "</location>"
                 globalXMLAttribute = "room"
-                print("Location Room")
+                globalXMLExtraStart = ""
+                globalXMLExtraEnd = ""
+                //print("Location Room")
             case " Site by ID" :
-                globalXMLSubset = "general"
+                globalXMLSubsetStart = "<general>"
+                globalXMLSubsetEnd = "</general>"
                 globalXMLAttribute = "site"
-                print("Site by ID General")
+                globalXMLExtraStart = "<id>"
+                globalXMLExtraEnd = "</id>"
+                //print("Site by ID General")
             case " Site by Name" :
-                globalXMLSubset = "general"
+                globalXMLSubsetStart = "<general>"
+                globalXMLSubsetEnd = "</general>"
                 globalXMLAttribute = "site"
-                print("Site by Name General")
+                globalXMLExtraStart = "<name>"
+                globalXMLExtraEnd = "</name>"
+                //print("Site by Name General")
             case " Extension Attribute" : // TODO: Add EA stuff and sites
-                globalEndpointID = "serialnumber"
-                print("Serial")
+                globalXMLSubsetStart = "<extension_attributes>"
+                globalXMLSubsetEnd = "</extension_attributes>"
+                globalXMLAttribute = "extension_attribute"
+                globalXMLExtraStart = "<id>\(globalEAID!)</id><value>"
+                globalXMLExtraEnd = "</value>"
             
         // Users
             case " User's Username" :
                 globalXMLAttribute = "name"
-                print("Username")
+                globalXMLSubsetStart = ""
+                globalXMLSubsetEnd = ""
+                globalXMLExtraStart = ""
+                globalXMLExtraEnd = ""
+                //print("Username")
             case " User's Full Name" :
                 globalXMLAttribute = "full_name"
-                print("Full name")
+                globalXMLSubsetStart = ""
+                globalXMLSubsetEnd = ""
+                globalXMLExtraStart = ""
+                globalXMLExtraEnd = ""
+                //print("Full name")
             case " Email Address" :
                 globalXMLAttribute = "email"
-                print("Email")
+                globalXMLSubsetStart = ""
+                globalXMLSubsetEnd = ""
+                globalXMLExtraStart = ""
+                globalXMLExtraEnd = ""
+                //print("Email")
             case " User's Position" :
                 globalXMLAttribute = "position"
-                print("Position")
+                globalXMLSubsetStart = ""
+                globalXMLSubsetEnd = ""
+                globalXMLExtraStart = ""
+                globalXMLExtraEnd = ""
+                //print("Position")
             case " Phone Number" :
                 globalXMLAttribute = "phone_number"
-                print("Phone Number")
+                globalXMLSubsetStart = ""
+                globalXMLSubsetEnd = ""
+                globalXMLExtraStart = ""
+                globalXMLExtraEnd = ""
+                //print("Phone Number")
             case " User's Site by ID" :
+                globalXMLSubsetStart = "<sites>"
+                globalXMLSubsetEnd = "</sites>"
                 globalXMLAttribute = "site"
-                print("Site by ID General")
+                globalXMLExtraStart = "<id>"
+                globalXMLExtraEnd = "</id>"
+                //print("Site by ID General")
             case " User's Site by Name" :
+                globalXMLSubsetStart = "<sites>"
+                globalXMLSubsetEnd = "</sites>"
                 globalXMLAttribute = "site"
-                print("Site by ID General") // TODO: Fix EA STuff and Sites
+                globalXMLExtraStart = "<name>"
+                globalXMLExtraEnd = "</name>"
+                //print("Site by ID General") // TODO: Fix EA STuff and Sites
             case " User Extension Attribute" :
-                globalXMLAttribute = "site"
-                print("Site by ID General")
+                globalXMLSubsetStart = "<extension_attributes>"
+                globalXMLSubsetEnd = "</extension_attributes>"
+                globalXMLAttribute = "extension_attribute"
+                globalXMLExtraStart = "<id>\(globalEAID!)</id><value>"
+                globalXMLExtraEnd = "</value>"
+                //print("User EA")
             default:
                 print("Something Broke")
         }
@@ -400,7 +467,11 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
     // Run enforce name function if proper attributes are selected
     // Otherwise, run put data function and update attributes
     @IBAction func submitRequests(_ sender: Any) {
-        putData()
+        if globalDeviceType == " iOS Devices" && globalAttributeType == " Device Name" {
+            enforceMobileNames()
+        } else {
+            putData()
+        }
     }
     
     // MARK: - PUT DATA FUNCTION
@@ -417,6 +488,7 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
             self.barProgress.maxValue = Double(self.globalParsedCSV.rows.count)
             self.btnSubmitOutlet.isHidden = true
             self.btnCancelOutlet.isHidden = false
+            self.btnSaveOutlet.isHidden = true
         }
         // Declare variables needed for progress tracking
         var rowCounter = 0
@@ -441,18 +513,14 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
             
             // Concatenate the XML from attribute page variables and CSV, then encode it
             
-            if self.globalXMLDevice == "user" {
+            
                 self.globalXML =    "<\(self.globalXMLDevice!)>" +
-                                        "<\(self.globalXMLAttribute!)>\(currentRow[1])</\(self.globalXMLAttribute!)>" +
+                                        "\(self.globalXMLSubsetStart!)" +
+                                            "<\(self.globalXMLAttribute!)>" +
+                                                "\(self.globalXMLExtraStart!)\(currentRow[1])\(self.globalXMLExtraEnd!)" +
+                                            "</\(self.globalXMLAttribute!)>" +
+                                        "\(self.globalXMLSubsetEnd!)" +
                                     "</\(self.globalXMLDevice!)>"
-            } else {
-                self.globalXML =    "<\(self.globalXMLDevice!)>" +
-                                        "<\(self.globalXMLSubset!)>" +
-                                            "<\(self.globalXMLAttribute!)>\(currentRow[1])</\(self.globalXMLAttribute!)>" +
-                                        "</\(self.globalXMLSubset!)>" +
-                                    "</\(self.globalXMLDevice!)>"
-            }
-
             print(globalXML)
             let encodedXML = globalXML.data(using: String.Encoding.utf8)
 
@@ -518,6 +586,129 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
                         self.barProgress.doubleValue = 0.0
                         self.lblLine.stringValue = "0"
                         self.btnCancelOutlet.isHidden = true
+                        self.btnSaveOutlet.isHidden = false
+                    }
+                }
+            }
+            i += 1
+        }
+    }
+    
+    // MARK: - Enforce Mobile Device Names
+    func enforceMobileNames() {
+        //print("ENFORCING NAMES!")
+        // Async update the UI for the start of the run
+        DispatchQueue.main.async {
+            self.appendLogString(stringToAppend: "Beginning Update Run!")
+            self.printLineBreak()
+            self.lblLine.isHidden = false
+            self.lblCurrent.isHidden = false
+            self.lblEndLine.isHidden = false
+            self.lblOf.isHidden = false
+            self.barProgress.isHidden = false
+            self.barProgress.maxValue = Double(self.globalParsedCSV.rows.count)
+            self.btnSubmitOutlet.isHidden = true
+            self.btnCancelOutlet.isHidden = false
+            self.btnSaveOutlet.isHidden = true
+        }
+        // Declare variables needed for progress tracking
+        var rowCounter = 0
+        let row = globalParsedCSV.rows // Send parsed rows to an array
+        let lastrow = row.count - 1
+        var i = 0
+        lblEndLine.stringValue = "\(row.count)"
+        
+        // Set the max concurrent ops to the selectable number
+        myOpQueue.maxConcurrentOperationCount = concurrentRuns
+        
+        // Semaphore causes the op queue to wait for responses before sending a new request
+        let semaphore = DispatchSemaphore(value: 0)
+        
+        
+        while i <= lastrow {
+            // Sets the current row to the row of the loop
+            let currentRow = row[i]
+            
+            // Concatenate the URL from attribute page variables and CSV
+            let myURL = "\(self.globalServerURL!)mobiledevicecommands/command/DeviceName"
+            //print(myURL)
+            // Concatenate the XML from attribute page variables and CSV, then encode it
+            
+            
+            self.globalXML =    "<mobile_device_command>" +
+                                    "<command>DeviceName</command>" +
+                                    "<device_name>\(currentRow[1])</device_name>" +
+                                    "<mobile_devices>" +
+                                        "<mobile_device>" +
+                                            "<serial_number>\(currentRow[0])</serial_number>" +
+                                        "</mobile_device>" +
+                                    "</mobile_devices>" +
+                                "</mobile_device_command>"
+            let encodedXML = globalXML.data(using: String.Encoding.utf8)
+            
+            // Add a POST request to the operation queue
+            myOpQueue.addOperation {
+                let encodedURL = NSURL(string: myURL)
+                let request = NSMutableURLRequest(url: encodedURL! as URL)
+                request.httpMethod = "POST"
+                request.httpBody = encodedXML!
+                let configuration = URLSessionConfiguration.default
+                configuration.httpAdditionalHeaders = ["Authorization" : "Basic \(self.globalServerCredentials!)", "Content-Type" : "text/xml", "Accept" : "text/xml"]
+                let session = Foundation.URLSession(configuration: configuration)
+                let task = session.dataTask(with: request as URLRequest, completionHandler: {
+                    (data, response, error) -> Void in
+                    
+                    // If we got a response
+                    if let httpResponse = response as? HTTPURLResponse {
+                        // If that response is a success response
+                        if httpResponse.statusCode >= 200 && httpResponse.statusCode <= 299 {
+                            DispatchQueue.main.async {
+                                // Print information to the log box
+                                self.printString(stringToPrint: "Device with \(self.globalEndpointID!) \(currentRow[0]) - ")
+                                self.appendGreen(stringToPrint: "OK! - \(httpResponse.statusCode)")
+                                // Update the progress bar
+                                self.barProgress.doubleValue = Double(rowCounter)
+                            }
+                        } else {
+                            // If that response is not a success response
+                            DispatchQueue.main.async {
+                                // Print information to the log box
+                                self.printString(stringToPrint: "Device with \(self.globalEndpointID!) \(currentRow[0]) - ")
+                                self.appendRed(stringToPrint: "Failed! - \(httpResponse.statusCode)!")
+                                // Update the progress bar
+                                self.barProgress.doubleValue = Double(rowCounter)
+                            }
+                        }
+                        // Increment the row counter and signal that the response was received
+                        rowCounter += 1
+                        semaphore.signal()
+                        // Async update the row count label
+                        DispatchQueue.main.async {
+                            self.lblLine.stringValue = "\(rowCounter)"
+                        }
+                    }
+                    // Log errors if received (we probably shouldn't ever end up needing this)
+                    if error != nil {
+                        NSLog(error! as! String)
+                    }
+                })
+                // Send the request and then wait for the semaphore signal
+                task.resume()
+                semaphore.wait()
+                
+                // If we're on the last row sent, update the UI to reset for another run
+                if rowCounter == lastrow {
+                    DispatchQueue.main.async {
+                        self.lblLine.isHidden = true
+                        self.lblCurrent.isHidden = true
+                        self.lblEndLine.isHidden = true
+                        self.lblOf.isHidden = true
+                        self.barProgress.isHidden = true
+                        self.btnSubmitOutlet.isHidden = false
+                        self.barProgress.doubleValue = 0.0
+                        self.lblLine.stringValue = "0"
+                        self.btnCancelOutlet.isHidden = true
+                        self.btnSaveOutlet.isHidden = false
                     }
                 }
             }
@@ -545,6 +736,34 @@ class ViewController: NSViewController, DataSentURL, DataSentCredentials, DataSe
             self.barProgress.doubleValue = 0.0
             self.lblLine.stringValue = "0"
             self.btnCancelOutlet.isHidden = true
+            self.btnSaveOutlet.isHidden = false
+        }
+    }
+    
+    // MARK: - Save Log Text
+    @IBAction func btnSaveLog(_ sender: Any) {
+        // Get the current date/time and format it
+        let currentDate = NSDate()
+        let dayTimePeriodFormatter = DateFormatter()
+        dayTimePeriodFormatter.dateFormat = "yyyy-MM-dd_HH.mm"
+        let currentFormattedDate = dayTimePeriodFormatter.string(from: currentDate as Date)
+        // Create a new save window
+        let saveDialogue = NSSavePanel()
+        saveDialogue.allowedFileTypes = ["log","txt"]
+        saveDialogue.canCreateDirectories = true
+        saveDialogue.isExtensionHidden = false
+        saveDialogue.message = "Allowed file formats are .log and .txt."
+        saveDialogue.nameFieldStringValue = "MUT-Output-\(currentFormattedDate)"
+        saveDialogue.begin() { (result: Int) -> Void in
+            if result == NSFileHandlingPanelOKButton {
+                let logcontents = "\(self.txtMain.string!)"
+                do {
+                    try logcontents.write(toFile: (saveDialogue.url?.path)!, atomically: true, encoding: String.Encoding.ascii)
+                } catch {
+                    /* error handling here */
+                }
+
+            }
         }
     }
 }
