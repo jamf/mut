@@ -125,6 +125,8 @@ class CredentialsView: NSViewController, URLSessionDelegate {
                         }
                         if error != nil {
                             _ = self.dialogueWarning(question: "Fatal Error", text: "The MUT received a fatal error at authentication. The most common cause of this is an incorrect server URL. The full error output is below. \n\n \(error!.localizedDescription)")
+                            self.spinWheel.stopAnimation(self)
+                            self.btnAcceptOutlet.isHidden = false
                         }
                     })
                     task.resume()
