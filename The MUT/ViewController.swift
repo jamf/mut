@@ -413,7 +413,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
             let line1 = globalParsedCSV.rows[1]
             if line1.count >= 2 {
                 self.appendLogString(stringToAppend: "Example row from your CSV:")
-                self.appendLogString(stringToAppend: "\(globalIDType!.replacingOccurrences(of: " ", with: "")): \(line1[0]), \(globalAttributeType.replacingOccurrences(of: " ", with: "")): \(line1[1])")
+                self.appendLogString(stringToAppend: "\(globalIDType!.replacingOccurrences(of: " ", with: "")): \(line1[0]), \(globalAttributeType!): \(line1[1])")
             } else {
                 self.appendRed(stringToPrint: "Not enough columns in your CSV!!!")
             }
@@ -421,7 +421,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
             let line1 = globalParsedCSV.rows[0]
             if line1.count >= 2 {
                 self.appendLogString(stringToAppend: "Example row from your CSV:")
-                self.appendLogString(stringToAppend: "\(globalIDType.replacingOccurrences(of: " ", with: "")): \(line1[0]), \(globalAttributeType.replacingOccurrences(of: " ", with: "")): \(line1[1])")
+                self.appendLogString(stringToAppend: "\(globalIDType.replacingOccurrences(of: " ", with: "")): \(line1[0]), \(globalAttributeType!): \(line1[1])")
             } else {
                 self.appendRed(stringToPrint: "Not enough columns in your CSV!!!")
             }
@@ -504,7 +504,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
         let semaphore = DispatchSemaphore(value: 0)
         
 
-        while i < lastrow {
+        while i <= lastrow {
             // Sets the current row to the row of the loop
             let currentRow = row[i]
             
@@ -521,7 +521,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
                                             "</\(self.globalXMLAttribute!)>" +
                                         "\(self.globalXMLSubsetEnd!)" +
                                     "</\(self.globalXMLDevice!)>"
-            print(globalXML)
+            //print(globalXML)
             let encodedXML = globalXML.data(using: String.Encoding.utf8)
 
             // Add a PUT request to the operation queue

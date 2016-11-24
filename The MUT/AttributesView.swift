@@ -82,12 +82,14 @@ class AttributesView: NSViewController {
         } else {
             txtEAID.isEnabled = false
         }
-        if popAttributeOutlet.titleOfSelectedItem == " Device Name" && popDeviceOutlet.titleOfSelectedItem == " iOS Devices" {
-            popIDOutlet.removeAllItems()
-            popIDOutlet.addItems(withTitles: [" Serial Number"])
-        } else {
-            popIDOutlet.removeAllItems()
-            popIDOutlet.addItems(withTitles: [" Serial Number"," ID Number"])
+        if popDeviceOutlet.titleOfSelectedItem == " iOS Devices" {
+            if popAttributeOutlet.titleOfSelectedItem == " Device Name" {
+                popIDOutlet.removeAllItems()
+                popIDOutlet.addItems(withTitles: [" Serial Number"])
+            } else {
+                popIDOutlet.removeAllItems()
+                popIDOutlet.addItems(withTitles: [" Serial Number"," ID Number"])
+            }
         }
     }
     
