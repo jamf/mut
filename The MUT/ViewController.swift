@@ -421,7 +421,8 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
                 self.appendLogString(stringToAppend: "Example row from your CSV:")
                 self.appendLogString(stringToAppend: "\(globalIDType!.replacingOccurrences(of: " ", with: "")): \(line1[0]), \(globalAttributeType!): \(line1[1])")
             } else {
-                self.appendRed(stringToPrint: "Not enough columns in your CSV!!!")
+                self.appendRed(stringToPrint: "Not enough columns were found in your CSV!!!")
+                self.appendRed(stringToPrint: "You can set a custom delimiter under the gear icon if you wish.")
             }
         } else if globalParsedCSV.rows.count > 0 {
             let line1 = globalParsedCSV.rows[0]
@@ -429,7 +430,8 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
                 self.appendLogString(stringToAppend: "Example row from your CSV:")
                 self.appendLogString(stringToAppend: "\(globalIDType.replacingOccurrences(of: " ", with: "")): \(line1[0]), \(globalAttributeType!): \(line1[1])")
             } else {
-                self.appendRed(stringToPrint: "Not enough columns in your CSV!!!")
+                self.appendRed(stringToPrint: "Not enough columns were found in your CSV!!!")
+                self.appendRed(stringToPrint: "You can set a custom delimiter under the gear icon if you wish.")
             }
         } else {
             appendRed(stringToPrint: "No rows found in your CSV!!!")
