@@ -398,6 +398,12 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
     
     // Pass back the CSV Path
     func userDidEnterPath(csvPath: String) {
+        
+        // Set up delimiter
+        if mainViewDefaults.value(forKey: "Delimiter") != nil {
+            delimiter = mainViewDefaults.value(forKey: "Delimiter")! as! String
+        }
+        
         globalCSVPath = csvPath
         printLineBreak()
         appendLogString(stringToAppend: "CSV: \(globalCSVPath!)")
@@ -476,9 +482,14 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
     
     // MARK: - PUT DATA FUNCTION
     func putData() {
+        
+        if mainViewDefaults.value(forKey: "ConcurrentRows") != nil {
+            concurrentRuns = Int(mainViewDefaults.value(forKey: "ConcurrentRows") as! String)!
+        }
+        
         // Async update the UI for the start of the run
         DispatchQueue.main.async {
-            self.appendLogString(stringToAppend: "Beginning Update Run!")
+            self.appendLogString(stringToAppend: "Beginning Update Run! Sending \(self.concurrentRuns) rows at a time.")
             self.printLineBreak()
             self.lblLine.isHidden = false
             self.lblCurrent.isHidden = false
@@ -596,10 +607,15 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
     
     // MARK: - Enforce Mobile Device Names
     func enforceMobileNames() {
+        
+        if mainViewDefaults.value(forKey: "ConcurrentRows") != nil {
+            concurrentRuns = Int(mainViewDefaults.value(forKey: "ConcurrentRows") as! String)!
+        }
+        
         //print("ENFORCING NAMES!")
         // Async update the UI for the start of the run
         DispatchQueue.main.async {
-            self.appendLogString(stringToAppend: "Beginning Update Run!")
+            self.appendLogString(stringToAppend: "Beginning Update Run! Sending \(self.concurrentRuns) rows at a time.")
             self.printLineBreak()
             self.lblLine.isHidden = false
             self.lblCurrent.isHidden = false
@@ -766,6 +782,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
             }
         }
     }
+    
     func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         
         completionHandler(Foundation.URLSession.AuthChallengeDisposition.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))

@@ -19,6 +19,7 @@
 		F7333BF11DB55EDF00F89C00 /* The_MUTUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7333BF01DB55EDF00F89C00 /* The_MUTUITests.swift */; };
 		F75F5F0D1DCA4FCC002EF6E4 /* viewHelpWelcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = F75F5F0C1DCA4FCC002EF6E4 /* viewHelpWelcome.swift */; };
 		F7BCCA511DDEBE5400233348 /* CSwiftV.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BCCA501DDEBE5400233348 /* CSwiftV.swift */; };
+		F7BEA03D1DE7DD2400202C39 /* AdvancedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BEA03C1DE7DD2400202C39 /* AdvancedView.swift */; };
 		F7FCCA531DCA560C00D3EAC8 /* viewHelpCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7FCCA521DCA560C00D3EAC8 /* viewHelpCredentials.swift */; };
 /* End PBXBuildFile section */
 
@@ -58,6 +59,7 @@
 		F7333BF21DB55EDF00F89C00 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F75F5F0C1DCA4FCC002EF6E4 /* viewHelpWelcome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = viewHelpWelcome.swift; sourceTree = "<group>"; };
 		F7BCCA501DDEBE5400233348 /* CSwiftV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSwiftV.swift; sourceTree = "<group>"; };
+		F7BEA03C1DE7DD2400202C39 /* AdvancedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvancedView.swift; sourceTree = "<group>"; };
 		F7D623911DE2C745004040F1 /* The MUT.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "The MUT.entitlements"; sourceTree = "<group>"; };
 		F7FCCA521DCA560C00D3EAC8 /* viewHelpCredentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = viewHelpCredentials.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -115,6 +117,7 @@
 				F7333BD21DB55EDF00F89C00 /* ViewController.swift */,
 				F7333BD71DB55EDF00F89C00 /* Assets.xcassets */,
 				F7333BD91DB55EDF00F89C00 /* Main.storyboard */,
+				F7BEA03C1DE7DD2400202C39 /* AdvancedView.swift */,
 				F7333BDC1DB55EDF00F89C00 /* Info.plist */,
 				F7333BD41DB55EDF00F89C00 /* The_MUT.xcdatamodeld */,
 				F7321D1E1DB729C0007A1E94 /* ServerView.swift */,
@@ -286,6 +289,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F7BEA03D1DE7DD2400202C39 /* AdvancedView.swift in Sources */,
 				F7BCCA511DDEBE5400233348 /* CSwiftV.swift in Sources */,
 				F7333BD31DB55EDF00F89C00 /* ViewController.swift in Sources */,
 				F7321D211DB72B90007A1E94 /* CredentialsView.swift in Sources */,
