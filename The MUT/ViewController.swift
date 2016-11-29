@@ -539,7 +539,8 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
 
             // Add a PUT request to the operation queue
             myOpQueue.addOperation {
-                let encodedURL = NSURL(string: myURL)
+                let urlwithPercentEscapes = myURL.addingPercentEncoding( withAllowedCharacters: .urlQueryAllowed)
+                let encodedURL = NSURL(string: urlwithPercentEscapes!)
                 let request = NSMutableURLRequest(url: encodedURL! as URL)
                 request.httpMethod = "PUT"
                 request.httpBody = encodedXML!
@@ -666,7 +667,8 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
             
             // Add a POST request to the operation queue
             myOpQueue.addOperation {
-                let encodedURL = NSURL(string: myURL)
+                let urlwithPercentEscapes = myURL.addingPercentEncoding( withAllowedCharacters: .urlQueryAllowed)
+                let encodedURL = NSURL(string: urlwithPercentEscapes!)
                 let request = NSMutableURLRequest(url: encodedURL! as URL)
                 request.httpMethod = "POST"
                 request.httpBody = encodedXML!
