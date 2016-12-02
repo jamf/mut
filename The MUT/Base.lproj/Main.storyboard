@@ -111,7 +111,7 @@
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController storyboardIdentifier="MainStoryBoard" id="B8D-0N-5wS" sceneMemberID="viewController">
-                    <window key="window" identifier="MainWindow" title="The MUT v3-rc1" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
+                    <window key="window" identifier="MainWindow" title="The MUT v3.0" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
                         <windowCollectionBehavior key="collectionBehavior" fullScreenNone="YES"/>
                         <rect key="contentRect" x="549" y="381" width="600" height="400"/>
@@ -509,7 +509,7 @@ Gw
                             <popUpButton fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vnO-ix-Es5">
                                 <rect key="frame" x="228" y="178" width="38" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <popUpButtonCell key="cell" type="square" title="3" bezelStyle="shadowlessSquare" imagePosition="left" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" preferredEdge="maxY" selectedItem="jOm-5w-enJ" id="icL-xk-2Dl">
+                                <popUpButtonCell key="cell" type="square" title="2" bezelStyle="shadowlessSquare" imagePosition="left" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" preferredEdge="maxY" selectedItem="dEc-Hr-VnM" id="icL-xk-2Dl">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" size="30" name="HelveticaNeue-Thin"/>
                                     <menu key="menu" id="iMS-t5-kj0">
@@ -517,26 +517,14 @@ Gw
                                             <menuItem title="1" id="vGP-Hu-6JQ">
                                                 <attributedString key="attributedTitle"/>
                                             </menuItem>
-                                            <menuItem title="2" id="dEc-Hr-VnM"/>
-                                            <menuItem title="3" state="on" id="jOm-5w-enJ">
+                                            <menuItem title="2" state="on" id="dEc-Hr-VnM"/>
+                                            <menuItem title="3" id="jOm-5w-enJ">
                                                 <attributedString key="attributedTitle"/>
                                             </menuItem>
                                             <menuItem title="4" id="dDg-WA-UgZ">
                                                 <attributedString key="attributedTitle"/>
                                             </menuItem>
                                             <menuItem title="5" id="Olp-SM-D95">
-                                                <attributedString key="attributedTitle"/>
-                                            </menuItem>
-                                            <menuItem title="6" id="PzV-95-Z2Y">
-                                                <attributedString key="attributedTitle"/>
-                                            </menuItem>
-                                            <menuItem title="7" id="VZs-Ge-6m1">
-                                                <attributedString key="attributedTitle"/>
-                                            </menuItem>
-                                            <menuItem title="8" id="Xec-s5-oTf">
-                                                <attributedString key="attributedTitle"/>
-                                            </menuItem>
-                                            <menuItem title="9" id="8Id-wX-fEx">
                                                 <attributedString key="attributedTitle"/>
                                             </menuItem>
                                         </items>
@@ -571,7 +559,7 @@ Gw
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="Mue-Rf-tzA">
-                                <rect key="frame" x="20" y="201" width="257" height="4"/>
+                                <rect key="frame" x="20" y="201" width="257" height="5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </box>
                             <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="KCV-Nh-fAp">

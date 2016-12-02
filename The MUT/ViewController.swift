@@ -30,7 +30,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
     var globalXML: String!
     var globalEndpointID: String!
     var globalEAID: String!
-    var concurrentRuns = 3
+    var concurrentRuns = 2
     var delimiter = ","
     var globalCSVContent: String!
     var globalParsedCSV: CSwiftV!
