@@ -279,6 +279,8 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
                 globalXMLSubsetStart = "<location>"
                 globalXMLSubsetEnd = "</location>"
                 globalXMLAttribute = "real_name"
+                globalXMLExtraStart = ""
+                globalXMLExtraEnd = ""
                 //print("Location RealName")
             case " Email" :
                 globalXMLSubsetStart = "<location>"
@@ -291,6 +293,8 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
                 globalXMLSubsetStart = "<location>"
                 globalXMLSubsetEnd = "</location>"
                 globalXMLAttribute = "position"
+                globalXMLExtraStart = ""
+                globalXMLExtraEnd = ""
                 //print("Location Position")
             case " Department" :
                 globalXMLSubsetStart = "<location>"
