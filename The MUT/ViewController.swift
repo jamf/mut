@@ -35,6 +35,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
     var globalCSVContent: String!
     var globalParsedCSV: CSwiftV!
     var doneCounter = 0
+    var base64Credentials: String!
     
     // Set up operation queue for runs
     let myOpQueue = OperationQueue()
@@ -61,6 +62,15 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
     @IBOutlet weak var btnCancelOutlet: NSButton!
     @IBOutlet weak var btnSubmitOutlet: NSButton!
     @IBOutlet weak var btnSaveOutlet: NSButton!
+    @IBOutlet weak var btnAcceptOutlet: NSButton!
+    @IBOutlet weak var btnStoreUser: NSButton!
+    @IBOutlet weak var spinWheel: NSProgressIndicator!
+    
+    // Declare Text Boxes
+    @IBOutlet weak var txtUser: NSTextField!
+    @IBOutlet weak var txtPass: NSSecureTextField!
+    
+    
     
     // Declare outlet for entire controller
     @IBOutlet var MainViewController: NSView!
@@ -136,9 +146,12 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
         // Restoring more values and icons depending on stored defaults
         if mainViewDefaults.value(forKey: "UserName") != nil {
             let iconCredentials = "NSStatusPartiallyAvailable"
-            btnCredentials.image = NSImage(named: iconCredentials)
+            //btnCredentials.image = NSImage(named: iconCredentials)
             printString(stringToPrint: "Stored Username: ")
             appendLogString(stringToAppend: mainViewDefaults.value(forKey: "UserName") as! String)
+                txtUser.stringValue = mainViewDefaults.value(forKey: "UserName") as! String
+                btnStoreUser.state = 1
+                //txtPass.stringValue = " "
         }
     }
     
@@ -790,6 +803,74 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
             }
         }
     }
+    
+    // Accept Credentials Button
+    @IBAction func btnAcceptCredentials(_ sender: AnyObject) {
+        
+        //if delegateCredentials != nil {
+            
+            btnAcceptOutlet.isHidden = true
+            spinWheel.startAnimation(self)
+            let concatCredentials = "\(txtUser.stringValue):\(txtPass.stringValue)"
+            let utf8Credentials = concatCredentials.data(using: String.Encoding.utf8)
+            base64Credentials = utf8Credentials?.base64EncodedString()
+            
+            if txtUser.stringValue != "" && txtPass.stringValue != "" {
+                
+                DispatchQueue.main.async {
+                    //let myURL = "\(self.ApprovedURL!)activationcode"
+                    let myURL = "https://mlevenick.jamfcloud.com/JSSResource/activationcode"
+                    let encodedURL = NSURL(string: myURL)
+                    let request = NSMutableURLRequest(url: encodedURL as! URL)
+                    request.httpMethod = "GET"
+                    let configuration = URLSessionConfiguration.default
+                    configuration.httpAdditionalHeaders = ["Authorization" : "Basic \(self.base64Credentials!)", "Content-Type" : "text/xml", "Accept" : "text/xml"]
+                    let session = Foundation.URLSession(configuration: configuration, delegate: self, delegateQueue: OperationQueue.main)
+                    let task = session.dataTask(with: request as URLRequest, completionHandler: {
+                        (data, response, error) -> Void in
+                        if let httpResponse = response as? HTTPURLResponse {
+                            //print(httpResponse.statusCode)
+                            
+                            if httpResponse.statusCode >= 199 && httpResponse.statusCode <= 299 {
+                                //self.delegateCredentials?.userDidEnterCredentials(serverCredentials: self.base64Credentials) // Delegate for passing to main view
+                                
+                                // Store username if button pressed
+                                if self.btnStoreUser.state == 1 {
+                                    self.mainViewDefaults.set(self.txtUser.stringValue, forKey: "UserName")
+                                    self.mainViewDefaults.synchronize()
+                                    //self.delegateUsername?.userDidSaveUsername(savedUser: self.txtUser.stringValue)
+                                } else {
+                                    self.mainViewDefaults.removeObject(forKey: "UserName")
+                                    self.mainViewDefaults.synchronize()
+                                }
+                                self.spinWheel.stopAnimation(self)
+                                self.btnAcceptOutlet.isHidden = false
+                                //self.dismissViewController(self)
+                            } else {
+                                DispatchQueue.main.async {
+                                    self.spinWheel.stopAnimation(self)
+                                    self.btnAcceptOutlet.isHidden = false
+                                    _ = self.dialogueWarning(question: "Invalid Credentials", text: "The credentials you entered do not seem to have sufficient permissions. This could be due to an incorrect user/password, or possibly from insufficient permissions. MUT tests this against the user's ability to view the Activation Code via the API.")
+                                }
+                            }
+                        }
+                        if error != nil {
+                            _ = self.dialogueWarning(question: "Fatal Error", text: "The MUT received a fatal error at authentication. The most common cause of this is an incorrect server URL. The full error output is below. \n\n \(error!.localizedDescription)")
+                            self.spinWheel.stopAnimation(self)
+                            self.btnAcceptOutlet.isHidden = false
+                        }
+                    })
+                    task.resume()
+                }
+            } else {
+                _ = dialogueWarning(question: "Missing Credentials", text: "Either the username or the password field was left blank. Please fill in both the username and password field to verify credentials.")
+                self.spinWheel.stopAnimation(self)
+                self.btnAcceptOutlet.isHidden = false
+            }
+        //}
+    }
+
+    
     
     func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         
