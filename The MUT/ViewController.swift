@@ -9,7 +9,7 @@
 import Cocoa
 import Foundation
 
-class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSentCredentials, DataSentUsername, DataSentPath, DataSentAttributes {
+class ViewController: NSViewController, URLSessionDelegate, DataSentUsername, DataSentPath, DataSentAttributes {
     
     // MARK: - Declarations
     
@@ -36,6 +36,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
     var globalParsedCSV: CSwiftV!
     var doneCounter = 0
     var base64Credentials: String!
+    var serverURL: String!
     
     // Set up operation queue for runs
     let myOpQueue = OperationQueue()
@@ -56,12 +57,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
     ]
 
     // Declare outlets for Buttons to change color and hide/show
-    @IBOutlet weak var btnServer: NSButton!
-    @IBOutlet weak var btnCredentials: NSButton!
-    @IBOutlet weak var btnAttribute: NSButton!
-    @IBOutlet weak var btnCancelOutlet: NSButton!
     @IBOutlet weak var btnSubmitOutlet: NSButton!
-    @IBOutlet weak var btnSaveOutlet: NSButton!
     @IBOutlet weak var btnAcceptOutlet: NSButton!
     @IBOutlet weak var btnStoreUser: NSButton!
     @IBOutlet weak var spinWheel: NSProgressIndicator!
@@ -70,7 +66,27 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
     @IBOutlet weak var txtUser: NSTextField!
     @IBOutlet weak var txtPass: NSSecureTextField!
     
-    
+    // Declarations for Server Name
+    @IBOutlet weak var radioHosted: NSButton!
+    @IBOutlet weak var radioPrem: NSButton!
+    @IBOutlet weak var txtPrem: NSTextField!
+    @IBOutlet weak var txtHosted: NSTextField!
+    @IBAction func radioServer(_ sender: NSButton) {
+        
+        // Disable On-Prem if Hosted = TRUE
+        if radioHosted.state == 1 {
+            txtPrem.isEnabled = false
+            txtHosted.isEnabled = true
+            txtHosted.becomeFirstResponder()
+            
+            // Else Disable Hosted if Hosted = FALSE
+        } else {
+            txtHosted.isEnabled = false
+            txtPrem.isEnabled = true
+            txtPrem.becomeFirstResponder()
+        }
+    }
+
     
     // Declare outlet for entire controller
     @IBOutlet var MainViewController: NSView!
@@ -132,27 +148,28 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
         printLineBreak()
         printLineBreak()
         
-        // Restore icons if they should be set (stored values are present)
-        if mainViewDefaults.value(forKey: "ServerIcon") != nil && mainViewDefaults.value(forKey: "GlobalURL") != nil{
-            let iconServer = mainViewDefaults.value(forKey: "ServerIcon") as! String
-            globalServerURL = mainViewDefaults.value(forKey: "GlobalURL") as! String
-            btnServer.image = NSImage(named: iconServer)
-            btnCredentials.isEnabled = true
-            printString(stringToPrint: "Stored URL: ")
-            let cleanURL = globalServerURL.replacingOccurrences(of: "JSSResource/", with: "")
-            appendLogString(stringToAppend: cleanURL)
-        }
-        
-        // Restoring more values and icons depending on stored defaults
+        // Restoring Username if not null
         if mainViewDefaults.value(forKey: "UserName") != nil {
-            let iconCredentials = "NSStatusPartiallyAvailable"
-            //btnCredentials.image = NSImage(named: iconCredentials)
             printString(stringToPrint: "Stored Username: ")
             appendLogString(stringToAppend: mainViewDefaults.value(forKey: "UserName") as! String)
                 txtUser.stringValue = mainViewDefaults.value(forKey: "UserName") as! String
                 btnStoreUser.state = 1
-                //txtPass.stringValue = " "
         }
+        
+        // Restore Instance Name if Hosted
+        if mainViewDefaults.value(forKey: "HostedInstanceName") != nil {
+            txtHosted.stringValue = mainViewDefaults.value(forKey: "HostedInstanceName") as! String
+        }
+        
+        // Restore Prem URL if on prem
+        if mainViewDefaults.value(forKey: "PremInstanceURL") != nil {
+            txtPrem.stringValue = mainViewDefaults.value(forKey: "PremInstanceURL") as! String
+            radioPrem.state = 1
+            txtPrem.becomeFirstResponder()
+            txtHosted.isEnabled = false
+            txtPrem.isEnabled = true
+        }
+        
     }
     
     override func viewWillAppear() {
@@ -161,18 +178,6 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
         preferredContentSize = NSSize(width: 600, height: 400)
     }
     
-    // UX hand holding pop ups
-    override func viewDidAppear() {
-        // Start here popup - points to Server
-        if mainViewDefaults.value(forKey: "GlobalURL") == nil {
-            performSegue(withIdentifier: "segueStartHere", sender: self)
-        }
-        // Re-enter password popup - points to credentials
-        if mainViewDefaults.value(forKey: "UserName") != nil && mainViewDefaults.value(forKey: "didDisplayNoPass") == nil {
-            performSegue(withIdentifier: "segueNoPass", sender: self)
-            mainViewDefaults.set("true", forKey: "didDisplayNoPass")
-        }
-    }
     // TODO: - Delete this function? I don't think it's needed
     override var representedObject: Any? {
         didSet {
@@ -182,39 +187,10 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
 
     // MARK: - Delegate functions for passing data between view controllers
     
-    // User enters URL information on Server view
-    func userDidEnterURL(serverURL: String) {
-        globalServerURL = serverURL
-        btnServer.image = NSImage(named: "NSStatusAvailable")
-        mainViewDefaults.set(globalServerURL, forKey: "GlobalURL")
-        mainViewDefaults.set("NSStatusAvailable", forKey: "ServerIcon")
-        mainViewDefaults.synchronize()
-        btnCredentials.isEnabled = true
-        let cleanURL = globalServerURL.replacingOccurrences(of: "JSSResource/", with: "")
-        appendLogString(stringToAppend: "URL: \(cleanURL)")
-    }
-    
-    // Pass back the base 64 encoded credentials, or auth failure, from Credentials view
-    func userDidEnterCredentials(serverCredentials: String) {
-        if serverCredentials != "CREDENTIAL AUTHENTICATION FAILURE" {
-            btnCredentials.image = NSImage(named: "NSStatusAvailable")
-            btnAttribute.isEnabled = true
-            globalServerCredentials = serverCredentials
-            printLineBreak()
-            appendLogString(stringToAppend: "Credentials Successfully Verified.")
-            printLineBreak()
-            //print("Main view has \(globalServerCredentials)")
-        } else {
-            btnCredentials.image = NSImage(named: "NSStatusUnavailable")
-            printLineBreak()
-            appendLogString(stringToAppend: "Authentication Failure! Go to the Credentials screen to retry.")
-        }
-    }
-    
     // Pass back the Attribute information and CSV to be parsed
     func userDidEnterAttributes(updateAttributes: Array<Any>) {
         btnSubmitOutlet.isHidden = false
-        btnAttribute.image = NSImage(named: "NSStatusAvailable")
+        //btnAttribute.image = NSImage(named: "NSStatusAvailable")
         globalDeviceType = updateAttributes[0] as! String
         globalIDType = updateAttributes[1] as! String
         globalAttributeType = updateAttributes[2] as! String
@@ -461,27 +437,6 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
         mainViewDefaults.set(savedUser, forKey: "UserName")
     }
     
-    // Function for segue variable passing
-    override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
-        if segue.identifier == "segueServer" {
-            let ServerView: ServerView = segue.destinationController as! ServerView
-            ServerView.delegateURL = self
-        }
-        
-        if segue.identifier == "segueCredentials" {
-            let CredentialsView: CredentialsView = segue.destinationController as! CredentialsView
-            CredentialsView.delegateCredentials = self
-            CredentialsView.delegateUsername = self
-            CredentialsView.representedObject = globalServerURL as String
-        }
-        
-        if segue.identifier == "segueAttributes" {
-            let AttributesView: AttributesView = segue.destinationController as! AttributesView
-            AttributesView.delegatePath = self
-            AttributesView.delegateAttributes = self
-        }
-    }
-    
     @IBAction func btnClearStored(_ sender: AnyObject) {
         //Clear all stored values
         if let bundle = Bundle.main.bundleIdentifier {
@@ -518,7 +473,6 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
             self.barProgress.maxValue = Double(self.globalParsedCSV.rows.count)
             self.btnSubmitOutlet.isHidden = true
             self.btnCancelOutlet.isHidden = false
-            self.btnSaveOutlet.isHidden = true
         }
         // Declare variables needed for progress tracking
         var rowCounter = 0
@@ -617,7 +571,6 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
                         self.barProgress.doubleValue = 0.0
                         self.lblLine.stringValue = "0"
                         self.btnCancelOutlet.isHidden = true
-                        self.btnSaveOutlet.isHidden = false
                     }
                 }
             }
@@ -645,7 +598,6 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
             self.barProgress.maxValue = Double(self.globalParsedCSV.rows.count)
             self.btnSubmitOutlet.isHidden = true
             self.btnCancelOutlet.isHidden = false
-            self.btnSaveOutlet.isHidden = true
         }
         // Declare variables needed for progress tracking
         var rowCounter = 0
@@ -745,7 +697,6 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
                         self.barProgress.doubleValue = 0.0
                         self.lblLine.stringValue = "0"
                         self.btnCancelOutlet.isHidden = true
-                        self.btnSaveOutlet.isHidden = false
                     }
                 }
             }
@@ -755,7 +706,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
     
     // MARK: - Cancel function
     // Allow cancelling the run early, and print verbose information if it happens
-    @IBOutlet weak var btnCancel: NSButton!
+    @IBOutlet weak var btnCancelOutlet: NSButton!
     @IBAction func btnCancel(_ sender: Any) {
         myOpQueue.cancelAllOperations()
         DispatchQueue.main.async {
@@ -773,7 +724,6 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
             self.barProgress.doubleValue = 0.0
             self.lblLine.stringValue = "0"
             self.btnCancelOutlet.isHidden = true
-            self.btnSaveOutlet.isHidden = false
         }
     }
     
@@ -804,79 +754,126 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentURL, DataSen
         }
     }
     
-    // Accept Credentials Button
+    // MARK: - Verify Credentials
     @IBAction func btnAcceptCredentials(_ sender: AnyObject) {
         
-        //if delegateCredentials != nil {
-            
-            btnAcceptOutlet.isHidden = true
-            spinWheel.startAnimation(self)
-            let concatCredentials = "\(txtUser.stringValue):\(txtPass.stringValue)"
-            let utf8Credentials = concatCredentials.data(using: String.Encoding.utf8)
-            base64Credentials = utf8Credentials?.base64EncodedString()
-            
-            if txtUser.stringValue != "" && txtPass.stringValue != "" {
+        if radioHosted.state == 1 {
+            if txtHosted.stringValue != "" {
                 
-                DispatchQueue.main.async {
-                    //let myURL = "\(self.ApprovedURL!)activationcode"
-                    let myURL = "https://mlevenick.jamfcloud.com/JSSResource/activationcode"
-                    let encodedURL = NSURL(string: myURL)
-                    let request = NSMutableURLRequest(url: encodedURL as! URL)
-                    request.httpMethod = "GET"
-                    let configuration = URLSessionConfiguration.default
-                    configuration.httpAdditionalHeaders = ["Authorization" : "Basic \(self.base64Credentials!)", "Content-Type" : "text/xml", "Accept" : "text/xml"]
-                    let session = Foundation.URLSession(configuration: configuration, delegate: self, delegateQueue: OperationQueue.main)
-                    let task = session.dataTask(with: request as URLRequest, completionHandler: {
-                        (data, response, error) -> Void in
-                        if let httpResponse = response as? HTTPURLResponse {
-                            //print(httpResponse.statusCode)
+                // Add JSS Resource and jamfcloud info
+                serverURL = "https://\(txtHosted.stringValue).jamfcloud.com/JSSResource/"
+                
+                // Save the hosted instance and wipe saved prem server
+                let instanceName = txtHosted.stringValue
+                mainViewDefaults.set(instanceName, forKey: "HostedInstanceName")
+                mainViewDefaults.set(serverURL!, forKey: "ServerURL")
+                mainViewDefaults.removeObject(forKey: "PremInstanceURL")
+                
+                mainViewDefaults.synchronize()
+                let cleanURL = serverURL!.replacingOccurrences(of: "JSSResource/", with: "")
+                appendLogString(stringToAppend: "URL: \(cleanURL)")
+
+            } else {
+                // If no URL is filled, warn user
+                _ = dialogueWarning(question: "No Server Info", text: "You have selected the option for a hosted Jamf server, but no instance name was entered. Please enter your instance name and try again.")
+            }
+
+        }
+        
+        // If Prem Radio Chekced
+        if radioPrem.state == 1 {
+            
+            // Check if URL is filled
+            if txtPrem.stringValue != "" {
+                
+                // Add JSS Resource and remove double slashes
+                serverURL = "\(txtPrem.stringValue)/JSSResource/"
+                serverURL = serverURL.replacingOccurrences(of: "//JSSResource", with: "/JSSResource")
+                
+                // Save the prem URL and wipe saved hosted names
+                let serverSave = txtPrem.stringValue
+                mainViewDefaults.set(serverSave, forKey: "PremInstanceURL")
+                mainViewDefaults.set(serverURL!, forKey: "ServerURL")
+                mainViewDefaults.removeObject(forKey: "HostedInstanceName")
+                mainViewDefaults.synchronize()
+                let cleanURL = serverURL!.replacingOccurrences(of: "JSSResource/", with: "")
+                appendLogString(stringToAppend: "URL: \(cleanURL)")
+                
+            } else {
+                // If no URL is filled, warn user
+                _ = dialogueWarning(question: "No Server Info", text: "You have selected the option for an on prem server, but no server URL was entered. Please enter your instance name and try again.")
+            }
+        }
+
+        btnAcceptOutlet.isHidden = true
+        spinWheel.startAnimation(self)
+        let concatCredentials = "\(txtUser.stringValue):\(txtPass.stringValue)"
+        let utf8Credentials = concatCredentials.data(using: String.Encoding.utf8)
+        base64Credentials = utf8Credentials?.base64EncodedString()
+        
+        if txtUser.stringValue != "" && txtPass.stringValue != "" {
+            
+            DispatchQueue.main.async {
+                //let myURL = "\(self.ApprovedURL!)activationcode"
+                let myURL = "\(self.serverURL!)activationcode"
+                let encodedURL = NSURL(string: myURL)
+                let request = NSMutableURLRequest(url: encodedURL as! URL)
+                request.httpMethod = "GET"
+                let configuration = URLSessionConfiguration.default
+                configuration.httpAdditionalHeaders = ["Authorization" : "Basic \(self.base64Credentials!)", "Content-Type" : "text/xml", "Accept" : "text/xml"]
+                let session = Foundation.URLSession(configuration: configuration, delegate: self, delegateQueue: OperationQueue.main)
+                let task = session.dataTask(with: request as URLRequest, completionHandler: {
+                    (data, response, error) -> Void in
+                    if let httpResponse = response as? HTTPURLResponse {
+                        //print(httpResponse.statusCode)
+                        
+                        if httpResponse.statusCode >= 199 && httpResponse.statusCode <= 299 {
+                            //self.delegateCredentials?.userDidEnterCredentials(serverCredentials: self.base64Credentials) // Delegate for passing to main view
                             
-                            if httpResponse.statusCode >= 199 && httpResponse.statusCode <= 299 {
-                                //self.delegateCredentials?.userDidEnterCredentials(serverCredentials: self.base64Credentials) // Delegate for passing to main view
-                                
-                                // Store username if button pressed
-                                if self.btnStoreUser.state == 1 {
-                                    self.mainViewDefaults.set(self.txtUser.stringValue, forKey: "UserName")
-                                    self.mainViewDefaults.synchronize()
-                                    //self.delegateUsername?.userDidSaveUsername(savedUser: self.txtUser.stringValue)
-                                } else {
-                                    self.mainViewDefaults.removeObject(forKey: "UserName")
-                                    self.mainViewDefaults.synchronize()
-                                }
-                                self.spinWheel.stopAnimation(self)
-                                self.btnAcceptOutlet.isHidden = false
-                                //self.dismissViewController(self)
+                            self.printLineBreak()
+                            self.appendLogString(stringToAppend: "Credentials Successfully Verified.")
+                            
+                            // Store username if button pressed
+                            if self.btnStoreUser.state == 1 {
+                                self.mainViewDefaults.set(self.txtUser.stringValue, forKey: "UserName")
+                                self.mainViewDefaults.synchronize()
+                                //self.delegateUsername?.userDidSaveUsername(savedUser: self.txtUser.stringValue)
                             } else {
-                                DispatchQueue.main.async {
-                                    self.spinWheel.stopAnimation(self)
-                                    self.btnAcceptOutlet.isHidden = false
-                                    _ = self.dialogueWarning(question: "Invalid Credentials", text: "The credentials you entered do not seem to have sufficient permissions. This could be due to an incorrect user/password, or possibly from insufficient permissions. MUT tests this against the user's ability to view the Activation Code via the API.")
-                                }
+                                self.mainViewDefaults.removeObject(forKey: "UserName")
+                                self.mainViewDefaults.synchronize()
                             }
-                        }
-                        if error != nil {
-                            _ = self.dialogueWarning(question: "Fatal Error", text: "The MUT received a fatal error at authentication. The most common cause of this is an incorrect server URL. The full error output is below. \n\n \(error!.localizedDescription)")
                             self.spinWheel.stopAnimation(self)
                             self.btnAcceptOutlet.isHidden = false
+                            //self.dismissViewController(self)
+                        } else {
+                            DispatchQueue.main.async {
+                                self.spinWheel.stopAnimation(self)
+                                self.btnAcceptOutlet.isHidden = false
+                                _ = self.dialogueWarning(question: "Invalid Credentials", text: "The credentials you entered do not seem to have sufficient permissions. This could be due to an incorrect user/password, or possibly from insufficient permissions. MUT tests this against the user's ability to view the Activation Code via the API.")
+                            }
                         }
-                    })
-                    task.resume()
-                }
-            } else {
-                _ = dialogueWarning(question: "Missing Credentials", text: "Either the username or the password field was left blank. Please fill in both the username and password field to verify credentials.")
-                self.spinWheel.stopAnimation(self)
-                self.btnAcceptOutlet.isHidden = false
+                    }
+                    if error != nil {
+                        _ = self.dialogueWarning(question: "Fatal Error", text: "The MUT received a fatal error at authentication. The most common cause of this is an incorrect server URL. The full error output is below. \n\n \(error!.localizedDescription)")
+                        self.spinWheel.stopAnimation(self)
+                        self.btnAcceptOutlet.isHidden = false
+                    }
+                })
+                task.resume()
             }
-        //}
+        } else {
+            _ = dialogueWarning(question: "Missing Credentials", text: "Either the username or the password field was left blank. Please fill in both the username and password field to verify credentials.")
+            self.spinWheel.stopAnimation(self)
+            self.btnAcceptOutlet.isHidden = false
+        }
     }
-
-    
     
     func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         
         completionHandler(Foundation.URLSession.AuthChallengeDisposition.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
         
     }
+    
     func dialogueWarning (question: String, text: String) -> Bool {
         
         let myPopup: NSAlert = NSAlert()

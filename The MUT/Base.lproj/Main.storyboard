@@ -288,15 +288,15 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button identifier="radioHosted" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="llo-Cu-Xvj">
+                            <button identifier="radioHosted" fixedFrame="YES" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="llo-Cu-Xvj">
                                 <rect key="frame" x="17" y="591" width="18" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="radio" bezelStyle="regularSquare" imagePosition="overlaps" alignment="left" state="on" inset="2" id="DuI-mY-I9L">
+                                <buttonCell key="cell" type="radio" bezelStyle="regularSquare" imagePosition="overlaps" alignment="center" state="on" inset="2" id="DuI-mY-I9L">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" size="11" name="HelveticaNeue-Thin"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="radioServerType:" target="DtC-Bo-3qF" id="2Ts-V6-d6G"/>
+                                    <action selector="radioServer:" target="Wso-JF-mtF" id="ofB-vg-HqT"/>
                                 </connections>
                             </button>
                             <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="Mue-Rf-tzA">
@@ -332,18 +332,7 @@
                                     <font key="font" size="20" name="HelveticaNeue-Thin"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="radioServerType:" target="DtC-Bo-3qF" id="Dal-ky-dFX"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m1N-xw-dKz">
-                                <rect key="frame" x="172" y="425" width="81" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Button" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" transparent="YES" imageScaling="proportionallyDown" inset="2" id="tlH-ks-HCP">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <segue destination="r72-za-GjZ" kind="popover" identifier="segueNoPass" popoverAnchorView="m1N-xw-dKz" popoverBehavior="t" preferredEdge="maxY" id="fUN-Zd-S6C"/>
+                                    <action selector="radioServer:" target="Wso-JF-mtF" id="TWq-83-HGR"/>
                                 </connections>
                             </button>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y43-hB-7D1">
@@ -391,7 +380,7 @@ DQ
                                 </secureTextFieldCell>
                             </secureTextField>
                             <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="tsN-11-r9P">
-                                <rect key="frame" x="328" y="439" width="16" height="16"/>
+                                <rect key="frame" x="318" y="438" width="16" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </progressIndicator>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0jA-fY-579">
@@ -591,22 +580,38 @@ DQ
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
+                            <button hidden="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m6p-k2-jN9">
+                                <rect key="frame" x="388" y="285" width="132" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="roundTextured" title="Cancel" bezelStyle="texturedRounded" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="D5L-eG-oNG">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="btnCancel:" target="Wso-JF-mtF" id="AKX-41-NlE"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
                         <outlet property="MainViewController" destination="xfl-iX-lsl" id="7M1-6i-wAx"/>
                         <outlet property="barProgress" destination="8pW-Oe-fIA" id="6Ka-zV-FO5"/>
                         <outlet property="btnAcceptOutlet" destination="f2O-Lk-ngA" id="cHm-vw-QdR"/>
+                        <outlet property="btnCancelOutlet" destination="m6p-k2-jN9" id="0Uk-mJ-7pP"/>
                         <outlet property="btnStoreUser" destination="oo6-1h-4nP" id="iMD-6g-OPC"/>
                         <outlet property="btnSubmitOutlet" destination="yi8-lJ-HaJ" id="yKL-La-qw5"/>
                         <outlet property="lblCurrent" destination="JFU-8B-dxp" id="pj1-jR-ctj"/>
                         <outlet property="lblEndLine" destination="bYj-C5-1zd" id="23j-tR-gVX"/>
                         <outlet property="lblLine" destination="Xys-cz-Tsi" id="NKZ-5R-DAV"/>
                         <outlet property="lblOf" destination="1BZ-dR-A3V" id="sKo-GV-BNM"/>
+                        <outlet property="radioHosted" destination="llo-Cu-Xvj" id="gdE-SX-ad3"/>
+                        <outlet property="radioPrem" destination="tq7-GS-mtx" id="Nha-hi-9Uk"/>
                         <outlet property="spinWheel" destination="tsN-11-r9P" id="4oF-cY-vm8"/>
+                        <outlet property="txtHosted" destination="bew-Qj-s5A" id="Wqv-k6-syR"/>
                         <outlet property="txtMain" destination="dBh-lq-H5l" id="TO3-JU-rQc"/>
                         <outlet property="txtMainWrapper" destination="CeX-aA-cNt" id="lFz-94-1kg"/>
                         <outlet property="txtPass" destination="XHa-8M-xpd" id="OsZ-KC-um2"/>
+                        <outlet property="txtPrem" destination="JaS-0g-gzF" id="m9H-9R-UWl"/>
                         <outlet property="txtUser" destination="y43-hB-7D1" id="eFR-za-ciN"/>
                     </connections>
                 </viewController>
