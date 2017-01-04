@@ -9,7 +9,7 @@
 import Cocoa
 import Foundation
 
-class ViewController: NSViewController, URLSessionDelegate, DataSentUsername, DataSentPath, DataSentAttributes {
+class ViewController: NSViewController, URLSessionDelegate, DataSentPath, DataSentAttributes {
     
     // MARK: - Declarations
     
@@ -87,7 +87,6 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentUsername, Da
         }
     }
 
-    
     // Declare outlet for entire controller
     @IBOutlet var MainViewController: NSView!
     
@@ -102,40 +101,6 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentUsername, Da
     @IBOutlet weak var lblEndLine: NSTextField!
     @IBOutlet weak var lblLine: NSTextField!
 
-    // Defining functions for writing/appending log information
-    
-    // Simple line break
-    func printLineBreak() {
-        self.txtMain.textStorage?.append(NSAttributedString(string: "\n", attributes: self.myFontAttribute))
-    }
-    
-    // Prints fixed point text with no line break after
-    func printString(stringToPrint: String) {
-        self.txtMain.textStorage?.append(NSAttributedString(string: "\(stringToPrint)", attributes: self.myFontAttribute))
-    }
-    
-    // Prints green fixed point text with line break after - "OK"
-    func appendGreen(stringToPrint: String) {
-        self.txtMain.textStorage?.append(NSAttributedString(string: "\(stringToPrint)\n", attributes: self.myOKFontAttribute))
-        self.txtMain.scrollToEndOfDocument(self)
-    }
-    
-    // Prints red fixed point text with line break after - "FAIL"
-    func appendRed(stringToPrint: String) {
-        self.txtMain.textStorage?.append(NSAttributedString(string: "\(stringToPrint)\n", attributes: self.myFailFontAttribute))
-        self.txtMain.scrollToEndOfDocument(self)
-    }
-    
-    // Prints black fixed point text with line break after
-    func appendLogString(stringToAppend: String) {
-        self.txtMain.textStorage?.append(NSAttributedString(string: "\(stringToAppend)\n", attributes: self.myFontAttribute))
-        self.txtMain.scrollToEndOfDocument(self)
-    }
-    
-    // Clears the entire logging text field
-    func clearLog() {
-        self.txtMain.textStorage?.setAttributedString(NSAttributedString(string: "", attributes: self.myFontAttribute))
-    }
     
     // MARK: - On load
     
@@ -170,12 +135,19 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentUsername, Da
             txtPrem.isEnabled = true
         }
         
+        // Set up delimiter
+        if mainViewDefaults.value(forKey: "Delimiter") != nil {
+            delimiter = mainViewDefaults.value(forKey: "Delimiter")! as! String
+            appendLogString(stringToAppend: "Stored delimiter found: " + delimiter)
+        } else {
+            delimiter = ","
+        }
     }
     
     override func viewWillAppear() {
         //resize the view
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 600, height: 400)
+        preferredContentSize = NSSize(width: 540, height: 628)
     }
     
     // TODO: - Delete this function? I don't think it's needed
@@ -185,6 +157,128 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentUsername, Da
         }
     }
 
+    
+    // MARK: - Verify Credentials
+    @IBAction func btnAcceptCredentials(_ sender: AnyObject) {
+        
+        if radioHosted.state == 1 {
+            if txtHosted.stringValue != "" {
+                
+                // Add JSS Resource and jamfcloud info
+                serverURL = "https://\(txtHosted.stringValue).jamfcloud.com/JSSResource/"
+                
+                // Save the hosted instance and wipe saved prem server
+                let instanceName = txtHosted.stringValue
+                mainViewDefaults.set(instanceName, forKey: "HostedInstanceName")
+                mainViewDefaults.set(serverURL!, forKey: "ServerURL")
+                mainViewDefaults.removeObject(forKey: "PremInstanceURL")
+                
+                mainViewDefaults.synchronize()
+                let cleanURL = serverURL!.replacingOccurrences(of: "JSSResource/", with: "")
+                appendLogString(stringToAppend: "URL: \(cleanURL)")
+                
+            } else {
+                // If no URL is filled, warn user
+                _ = dialogueWarning(question: "No Server Info", text: "You have selected the option for a hosted Jamf server, but no instance name was entered. Please enter your instance name and try again.")
+            }
+            
+        }
+        
+        // If Prem Radio Chekced
+        if radioPrem.state == 1 {
+            
+            // Check if URL is filled
+            if txtPrem.stringValue != "" {
+                
+                // Add JSS Resource and remove double slashes
+                serverURL = "\(txtPrem.stringValue)/JSSResource/"
+                serverURL = serverURL.replacingOccurrences(of: "//JSSResource", with: "/JSSResource")
+                
+                // Save the prem URL and wipe saved hosted names
+                let serverSave = txtPrem.stringValue
+                mainViewDefaults.set(serverSave, forKey: "PremInstanceURL")
+                mainViewDefaults.set(serverURL!, forKey: "ServerURL")
+                mainViewDefaults.removeObject(forKey: "HostedInstanceName")
+                mainViewDefaults.synchronize()
+                let cleanURL = serverURL!.replacingOccurrences(of: "JSSResource/", with: "")
+                appendLogString(stringToAppend: "URL: \(cleanURL)")
+                
+            } else {
+                // If no URL is filled, warn user
+                _ = dialogueWarning(question: "No Server Info", text: "You have selected the option for an on prem server, but no server URL was entered. Please enter your instance name and try again.")
+            }
+        }
+        if serverURL != nil {
+            print(serverURL)
+            
+            btnAcceptOutlet.isHidden = true
+            spinWheel.startAnimation(self)
+            let concatCredentials = "\(txtUser.stringValue):\(txtPass.stringValue)"
+            let utf8Credentials = concatCredentials.data(using: String.Encoding.utf8)
+            base64Credentials = utf8Credentials?.base64EncodedString()
+            
+            if txtUser.stringValue != "" && txtPass.stringValue != "" {
+                
+                DispatchQueue.main.async {
+                    //let myURL = "\(self.ApprovedURL!)activationcode"
+                    let myURL = "\(self.serverURL!)activationcode"
+                    let encodedURL = NSURL(string: myURL)
+                    let request = NSMutableURLRequest(url: encodedURL as! URL)
+                    request.httpMethod = "GET"
+                    let configuration = URLSessionConfiguration.default
+                    configuration.httpAdditionalHeaders = ["Authorization" : "Basic \(self.base64Credentials!)", "Content-Type" : "text/xml", "Accept" : "text/xml"]
+                    let session = Foundation.URLSession(configuration: configuration, delegate: self, delegateQueue: OperationQueue.main)
+                    let task = session.dataTask(with: request as URLRequest, completionHandler: {
+                        (data, response, error) -> Void in
+                        if let httpResponse = response as? HTTPURLResponse {
+                            //print(httpResponse.statusCode)
+                            
+                            if httpResponse.statusCode >= 199 && httpResponse.statusCode <= 299 {
+                                //self.delegateCredentials?.userDidEnterCredentials(serverCredentials: self.base64Credentials) // Delegate for passing to main view
+                                
+                                self.printLineBreak()
+                                self.appendLogString(stringToAppend: "Credentials Successfully Verified.")
+                                
+                                // Store username if button pressed
+                                if self.btnStoreUser.state == 1 {
+                                    self.mainViewDefaults.set(self.txtUser.stringValue, forKey: "UserName")
+                                    self.mainViewDefaults.synchronize()
+                                    //self.delegateUsername?.userDidSaveUsername(savedUser: self.txtUser.stringValue)
+                                } else {
+                                    self.mainViewDefaults.removeObject(forKey: "UserName")
+                                    self.mainViewDefaults.synchronize()
+                                }
+                                self.spinWheel.stopAnimation(self)
+                                self.btnAcceptOutlet.isHidden = false
+                                //self.dismissViewController(self)
+                            } else {
+                                DispatchQueue.main.async {
+                                    self.spinWheel.stopAnimation(self)
+                                    self.btnAcceptOutlet.isHidden = false
+                                    _ = self.dialogueWarning(question: "Invalid Credentials", text: "The credentials you entered do not seem to have sufficient permissions. This could be due to an incorrect user/password, or possibly from insufficient permissions. MUT tests this against the user's ability to view the Activation Code via the API.")
+                                }
+                            }
+                        }
+                        if error != nil {
+                            _ = self.dialogueWarning(question: "Fatal Error", text: "The MUT received a fatal error at authentication. The most common cause of this is an incorrect server URL. The full error output is below. \n\n \(error!.localizedDescription)")
+                            self.spinWheel.stopAnimation(self)
+                            self.btnAcceptOutlet.isHidden = false
+                        }
+                    })
+                    task.resume()
+                }
+            } else {
+                _ = dialogueWarning(question: "Missing Credentials", text: "Either the username or the password field was left blank. Please fill in both the username and password field to verify credentials.")
+                self.spinWheel.stopAnimation(self)
+                self.btnAcceptOutlet.isHidden = false
+            }
+        }
+    }
+
+    
+    
+    //vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+    
     // MARK: - Delegate functions for passing data between view controllers
     
     // Pass back the Attribute information and CSV to be parsed
@@ -392,10 +486,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentUsername, Da
     // Pass back the CSV Path
     func userDidEnterPath(csvPath: String) {
         
-        // Set up delimiter
-        if mainViewDefaults.value(forKey: "Delimiter") != nil {
-            delimiter = mainViewDefaults.value(forKey: "Delimiter")! as! String
-        }
+
         
         globalCSVPath = csvPath
         printLineBreak()
@@ -432,11 +523,13 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentUsername, Da
         printLineBreak()
     }
     
-    // Pass back the Username alone to store if selected
-    func userDidSaveUsername(savedUser: String) {
-        mainViewDefaults.set(savedUser, forKey: "UserName")
-    }
     
+    //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    
+    
+    
+    
+
     @IBAction func btnClearStored(_ sender: AnyObject) {
         //Clear all stored values
         if let bundle = Bundle.main.bundleIdentifier {
@@ -753,129 +846,47 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentUsername, Da
             }
         }
     }
-    
-    // MARK: - Verify Credentials
-    @IBAction func btnAcceptCredentials(_ sender: AnyObject) {
         
-        if radioHosted.state == 1 {
-            if txtHosted.stringValue != "" {
-                
-                // Add JSS Resource and jamfcloud info
-                serverURL = "https://\(txtHosted.stringValue).jamfcloud.com/JSSResource/"
-                
-                // Save the hosted instance and wipe saved prem server
-                let instanceName = txtHosted.stringValue
-                mainViewDefaults.set(instanceName, forKey: "HostedInstanceName")
-                mainViewDefaults.set(serverURL!, forKey: "ServerURL")
-                mainViewDefaults.removeObject(forKey: "PremInstanceURL")
-                
-                mainViewDefaults.synchronize()
-                let cleanURL = serverURL!.replacingOccurrences(of: "JSSResource/", with: "")
-                appendLogString(stringToAppend: "URL: \(cleanURL)")
-
-            } else {
-                // If no URL is filled, warn user
-                _ = dialogueWarning(question: "No Server Info", text: "You have selected the option for a hosted Jamf server, but no instance name was entered. Please enter your instance name and try again.")
-            }
-
-        }
-        
-        // If Prem Radio Chekced
-        if radioPrem.state == 1 {
-            
-            // Check if URL is filled
-            if txtPrem.stringValue != "" {
-                
-                // Add JSS Resource and remove double slashes
-                serverURL = "\(txtPrem.stringValue)/JSSResource/"
-                serverURL = serverURL.replacingOccurrences(of: "//JSSResource", with: "/JSSResource")
-                
-                // Save the prem URL and wipe saved hosted names
-                let serverSave = txtPrem.stringValue
-                mainViewDefaults.set(serverSave, forKey: "PremInstanceURL")
-                mainViewDefaults.set(serverURL!, forKey: "ServerURL")
-                mainViewDefaults.removeObject(forKey: "HostedInstanceName")
-                mainViewDefaults.synchronize()
-                let cleanURL = serverURL!.replacingOccurrences(of: "JSSResource/", with: "")
-                appendLogString(stringToAppend: "URL: \(cleanURL)")
-                
-            } else {
-                // If no URL is filled, warn user
-                _ = dialogueWarning(question: "No Server Info", text: "You have selected the option for an on prem server, but no server URL was entered. Please enter your instance name and try again.")
-            }
-        }
-
-        btnAcceptOutlet.isHidden = true
-        spinWheel.startAnimation(self)
-        let concatCredentials = "\(txtUser.stringValue):\(txtPass.stringValue)"
-        let utf8Credentials = concatCredentials.data(using: String.Encoding.utf8)
-        base64Credentials = utf8Credentials?.base64EncodedString()
-        
-        if txtUser.stringValue != "" && txtPass.stringValue != "" {
-            
-            DispatchQueue.main.async {
-                //let myURL = "\(self.ApprovedURL!)activationcode"
-                let myURL = "\(self.serverURL!)activationcode"
-                let encodedURL = NSURL(string: myURL)
-                let request = NSMutableURLRequest(url: encodedURL as! URL)
-                request.httpMethod = "GET"
-                let configuration = URLSessionConfiguration.default
-                configuration.httpAdditionalHeaders = ["Authorization" : "Basic \(self.base64Credentials!)", "Content-Type" : "text/xml", "Accept" : "text/xml"]
-                let session = Foundation.URLSession(configuration: configuration, delegate: self, delegateQueue: OperationQueue.main)
-                let task = session.dataTask(with: request as URLRequest, completionHandler: {
-                    (data, response, error) -> Void in
-                    if let httpResponse = response as? HTTPURLResponse {
-                        //print(httpResponse.statusCode)
-                        
-                        if httpResponse.statusCode >= 199 && httpResponse.statusCode <= 299 {
-                            //self.delegateCredentials?.userDidEnterCredentials(serverCredentials: self.base64Credentials) // Delegate for passing to main view
-                            
-                            self.printLineBreak()
-                            self.appendLogString(stringToAppend: "Credentials Successfully Verified.")
-                            
-                            // Store username if button pressed
-                            if self.btnStoreUser.state == 1 {
-                                self.mainViewDefaults.set(self.txtUser.stringValue, forKey: "UserName")
-                                self.mainViewDefaults.synchronize()
-                                //self.delegateUsername?.userDidSaveUsername(savedUser: self.txtUser.stringValue)
-                            } else {
-                                self.mainViewDefaults.removeObject(forKey: "UserName")
-                                self.mainViewDefaults.synchronize()
-                            }
-                            self.spinWheel.stopAnimation(self)
-                            self.btnAcceptOutlet.isHidden = false
-                            //self.dismissViewController(self)
-                        } else {
-                            DispatchQueue.main.async {
-                                self.spinWheel.stopAnimation(self)
-                                self.btnAcceptOutlet.isHidden = false
-                                _ = self.dialogueWarning(question: "Invalid Credentials", text: "The credentials you entered do not seem to have sufficient permissions. This could be due to an incorrect user/password, or possibly from insufficient permissions. MUT tests this against the user's ability to view the Activation Code via the API.")
-                            }
-                        }
-                    }
-                    if error != nil {
-                        _ = self.dialogueWarning(question: "Fatal Error", text: "The MUT received a fatal error at authentication. The most common cause of this is an incorrect server URL. The full error output is below. \n\n \(error!.localizedDescription)")
-                        self.spinWheel.stopAnimation(self)
-                        self.btnAcceptOutlet.isHidden = false
-                    }
-                })
-                task.resume()
-            }
-        } else {
-            _ = dialogueWarning(question: "Missing Credentials", text: "Either the username or the password field was left blank. Please fill in both the username and password field to verify credentials.")
-            self.spinWheel.stopAnimation(self)
-            self.btnAcceptOutlet.isHidden = false
-        }
+    func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        completionHandler(Foundation.URLSession.AuthChallengeDisposition.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
     }
     
-    func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-        
-        completionHandler(Foundation.URLSession.AuthChallengeDisposition.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
-        
+    // Defining functions for writing/appending log information
+    
+    // Simple line break
+    func printLineBreak() {
+        self.txtMain.textStorage?.append(NSAttributedString(string: "\n", attributes: self.myFontAttribute))
+    }
+    
+    // Prints fixed point text with no line break after
+    func printString(stringToPrint: String) {
+        self.txtMain.textStorage?.append(NSAttributedString(string: "\(stringToPrint)", attributes: self.myFontAttribute))
+    }
+    
+    // Prints green fixed point text with line break after - "OK"
+    func appendGreen(stringToPrint: String) {
+        self.txtMain.textStorage?.append(NSAttributedString(string: "\(stringToPrint)\n", attributes: self.myOKFontAttribute))
+        self.txtMain.scrollToEndOfDocument(self)
+    }
+    
+    // Prints red fixed point text with line break after - "FAIL"
+    func appendRed(stringToPrint: String) {
+        self.txtMain.textStorage?.append(NSAttributedString(string: "\(stringToPrint)\n", attributes: self.myFailFontAttribute))
+        self.txtMain.scrollToEndOfDocument(self)
+    }
+    
+    // Prints black fixed point text with line break after
+    func appendLogString(stringToAppend: String) {
+        self.txtMain.textStorage?.append(NSAttributedString(string: "\(stringToAppend)\n", attributes: self.myFontAttribute))
+        self.txtMain.scrollToEndOfDocument(self)
+    }
+    
+    // Clears the entire logging text field
+    func clearLog() {
+        self.txtMain.textStorage?.setAttributedString(NSAttributedString(string: "", attributes: self.myFontAttribute))
     }
     
     func dialogueWarning (question: String, text: String) -> Bool {
-        
         let myPopup: NSAlert = NSAlert()
         myPopup.messageText = question
         myPopup.informativeText = text
