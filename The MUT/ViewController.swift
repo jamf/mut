@@ -6,10 +6,13 @@
 //  Copyright © 2016 Levenick Enterprises LLC. All rights reserved.
 //
 
+
+// TODO: Fix the CSV Path Stuff (find file and parse)
+// TODO: Fix the submit button to actually work
 import Cocoa
 import Foundation
 
-class ViewController: NSViewController, URLSessionDelegate, DataSentPath, DataSentAttributes {
+class ViewController: NSViewController, URLSessionDelegate {
     
     // MARK: - Declarations
     
@@ -103,6 +106,10 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentPath, DataSe
     
     // DropDowns for Attributes etc
     @IBOutlet weak var popAttributeOutlet: NSPopUpButton!
+    @IBOutlet weak var popDeviceOutlet: NSPopUpButton!
+    @IBOutlet weak var popIDOutlet: NSPopUpButton!
+    @IBOutlet weak var txtEAID: NSTextField!
+    @IBOutlet weak var txtCSV: NSTextField!
 
     
     // MARK: - On load
@@ -165,6 +172,51 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentPath, DataSe
         }
     }
 
+    // Set up the dropdown items depending on what record type is selected
+    @IBAction func popDeviceAction(_ sender: Any) {
+        
+        if popDeviceOutlet.titleOfSelectedItem == " Users" {
+            popIDOutlet.removeAllItems()
+            popIDOutlet.addItems(withTitles: [" Username"," ID Number"])
+            popAttributeOutlet.removeAllItems()
+            popAttributeOutlet.addItems(withTitles: [" User's Username"," User's Full Name"," Email Address"," User's Position"," Phone Number",/*" User's Site by ID"," User's Site by Name",*/" User Extension Attribute"]) // Removed sites for now, they appear to not be working
+        }
+        if popDeviceOutlet.titleOfSelectedItem == " iOS Devices" {
+            if popAttributeOutlet.titleOfSelectedItem == " Device Name" {
+                popIDOutlet.removeAllItems()
+                popIDOutlet.addItems(withTitles: [" Serial Number"])
+            } else {
+                popIDOutlet.removeAllItems()
+                popIDOutlet.addItems(withTitles: [" Serial Number"," ID Number"])
+            }
+            popAttributeOutlet.removeAllItems()
+            popAttributeOutlet.addItems(withTitles: [" Device Name"," Asset Tag"," Username"," Full Name"," Email"," Position"," Department"," Building"," Room",/*" Site by ID"," Site by Name",*/" Extension Attribute"]) // Removed Sites for now, they appear to not be working
+        }
+        if popDeviceOutlet.titleOfSelectedItem == " MacOS Devices" {
+            popIDOutlet.removeAllItems()
+            popIDOutlet.addItems(withTitles: [" Serial Number"," ID Number"])
+            
+            popAttributeOutlet.removeAllItems()
+            popAttributeOutlet.addItems(withTitles: [" Device Name"," Asset Tag"," Username"," Full Name"," Email"," Position"," Department"," Building"," Room"," Site by ID"," Site by Name"," Extension Attribute"])
+        }
+    }
+    
+    @IBAction func popAttributeAction(_ sender: Any) {
+        if popAttributeOutlet.titleOfSelectedItem == " Extension Attribute" || popAttributeOutlet.titleOfSelectedItem == " User Extension Attribute" {
+            txtEAID.isEnabled = true
+        } else {
+            txtEAID.isEnabled = false
+        }
+        if popDeviceOutlet.titleOfSelectedItem == " iOS Devices" {
+            if popAttributeOutlet.titleOfSelectedItem == " Device Name" {
+                popIDOutlet.removeAllItems()
+                popIDOutlet.addItems(withTitles: [" Serial Number"])
+            } else {
+                popIDOutlet.removeAllItems()
+                popIDOutlet.addItems(withTitles: [" Serial Number"," ID Number"])
+            }
+        }
+    }
     
     // MARK: - Verify Credentials
     @IBAction func btnAcceptCredentials(_ sender: AnyObject) {
@@ -290,13 +342,15 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentPath, DataSe
     // MARK: - Delegate functions for passing data between view controllers
     
     // Pass back the Attribute information and CSV to be parsed
-    func userDidEnterAttributes(updateAttributes: Array<Any>) {
+    //func userDidEnterAttributes(updateAttributes: Array<Any>) {
+        
+    func userDidEnterAttributes() {
         btnSubmitOutlet.isHidden = false
         //btnAttribute.image = NSImage(named: "NSStatusAvailable")
-        globalDeviceType = updateAttributes[0] as! String
-        globalIDType = updateAttributes[1] as! String
-        globalAttributeType = updateAttributes[2] as! String
-        globalEAID = updateAttributes[3] as! String
+        globalDeviceType = popDeviceOutlet.stringValue
+        globalIDType = popIDOutlet.stringValue
+        globalAttributeType = popAttributeOutlet.stringValue
+        globalEAID = txtEAID.stringValue
         appendLogString(stringToAppend: "Device Type: \(globalDeviceType!)")
         appendLogString(stringToAppend: "ID Type: \(globalIDType!)")
         appendLogString(stringToAppend: "Attribute Type: \(globalAttributeType!)")
@@ -492,11 +546,11 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentPath, DataSe
     }
     
     // Pass back the CSV Path
-    func userDidEnterPath(csvPath: String) {
+    func userDidEnterPath() {
         
 
         
-        globalCSVPath = csvPath
+        globalCSVPath = txtCSV.stringValue
         printLineBreak()
         appendLogString(stringToAppend: "CSV: \(globalCSVPath!)")
         
@@ -548,6 +602,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentPath, DataSe
     // Run enforce name function if proper attributes are selected
     // Otherwise, run put data function and update attributes
     @IBAction func submitRequests(_ sender: Any) {
+        userDidEnterAttributes()
         if globalDeviceType == " iOS Devices" && globalAttributeType == " Device Name" {
             enforceMobileNames()
         } else {
