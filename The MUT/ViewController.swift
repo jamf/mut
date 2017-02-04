@@ -24,6 +24,7 @@ class ViewController: NSViewController, URLSessionDelegate {
     var globalIDType: String!
     var globalAttributeType: String!
     var globalEndpoint: String!
+    var globalPathToCSV: NSURL!
     var globalXMLDevice: String!
     var globalXMLSubsetStart: String!
     var globalXMLSubsetEnd: String!
@@ -218,6 +219,24 @@ class ViewController: NSViewController, URLSessionDelegate {
         }
     }
     
+    @IBAction func btnBrowse(_ sender: Any) {
+        let openPanel = NSOpenPanel()
+        openPanel.allowsMultipleSelection = false
+        openPanel.canChooseDirectories = false
+        openPanel.canCreateDirectories = false
+        openPanel.canChooseFiles = true
+        openPanel.allowedFileTypes = ["csv"]
+        openPanel.begin { (result) in
+            if result == NSFileHandlingPanelOKButton {
+                //print(openPanel.URL!) //uncomment for debugging
+                self.globalPathToCSV = openPanel.url! as NSURL!
+                //print(self.globalPathToCSV.path!) //uncomment for debugging
+                self.txtCSV.stringValue = self.globalPathToCSV.path!
+            }
+        }
+    }
+
+    
     // MARK: - Verify Credentials
     @IBAction func btnAcceptCredentials(_ sender: AnyObject) {
         
@@ -296,6 +315,7 @@ class ViewController: NSViewController, URLSessionDelegate {
                             if httpResponse.statusCode >= 199 && httpResponse.statusCode <= 299 {
                                 //self.delegateCredentials?.userDidEnterCredentials(serverCredentials: self.base64Credentials) // Delegate for passing to main view
                                 self.globalServerCredentials = self.base64Credentials
+                                self.globalServerURL = self.serverURL
                                 self.printLineBreak()
                                 self.appendLogString(stringToAppend: "Credentials Successfully Verified. \(self.globalServerCredentials)")
                                 
@@ -347,9 +367,9 @@ class ViewController: NSViewController, URLSessionDelegate {
     func userDidEnterAttributes() {
         btnSubmitOutlet.isHidden = false
         //btnAttribute.image = NSImage(named: "NSStatusAvailable")
-        globalDeviceType = popDeviceOutlet.stringValue
-        globalIDType = popIDOutlet.stringValue
-        globalAttributeType = popAttributeOutlet.stringValue
+        globalDeviceType = popDeviceOutlet.titleOfSelectedItem
+        globalIDType = popIDOutlet.titleOfSelectedItem
+        globalAttributeType = popAttributeOutlet.titleOfSelectedItem
         globalEAID = txtEAID.stringValue
         appendLogString(stringToAppend: "Device Type: \(globalDeviceType!)")
         appendLogString(stringToAppend: "ID Type: \(globalIDType!)")
@@ -360,6 +380,7 @@ class ViewController: NSViewController, URLSessionDelegate {
         // Switches to set XML and Endpoint values
         switch (globalDeviceType) {
             case " iOS Devices" :
+                print("CHOOSING IOS HERE")
                 globalXMLDevice = "mobile_device"
                 globalEndpoint = "mobiledevices"
                 //print("iOS")
@@ -603,6 +624,7 @@ class ViewController: NSViewController, URLSessionDelegate {
     // Otherwise, run put data function and update attributes
     @IBAction func submitRequests(_ sender: Any) {
         userDidEnterAttributes()
+        userDidEnterPath()
         if globalDeviceType == " iOS Devices" && globalAttributeType == " Device Name" {
             enforceMobileNames()
         } else {
@@ -633,7 +655,9 @@ class ViewController: NSViewController, URLSessionDelegate {
         // Declare variables needed for progress tracking
         var rowCounter = 0
         let row = globalParsedCSV.rows // Send parsed rows to an array
+        print(row)
         let lastrow = row.count - 1
+        print(lastrow)
         var i = 0
         lblEndLine.stringValue = "\(row.count)"
         
@@ -647,9 +671,14 @@ class ViewController: NSViewController, URLSessionDelegate {
         while i <= lastrow {
             // Sets the current row to the row of the loop
             let currentRow = row[i]
+            print(currentRow)
+            print(self.globalServerURL)
+            print(self.globalEndpoint)
+            print(self.globalEndpointID)
             
             // Concatenate the URL from attribute page variables and CSV
             let myURL = "\(self.globalServerURL!)\(self.globalEndpoint!)/\(self.globalEndpointID!)/\(currentRow[0])"
+            print(myURL)
             
             // Concatenate the XML from attribute page variables and CSV, then encode it
             

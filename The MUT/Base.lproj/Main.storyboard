@@ -484,7 +484,7 @@ DQ
                                     </menu>
                                 </popUpButtonCell>
                                 <connections>
-                                    <action selector="popAttributeAction:" target="w43-eq-tNT" id="lHL-ru-hAt"/>
+                                    <action selector="popAttributeAction:" target="Wso-JF-mtF" id="4eN-iF-M9y"/>
                                 </connections>
                             </popUpButton>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4pS-EG-IQd">
@@ -507,7 +507,7 @@ DQ
 </string>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="btnBrowse:" target="w43-eq-tNT" id="LMj-sr-UYA"/>
+                                    <action selector="btnBrowse:" target="Wso-JF-mtF" id="Tff-Ex-erE"/>
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SGr-Kx-o3g">
@@ -838,8 +838,6 @@ Gw
                     </view>
                     <connections>
                         <outlet property="popAttributeOutlet" destination="JbY-gP-QYS" id="jU0-oE-rys"/>
-                        <outlet property="popDeviceOutlet" destination="PHa-n3-o7c" id="gIc-j0-h4V"/>
-                        <outlet property="popIDOutlet" destination="K4q-Ev-c0G" id="DHf-NJ-hKv"/>
                         <outlet property="txtEAID" destination="6zd-dF-5QE" id="Zhy-En-f9D"/>
                         <outlet property="txtPathToCSV" destination="4pS-EG-IQd" id="fWK-5m-Rl6"/>
                     </connections>
