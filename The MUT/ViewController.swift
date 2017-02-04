@@ -100,6 +100,9 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentPath, DataSe
     @IBOutlet weak var lblOf: NSTextField!
     @IBOutlet weak var lblEndLine: NSTextField!
     @IBOutlet weak var lblLine: NSTextField!
+    
+    // DropDowns for Attributes etc
+    @IBOutlet weak var popAttributeOutlet: NSPopUpButton!
 
     
     // MARK: - On load
@@ -142,6 +145,11 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentPath, DataSe
         } else {
             delimiter = ","
         }
+        
+        // Set up the attribute outlet drop down
+        popAttributeOutlet.removeAllItems()
+        popAttributeOutlet.addItems(withTitles: [" Device Name"," Asset Tag"," Username"," Full Name"," Email"," Position"," Department"," Building"," Room"," Site by ID"," Site by Name"," Extension Attribute"])
+
     }
     
     override func viewWillAppear() {
@@ -235,9 +243,9 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentPath, DataSe
                             
                             if httpResponse.statusCode >= 199 && httpResponse.statusCode <= 299 {
                                 //self.delegateCredentials?.userDidEnterCredentials(serverCredentials: self.base64Credentials) // Delegate for passing to main view
-                                
+                                self.globalServerCredentials = self.base64Credentials
                                 self.printLineBreak()
-                                self.appendLogString(stringToAppend: "Credentials Successfully Verified.")
+                                self.appendLogString(stringToAppend: "Credentials Successfully Verified. \(self.globalServerCredentials)")
                                 
                                 // Store username if button pressed
                                 if self.btnStoreUser.state == 1 {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
@@ -308,7 +308,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </box>
                             <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="p4S-41-DIr">
-                                <rect key="frame" x="194" y="544" width="146" height="5"/>
+                                <rect key="frame" x="194" y="544" width="146" height="70"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </box>
                             <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="HpB-zE-OK5">
@@ -467,7 +467,7 @@ DQ
                                 </connections>
                             </popUpButton>
                             <popUpButton fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JbY-gP-QYS">
-                                <rect key="frame" x="171" y="315" width="101" height="25"/>
+                                <rect key="frame" x="171" y="315" width="118" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="roundTextured" title=" Asset Tag" bezelStyle="texturedRounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" preferredEdge="maxY" selectedItem="cF1-pR-irp" id="Ysd-1N-KHF">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -520,7 +520,7 @@ DQ
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PWs-lq-fxU">
-                                <rect key="frame" x="280" y="317" width="167" height="22"/>
+                                <rect key="frame" x="295" y="317" width="167" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="Extension Attribute ID:" allowsEditingTextAttributes="YES" id="gk3-Wz-V53">
                                     <font key="font" size="18" name="HelveticaNeue-Thin"/>
@@ -604,6 +604,7 @@ DQ
                         <outlet property="lblEndLine" destination="bYj-C5-1zd" id="23j-tR-gVX"/>
                         <outlet property="lblLine" destination="Xys-cz-Tsi" id="NKZ-5R-DAV"/>
                         <outlet property="lblOf" destination="1BZ-dR-A3V" id="sKo-GV-BNM"/>
+                        <outlet property="popAttributeOutlet" destination="JbY-gP-QYS" id="u4t-FA-2Pj"/>
                         <outlet property="radioHosted" destination="llo-Cu-Xvj" id="gdE-SX-ad3"/>
                         <outlet property="radioPrem" destination="tq7-GS-mtx" id="Nha-hi-9Uk"/>
                         <outlet property="spinWheel" destination="tsN-11-r9P" id="4oF-cY-vm8"/>
