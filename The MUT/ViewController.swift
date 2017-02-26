@@ -41,6 +41,7 @@ class ViewController: NSViewController, URLSessionDelegate {
     var doneCounter = 0
     var base64Credentials: String!
     var serverURL: String!
+    var verified = false
     
     // Set up operation queue for runs
     let myOpQueue = OperationQueue()
@@ -65,6 +66,7 @@ class ViewController: NSViewController, URLSessionDelegate {
     @IBOutlet weak var btnAcceptOutlet: NSButton!
     @IBOutlet weak var btnStoreUser: NSButton!
     @IBOutlet weak var spinWheel: NSProgressIndicator!
+    @IBOutlet weak var btnPreFlightOutlet: NSButton!
     
     // Declare Text Boxes
     @IBOutlet weak var txtUser: NSTextField!
@@ -317,7 +319,9 @@ class ViewController: NSViewController, URLSessionDelegate {
                                 self.globalServerCredentials = self.base64Credentials
                                 self.globalServerURL = self.serverURL
                                 self.printLineBreak()
-                                self.appendLogString(stringToAppend: "Credentials Successfully Verified. \(self.globalServerCredentials)")
+                                self.appendLogString(stringToAppend: "Credentials Successfully Verified.")
+                                self.printLineBreak()
+                                self.verified = true
                                 
                                 // Store username if button pressed
                                 if self.btnStoreUser.state == 1 {
@@ -374,13 +378,13 @@ class ViewController: NSViewController, URLSessionDelegate {
         appendLogString(stringToAppend: "Device Type: \(globalDeviceType!)")
         appendLogString(stringToAppend: "ID Type: \(globalIDType!)")
         appendLogString(stringToAppend: "Attribute Type: \(globalAttributeType!)")
+        printLineBreak()
         
         // MARK: - XML Building variables
         
         // Switches to set XML and Endpoint values
         switch (globalDeviceType) {
             case " iOS Devices" :
-                print("CHOOSING IOS HERE")
                 globalXMLDevice = "mobile_device"
                 globalEndpoint = "mobiledevices"
                 //print("iOS")
@@ -569,10 +573,8 @@ class ViewController: NSViewController, URLSessionDelegate {
     // Pass back the CSV Path
     func userDidEnterPath() {
         
-
-        
         globalCSVPath = txtCSV.stringValue
-        printLineBreak()
+        //printLineBreak()
         appendLogString(stringToAppend: "CSV: \(globalCSVPath!)")
         
         // Parse the CSV into an array
@@ -620,16 +622,49 @@ class ViewController: NSViewController, URLSessionDelegate {
         }
     }
     
+    //Pre Flight Checks
+    @IBAction func btnPreFlight(_ sender: Any) {
+        if verified {
+
+            userDidEnterAttributes()
+            
+            if txtCSV.stringValue != "" {
+                userDidEnterPath()
+            } else {
+                _ = dialogueWarning(question: "No CSV Path Found", text: "Please browse for a CSV file in order to continue.")
+                return
+            }
+            
+
+        } else {
+            _ = dialogueWarning(question: "Please Verify Credentials", text: "Please enter your server URL, and the credentials for an administrator account, and then verify your credentials to continue.")
+        }
+
+        
+    }
+    
     // Run enforce name function if proper attributes are selected
     // Otherwise, run put data function and update attributes
     @IBAction func submitRequests(_ sender: Any) {
-        userDidEnterAttributes()
-        userDidEnterPath()
-        if globalDeviceType == " iOS Devices" && globalAttributeType == " Device Name" {
-            enforceMobileNames()
+        if verified {
+            if txtCSV.stringValue != "" {
+                 userDidEnterPath()
+            } else {
+                _ = dialogueWarning(question: "No CSV Path Found", text: "Please browse for a CSV file in order to continue.")
+                return
+            }
+            
+            userDidEnterAttributes()
+            if globalDeviceType == " iOS Devices" && globalAttributeType == " Device Name" {
+                enforceMobileNames()
+            } else {
+                putData()
+            }
         } else {
-            putData()
+            _ = dialogueWarning(question: "Please Verify Credentials", text: "Please enter your server URL, and the credentials for an administrator account, and then verify your credentials to continue.")
         }
+
+        
     }
     
     // MARK: - PUT DATA FUNCTION

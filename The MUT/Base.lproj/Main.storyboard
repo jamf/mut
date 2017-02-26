@@ -308,11 +308,11 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </box>
                             <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="p4S-41-DIr">
-                                <rect key="frame" x="194" y="544" width="146" height="70"/>
+                                <rect key="frame" x="194" y="544" width="146" height="5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </box>
                             <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="HpB-zE-OK5">
-                                <rect key="frame" x="20" y="387" width="500" height="5"/>
+                                <rect key="frame" x="20" y="387" width="500" height="4"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </box>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JaS-0g-gzF">
@@ -591,6 +591,17 @@ DQ
                                     <action selector="btnCancel:" target="Wso-JF-mtF" id="AKX-41-NlE"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AOy-KK-CFH">
+                                <rect key="frame" x="388" y="274" width="132" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="roundTextured" title="Pre-flight Check" bezelStyle="texturedRounded" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="kiO-gu-l2m">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="btnPreFlight:" target="Wso-JF-mtF" id="B2t-iL-c6P"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
@@ -598,6 +609,7 @@ DQ
                         <outlet property="barProgress" destination="8pW-Oe-fIA" id="6Ka-zV-FO5"/>
                         <outlet property="btnAcceptOutlet" destination="f2O-Lk-ngA" id="cHm-vw-QdR"/>
                         <outlet property="btnCancelOutlet" destination="m6p-k2-jN9" id="0Uk-mJ-7pP"/>
+                        <outlet property="btnPreFlightOutlet" destination="AOy-KK-CFH" id="5x2-a5-dto"/>
                         <outlet property="btnStoreUser" destination="oo6-1h-4nP" id="iMD-6g-OPC"/>
                         <outlet property="btnSubmitOutlet" destination="yi8-lJ-HaJ" id="yKL-La-qw5"/>
                         <outlet property="lblCurrent" destination="JFU-8B-dxp" id="pj1-jR-ctj"/>
