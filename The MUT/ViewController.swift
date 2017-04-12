@@ -78,7 +78,7 @@ class ViewController: NSViewController, URLSessionDelegate {
     @IBOutlet weak var txtPrem: NSTextField!
     @IBOutlet weak var txtHosted: NSTextField!
     @IBAction func radioServer(_ sender: NSButton) {
-        
+        notReadyToRun()
         // Disable On-Prem if Hosted = TRUE
         if radioHosted.state == 1 {
             txtPrem.isEnabled = false
@@ -174,10 +174,15 @@ class ViewController: NSViewController, URLSessionDelegate {
         // Update the view, if already loaded.
         }
     }
-
+    
+    //Unique Identifier Dropdown to show pre-flight again
+    @IBAction func popIdentifierAction(_ sender: Any) {
+        notReadyToRun()
+    }
+    
     // Set up the dropdown items depending on what record type is selected
     @IBAction func popDeviceAction(_ sender: Any) {
-        
+        notReadyToRun()
         if popDeviceOutlet.titleOfSelectedItem == " Users" {
             popIDOutlet.removeAllItems()
             popIDOutlet.addItems(withTitles: [" Username"," ID Number"])
@@ -205,6 +210,7 @@ class ViewController: NSViewController, URLSessionDelegate {
     }
     
     @IBAction func popAttributeAction(_ sender: Any) {
+        notReadyToRun()
         if popAttributeOutlet.titleOfSelectedItem == " Extension Attribute" || popAttributeOutlet.titleOfSelectedItem == " User Extension Attribute" {
             txtEAID.isEnabled = true
         } else {
@@ -222,6 +228,7 @@ class ViewController: NSViewController, URLSessionDelegate {
     }
     
     @IBAction func btnBrowse(_ sender: Any) {
+        notReadyToRun()
         let openPanel = NSOpenPanel()
         openPanel.allowsMultipleSelection = false
         openPanel.canChooseDirectories = false
@@ -630,6 +637,8 @@ class ViewController: NSViewController, URLSessionDelegate {
             
             if txtCSV.stringValue != "" {
                 userDidEnterPath()
+                readyToRun()
+                printString(stringToPrint: "Please review the above information. If everything looks good, press the submit button. Otherwise, please verify the dropdowns and your CSV file and run another pre-flight check.")
             } else {
                 _ = dialogueWarning(question: "No CSV Path Found", text: "Please browse for a CSV file in order to continue.")
                 return
@@ -983,11 +992,13 @@ class ViewController: NSViewController, URLSessionDelegate {
     // Simple line break
     func printLineBreak() {
         self.txtMain.textStorage?.append(NSAttributedString(string: "\n", attributes: self.myFontAttribute))
+        self.txtMain.scrollToEndOfDocument(self)
     }
     
     // Prints fixed point text with no line break after
     func printString(stringToPrint: String) {
         self.txtMain.textStorage?.append(NSAttributedString(string: "\(stringToPrint)", attributes: self.myFontAttribute))
+        self.txtMain.scrollToEndOfDocument(self)
     }
     
     // Prints green fixed point text with line break after - "OK"
@@ -1020,5 +1031,13 @@ class ViewController: NSViewController, URLSessionDelegate {
         myPopup.alertStyle = NSAlertStyle.warning
         myPopup.addButton(withTitle: "OK")
         return myPopup.runModal() == NSAlertFirstButtonReturn
+    }
+    func readyToRun() {
+        btnSubmitOutlet.isHidden = false
+        btnPreFlightOutlet.isHidden = true
+    }
+    func notReadyToRun() {
+        btnSubmitOutlet.isHidden = true
+        btnPreFlightOutlet.isHidden = false
     }
 }
