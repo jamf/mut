@@ -153,6 +153,7 @@ class ViewController: NSViewController, URLSessionDelegate {
             delimiter = mainViewDefaults.value(forKey: "Delimiter")! as! String
             appendLogString(stringToAppend: "Stored delimiter found: " + delimiter)
         } else {
+            appendLogString(stringToAppend: "No stored delimiter found. Using default of comma. You can change this under Settings in the menu bar if you wish.")
             delimiter = ","
         }
         
@@ -628,6 +629,24 @@ class ViewController: NSViewController, URLSessionDelegate {
             UserDefaults.standard.removePersistentDomain(forName: bundle)
         }
     }
+    @IBAction func btnChangeDelim(_ sender: AnyObject) {
+        
+        //var newDelim = dialogueWarning(question: "No Server Info", text: "You have selected the option for a hosted Jamf server, but no instance name was entered. Please enter your instance name and try again.")
+        let newDelim = dialogueDelim(question: "Change Delimiter", text: "What would you like your new delimiter to be?")
+        if newDelim == true {
+            appendLogString(stringToAppend: "New delimiter is comma. This delimiter will be stored to defaults.")
+            delimiter = ","
+            mainViewDefaults.set(delimiter, forKey: "Delimiter")
+        } else {
+            appendLogString(stringToAppend: "New delimiter is semi-colon. This delimiter will be stored to defaults.")
+            delimiter = ";"
+            mainViewDefaults.set(delimiter, forKey: "Delimiter")
+        }
+        
+
+    }
+    
+    
     
     //Pre Flight Checks
     @IBAction func btnPreFlight(_ sender: Any) {
@@ -638,7 +657,9 @@ class ViewController: NSViewController, URLSessionDelegate {
             if txtCSV.stringValue != "" {
                 userDidEnterPath()
                 readyToRun()
-                printString(stringToPrint: "Please review the above information. If everything looks good, press the submit button. Otherwise, please verify the dropdowns and your CSV file and run another pre-flight check.")
+                appendLogString(stringToAppend: "==================================================")
+                appendLogString(stringToAppend: "Please review the above information. If everything looks good, press the submit button. Otherwise, please verify the dropdowns and your CSV file and run another pre-flight check.")
+                appendLogString(stringToAppend: "==================================================")
             } else {
                 _ = dialogueWarning(question: "No CSV Path Found", text: "Please browse for a CSV file in order to continue.")
                 return
@@ -767,6 +788,11 @@ class ViewController: NSViewController, URLSessionDelegate {
                                 // Print information to the log box
                                 self.printString(stringToPrint: "Device with \(self.globalEndpointID!) \(currentRow[0]) - ")
                                 self.appendRed(stringToPrint: "Failed! - \(httpResponse.statusCode)!")
+                                if httpResponse.statusCode == 404 {
+                                    self.printLineBreak()
+                                    self.appendLogString(stringToAppend: "HTTP 404 means 'not found'. There is no device with \(self.globalEndpointID!) \(currentRow[0]) enrolled in your JSS.")
+                                    self.printLineBreak()
+                                }
                                 // Update the progress bar
                                 self.barProgress.doubleValue = Double(rowCounter)
                             }
@@ -982,6 +1008,7 @@ class ViewController: NSViewController, URLSessionDelegate {
             }
         }
     }
+    
         
     func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         completionHandler(Foundation.URLSession.AuthChallengeDisposition.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
@@ -1030,6 +1057,15 @@ class ViewController: NSViewController, URLSessionDelegate {
         myPopup.informativeText = text
         myPopup.alertStyle = NSAlertStyle.warning
         myPopup.addButton(withTitle: "OK")
+        return myPopup.runModal() == NSAlertFirstButtonReturn
+    }
+    func dialogueDelim (question: String, text: String) -> Bool {
+        let myPopup: NSAlert = NSAlert()
+        myPopup.messageText = question
+        myPopup.informativeText = text
+        myPopup.alertStyle = NSAlertStyle.warning
+        myPopup.addButton(withTitle: "Use Comma")
+        myPopup.addButton(withTitle: "Use Semi-Colon")
         return myPopup.runModal() == NSAlertFirstButtonReturn
     }
     func readyToRun() {
