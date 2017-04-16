@@ -42,6 +42,7 @@ class ViewController: NSViewController, URLSessionDelegate {
     var base64Credentials: String!
     var serverURL: String!
     var verified = false
+    var columnChecker = 0
     
     // Set up operation queue for runs
     let myOpQueue = OperationQueue()
@@ -603,32 +604,48 @@ class ViewController: NSViewController, URLSessionDelegate {
         // Parse the CSV into an array
         globalCSVContent = try! NSString(contentsOfFile: globalCSVPath, encoding: String.Encoding.utf8.rawValue) as String!
         globalParsedCSV = CSwiftV(with: globalCSVContent as String, separator: delimiter, headers: ["Device", "Attribute"])
+        
         appendLogString(stringToAppend: "Found \(globalParsedCSV.rows.count) rows in the CSV.")
         printLineBreak()
+        let columnCheck = globalParsedCSV.rows[0]
+        let numberOfCommas = columnCheck.split(separator: delimiter, omittingEmptySubsequences: false)
+        let newNumberOfCommas = numberOfCommas[0]
+        columnChecker = newNumberOfCommas.count
         
-        // Display a preview of row 1 if only 1 row, or row 2 otherwise (to not preview headers)
-        if globalParsedCSV.rows.count > 1 {
-            let line1 = globalParsedCSV.rows[1]
-            if line1.count >= 2 {
-                self.appendLogString(stringToAppend: "Example row from your CSV:")
-                self.appendLogString(stringToAppend: "\(globalIDType!.replacingOccurrences(of: " ", with: "")): \(line1[0]), \(globalAttributeType!): \(line1[1])")
-            } else {
-                self.appendRed(stringToPrint: "Not enough columns were found in your CSV!!!")
-                self.appendRed(stringToPrint: "You can set a custom delimiter under Settings in the menu bar if you wish.")
-            }
-        } else if globalParsedCSV.rows.count > 0 {
-            let line1 = globalParsedCSV.rows[0]
-            if line1.count >= 2 {
-                self.appendLogString(stringToAppend: "Example row from your CSV:")
-                self.appendLogString(stringToAppend: "\(globalIDType.replacingOccurrences(of: " ", with: "")): \(line1[0]), \(globalAttributeType!): \(line1[1])")
-            } else {
-                self.appendRed(stringToPrint: "Not enough columns were found in your CSV!!!")
-                self.appendRed(stringToPrint: "You can set a custom delimiter under Settings in the menu bar if you wish.")
-            }
+        if columnChecker < 2 {
+            self.appendRed(stringToPrint: "The MUT did not find at least two columns in your CSV. If you are trying to blank out values, please include headers so that it can find the second column.")
+            printLineBreak()
+            
+        } else if columnChecker > 2 {
+            self.appendRed(stringToPrint: "The MUT found more than two columns in your CSV. The first column should be your unique identifier (eg: serial) and the second column should be the value to be updated.")
+            printLineBreak()
+            
         } else {
-            appendRed(stringToPrint: "No rows found in your CSV!!!")
+            // Display a preview of row 1 if only 1 row, or row 2 otherwise (to not preview headers)
+            if globalParsedCSV.rows.count > 1 {
+                let line1 = globalParsedCSV.rows[1]
+                if line1.count >= 2 {
+                    self.appendLogString(stringToAppend: "Example row from your CSV:")
+                    self.appendLogString(stringToAppend: "\(globalIDType!.replacingOccurrences(of: " ", with: "")): \(line1[0]), \(globalAttributeType!): \(line1[1])")
+                } else {
+                    self.appendRed(stringToPrint: "Not enough columns were found in your CSV!!!")
+                    self.appendRed(stringToPrint: "You can set a custom delimiter under Settings in the menu bar if you wish.")
+                }
+            } else if globalParsedCSV.rows.count > 0 {
+                let line1 = globalParsedCSV.rows[0]
+                if line1.count >= 2 {
+                    self.appendLogString(stringToAppend: "Example row from your CSV:")
+                    self.appendLogString(stringToAppend: "\(globalIDType.replacingOccurrences(of: " ", with: "")): \(line1[0]), \(globalAttributeType!): \(line1[1])")
+                } else {
+                    self.appendRed(stringToPrint: "Not enough columns were found in your CSV!!!")
+                    self.appendRed(stringToPrint: "You can set a custom delimiter under Settings in the menu bar if you wish.")
+                }
+            } else {
+                appendRed(stringToPrint: "No rows found in your CSV!!!")
+            }
+            printLineBreak()
+
         }
-        printLineBreak()
     }
     
     
