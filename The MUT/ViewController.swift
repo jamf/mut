@@ -34,7 +34,7 @@ class ViewController: NSViewController, URLSessionDelegate {
     var globalXML: String!
     var globalEndpointID: String!
     var globalEAID: String!
-    var concurrentRuns = 2
+    var concurrentRuns = 1
     var delimiter = ","
     var globalCSVContent: String!
     var globalParsedCSV: CSwiftV!
@@ -131,6 +131,7 @@ class ViewController: NSViewController, URLSessionDelegate {
             printString(stringToPrint: "Stored Username: ")
             appendLogString(stringToAppend: mainViewDefaults.value(forKey: "UserName") as! String)
                 txtUser.stringValue = mainViewDefaults.value(forKey: "UserName") as! String
+            printLineBreak()
                 btnStoreUser.state = 1
         }
         
@@ -151,9 +152,22 @@ class ViewController: NSViewController, URLSessionDelegate {
         // Set up delimiter
         if mainViewDefaults.value(forKey: "Delimiter") != nil {
             delimiter = mainViewDefaults.value(forKey: "Delimiter")! as! String
-            appendLogString(stringToAppend: "Stored delimiter found: " + delimiter)
+            appendLogString(stringToAppend: "Stored delimiter found: \(delimiter)")
+            printLineBreak()
         } else {
             appendLogString(stringToAppend: "No stored delimiter found. Using default of comma. You can change this under Settings in the menu bar if you wish.")
+            printLineBreak()
+            delimiter = ","
+        }
+        
+        // Set up concurrent runs
+        if mainViewDefaults.value(forKey: "Concurrent") != nil {
+            concurrentRuns = mainViewDefaults.value(forKey: "Concurrent")! as! Int
+            appendLogString(stringToAppend: "Stored concurrent run value found: \(concurrentRuns)")
+            printLineBreak()
+        } else {
+            appendLogString(stringToAppend: "No stored concurrent run value found. Using default value of 1. You can change this under Settings in the menu bar if you wish.")
+            printLineBreak()
             delimiter = ","
         }
         
@@ -265,6 +279,7 @@ class ViewController: NSViewController, URLSessionDelegate {
                 mainViewDefaults.synchronize()
                 let cleanURL = serverURL!.replacingOccurrences(of: "JSSResource/", with: "")
                 appendLogString(stringToAppend: "URL: \(cleanURL)")
+                printLineBreak()
                 
             } else {
                 // If no URL is filled, warn user
@@ -599,7 +614,7 @@ class ViewController: NSViewController, URLSessionDelegate {
                 self.appendLogString(stringToAppend: "\(globalIDType!.replacingOccurrences(of: " ", with: "")): \(line1[0]), \(globalAttributeType!): \(line1[1])")
             } else {
                 self.appendRed(stringToPrint: "Not enough columns were found in your CSV!!!")
-                self.appendRed(stringToPrint: "You can set a custom delimiter under the gear icon if you wish.")
+                self.appendRed(stringToPrint: "You can set a custom delimiter under Settings in the menu bar if you wish.")
             }
         } else if globalParsedCSV.rows.count > 0 {
             let line1 = globalParsedCSV.rows[0]
@@ -608,7 +623,7 @@ class ViewController: NSViewController, URLSessionDelegate {
                 self.appendLogString(stringToAppend: "\(globalIDType.replacingOccurrences(of: " ", with: "")): \(line1[0]), \(globalAttributeType!): \(line1[1])")
             } else {
                 self.appendRed(stringToPrint: "Not enough columns were found in your CSV!!!")
-                self.appendRed(stringToPrint: "You can set a custom delimiter under the gear icon if you wish.")
+                self.appendRed(stringToPrint: "You can set a custom delimiter under Settings in the menu bar if you wish.")
             }
         } else {
             appendRed(stringToPrint: "No rows found in your CSV!!!")
@@ -635,17 +650,32 @@ class ViewController: NSViewController, URLSessionDelegate {
         let newDelim = dialogueDelim(question: "Change Delimiter", text: "What would you like your new delimiter to be?")
         if newDelim == true {
             appendLogString(stringToAppend: "New delimiter is comma. This delimiter will be stored to defaults.")
+            printLineBreak()
             delimiter = ","
             mainViewDefaults.set(delimiter, forKey: "Delimiter")
         } else {
             appendLogString(stringToAppend: "New delimiter is semi-colon. This delimiter will be stored to defaults.")
+            printLineBreak()
             delimiter = ";"
             mainViewDefaults.set(delimiter, forKey: "Delimiter")
         }
-        
-
     }
     
+    @IBAction func btnChangeConcurrent(_ sender: AnyObject) {
+        
+        let newConcurrent = dialogueConcurrent(question: "Change Concurrent Runs", text: "How many updates would you like to run concurrently? More will be faster, but will put a higher load on your server.")
+        if newConcurrent == true {
+            appendLogString(stringToAppend: "MUT will only run one (1) update at a time. This value will be stored to defaults.")
+            printLineBreak()
+            concurrentRuns = 1
+            mainViewDefaults.set(concurrentRuns, forKey: "Concurrent")
+        } else {
+            appendLogString(stringToAppend: "MUT will run two (2) updates at a time. This value will be stored to defaults.")
+            printLineBreak()
+            concurrentRuns = 2
+            mainViewDefaults.set(concurrentRuns, forKey: "Concurrent")
+        }
+    }
     
     
     //Pre Flight Checks
@@ -1067,6 +1097,15 @@ class ViewController: NSViewController, URLSessionDelegate {
         myPopup.addButton(withTitle: "Use Comma")
         myPopup.addButton(withTitle: "Use Semi-Colon")
         return myPopup.runModal() == NSAlertFirstButtonReturn
+    }
+    func dialogueConcurrent (question: String, text: String) -> Bool {
+        let myPopup: NSAlert = NSAlert()
+        myPopup.messageText = question
+        myPopup.informativeText = text
+        myPopup.alertStyle = NSAlertStyle.warning
+        myPopup.addButton(withTitle: "2 at a time")
+        myPopup.addButton(withTitle: "1 at a time")
+        return myPopup.runModal() == NSAlertSecondButtonReturn
     }
     func readyToRun() {
         btnSubmitOutlet.isHidden = false

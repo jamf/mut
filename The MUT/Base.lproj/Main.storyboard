@@ -80,6 +80,9 @@
                                         </menuItem>
                                         <menuItem title="Change Number of Concurrent Updates" id="bhJ-OA-du3">
                                             <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="btnChangeConcurrent:" target="Ady-hI-5gd" id="s6r-qN-uHa"/>
+                                            </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="8lX-Q9-rhv"/>
                                         <menuItem title="Clear Stored Values" id="xsf-6S-z4t">
