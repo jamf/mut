@@ -91,7 +91,7 @@ class CredentialsView: NSViewController, URLSessionDelegate {
                 DispatchQueue.main.async {
                     let myURL = "\(self.ApprovedURL!)activationcode"
                     let encodedURL = NSURL(string: myURL)
-                    let request = NSMutableURLRequest(url: encodedURL as! URL)
+                    let request = NSMutableURLRequest(url: encodedURL! as URL)
                     request.httpMethod = "GET"
                     let configuration = URLSessionConfiguration.default
                     configuration.httpAdditionalHeaders = ["Authorization" : "Basic \(self.base64Credentials!)", "Content-Type" : "text/xml", "Accept" : "text/xml"]

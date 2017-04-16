@@ -327,7 +327,7 @@ class ViewController: NSViewController, URLSessionDelegate {
                     //let myURL = "\(self.ApprovedURL!)activationcode"
                     let myURL = "\(self.serverURL!)activationcode"
                     let encodedURL = NSURL(string: myURL)
-                    let request = NSMutableURLRequest(url: encodedURL as! URL)
+                    let request = NSMutableURLRequest(url: encodedURL! as URL)
                     request.httpMethod = "GET"
                     let configuration = URLSessionConfiguration.default
                     configuration.httpAdditionalHeaders = ["Authorization" : "Basic \(self.base64Credentials!)", "Content-Type" : "text/xml", "Accept" : "text/xml"]
@@ -341,7 +341,7 @@ class ViewController: NSViewController, URLSessionDelegate {
                                 //self.delegateCredentials?.userDidEnterCredentials(serverCredentials: self.base64Credentials) // Delegate for passing to main view
                                 self.globalServerCredentials = self.base64Credentials
                                 self.globalServerURL = self.serverURL
-                                self.printLineBreak()
+                                //self.printLineBreak()
                                 self.appendLogString(stringToAppend: "Credentials Successfully Verified.")
                                 self.printLineBreak()
                                 self.verified = true
@@ -752,7 +752,7 @@ class ViewController: NSViewController, URLSessionDelegate {
         let row = globalParsedCSV.rows // Send parsed rows to an array
         print(row)
         let lastrow = row.count - 1
-        print(lastrow)
+        print("The last row will be \(lastrow)")
         var i = 0
         lblEndLine.stringValue = "\(row.count)"
         
@@ -845,7 +845,7 @@ class ViewController: NSViewController, URLSessionDelegate {
                 semaphore.wait()
                 
                 // If we're on the last row sent, update the UI to reset for another run
-                if rowCounter == lastrow {
+                if rowCounter == lastrow || lastrow == 0 {
                     DispatchQueue.main.async {
                         self.lblLine.isHidden = true
                         self.lblCurrent.isHidden = true
