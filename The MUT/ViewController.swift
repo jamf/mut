@@ -174,7 +174,7 @@ class ViewController: NSViewController, URLSessionDelegate {
         
         // Set up the attribute outlet drop down
         popAttributeOutlet.removeAllItems()
-        popAttributeOutlet.addItems(withTitles: [" Device Name"," Asset Tag"," Username"," Full Name"," Email"," Position"," Department"," Building"," Room"," Site by ID"," Site by Name"," Extension Attribute"])
+        popAttributeOutlet.addItems(withTitles: [" Asset Tag"," Device Name"," Username"," Full Name"," Email"," Position"," Department"," Building"," Room"," Site by ID"," Site by Name"," Extension Attribute"])
 
     }
     
@@ -206,6 +206,8 @@ class ViewController: NSViewController, URLSessionDelegate {
             popAttributeOutlet.addItems(withTitles: [" User's Username"," User's Full Name"," Email Address"," User's Position"," Phone Number",/*" User's Site by ID"," User's Site by Name",*/" User Extension Attribute"]) // Removed sites for now, they appear to not be working
         }
         if popDeviceOutlet.titleOfSelectedItem == " iOS Devices" {
+            popAttributeOutlet.removeAllItems()
+            popAttributeOutlet.addItems(withTitles: [" Asset Tag"," Device Name"," Username"," Full Name"," Email"," Position"," Department"," Building"," Room",/*" Site by ID"," Site by Name",*/" Extension Attribute"]) // Removed Sites for now, they appear to not be working
             if popAttributeOutlet.titleOfSelectedItem == " Device Name" {
                 popIDOutlet.removeAllItems()
                 popIDOutlet.addItems(withTitles: [" Serial Number"])
@@ -213,15 +215,13 @@ class ViewController: NSViewController, URLSessionDelegate {
                 popIDOutlet.removeAllItems()
                 popIDOutlet.addItems(withTitles: [" Serial Number"," ID Number"])
             }
-            popAttributeOutlet.removeAllItems()
-            popAttributeOutlet.addItems(withTitles: [" Device Name"," Asset Tag"," Username"," Full Name"," Email"," Position"," Department"," Building"," Room",/*" Site by ID"," Site by Name",*/" Extension Attribute"]) // Removed Sites for now, they appear to not be working
-        }
+                    }
         if popDeviceOutlet.titleOfSelectedItem == " MacOS Devices" {
             popIDOutlet.removeAllItems()
             popIDOutlet.addItems(withTitles: [" Serial Number"," ID Number"])
             
             popAttributeOutlet.removeAllItems()
-            popAttributeOutlet.addItems(withTitles: [" Device Name"," Asset Tag"," Username"," Full Name"," Email"," Position"," Department"," Building"," Room"," Site by ID"," Site by Name"," Extension Attribute"])
+            popAttributeOutlet.addItems(withTitles: [" Asset Tag"," Device Name"," Username"," Full Name"," Email"," Position"," Department"," Building"," Room"," Site by ID"," Site by Name"," Extension Attribute"])
         }
     }
     
@@ -231,6 +231,14 @@ class ViewController: NSViewController, URLSessionDelegate {
             txtEAID.isEnabled = true
         } else {
             txtEAID.isEnabled = false
+        }
+        if popAttributeOutlet.titleOfSelectedItem == " Site by ID" {
+            appendRed(stringToPrint: "To remove a device from all sites, assign a device to Site ID '-1'.")
+            printLineBreak()
+        }
+        if popAttributeOutlet.titleOfSelectedItem == " Site by Name" {
+            appendRed(stringToPrint: "To remove a device from all sites, assign a device to Site Name 'None'.")
+            printLineBreak()
         }
         if popDeviceOutlet.titleOfSelectedItem == " iOS Devices" {
             if popAttributeOutlet.titleOfSelectedItem == " Device Name" {
