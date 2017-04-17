@@ -159,10 +159,10 @@
             </objects>
             <point key="canvasLocation" x="449" y="-238"/>
         </scene>
-        <!--View Controller-->
+        <!--MainView-->
         <scene sceneID="Id2-45-lJz">
             <objects>
-                <viewController identifier="MainViewRestore" storyboardIdentifier="MainViewID" id="Wso-JF-mtF" customClass="ViewController" customModule="The_MUT" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="MainView" identifier="MainViewRestore" storyboardIdentifier="MainViewID" id="Wso-JF-mtF" customClass="ViewController" customModule="The_MUT" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="xfl-iX-lsl">
                         <rect key="frame" x="0.0" y="0.0" width="540" height="628"/>
                         <autoresizingMask key="autoresizingMask"/>

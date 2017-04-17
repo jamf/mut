@@ -122,6 +122,7 @@ class ViewController: NSViewController, URLSessionDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+
         // Print welcome message
         txtMain.textStorage?.append(NSAttributedString(string: "Welcome to The MUT v3.0", attributes: myHeaderAttribute))
         printLineBreak()
@@ -182,6 +183,8 @@ class ViewController: NSViewController, URLSessionDelegate {
         //resize the view
         super.viewWillAppear()
         preferredContentSize = NSSize(width: 540, height: 628)
+
+        
     }
     
     // TODO: - Delete this function? I don't think it's needed
@@ -292,7 +295,7 @@ class ViewController: NSViewController, URLSessionDelegate {
                 
             } else {
                 // If no URL is filled, warn user
-                _ = dialogueWarning(question: "No Server Info", text: "You have selected the option for a hosted Jamf server, but no instance name was entered. Please enter your instance name and try again.")
+                _ = popPrompt().generalWarning(question: "No Server Info", text: "You have selected the option for a hosted Jamf server, but no instance name was entered. Please enter your instance name and try again.")
             }
             
         }
@@ -318,9 +321,10 @@ class ViewController: NSViewController, URLSessionDelegate {
                 
             } else {
                 // If no URL is filled, warn user
-                _ = dialogueWarning(question: "No Server Info", text: "You have selected the option for an on prem server, but no server URL was entered. Please enter your instance name and try again.")
+                _ = popPrompt().generalWarning(question: "No Server Info", text: "You have selected the option for an on prem server, but no server URL was entered. Please enter your instance name and try again.")
             }
         }
+        
         if serverURL != nil {
             print(serverURL)
             
@@ -371,12 +375,12 @@ class ViewController: NSViewController, URLSessionDelegate {
                                 DispatchQueue.main.async {
                                     self.spinWheel.stopAnimation(self)
                                     self.btnAcceptOutlet.isHidden = false
-                                    _ = self.dialogueWarning(question: "Invalid Credentials", text: "The credentials you entered do not seem to have sufficient permissions. This could be due to an incorrect user/password, or possibly from insufficient permissions. MUT tests this against the user's ability to view the Activation Code via the API.")
+                                    _ = popPrompt().generalWarning(question: "Invalid Credentials", text: "The credentials you entered do not seem to have sufficient permissions. This could be due to an incorrect user/password, or possibly from insufficient permissions. MUT tests this against the user's ability to view the Activation Code via the API.")
                                 }
                             }
                         }
                         if error != nil {
-                            _ = self.dialogueWarning(question: "Fatal Error", text: "The MUT received a fatal error at authentication. The most common cause of this is an incorrect server URL. The full error output is below. \n\n \(error!.localizedDescription)")
+                            _ = popPrompt().generalWarning(question: "Fatal Error", text: "The MUT received a fatal error at authentication. The most common cause of this is an incorrect server URL. The full error output is below. \n\n \(error!.localizedDescription)")
                             self.spinWheel.stopAnimation(self)
                             self.btnAcceptOutlet.isHidden = false
                         }
@@ -384,7 +388,7 @@ class ViewController: NSViewController, URLSessionDelegate {
                     task.resume()
                 }
             } else {
-                _ = dialogueWarning(question: "Missing Credentials", text: "Either the username or the password field was left blank. Please fill in both the username and password field to verify credentials.")
+                _ = popPrompt().generalWarning(question: "Missing Credentials", text: "Either the username or the password field was left blank. Please fill in both the username and password field to verify credentials.")
                 self.spinWheel.stopAnimation(self)
                 self.btnAcceptOutlet.isHidden = false
             }
@@ -671,8 +675,7 @@ class ViewController: NSViewController, URLSessionDelegate {
     }
     @IBAction func btnChangeDelim(_ sender: AnyObject) {
         
-        //var newDelim = dialogueWarning(question: "No Server Info", text: "You have selected the option for a hosted Jamf server, but no instance name was entered. Please enter your instance name and try again.")
-        let newDelim = dialogueDelim(question: "Change Delimiter", text: "What would you like your new delimiter to be?")
+        let newDelim = popPrompt().selectDelim(question: "Change Delimiter", text: "What would you like your new delimiter to be?")
         if newDelim == true {
             appendLogString(stringToAppend: "New delimiter is comma. This delimiter will be stored to defaults.")
             printLineBreak()
@@ -688,7 +691,7 @@ class ViewController: NSViewController, URLSessionDelegate {
     
     @IBAction func btnChangeConcurrent(_ sender: AnyObject) {
         
-        let newConcurrent = dialogueConcurrent(question: "Change Concurrent Runs", text: "How many updates would you like to run concurrently? More will be faster, but will put a higher load on your server.")
+        let newConcurrent = popPrompt().selectConcurrent(question: "Change Concurrent Runs", text: "How many updates would you like to run concurrently? More will be faster, but will put a higher load on your server.")
         if newConcurrent == true {
             appendLogString(stringToAppend: "MUT will only run one (1) update at a time. This value will be stored to defaults.")
             printLineBreak()
@@ -716,13 +719,13 @@ class ViewController: NSViewController, URLSessionDelegate {
                 appendLogString(stringToAppend: "Please review the above information. If everything looks good, press the submit button. Otherwise, please verify the dropdowns and your CSV file and run another pre-flight check.")
                 appendLogString(stringToAppend: "==================================================")
             } else {
-                _ = dialogueWarning(question: "No CSV Path Found", text: "Please browse for a CSV file in order to continue.")
+                _ = popPrompt().generalWarning(question: "No CSV Path Found", text: "Please browse for a CSV file in order to continue.")
                 return
             }
             
 
         } else {
-            _ = dialogueWarning(question: "Please Verify Credentials", text: "Please enter your server URL, and the credentials for an administrator account, and then verify your credentials to continue.")
+            _ = popPrompt().generalWarning(question: "Please Verify Credentials", text: "Please enter your server URL, and the credentials for an administrator account, and then verify your credentials to continue.")
         }
 
         
@@ -735,7 +738,7 @@ class ViewController: NSViewController, URLSessionDelegate {
             if txtCSV.stringValue != "" {
                  userDidEnterPath()
             } else {
-                _ = dialogueWarning(question: "No CSV Path Found", text: "Please browse for a CSV file in order to continue.")
+                _ = popPrompt().generalWarning(question: "No CSV Path Found", text: "Please browse for a CSV file in order to continue.")
                 return
             }
             
@@ -746,7 +749,7 @@ class ViewController: NSViewController, URLSessionDelegate {
                 putData()
             }
         } else {
-            _ = dialogueWarning(question: "Please Verify Credentials", text: "Please enter your server URL, and the credentials for an administrator account, and then verify your credentials to continue.")
+            _ = popPrompt().generalWarning(question: "Please Verify Credentials", text: "Please enter your server URL, and the credentials for an administrator account, and then verify your credentials to continue.")
         }
 
         
@@ -862,7 +865,7 @@ class ViewController: NSViewController, URLSessionDelegate {
                     }
                     // Log errors if received (we probably shouldn't ever end up needing this)
                     if error != nil {
-                        _ = self.dialogueWarning(question: "Fatal Error", text: "The MUT received a fatal error while uploading. \n\n \(error!.localizedDescription)")
+                        _ = popPrompt().generalWarning(question: "Fatal Error", text: "The MUT received a fatal error while uploading. \n\n \(error!.localizedDescription)")
                     }
                 })
                 // Send the request and then wait for the semaphore signal
@@ -988,7 +991,7 @@ class ViewController: NSViewController, URLSessionDelegate {
                     }
                     // Log errors if received (we probably shouldn't ever end up needing this)
                     if error != nil {
-                        _ = self.dialogueWarning(question: "Fatal Error", text: "The MUT received a fatal error while uploading. \n\n \(error!.localizedDescription)")
+                        _ = popPrompt().generalWarning(question: "Fatal Error", text: "The MUT received a fatal error while uploading. \n\n \(error!.localizedDescription)")
                     }
                 })
                 // Send the request and then wait for the semaphore signal
@@ -1104,33 +1107,6 @@ class ViewController: NSViewController, URLSessionDelegate {
     // Clears the entire logging text field
     func clearLog() {
         self.txtMain.textStorage?.setAttributedString(NSAttributedString(string: "", attributes: self.myFontAttribute))
-    }
-    
-    func dialogueWarning (question: String, text: String) -> Bool {
-        let myPopup: NSAlert = NSAlert()
-        myPopup.messageText = question
-        myPopup.informativeText = text
-        myPopup.alertStyle = NSAlertStyle.warning
-        myPopup.addButton(withTitle: "OK")
-        return myPopup.runModal() == NSAlertFirstButtonReturn
-    }
-    func dialogueDelim (question: String, text: String) -> Bool {
-        let myPopup: NSAlert = NSAlert()
-        myPopup.messageText = question
-        myPopup.informativeText = text
-        myPopup.alertStyle = NSAlertStyle.warning
-        myPopup.addButton(withTitle: "Use Comma")
-        myPopup.addButton(withTitle: "Use Semi-Colon")
-        return myPopup.runModal() == NSAlertFirstButtonReturn
-    }
-    func dialogueConcurrent (question: String, text: String) -> Bool {
-        let myPopup: NSAlert = NSAlert()
-        myPopup.messageText = question
-        myPopup.informativeText = text
-        myPopup.alertStyle = NSAlertStyle.warning
-        myPopup.addButton(withTitle: "2 at a time")
-        myPopup.addButton(withTitle: "1 at a time")
-        return myPopup.runModal() == NSAlertSecondButtonReturn
     }
     func readyToRun() {
         btnSubmitOutlet.isHidden = false

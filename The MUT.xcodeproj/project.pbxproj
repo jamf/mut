@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F7321D1F1DB729C0007A1E94 /* ServerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7321D1E1DB729C0007A1E94 /* ServerView.swift */; };
 		F7321D211DB72B90007A1E94 /* CredentialsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7321D201DB72B90007A1E94 /* CredentialsView.swift */; };
 		F7321D231DB72C5F007A1E94 /* AttributesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7321D221DB72C5F007A1E94 /* AttributesView.swift */; };
 		F7333BD11DB55EDF00F89C00 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7333BD01DB55EDF00F89C00 /* AppDelegate.swift */; };
@@ -17,8 +16,10 @@
 		F7333BDB1DB55EDF00F89C00 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F7333BD91DB55EDF00F89C00 /* Main.storyboard */; };
 		F7333BE61DB55EDF00F89C00 /* The_MUTTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7333BE51DB55EDF00F89C00 /* The_MUTTests.swift */; };
 		F7333BF11DB55EDF00F89C00 /* The_MUTUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7333BF01DB55EDF00F89C00 /* The_MUTUITests.swift */; };
+		F75EE3161EA5327800774E7D /* apiFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F75EE3151EA5327800774E7D /* apiFunctions.swift */; };
 		F7BCCA511DDEBE5400233348 /* CSwiftV.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BCCA501DDEBE5400233348 /* CSwiftV.swift */; };
-		F7BEA03D1DE7DD2400202C39 /* AdvancedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BEA03C1DE7DD2400202C39 /* AdvancedView.swift */; };
+		F7D670BC1EA539F3006010AA /* logMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D670BB1EA539F3006010AA /* logMessages.swift */; };
+		F7D670BE1EA54E51006010AA /* popPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D670BD1EA54E51006010AA /* popPrompt.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,7 +40,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		F7321D1E1DB729C0007A1E94 /* ServerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerView.swift; sourceTree = "<group>"; };
 		F7321D201DB72B90007A1E94 /* CredentialsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CredentialsView.swift; sourceTree = "<group>"; };
 		F7321D221DB72C5F007A1E94 /* AttributesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributesView.swift; sourceTree = "<group>"; };
 		F7333BCD1DB55EDF00F89C00 /* The MUT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "The MUT.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -55,9 +55,11 @@
 		F7333BEC1DB55EDF00F89C00 /* The MUTUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "The MUTUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7333BF01DB55EDF00F89C00 /* The_MUTUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = The_MUTUITests.swift; sourceTree = "<group>"; };
 		F7333BF21DB55EDF00F89C00 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F75EE3151EA5327800774E7D /* apiFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = apiFunctions.swift; sourceTree = "<group>"; };
 		F7BCCA501DDEBE5400233348 /* CSwiftV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSwiftV.swift; sourceTree = "<group>"; };
-		F7BEA03C1DE7DD2400202C39 /* AdvancedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvancedView.swift; sourceTree = "<group>"; };
 		F7D623911DE2C745004040F1 /* The MUT.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "The MUT.entitlements"; sourceTree = "<group>"; };
+		F7D670BB1EA539F3006010AA /* logMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = logMessages.swift; sourceTree = "<group>"; };
+		F7D670BD1EA54E51006010AA /* popPrompt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = popPrompt.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,10 +115,11 @@
 				F7333BD21DB55EDF00F89C00 /* ViewController.swift */,
 				F7333BD71DB55EDF00F89C00 /* Assets.xcassets */,
 				F7333BD91DB55EDF00F89C00 /* Main.storyboard */,
-				F7BEA03C1DE7DD2400202C39 /* AdvancedView.swift */,
+				F75EE3151EA5327800774E7D /* apiFunctions.swift */,
+				F7D670BB1EA539F3006010AA /* logMessages.swift */,
+				F7D670BD1EA54E51006010AA /* popPrompt.swift */,
 				F7333BDC1DB55EDF00F89C00 /* Info.plist */,
 				F7333BD41DB55EDF00F89C00 /* The_MUT.xcdatamodeld */,
-				F7321D1E1DB729C0007A1E94 /* ServerView.swift */,
 				F7321D221DB72C5F007A1E94 /* AttributesView.swift */,
 				F7BCCA501DDEBE5400233348 /* CSwiftV.swift */,
 				F7321D201DB72B90007A1E94 /* CredentialsView.swift */,
@@ -283,13 +286,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F7BEA03D1DE7DD2400202C39 /* AdvancedView.swift in Sources */,
 				F7BCCA511DDEBE5400233348 /* CSwiftV.swift in Sources */,
+				F7D670BC1EA539F3006010AA /* logMessages.swift in Sources */,
 				F7333BD31DB55EDF00F89C00 /* ViewController.swift in Sources */,
 				F7321D211DB72B90007A1E94 /* CredentialsView.swift in Sources */,
-				F7321D1F1DB729C0007A1E94 /* ServerView.swift in Sources */,
+				F75EE3161EA5327800774E7D /* apiFunctions.swift in Sources */,
 				F7321D231DB72C5F007A1E94 /* AttributesView.swift in Sources */,
 				F7333BD61DB55EDF00F89C00 /* The_MUT.xcdatamodeld in Sources */,
+				F7D670BE1EA54E51006010AA /* popPrompt.swift in Sources */,
 				F7333BD11DB55EDF00F89C00 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
