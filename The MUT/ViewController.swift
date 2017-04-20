@@ -183,8 +183,9 @@ class ViewController: NSViewController, URLSessionDelegate {
         //resize the view
         super.viewWillAppear()
         preferredContentSize = NSSize(width: 540, height: 628)
-
         
+        _ = xmlBuilder().macosExtensionAttribute(eaValue: "supertest", eaID: "1337")
+    
     }
     
     // TODO: - Delete this function? I don't think it's needed
@@ -660,13 +661,6 @@ class ViewController: NSViewController, URLSessionDelegate {
         }
     }
     
-    
-    //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    
-    
-    
-    
-
     @IBAction func btnClearStored(_ sender: AnyObject) {
         //Clear all stored values
         if let bundle = Bundle.main.bundleIdentifier {
@@ -932,20 +926,9 @@ class ViewController: NSViewController, URLSessionDelegate {
             
             // Concatenate the URL from attribute page variables and CSV
             let myURL = "\(self.globalServerURL!)mobiledevicecommands/command/DeviceName"
-            //print(myURL)
-            // Concatenate the XML from attribute page variables and CSV, then encode it
             
+            let encodedXML = xmlBuilder().enforceName(newName: currentRow[1], serialNumber: currentRow[0])
             
-            self.globalXML =    "<mobile_device_command>" +
-                                    "<command>DeviceName</command>" +
-                                    "<device_name>\(currentRow[1])</device_name>" +
-                                    "<mobile_devices>" +
-                                        "<mobile_device>" +
-                                            "<serial_number>\(currentRow[0])</serial_number>" +
-                                        "</mobile_device>" +
-                                    "</mobile_devices>" +
-                                "</mobile_device_command>"
-            let encodedXML = globalXML.data(using: String.Encoding.utf8)
             
             // Add a POST request to the operation queue
             myOpQueue.addOperation {
