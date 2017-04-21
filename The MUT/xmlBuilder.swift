@@ -91,27 +91,6 @@ public class xmlBuilder {
             globalXMLExtraStart = ""
             globalXMLExtraEnd = ""
         //print("Location Room")
-        case " Site by ID" :
-            globalXMLSubsetStart = "<general>"
-            globalXMLSubsetEnd = "</general>"
-            globalXMLAttribute = "site"
-            globalXMLExtraStart = "<id>"
-            globalXMLExtraEnd = "</id>"
-        //print("Site by ID General")
-        case " Site by Name" :
-            globalXMLSubsetStart = "<general>"
-            globalXMLSubsetEnd = "</general>"
-            globalXMLAttribute = "site"
-            globalXMLExtraStart = "<name>"
-            globalXMLExtraEnd = "</name>"
-        //print("Site by Name General")
-        case " Extension Attribute" : // TODO: Add EA stuff and sites
-            globalXMLSubsetStart = "<extension_attributes>"
-            globalXMLSubsetEnd = "</extension_attributes>"
-            globalXMLAttribute = "extension_attribute"
-            globalXMLExtraStart = "<id>\(extraIdentifier)</id><value>"
-            globalXMLExtraEnd = "</value>"
-            
         // Users
         case " User's Username" :
             globalXMLAttribute = "name"
@@ -147,28 +126,7 @@ public class xmlBuilder {
             globalXMLSubsetEnd = ""
             globalXMLExtraStart = ""
             globalXMLExtraEnd = ""
-        //print("Phone Number")
-        case " User's Site by ID" :
-            globalXMLSubsetStart = "<sites>"
-            globalXMLSubsetEnd = "</sites>"
-            globalXMLAttribute = "site"
-            globalXMLExtraStart = "<id>"
-            globalXMLExtraEnd = "</id>"
-        //print("Site by ID General")
-        case " User's Site by Name" :
-            globalXMLSubsetStart = "<sites>"
-            globalXMLSubsetEnd = "</sites>"
-            globalXMLAttribute = "site"
-            globalXMLExtraStart = "<name>"
-            globalXMLExtraEnd = "</name>"
-        //print("Site by ID General") // TODO: Fix EA STuff and Sites
-        case " User Extension Attribute" :
-            globalXMLSubsetStart = "<extension_attributes>"
-            globalXMLSubsetEnd = "</extension_attributes>"
-            globalXMLAttribute = "extension_attribute"
-            globalXMLExtraStart = "<id>\(extraIdentifier)</id><value>"
-            globalXMLExtraEnd = "</value>"
-        //print("User EA")
+
         default:
             print("Something Broke")
         }
@@ -189,21 +147,7 @@ public class xmlBuilder {
         return xml
     }
     
-    // Generate the XML for enforcing mobile device names
-    public func enforceName(newName: String, serialNumber: String) -> Data? {
-        let xml =   "<mobile_device_command>" +
-                        "<command>DeviceName</command>" +
-                        "<device_name>\(newName)</device_name>" +
-                        "<mobile_devices>" +
-                            "<mobile_device>" +
-                                "<serial_number>\(serialNumber)</serial_number>" +
-                            "</mobile_device>" +
-                        "</mobile_devices>" +
-                    "</mobile_device_command>"
-        let encodedXML = xml.data(using: String.Encoding.utf8)
-        print(xml)
-        return encodedXML
-    }
+
     
     // Generate xml for updating a mobile device username (SAMPLE/TEST)
     
@@ -232,26 +176,66 @@ public class xmlBuilder {
         return encodedXML
     }
     
-    public func macosExtensionAttribute(eaValue: String, eaID: String) -> Data? {
-        
-        let root = XMLElement(name: "computer")
+    // BUILD XML FOR EXTENSION ATTRIBUTES
+    public func updateExtensionAttribute(deviceType: String, eaValue: String, eaID: String) -> String? {
+        let root = XMLElement(name: deviceType)
         let xml = XMLDocument(rootElement: root)
-        
         let subset = XMLElement(name: "extension_attributes")
         let child = XMLElement(name: "extension_attribute")
         let identifier = XMLElement(name: "id", stringValue: eaID)
         let value = XMLElement(name: "value", stringValue: eaValue)
-
         child.addChild(identifier)
         child.addChild(value)
         subset.addChild(child)
         root.addChild(subset)
-        
-        let encodedXML = xml.xmlString.data(using: String.Encoding.utf8)
-        print(xml.xmlString)
-        return encodedXML
+        //print(xml.xmlString) // Uncomment for debugging
+        return xml.xmlString
     }
     
+    // BUILD XML FOR SITES FOR DEVICES ONLY, USERS WILL BE DIFFERENT
+    public func deviceSite(deviceType: String, identifierType: String, identifierValue: String) -> String? {
+        let root = XMLElement(name: deviceType)
+        let xml = XMLDocument(rootElement: root)
+        let subset = XMLElement(name: "general")
+        let child = XMLElement(name: "site")
+        let identifier = XMLElement(name: identifierType, stringValue: identifierValue)
+        child.addChild(identifier)
+        subset.addChild(child)
+        root.addChild(subset)
+        //print(xml.xmlString) // Uncomment for debugging
+        return xml.xmlString
+    }
     
+    // BUILD XML FOR SITES FOR USERS ONLY, DEVICES WILL BE DIFFERENT
+    public func userSite(identifierType: String, identifierValue: String) -> String? {
+        let root = XMLElement(name: "user")
+        let xml = XMLDocument(rootElement: root)
+        let subset = XMLElement(name: "sites")
+        let child = XMLElement(name: "site")
+        let identifier = XMLElement(name: identifierType, stringValue: identifierValue)
+        child.addChild(identifier)
+        subset.addChild(child)
+        root.addChild(subset)
+        //print(xml.xmlString) // Uncomment for debugging
+        return xml.xmlString
+    }
+    
+    // BUILD XML FOR ENFORCING MOBILE DEVICE NAMES
+    public func enforceName(newName: String, serialNumber: String) -> Data? {
+        let root = XMLElement(name: "mobile_device_command")
+        let xml = XMLDocument(rootElement: root)
+        let command = XMLElement(name: "command", stringValue: "DeviceName")
+        let name = XMLElement(name: "device_name", stringValue: newName)
+        let subset = XMLElement(name: "mobiledevices")
+        let child = XMLElement(name: "mobile_device")
+        let identifier = XMLElement(name: "serial_number", stringValue: serialNumber)
+        child.addChild(identifier)
+        subset.addChild(child)
+        root.addChild(command)
+        root.addChild(name)
+        root.addChild(subset)
+        print(xml.xmlString) // Uncomment for debugging
+        return xml.xmlData
+    }
     
 }

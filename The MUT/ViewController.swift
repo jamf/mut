@@ -184,8 +184,7 @@ class ViewController: NSViewController, URLSessionDelegate {
         super.viewWillAppear()
         preferredContentSize = NSSize(width: 540, height: 628)
         
-        _ = xmlBuilder().macosExtensionAttribute(eaValue: "supertest", eaID: "1337")
-    
+        _ = xmlBuilder().enforceName(newName: "mikes iPad", serialNumber: "D5050050505")
     }
     
     // TODO: - Delete this function? I don't think it's needed
