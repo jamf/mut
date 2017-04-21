@@ -184,7 +184,7 @@ class ViewController: NSViewController, URLSessionDelegate {
         super.viewWillAppear()
         preferredContentSize = NSSize(width: 540, height: 628)
         
-        _ = xmlBuilder().enforceName(newName: "mikes iPad", serialNumber: "D5050050505")
+        //_ = xmlBuilder().generalUserUpdates(attributeType: "full_name", attributeValue: "Bobby Kammel")
     }
     
     // TODO: - Delete this function? I don't think it's needed
@@ -927,7 +927,7 @@ class ViewController: NSViewController, URLSessionDelegate {
             let myURL = "\(self.globalServerURL!)mobiledevicecommands/command/DeviceName"
             
             let encodedXML = xmlBuilder().enforceName(newName: currentRow[1], serialNumber: currentRow[0])
-            
+            //let encodedXML = returnedXML?.data(using: String.Encoding.utf8)
             
             // Add a POST request to the operation queue
             myOpQueue.addOperation {

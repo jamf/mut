@@ -25,7 +25,7 @@ public class xmlBuilder {
     
     // Generate the XML for updating normal attributes
     public func updateComputer(attribute: String, attributeValue: String, extraIdentifier: String) -> String {
-    
+        
         
         // Switches for attributes and subsets
         switch (attribute) {
@@ -90,7 +90,11 @@ public class xmlBuilder {
             globalXMLAttribute = "room"
             globalXMLExtraStart = ""
             globalXMLExtraEnd = ""
-        //print("Location Room")
+            //print("Location Room")
+            
+            
+            
+            
         // Users
         case " User's Username" :
             globalXMLAttribute = "name"
@@ -126,36 +130,36 @@ public class xmlBuilder {
             globalXMLSubsetEnd = ""
             globalXMLExtraStart = ""
             globalXMLExtraEnd = ""
-
+            
         default:
             print("Something Broke")
         }
-
+        
         
         
         xml =   "<computer>" +
-                    "\(globalXMLSubsetStart)" +
-                        "<\(globalXMLAttribute)>" +
-                            "\(globalXMLExtraStart)\(attributeValue)\(globalXMLExtraEnd)" +
-                        "</\(globalXMLAttribute)>" +
-                    "\(globalXMLSubsetEnd)" +
-                "</computer>"
+            "\(globalXMLSubsetStart)" +
+            "<\(globalXMLAttribute)>" +
+            "\(globalXMLExtraStart)\(attributeValue)\(globalXMLExtraEnd)" +
+            "</\(globalXMLAttribute)>" +
+            "\(globalXMLSubsetEnd)" +
+        "</computer>"
         //print(xml)
-
+        
         
         
         return xml
     }
     
-
+    
     
     // Generate xml for updating a mobile device username (SAMPLE/TEST)
     
     public func macosGeneric(attribute: String, attributeValue: String) -> Data? {
-
+        
         let root = XMLElement(name: "computer")
         let xml = XMLDocument(rootElement: root)
-
+        
         
         if xmlExtras == "" {
             let subset = XMLElement(name: xmlSubset)
@@ -170,7 +174,7 @@ public class xmlBuilder {
             subset.addChild(child)
             root.addChild(subset)
         }
-    
+        
         let encodedXML = xml.xmlString.data(using: String.Encoding.utf8)
         print(xml.xmlString)
         return encodedXML
@@ -220,9 +224,19 @@ public class xmlBuilder {
         return xml.xmlString
     }
     
+    // BUILD XML FOR GENERIC USER UPDATES
+    public func generalUserUpdates(attributeType: String, attributeValue: String) -> String? {
+        let root = XMLElement(name: "user")
+        let xml = XMLDocument(rootElement: root)
+        let value = XMLElement(name: attributeType, stringValue: attributeValue)
+        root.addChild(value)
+        print(xml.xmlString) // Uncomment for debugging
+        return xml.xmlString
+    }
+    
     // BUILD XML FOR ENFORCING MOBILE DEVICE NAMES
     public func enforceName(newName: String, serialNumber: String) -> Data? {
-        let root = XMLElement(name: "mobile_device_command")
+        /*let root = XMLElement(name: "mobile_device_command")
         let xml = XMLDocument(rootElement: root)
         let command = XMLElement(name: "command", stringValue: "DeviceName")
         let name = XMLElement(name: "device_name", stringValue: newName)
@@ -235,7 +249,19 @@ public class xmlBuilder {
         root.addChild(name)
         root.addChild(subset)
         print(xml.xmlString) // Uncomment for debugging
-        return xml.xmlData
+        */
+        let xml =   "<mobile_device_command>" +
+        "<command>DeviceName</command>" +
+        "<device_name>\(newName)</device_name>" +
+        "<mobile_devices>" +
+        "<mobile_device>" +
+        "<serial_number>\(serialNumber)</serial_number>" +
+        "</mobile_device>" +
+        "</mobile_devices>" +
+        "</mobile_device_command>"
+        print(xml)
+        let encodedXML = xml.data(using: String.Encoding.utf8)
+        return encodedXML
     }
     
 }
