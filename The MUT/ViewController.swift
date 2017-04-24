@@ -184,7 +184,7 @@ class ViewController: NSViewController, URLSessionDelegate {
         super.viewWillAppear()
         preferredContentSize = NSSize(width: 540, height: 628)
         
-        //_ = xmlBuilder().generalUserUpdates(attributeType: "full_name", attributeValue: "Bobby Kammel")
+        _ = xmlBuilder().generalDeviceUpdates(deviceType: "mobile_device", subsetType: "location", attributeType: "username", attributeValue: "mike.levenick")
     }
     
     // TODO: - Delete this function? I don't think it's needed
