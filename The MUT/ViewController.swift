@@ -1098,4 +1098,10 @@ class ViewController: NSViewController, URLSessionDelegate {
         btnSubmitOutlet.isHidden = true
         btnPreFlightOutlet.isHidden = false
     }
+    @IBAction func btnTest(_ sender: Any) {
+        
+        let returnedXML = xmlBuilder().generateXML(popDevice: popDeviceOutlet.titleOfSelectedItem!, popIdentifier: popIDOutlet.titleOfSelectedItem!, popAttribute: popAttributeOutlet.titleOfSelectedItem!, popEAID: txtEAID.stringValue, newValue: "TEST", jssURL: "")
+        
+        
+    }
 }
