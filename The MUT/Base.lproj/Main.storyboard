@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12120"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -390,16 +390,16 @@ DQ
                             <popUpButton fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PHa-n3-o7c">
                                 <rect key="frame" x="148" y="348" width="124" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <popUpButtonCell key="cell" type="roundTextured" title=" MacOS Devices" bezelStyle="texturedRounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" preferredEdge="maxY" selectedItem="BvJ-rs-bkh" id="AhU-iZ-Rua">
+                                <popUpButtonCell key="cell" type="roundTextured" title="MacOS Devices" bezelStyle="texturedRounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" preferredEdge="maxY" selectedItem="BvJ-rs-bkh" id="AhU-iZ-Rua">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="zhE-k0-U8s">
                                         <items>
-                                            <menuItem title=" MacOS Devices" state="on" id="BvJ-rs-bkh">
+                                            <menuItem title="MacOS Devices" state="on" id="BvJ-rs-bkh">
                                                 <attributedString key="attributedTitle"/>
                                             </menuItem>
-                                            <menuItem title=" iOS Devices" id="atr-kW-4L4"/>
-                                            <menuItem title=" Users" id="nEq-4a-sjt">
+                                            <menuItem title="iOS Devices" id="atr-kW-4L4"/>
+                                            <menuItem title="Users" id="nEq-4a-sjt">
                                                 <attributedString key="attributedTitle"/>
                                             </menuItem>
                                         </items>
@@ -412,15 +412,15 @@ DQ
                             <popUpButton fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="K4q-Ev-c0G">
                                 <rect key="frame" x="405" y="347" width="115" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <popUpButtonCell key="cell" type="roundTextured" title=" Serial Number" bezelStyle="texturedRounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" preferredEdge="maxY" selectedItem="wPS-cg-OaB" id="RRq-3Q-ZUA">
+                                <popUpButtonCell key="cell" type="roundTextured" title="Serial Number" bezelStyle="texturedRounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" preferredEdge="maxY" selectedItem="wPS-cg-OaB" id="RRq-3Q-ZUA">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="kK1-Xg-Zbu">
                                         <items>
-                                            <menuItem title=" Serial Number" state="on" id="wPS-cg-OaB">
+                                            <menuItem title="Serial Number" state="on" id="wPS-cg-OaB">
                                                 <attributedString key="attributedTitle"/>
                                             </menuItem>
-                                            <menuItem title=" ID Number" id="fzI-LZ-c7g">
+                                            <menuItem title="ID Number" id="fzI-LZ-c7g">
                                                 <attributedString key="attributedTitle"/>
                                             </menuItem>
                                         </items>
@@ -433,15 +433,15 @@ DQ
                             <popUpButton fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JbY-gP-QYS">
                                 <rect key="frame" x="171" y="315" width="118" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <popUpButtonCell key="cell" type="roundTextured" title=" Asset Tag" bezelStyle="texturedRounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" preferredEdge="maxY" selectedItem="cF1-pR-irp" id="Ysd-1N-KHF">
+                                <popUpButtonCell key="cell" type="roundTextured" title="Asset Tag" bezelStyle="texturedRounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" preferredEdge="maxY" selectedItem="cF1-pR-irp" id="Ysd-1N-KHF">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="f69-u1-Kly">
                                         <items>
-                                            <menuItem title=" Asset Tag" state="on" id="cF1-pR-irp">
+                                            <menuItem title="Asset Tag" state="on" id="cF1-pR-irp">
                                                 <attributedString key="attributedTitle"/>
                                             </menuItem>
-                                            <menuItem title=" Department" id="Dno-xo-uQc">
+                                            <menuItem title="Department" id="Dno-xo-uQc">
                                                 <attributedString key="attributedTitle"/>
                                             </menuItem>
                                         </items>

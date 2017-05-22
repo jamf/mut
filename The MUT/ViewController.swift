@@ -175,7 +175,7 @@ class ViewController: NSViewController, URLSessionDelegate {
         
         // Set up the attribute outlet drop down
         popAttributeOutlet.removeAllItems()
-        popAttributeOutlet.addItems(withTitles: [" Asset Tag"," Device Name"," Username"," Full Name"," Email"," Position"," Department"," Building"," Room"," Site by ID"," Site by Name"," Extension Attribute"])
+        popAttributeOutlet.addItems(withTitles: ["Asset Tag","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute"])
 
     }
     
@@ -202,54 +202,54 @@ class ViewController: NSViewController, URLSessionDelegate {
     // Set up the dropdown items depending on what record type is selected
     @IBAction func popDeviceAction(_ sender: Any) {
         notReadyToRun()
-        if popDeviceOutlet.titleOfSelectedItem == " Users" {
+        if popDeviceOutlet.titleOfSelectedItem == "Users" {
             popIDOutlet.removeAllItems()
-            popIDOutlet.addItems(withTitles: [" Username"," ID Number"])
+            popIDOutlet.addItems(withTitles: ["Username","ID Number"])
             popAttributeOutlet.removeAllItems()
-            popAttributeOutlet.addItems(withTitles: [" User's Username"," User's Full Name"," Email Address"," User's Position"," Phone Number",/*" User's Site by ID"," User's Site by Name",*/" User Extension Attribute"]) // Removed sites for now, they appear to not be working
+            popAttributeOutlet.addItems(withTitles: ["User's Username","User's Full Name","Email Address","User's Position","Phone Number",/*"User's Site by ID","User's Site by Name",*/"User Extension Attribute"]) // Removed sites for now, they appear to not be working
         }
-        if popDeviceOutlet.titleOfSelectedItem == " iOS Devices" {
+        if popDeviceOutlet.titleOfSelectedItem == "iOS Devices" {
             popAttributeOutlet.removeAllItems()
-            popAttributeOutlet.addItems(withTitles: [" Asset Tag"," Device Name"," Username"," Full Name"," Email"," Position"," Department"," Building"," Room",/*" Site by ID"," Site by Name",*/" Extension Attribute"]) // Removed Sites for now, they appear to not be working
-            if popAttributeOutlet.titleOfSelectedItem == " Device Name" {
+            popAttributeOutlet.addItems(withTitles: ["Asset Tag","Device Name","Username","Full Name","Email","Position","Department","Building","Room",/*"Site by ID","Site by Name",*/"Extension Attribute"]) // Removed Sites for now, they appear to not be working
+            if popAttributeOutlet.titleOfSelectedItem == "Device Name" {
                 popIDOutlet.removeAllItems()
-                popIDOutlet.addItems(withTitles: [" Serial Number"])
+                popIDOutlet.addItems(withTitles: ["Serial Number"])
             } else {
                 popIDOutlet.removeAllItems()
-                popIDOutlet.addItems(withTitles: [" Serial Number"," ID Number"])
+                popIDOutlet.addItems(withTitles: ["Serial Number","ID Number"])
             }
                     }
-        if popDeviceOutlet.titleOfSelectedItem == " MacOS Devices" {
+        if popDeviceOutlet.titleOfSelectedItem == "MacOS Devices" {
             popIDOutlet.removeAllItems()
-            popIDOutlet.addItems(withTitles: [" Serial Number"," ID Number"])
+            popIDOutlet.addItems(withTitles: ["Serial Number","ID Number"])
             
             popAttributeOutlet.removeAllItems()
-            popAttributeOutlet.addItems(withTitles: [" Asset Tag"," Device Name"," Username"," Full Name"," Email"," Position"," Department"," Building"," Room"," Site by ID"," Site by Name"," Extension Attribute"])
+            popAttributeOutlet.addItems(withTitles: ["Asset Tag","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute"])
         }
     }
     
     @IBAction func popAttributeAction(_ sender: Any) {
         notReadyToRun()
-        if popAttributeOutlet.titleOfSelectedItem == " Extension Attribute" || popAttributeOutlet.titleOfSelectedItem == " User Extension Attribute" {
+        if popAttributeOutlet.titleOfSelectedItem == "Extension Attribute" || popAttributeOutlet.titleOfSelectedItem == "User Extension Attribute" {
             txtEAID.isEnabled = true
         } else {
             txtEAID.isEnabled = false
         }
-        if popAttributeOutlet.titleOfSelectedItem == " Site by ID" {
+        if popAttributeOutlet.titleOfSelectedItem == "Site by ID" {
             appendRed(stringToPrint: "To remove a device from all sites, assign a device to Site ID '-1'.")
             printLineBreak()
         }
-        if popAttributeOutlet.titleOfSelectedItem == " Site by Name" {
+        if popAttributeOutlet.titleOfSelectedItem == "Site by Name" {
             appendRed(stringToPrint: "To remove a device from all sites, assign a device to Site Name 'None'.")
             printLineBreak()
         }
-        if popDeviceOutlet.titleOfSelectedItem == " iOS Devices" {
-            if popAttributeOutlet.titleOfSelectedItem == " Device Name" {
+        if popDeviceOutlet.titleOfSelectedItem == "iOS Devices" {
+            if popAttributeOutlet.titleOfSelectedItem == "Device Name" {
                 popIDOutlet.removeAllItems()
-                popIDOutlet.addItems(withTitles: [" Serial Number"])
+                popIDOutlet.addItems(withTitles: ["Serial Number"])
             } else {
                 popIDOutlet.removeAllItems()
-                popIDOutlet.addItems(withTitles: [" Serial Number"," ID Number"])
+                popIDOutlet.addItems(withTitles: ["Serial Number","ID Number"])
             }
         }
     }
@@ -420,15 +420,15 @@ class ViewController: NSViewController, URLSessionDelegate {
         
         // Switches to set XML and Endpoint values
         switch (globalDeviceType) {
-            case " iOS Devices" :
+            case "iOS Devices" :
                 globalXMLDevice = "mobile_device"
                 globalEndpoint = "mobiledevices"
                 //print("iOS")
-            case " MacOS Devices" :
+            case "MacOS Devices" :
                 globalXMLDevice = "computer"
                 globalEndpoint = "computers"
                 //print("MacOS")
-            case " Users" :
+            case "Users" :
                 globalXMLDevice = "user"
                 globalEndpoint = "users"
                 //print("MacOS")
@@ -438,13 +438,13 @@ class ViewController: NSViewController, URLSessionDelegate {
         
         // Switches to set Identifier type
         switch (globalIDType) {
-            case " Serial Number" :
+            case "Serial Number" :
                 globalEndpointID = "serialnumber"
                 //print("Serial")
-            case " ID Number" :
+            case "ID Number" :
                 globalEndpointID = "id"
                 //print("ID")
-            case " Username" :
+            case "Username" :
                 globalEndpointID = "name"
                 //print("ID")
             default:
@@ -454,12 +454,12 @@ class ViewController: NSViewController, URLSessionDelegate {
         // Switches for attributes and subsets
         switch (globalAttributeType) {
         // iOS and MacOS
-            case " Device Name" :
-                if globalDeviceType == " iOS Devices" {
+            case "Device Name" :
+                if globalDeviceType == "iOS Devices" {
                     //print("GOING TO ENFORCE")
                     // TODO: Add name enforcement function
                 }
-                if globalDeviceType == " MacOS Devices"{
+                if globalDeviceType == "MacOS Devices"{
                     globalXMLSubsetStart = "<general>"
                     globalXMLSubsetEnd = "</general>"
                     globalXMLAttribute = "name"
@@ -467,77 +467,77 @@ class ViewController: NSViewController, URLSessionDelegate {
                     globalXMLExtraEnd = ""
                     //print ("General Name")
                 }
-            case " Asset Tag" :
+            case "Asset Tag" :
                 globalXMLSubsetStart = "<general>"
                 globalXMLSubsetEnd = "</general>"
                 globalXMLAttribute = "asset_tag"
                 globalXMLExtraStart = ""
                 globalXMLExtraEnd = ""
                 //print("General AssetTag")
-            case " Username" :
+            case "Username" :
                 globalXMLSubsetStart = "<location>"
                 globalXMLSubsetEnd = "</location>"
                 globalXMLAttribute = "username"
                 globalXMLExtraStart = ""
                 globalXMLExtraEnd = ""
                 //print("Location Username")
-            case " Full Name" :
+            case "Full Name" :
                 globalXMLSubsetStart = "<location>"
                 globalXMLSubsetEnd = "</location>"
                 globalXMLAttribute = "real_name"
                 globalXMLExtraStart = ""
                 globalXMLExtraEnd = ""
                 //print("Location RealName")
-            case " Email" :
+            case "Email" :
                 globalXMLSubsetStart = "<location>"
                 globalXMLSubsetEnd = "</location>"
                 globalXMLAttribute = "email_address"
                 globalXMLExtraStart = ""
                 globalXMLExtraEnd = ""
                 //print("Location EmailAddress")
-            case " Position" :
+            case "Position" :
                 globalXMLSubsetStart = "<location>"
                 globalXMLSubsetEnd = "</location>"
                 globalXMLAttribute = "position"
                 globalXMLExtraStart = ""
                 globalXMLExtraEnd = ""
                 //print("Location Position")
-            case " Department" :
+            case "Department" :
                 globalXMLSubsetStart = "<location>"
                 globalXMLSubsetEnd = "</location>"
                 globalXMLAttribute = "department"
                 globalXMLExtraStart = ""
                 globalXMLExtraEnd = ""
                 //print("Location Department")
-            case " Building" :
+            case "Building" :
                 globalXMLSubsetStart = "<location>"
                 globalXMLSubsetEnd = "</location>"
                 globalXMLAttribute = "building"
                 globalXMLExtraStart = ""
                 globalXMLExtraEnd = ""
                 //print("Location Building")
-            case " Room" :
+            case "Room" :
                 globalXMLSubsetStart = "<location>"
                 globalXMLSubsetEnd = "</location>"
                 globalXMLAttribute = "room"
                 globalXMLExtraStart = ""
                 globalXMLExtraEnd = ""
                 //print("Location Room")
-            case " Site by ID" :
+            case "Site by ID" :
                 globalXMLSubsetStart = "<general>"
                 globalXMLSubsetEnd = "</general>"
                 globalXMLAttribute = "site"
                 globalXMLExtraStart = "<id>"
                 globalXMLExtraEnd = "</id>"
                 //print("Site by ID General")
-            case " Site by Name" :
+            case "Site by Name" :
                 globalXMLSubsetStart = "<general>"
                 globalXMLSubsetEnd = "</general>"
                 globalXMLAttribute = "site"
                 globalXMLExtraStart = "<name>"
                 globalXMLExtraEnd = "</name>"
                 //print("Site by Name General")
-            case " Extension Attribute" : // TODO: Add EA stuff and sites
+            case "Extension Attribute" : // TODO: Add EA stuff and sites
                 globalXMLSubsetStart = "<extension_attributes>"
                 globalXMLSubsetEnd = "</extension_attributes>"
                 globalXMLAttribute = "extension_attribute"
@@ -545,56 +545,56 @@ class ViewController: NSViewController, URLSessionDelegate {
                 globalXMLExtraEnd = "</value>"
             
         // Users
-            case " User's Username" :
+            case "User's Username" :
                 globalXMLAttribute = "name"
                 globalXMLSubsetStart = ""
                 globalXMLSubsetEnd = ""
                 globalXMLExtraStart = ""
                 globalXMLExtraEnd = ""
                 //print("Username")
-            case " User's Full Name" :
+            case "User's Full Name" :
                 globalXMLAttribute = "full_name"
                 globalXMLSubsetStart = ""
                 globalXMLSubsetEnd = ""
                 globalXMLExtraStart = ""
                 globalXMLExtraEnd = ""
                 //print("Full name")
-            case " Email Address" :
+            case "Email Address" :
                 globalXMLAttribute = "email"
                 globalXMLSubsetStart = ""
                 globalXMLSubsetEnd = ""
                 globalXMLExtraStart = ""
                 globalXMLExtraEnd = ""
                 //print("Email")
-            case " User's Position" :
+            case "User's Position" :
                 globalXMLAttribute = "position"
                 globalXMLSubsetStart = ""
                 globalXMLSubsetEnd = ""
                 globalXMLExtraStart = ""
                 globalXMLExtraEnd = ""
                 //print("Position")
-            case " Phone Number" :
+            case "Phone Number" :
                 globalXMLAttribute = "phone_number"
                 globalXMLSubsetStart = ""
                 globalXMLSubsetEnd = ""
                 globalXMLExtraStart = ""
                 globalXMLExtraEnd = ""
                 //print("Phone Number")
-            case " User's Site by ID" :
+            case "User's Site by ID" :
                 globalXMLSubsetStart = "<sites>"
                 globalXMLSubsetEnd = "</sites>"
                 globalXMLAttribute = "site"
                 globalXMLExtraStart = "<id>"
                 globalXMLExtraEnd = "</id>"
                 //print("Site by ID General")
-            case " User's Site by Name" :
+            case "User's Site by Name" :
                 globalXMLSubsetStart = "<sites>"
                 globalXMLSubsetEnd = "</sites>"
                 globalXMLAttribute = "site"
                 globalXMLExtraStart = "<name>"
                 globalXMLExtraEnd = "</name>"
                 //print("Site by ID General") // TODO: Fix EA STuff and Sites
-            case " User Extension Attribute" :
+            case "User Extension Attribute" :
                 globalXMLSubsetStart = "<extension_attributes>"
                 globalXMLSubsetEnd = "</extension_attributes>"
                 globalXMLAttribute = "extension_attribute"
@@ -736,7 +736,7 @@ class ViewController: NSViewController, URLSessionDelegate {
             }
             
             userDidEnterAttributes()
-            if globalDeviceType == " iOS Devices" && globalAttributeType == " Device Name" {
+            if globalDeviceType == "iOS Devices" && globalAttributeType == "Device Name" {
                 enforceMobileNames()
             } else {
                 putData()
@@ -1100,7 +1100,7 @@ class ViewController: NSViewController, URLSessionDelegate {
     }
     @IBAction func btnTest(_ sender: Any) {
         
-        let returnedXML = xmlBuilder().generateXML(popDevice: popDeviceOutlet.titleOfSelectedItem!, popIdentifier: popIDOutlet.titleOfSelectedItem!, popAttribute: popAttributeOutlet.titleOfSelectedItem!, popEAID: txtEAID.stringValue, newValue: "TEST", jssURL: "")
+        //let returnedXML = xmlBuilder().generateXML(popDevice: popDeviceOutlet.titleOfSelectedItem!, popIdentifier: popIDOutlet.titleOfSelectedItem!, popAttribute: popAttributeOutlet.titleOfSelectedItem!, popEAID: txtEAID.stringValue, newValue: "TEST", jssURL: "")
         
         
     }

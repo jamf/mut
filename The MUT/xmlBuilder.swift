@@ -13,61 +13,11 @@ public class xmlBuilder {
     var formattedEndpoint = ""
     var xml: Data?
     
-    // CHOOSE THE CORRECT XML BUILDING FUNCTION BASED ON DROPDOWNS
-    public func generateXML(popDevice: String, popIdentifier: String, popAttribute: String, popEAID: String, newValue: String, jssURL: String) -> Data? {
-        switch (popAttribute) {
-            
-        // UPDATE EXTENSION ATTRIBUTES
-        case " Extension Attribute" :
-            print(" Extension Attribute")
-            switch (popDevice) {
-            case " iOS Devices" :
-                xml = updateExtensionAttribute(deviceType: "mobile_device", eaValue: newValue, eaID: popEAID)
-            case " MacOS Devices" :
-                xml = updateExtensionAttribute(deviceType: "computer", eaValue: newValue, eaID: popEAID)
-            case " Users" :
-                xml = updateExtensionAttribute(deviceType: "user", eaValue: newValue, eaID: popEAID)
-            default :
-                break
-            }
-            
-        // UPDATE SITE BY NAME
-        case " Site by Name" :
-            print(" Site by Name")
-            switch (popDevice) {
-            case " iOS Devices" :
-                xml = deviceSite(deviceType: "mobile_device", identifierType: "name", identifierValue: newValue)
-            case " MacOS Devices" :
-                xml = deviceSite(deviceType: "computer", identifierType: "name", identifierValue: newValue)
-            case " Users" :
-                xml = userSite(identifierType: "name", identifierValue: newValue)
-            default :
-                break
-            }
-            
-        // UPDATE SITE BY ID
-        case " Site by ID" :
-            print(" Site by ID")
-            switch (popDevice) {
-            case " iOS Devices" :
-                xml = deviceSite(deviceType: "mobile_device", identifierType: "id", identifierValue: newValue)
-            case " MacOS Devices" :
-                xml = deviceSite(deviceType: "computer", identifierType: "id", identifierValue: newValue)
-            case " Users" :
-                xml = userSite(identifierType: "id", identifierValue: newValue)
-            default :
-                break
-            }
-            
-        default :
-            break
-        }
+    public func tupleTranslate() {
+        let popIdentifier = "Serial Number"
+        let identifier = ["Serial Number": "serial_number", "ID Number": "id"][popIdentifier]
         
-        
-        //let encodedXML = xml.data(using: String.Encoding.utf8)
-        return xml
     }
-    
     
     // BUILD XML FOR GENERIC UPDATES - iOS AND macOS
     public func generalDeviceUpdates(deviceType: String, subsetType: String, attributeType: String, attributeValue: String) -> Data? {
