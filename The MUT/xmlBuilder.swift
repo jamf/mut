@@ -13,9 +13,103 @@ public class xmlBuilder {
     var formattedEndpoint = ""
     var xml: Data?
     
-    public func tupleTranslate() {
-        let popIdentifier = "Serial Number"
-        let identifier = ["Serial Number": "serial_number", "ID Number": "id"][popIdentifier]
+    public func createXML(popIdentifier: String, popDevice: String, popAttribute: String, eaID: String, columnB: String, columnA: String) {
+        //let popIdentifier = "Serial Number"
+        //let popDevice = "macOS Devices"
+        //let popAttribute = "Asset Tag"
+        //let xmlIdentifier = ["Username": "username", "Serial Number": "serial_number", "ID Number": "id"][popIdentifier]
+        let xmlDevice = ["macOS Devices": "computer", "iOS Devices": "mobile_device", "Users": "user"][popDevice]
+        
+        let xmlSubset = ["Asset Tag": "general", "Device Name": "general", "Site by ID": "general", "Site by Name": "general", "Username": "location", "Full Name": "location", "Email": "location", "Position": "location", "Department": "location", "Building": "location", "Room": "location", "Extension Attribute": "extension_attributes", "User's Username": "", "User's Full Name": "", "Email Address": "", "User's Position": "", "Phone Number": "", "User's Site by ID": "sites", "User's Site by Name": "sites", "User Extension Attribute": "extension_attributes"][popAttribute]
+        
+        let xmlAttribute = ["Asset Tag": "asset_tag", "Device Name": "name", "Site by ID": "site", "Site by Name": "site", "Username": "username", "Full Name": "real_name", "Email": "email_address", "Position": "position", "Department": "department", "Building": "building", "Room": "room", "Extension Attribute": "extension_attribute", "User's Username": "name", "User's Full Name": "full_name", "Email Address": "email", "User's Position": "position", "Phone Number": "phone_number", "User's Site by ID": "site", "User's Site by Name": "site", "User Extension Attribute": "extension_attribute"][popAttribute]
+        
+        let xmlExtra = ["Asset Tag": "", "Device Name": "", "Site by ID": "id", "Site by Name": "name", "Username": "", "Full Name": "", "Email": "", "Position": "", "Department": "", "Building": "", "Room": "", "Extension Attribute": "value", "User's Username": "", "User's Full Name": "", "Email Address": "", "User's Position": "", "Phone Number": "", "User's Site by ID": "id", "User's Site by Name": "name", "User Extension Attribute": "value"][popAttribute]
+
+        print("Tuple Translated")
+        print(xmlSubset ?? "")
+        print(xmlAttribute ?? "")
+        print(xmlExtra ?? "")
+        print(popAttribute)
+        print("")
+        
+        // BUILD XML FOR EXTENSION ATTRIBUTE UPDATES
+        if xmlAttribute == "extension_attribute" {
+            let root = XMLElement(name: xmlDevice!)
+            let xml = XMLDocument(rootElement: root)
+            let subset = XMLElement(name: "extension_attributes")
+            let child = XMLElement(name: "extension_attribute")
+            let identifier = XMLElement(name: "id", stringValue: eaID)
+            let value = XMLElement(name: "value", stringValue: columnB)
+            child.addChild(identifier)
+            child.addChild(value)
+            subset.addChild(child)
+            root.addChild(subset)
+            print(xml.xmlString) // Uncomment for debugging
+        }
+        
+        // BUILD XML FOR iOS AND macOS SITES (do iOS sites work yet?)
+        if xmlAttribute == "site" && xmlDevice != "user" {
+            let root = XMLElement(name: xmlDevice!)
+            let xml = XMLDocument(rootElement: root)
+            let subset = XMLElement(name: "general")
+            let child = XMLElement(name: "site")
+            let identifier = XMLElement(name: xmlExtra!, stringValue: columnB)
+            child.addChild(identifier)
+            subset.addChild(child)
+            root.addChild(subset)
+            print(xml.xmlString) // Uncomment for debugging
+        }
+        
+        // BUILD XML FOR USER SITES
+        if xmlAttribute == "site" && xmlDevice == "user" {
+            let root = XMLElement(name: xmlDevice!)
+            let xml = XMLDocument(rootElement: root)
+            let subset = XMLElement(name: "sites")
+            let child = XMLElement(name: "site")
+            let identifier = XMLElement(name: xmlExtra!, stringValue: columnB)
+            child.addChild(identifier)
+            subset.addChild(child)
+            root.addChild(subset)
+            print(xml.xmlString) // Uncomment for debugging
+        }
+        
+        // BUILD XML FOR ENFORCING DEVICE NAMES
+        if xmlAttribute == "name" && xmlDevice == "mobile_device" {
+            let root = XMLElement(name: "mobile_device_command")
+            let xml = XMLDocument(rootElement: root)
+            let command = XMLElement(name: "command", stringValue: "DeviceName")
+            let name = XMLElement(name: "device_name", stringValue: columnB)
+            let subset = XMLElement(name: "mobile_devices")
+            let child = XMLElement(name: "mobile_device")
+            let identifier = XMLElement(name: "serial_number", stringValue: columnA)
+            child.addChild(identifier)
+            subset.addChild(child)
+            root.addChild(command)
+            root.addChild(name)
+            root.addChild(subset)
+            print(xml.xmlString) // Uncomment for debugging
+        }
+        
+        // BUILD XML FOR GENERIC USER UPDATES
+        if xmlDevice == "user" && xmlSubset == "" {
+            let root = XMLElement(name: "user")
+            let xml = XMLDocument(rootElement: root)
+            let value = XMLElement(name: xmlAttribute!, stringValue: columnB)
+            root.addChild(value)
+            print(xml.xmlString) // Uncomment for debugging
+        }
+        
+        // BUILD XML FOR GENERIC DEVICE UPDATES
+        if xmlDevice != "user" && xmlExtra == "" {
+            let root = XMLElement(name: xmlDevice!)
+            let xml = XMLDocument(rootElement: root)
+            let subset = XMLElement(name: xmlSubset!)
+            let value = XMLElement(name: xmlAttribute!, stringValue: columnB)
+            subset.addChild(value)
+            root.addChild(subset)
+            print(xml.xmlString) // Uncomment for debugging*/
+        }
         
     }
     

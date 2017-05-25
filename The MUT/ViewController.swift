@@ -124,7 +124,7 @@ class ViewController: NSViewController, URLSessionDelegate {
         
 
         // Print welcome message
-        txtMain.textStorage?.append(NSAttributedString(string: "Welcome to The MUT v3.0", attributes: myHeaderAttribute))
+        txtMain.textStorage?.append(NSAttributedString(string: "Welcome to The MUT v3.2", attributes: myHeaderAttribute))
         printLineBreak()
         printLineBreak()
         
@@ -184,7 +184,6 @@ class ViewController: NSViewController, URLSessionDelegate {
         super.viewWillAppear()
         preferredContentSize = NSSize(width: 540, height: 628)
         
-        _ = xmlBuilder().generalDeviceUpdates(deviceType: "mobile_device", subsetType: "location", attributeType: "username", attributeValue: "mike.levenick")
     }
     
     // TODO: - Delete this function? I don't think it's needed
@@ -206,7 +205,7 @@ class ViewController: NSViewController, URLSessionDelegate {
             popIDOutlet.removeAllItems()
             popIDOutlet.addItems(withTitles: ["Username","ID Number"])
             popAttributeOutlet.removeAllItems()
-            popAttributeOutlet.addItems(withTitles: ["User's Username","User's Full Name","Email Address","User's Position","Phone Number",/*"User's Site by ID","User's Site by Name",*/"User Extension Attribute"]) // Removed sites for now, they appear to not be working
+            popAttributeOutlet.addItems(withTitles: ["User's Username","User's Full Name","Email Address","User's Position","Phone Number","User's Site by ID","User's Site by Name","User Extension Attribute"])
         }
         if popDeviceOutlet.titleOfSelectedItem == "iOS Devices" {
             popAttributeOutlet.removeAllItems()
@@ -219,7 +218,7 @@ class ViewController: NSViewController, URLSessionDelegate {
                 popIDOutlet.addItems(withTitles: ["Serial Number","ID Number"])
             }
                     }
-        if popDeviceOutlet.titleOfSelectedItem == "MacOS Devices" {
+        if popDeviceOutlet.titleOfSelectedItem == "macOS Devices" {
             popIDOutlet.removeAllItems()
             popIDOutlet.addItems(withTitles: ["Serial Number","ID Number"])
             
@@ -424,7 +423,7 @@ class ViewController: NSViewController, URLSessionDelegate {
                 globalXMLDevice = "mobile_device"
                 globalEndpoint = "mobiledevices"
                 //print("iOS")
-            case "MacOS Devices" :
+            case "macOS Devices" :
                 globalXMLDevice = "computer"
                 globalEndpoint = "computers"
                 //print("MacOS")
@@ -459,7 +458,7 @@ class ViewController: NSViewController, URLSessionDelegate {
                     //print("GOING TO ENFORCE")
                     // TODO: Add name enforcement function
                 }
-                if globalDeviceType == "MacOS Devices"{
+                if globalDeviceType == "macOS Devices"{
                     globalXMLSubsetStart = "<general>"
                     globalXMLSubsetEnd = "</general>"
                     globalXMLAttribute = "name"
@@ -1099,6 +1098,8 @@ class ViewController: NSViewController, URLSessionDelegate {
         btnPreFlightOutlet.isHidden = false
     }
     @IBAction func btnTest(_ sender: Any) {
+        xmlBuilder().createXML(popIdentifier: popIDOutlet.titleOfSelectedItem!, popDevice: popDeviceOutlet.titleOfSelectedItem!, popAttribute: popAttributeOutlet.titleOfSelectedItem!, eaID: txtEAID.stringValue, columnB: "NEW VALUE WILL GO HERE", columnA: "C123456789")
+
         
         //let returnedXML = xmlBuilder().generateXML(popDevice: popDeviceOutlet.titleOfSelectedItem!, popIdentifier: popIDOutlet.titleOfSelectedItem!, popAttribute: popAttributeOutlet.titleOfSelectedItem!, popEAID: txtEAID.stringValue, newValue: "TEST", jssURL: "")
         
