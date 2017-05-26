@@ -11,13 +11,30 @@ import Foundation
 
 public class xmlBuilder {
     var formattedEndpoint = ""
-    var xml: Data?
+    var xml: XMLDocument?
     
-    public func createXML(popIdentifier: String, popDevice: String, popAttribute: String, eaID: String, columnB: String, columnA: String) {
-        //let popIdentifier = "Serial Number"
-        //let popDevice = "macOS Devices"
-        //let popAttribute = "Asset Tag"
-        //let xmlIdentifier = ["Username": "username", "Serial Number": "serial_number", "ID Number": "id"][popIdentifier]
+    public func createPUTURL(url: String, endpoint: String, idType: String, columnA: String) -> URL {
+        let stringURL = "\(url)\(endpoint)/\(idType)/\(columnA)"
+        let urlwithPercentEscapes = stringURL.addingPercentEncoding( withAllowedCharacters: .urlQueryAllowed)
+        let encodedURL = NSURL(string: urlwithPercentEscapes!)
+        return encodedURL! as URL
+    }
+    
+    public func createPOSTURL(url: String) -> URL {
+        let stringURL = "\(url)mobiledevicecommands/command/DeviceName"
+        let encodedURL = NSURL(string: stringURL)
+        return encodedURL! as URL
+    }
+    
+    public func createGETURL(url: String) -> URL {
+        let stringURL = "\(url)activationcode"
+        let encodedURL = NSURL(string: stringURL)
+        return encodedURL! as URL
+    }
+    
+    public func createXML(popIdentifier: String, popDevice: String, popAttribute: String, eaID: String, columnB: String, columnA: String) -> Data {
+        var returnedXML: Data?
+        
         let xmlDevice = ["macOS Devices": "computer", "iOS Devices": "mobile_device", "Users": "user"][popDevice]
         
         let xmlSubset = ["Asset Tag": "general", "Device Name": "general", "Site by ID": "general", "Site by Name": "general", "Username": "location", "Full Name": "location", "Email": "location", "Position": "location", "Department": "location", "Building": "location", "Room": "location", "Extension Attribute": "extension_attributes", "User's Username": "", "User's Full Name": "", "Email Address": "", "User's Position": "", "Phone Number": "", "User's Site by ID": "sites", "User's Site by Name": "sites", "User Extension Attribute": "extension_attributes"][popAttribute]
@@ -26,12 +43,6 @@ public class xmlBuilder {
         
         let xmlExtra = ["Asset Tag": "", "Device Name": "", "Site by ID": "id", "Site by Name": "name", "Username": "", "Full Name": "", "Email": "", "Position": "", "Department": "", "Building": "", "Room": "", "Extension Attribute": "value", "User's Username": "", "User's Full Name": "", "Email Address": "", "User's Position": "", "Phone Number": "", "User's Site by ID": "id", "User's Site by Name": "name", "User Extension Attribute": "value"][popAttribute]
 
-        print("Tuple Translated")
-        print(xmlSubset ?? "")
-        print(xmlAttribute ?? "")
-        print(xmlExtra ?? "")
-        print(popAttribute)
-        print("")
         
         // BUILD XML FOR EXTENSION ATTRIBUTE UPDATES
         if xmlAttribute == "extension_attribute" {
@@ -45,7 +56,8 @@ public class xmlBuilder {
             child.addChild(value)
             subset.addChild(child)
             root.addChild(subset)
-            print(xml.xmlString) // Uncomment for debugging
+            //print(xml.xmlString) // Uncomment for debugging
+            returnedXML = xml.xmlData
         }
         
         // BUILD XML FOR iOS AND macOS SITES (do iOS sites work yet?)
@@ -58,7 +70,8 @@ public class xmlBuilder {
             child.addChild(identifier)
             subset.addChild(child)
             root.addChild(subset)
-            print(xml.xmlString) // Uncomment for debugging
+            //print(xml.xmlString) // Uncomment for debugging
+            returnedXML = xml.xmlData
         }
         
         // BUILD XML FOR USER SITES
@@ -71,7 +84,8 @@ public class xmlBuilder {
             child.addChild(identifier)
             subset.addChild(child)
             root.addChild(subset)
-            print(xml.xmlString) // Uncomment for debugging
+            //print(xml.xmlString) // Uncomment for debugging
+            returnedXML = xml.xmlData
         }
         
         // BUILD XML FOR ENFORCING DEVICE NAMES
@@ -88,7 +102,8 @@ public class xmlBuilder {
             root.addChild(command)
             root.addChild(name)
             root.addChild(subset)
-            print(xml.xmlString) // Uncomment for debugging
+            //print(xml.xmlString) // Uncomment for debugging
+            returnedXML = xml.xmlData
         }
         
         // BUILD XML FOR GENERIC USER UPDATES
@@ -97,7 +112,8 @@ public class xmlBuilder {
             let xml = XMLDocument(rootElement: root)
             let value = XMLElement(name: xmlAttribute!, stringValue: columnB)
             root.addChild(value)
-            print(xml.xmlString) // Uncomment for debugging
+            //print(xml.xmlString) // Uncomment for debugging
+            returnedXML = xml.xmlData
         }
         
         // BUILD XML FOR GENERIC DEVICE UPDATES
@@ -108,9 +124,10 @@ public class xmlBuilder {
             let value = XMLElement(name: xmlAttribute!, stringValue: columnB)
             subset.addChild(value)
             root.addChild(subset)
-            print(xml.xmlString) // Uncomment for debugging*/
+            //print(xml.xmlString) // Uncomment for debugging*/
+            returnedXML = xml.xmlData
         }
-        
+        return returnedXML!
     }
     
     // BUILD XML FOR GENERIC UPDATES - iOS AND macOS

@@ -7,8 +7,6 @@
 //
 
 
-// TODO: Fix the CSV Path Stuff (find file and parse)
-// TODO: Fix the submit button to actually work
 import Cocoa
 import Foundation
 
@@ -26,12 +24,6 @@ class ViewController: NSViewController, URLSessionDelegate {
     var globalEndpoint: String!
     var globalPathToCSV: NSURL!
     var globalXMLDevice: String!
-    var globalXMLSubsetStart: String!
-    var globalXMLSubsetEnd: String!
-    var globalXMLAttribute: String!
-    var globalXMLExtraStart: String!
-    var globalXMLExtraEnd: String!
-    var globalXML: String!
     var globalEndpointID: String!
     var globalEAID: String!
     var concurrentRuns = 1
@@ -336,10 +328,8 @@ class ViewController: NSViewController, URLSessionDelegate {
             if txtUser.stringValue != "" && txtPass.stringValue != "" {
                 
                 DispatchQueue.main.async {
-                    //let myURL = "\(self.ApprovedURL!)activationcode"
-                    let myURL = "\(self.serverURL!)activationcode"
-                    let encodedURL = NSURL(string: myURL)
-                    let request = NSMutableURLRequest(url: encodedURL! as URL)
+                    let myURL = xmlBuilder().createGETURL(url: self.serverURL!)
+                    let request = NSMutableURLRequest(url: myURL)
                     request.httpMethod = "GET"
                     let configuration = URLSessionConfiguration.default
                     configuration.httpAdditionalHeaders = ["Authorization" : "Basic \(self.base64Credentials!)", "Content-Type" : "text/xml", "Accept" : "text/xml"]
@@ -350,10 +340,8 @@ class ViewController: NSViewController, URLSessionDelegate {
                             //print(httpResponse.statusCode)
                             
                             if httpResponse.statusCode >= 199 && httpResponse.statusCode <= 299 {
-                                //self.delegateCredentials?.userDidEnterCredentials(serverCredentials: self.base64Credentials) // Delegate for passing to main view
                                 self.globalServerCredentials = self.base64Credentials
                                 self.globalServerURL = self.serverURL
-                                //self.printLineBreak()
                                 self.appendLogString(stringToAppend: "Credentials Successfully Verified.")
                                 self.printLineBreak()
                                 self.verified = true
@@ -362,14 +350,14 @@ class ViewController: NSViewController, URLSessionDelegate {
                                 if self.btnStoreUser.state == 1 {
                                     self.mainViewDefaults.set(self.txtUser.stringValue, forKey: "UserName")
                                     self.mainViewDefaults.synchronize()
-                                    //self.delegateUsername?.userDidSaveUsername(savedUser: self.txtUser.stringValue)
+
                                 } else {
                                     self.mainViewDefaults.removeObject(forKey: "UserName")
                                     self.mainViewDefaults.synchronize()
                                 }
                                 self.spinWheel.stopAnimation(self)
                                 self.btnAcceptOutlet.isHidden = false
-                                //self.dismissViewController(self)
+
                             } else {
                                 DispatchQueue.main.async {
                                     self.spinWheel.stopAnimation(self)
@@ -396,16 +384,8 @@ class ViewController: NSViewController, URLSessionDelegate {
 
     
     
-    //vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-    
-    // MARK: - Delegate functions for passing data between view controllers
-    
-    // Pass back the Attribute information and CSV to be parsed
-    //func userDidEnterAttributes(updateAttributes: Array<Any>) {
-        
     func userDidEnterAttributes() {
         btnSubmitOutlet.isHidden = false
-        //btnAttribute.image = NSImage(named: "NSStatusAvailable")
         globalDeviceType = popDeviceOutlet.titleOfSelectedItem
         globalIDType = popIDOutlet.titleOfSelectedItem
         globalAttributeType = popAttributeOutlet.titleOfSelectedItem
@@ -446,160 +426,6 @@ class ViewController: NSViewController, URLSessionDelegate {
             case "Username" :
                 globalEndpointID = "name"
                 //print("ID")
-            default:
-                print("Something Broke")
-        }
-        
-        // Switches for attributes and subsets
-        switch (globalAttributeType) {
-        // iOS and MacOS
-            case "Device Name" :
-                if globalDeviceType == "iOS Devices" {
-                    //print("GOING TO ENFORCE")
-                    // TODO: Add name enforcement function
-                }
-                if globalDeviceType == "macOS Devices"{
-                    globalXMLSubsetStart = "<general>"
-                    globalXMLSubsetEnd = "</general>"
-                    globalXMLAttribute = "name"
-                    globalXMLExtraStart = ""
-                    globalXMLExtraEnd = ""
-                    //print ("General Name")
-                }
-            case "Asset Tag" :
-                globalXMLSubsetStart = "<general>"
-                globalXMLSubsetEnd = "</general>"
-                globalXMLAttribute = "asset_tag"
-                globalXMLExtraStart = ""
-                globalXMLExtraEnd = ""
-                //print("General AssetTag")
-            case "Username" :
-                globalXMLSubsetStart = "<location>"
-                globalXMLSubsetEnd = "</location>"
-                globalXMLAttribute = "username"
-                globalXMLExtraStart = ""
-                globalXMLExtraEnd = ""
-                //print("Location Username")
-            case "Full Name" :
-                globalXMLSubsetStart = "<location>"
-                globalXMLSubsetEnd = "</location>"
-                globalXMLAttribute = "real_name"
-                globalXMLExtraStart = ""
-                globalXMLExtraEnd = ""
-                //print("Location RealName")
-            case "Email" :
-                globalXMLSubsetStart = "<location>"
-                globalXMLSubsetEnd = "</location>"
-                globalXMLAttribute = "email_address"
-                globalXMLExtraStart = ""
-                globalXMLExtraEnd = ""
-                //print("Location EmailAddress")
-            case "Position" :
-                globalXMLSubsetStart = "<location>"
-                globalXMLSubsetEnd = "</location>"
-                globalXMLAttribute = "position"
-                globalXMLExtraStart = ""
-                globalXMLExtraEnd = ""
-                //print("Location Position")
-            case "Department" :
-                globalXMLSubsetStart = "<location>"
-                globalXMLSubsetEnd = "</location>"
-                globalXMLAttribute = "department"
-                globalXMLExtraStart = ""
-                globalXMLExtraEnd = ""
-                //print("Location Department")
-            case "Building" :
-                globalXMLSubsetStart = "<location>"
-                globalXMLSubsetEnd = "</location>"
-                globalXMLAttribute = "building"
-                globalXMLExtraStart = ""
-                globalXMLExtraEnd = ""
-                //print("Location Building")
-            case "Room" :
-                globalXMLSubsetStart = "<location>"
-                globalXMLSubsetEnd = "</location>"
-                globalXMLAttribute = "room"
-                globalXMLExtraStart = ""
-                globalXMLExtraEnd = ""
-                //print("Location Room")
-            case "Site by ID" :
-                globalXMLSubsetStart = "<general>"
-                globalXMLSubsetEnd = "</general>"
-                globalXMLAttribute = "site"
-                globalXMLExtraStart = "<id>"
-                globalXMLExtraEnd = "</id>"
-                //print("Site by ID General")
-            case "Site by Name" :
-                globalXMLSubsetStart = "<general>"
-                globalXMLSubsetEnd = "</general>"
-                globalXMLAttribute = "site"
-                globalXMLExtraStart = "<name>"
-                globalXMLExtraEnd = "</name>"
-                //print("Site by Name General")
-            case "Extension Attribute" : // TODO: Add EA stuff and sites
-                globalXMLSubsetStart = "<extension_attributes>"
-                globalXMLSubsetEnd = "</extension_attributes>"
-                globalXMLAttribute = "extension_attribute"
-                globalXMLExtraStart = "<id>\(globalEAID!)</id><value>"
-                globalXMLExtraEnd = "</value>"
-            
-        // Users
-            case "User's Username" :
-                globalXMLAttribute = "name"
-                globalXMLSubsetStart = ""
-                globalXMLSubsetEnd = ""
-                globalXMLExtraStart = ""
-                globalXMLExtraEnd = ""
-                //print("Username")
-            case "User's Full Name" :
-                globalXMLAttribute = "full_name"
-                globalXMLSubsetStart = ""
-                globalXMLSubsetEnd = ""
-                globalXMLExtraStart = ""
-                globalXMLExtraEnd = ""
-                //print("Full name")
-            case "Email Address" :
-                globalXMLAttribute = "email"
-                globalXMLSubsetStart = ""
-                globalXMLSubsetEnd = ""
-                globalXMLExtraStart = ""
-                globalXMLExtraEnd = ""
-                //print("Email")
-            case "User's Position" :
-                globalXMLAttribute = "position"
-                globalXMLSubsetStart = ""
-                globalXMLSubsetEnd = ""
-                globalXMLExtraStart = ""
-                globalXMLExtraEnd = ""
-                //print("Position")
-            case "Phone Number" :
-                globalXMLAttribute = "phone_number"
-                globalXMLSubsetStart = ""
-                globalXMLSubsetEnd = ""
-                globalXMLExtraStart = ""
-                globalXMLExtraEnd = ""
-                //print("Phone Number")
-            case "User's Site by ID" :
-                globalXMLSubsetStart = "<sites>"
-                globalXMLSubsetEnd = "</sites>"
-                globalXMLAttribute = "site"
-                globalXMLExtraStart = "<id>"
-                globalXMLExtraEnd = "</id>"
-                //print("Site by ID General")
-            case "User's Site by Name" :
-                globalXMLSubsetStart = "<sites>"
-                globalXMLSubsetEnd = "</sites>"
-                globalXMLAttribute = "site"
-                globalXMLExtraStart = "<name>"
-                globalXMLExtraEnd = "</name>"
-                //print("Site by ID General") // TODO: Fix EA STuff and Sites
-            case "User Extension Attribute" :
-                globalXMLSubsetStart = "<extension_attributes>"
-                globalXMLSubsetEnd = "</extension_attributes>"
-                globalXMLAttribute = "extension_attribute"
-                globalXMLExtraStart = "<id>\(globalEAID!)</id><value>"
-                globalXMLExtraEnd = "</value>"
-                //print("User EA")
             default:
                 print("Something Broke")
         }
@@ -786,35 +612,17 @@ class ViewController: NSViewController, URLSessionDelegate {
         while i <= lastrow {
             // Sets the current row to the row of the loop
             let currentRow = row[i]
-            print(currentRow)
-            print(self.globalServerURL)
-            print(self.globalEndpoint)
-            print(self.globalEndpointID)
-            
-            // Concatenate the URL from attribute page variables and CSV
-            let myURL = "\(self.globalServerURL!)\(self.globalEndpoint!)/\(self.globalEndpointID!)/\(currentRow[0])"
-            print(myURL)
-            
-            // Concatenate the XML from attribute page variables and CSV, then encode it
-            
-            
-                self.globalXML =    "<\(self.globalXMLDevice!)>" +
-                                        "\(self.globalXMLSubsetStart!)" +
-                                            "<\(self.globalXMLAttribute!)>" +
-                                                "\(self.globalXMLExtraStart!)\(currentRow[1])\(self.globalXMLExtraEnd!)" +
-                                            "</\(self.globalXMLAttribute!)>" +
-                                        "\(self.globalXMLSubsetEnd!)" +
-                                    "</\(self.globalXMLDevice!)>"
-            //print(globalXML)
-            let encodedXML = globalXML.data(using: String.Encoding.utf8)
 
+            let myURL = xmlBuilder().createPUTURL(url: self.globalServerURL!, endpoint: self.globalEndpoint!, idType: self.globalEndpointID!, columnA: currentRow[0])
+            print(myURL.absoluteString)
+            
+            let encodedXML = xmlBuilder().createXML(popIdentifier: popIDOutlet.titleOfSelectedItem!, popDevice: popDeviceOutlet.titleOfSelectedItem!, popAttribute: popAttributeOutlet.titleOfSelectedItem!, eaID: txtEAID.stringValue, columnB: currentRow[1], columnA: currentRow[0])
+            
             // Add a PUT request to the operation queue
             myOpQueue.addOperation {
-                let urlwithPercentEscapes = myURL.addingPercentEncoding( withAllowedCharacters: .urlQueryAllowed)
-                let encodedURL = NSURL(string: urlwithPercentEscapes!)
-                let request = NSMutableURLRequest(url: encodedURL! as URL)
+                let request = NSMutableURLRequest(url: myURL)
                 request.httpMethod = "PUT"
-                request.httpBody = encodedXML!
+                request.httpBody = encodedXML
                 let configuration = URLSessionConfiguration.default
                 configuration.httpAdditionalHeaders = ["Authorization" : "Basic \(self.globalServerCredentials!)", "Content-Type" : "text/xml", "Accept" : "text/xml"]
                 let session = Foundation.URLSession(configuration: configuration, delegate: self, delegateQueue: OperationQueue.main)
@@ -1098,8 +906,7 @@ class ViewController: NSViewController, URLSessionDelegate {
         btnPreFlightOutlet.isHidden = false
     }
     @IBAction func btnTest(_ sender: Any) {
-        xmlBuilder().createXML(popIdentifier: popIDOutlet.titleOfSelectedItem!, popDevice: popDeviceOutlet.titleOfSelectedItem!, popAttribute: popAttributeOutlet.titleOfSelectedItem!, eaID: txtEAID.stringValue, columnB: "NEW VALUE WILL GO HERE", columnA: "C123456789")
-
+        let returnedxml = xmlBuilder().createXML(popIdentifier: popIDOutlet.titleOfSelectedItem!, popDevice: popDeviceOutlet.titleOfSelectedItem!, popAttribute: popAttributeOutlet.titleOfSelectedItem!, eaID: txtEAID.stringValue, columnB: "NEW VALUE WILL GO HERE", columnA: "C123456789")
         
         //let returnedXML = xmlBuilder().generateXML(popDevice: popDeviceOutlet.titleOfSelectedItem!, popIdentifier: popIDOutlet.titleOfSelectedItem!, popAttribute: popAttributeOutlet.titleOfSelectedItem!, popEAID: txtEAID.stringValue, newValue: "TEST", jssURL: "")
         
