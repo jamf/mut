@@ -177,13 +177,13 @@ class ViewController: NSViewController, URLSessionDelegate {
         preferredContentSize = NSSize(width: 540, height: 628)
         
     }
-    
+    /*
     // TODO: - Delete this function? I don't think it's needed
     override var representedObject: Any? {
         didSet {
         // Update the view, if already loaded.
         }
-    }
+    }*/
     
     //Unique Identifier Dropdown to show pre-flight again
     @IBAction func popIdentifierAction(_ sender: Any) {
@@ -255,9 +255,7 @@ class ViewController: NSViewController, URLSessionDelegate {
         openPanel.allowedFileTypes = ["csv"]
         openPanel.begin { (result) in
             if result == NSFileHandlingPanelOKButton {
-                //print(openPanel.URL!) //uncomment for debugging
                 self.globalPathToCSV = openPanel.url! as NSURL!
-                //print(self.globalPathToCSV.path!) //uncomment for debugging
                 self.txtCSV.stringValue = self.globalPathToCSV.path!
             }
         }
@@ -317,8 +315,6 @@ class ViewController: NSViewController, URLSessionDelegate {
         }
         
         if serverURL != nil {
-            print(serverURL)
-            
             btnAcceptOutlet.isHidden = true
             spinWheel.startAnimation(self)
             let concatCredentials = "\(txtUser.stringValue):\(txtPass.stringValue)"
@@ -337,8 +333,6 @@ class ViewController: NSViewController, URLSessionDelegate {
                     let task = session.dataTask(with: request as URLRequest, completionHandler: {
                         (data, response, error) -> Void in
                         if let httpResponse = response as? HTTPURLResponse {
-                            //print(httpResponse.statusCode)
-                            
                             if httpResponse.statusCode >= 199 && httpResponse.statusCode <= 299 {
                                 self.globalServerCredentials = self.base64Credentials
                                 self.globalServerURL = self.serverURL
@@ -402,15 +396,12 @@ class ViewController: NSViewController, URLSessionDelegate {
             case "iOS Devices" :
                 globalXMLDevice = "mobile_device"
                 globalEndpoint = "mobiledevices"
-                //print("iOS")
             case "macOS Devices" :
                 globalXMLDevice = "computer"
                 globalEndpoint = "computers"
-                //print("MacOS")
             case "Users" :
                 globalXMLDevice = "user"
                 globalEndpoint = "users"
-                //print("MacOS")
             default:
                 print("Something Broke")
         }
@@ -419,13 +410,10 @@ class ViewController: NSViewController, URLSessionDelegate {
         switch (globalIDType) {
             case "Serial Number" :
                 globalEndpointID = "serialnumber"
-                //print("Serial")
             case "ID Number" :
                 globalEndpointID = "id"
-                //print("ID")
             case "Username" :
                 globalEndpointID = "name"
-                //print("ID")
             default:
                 print("Something Broke")
         }
@@ -582,23 +570,12 @@ class ViewController: NSViewController, URLSessionDelegate {
         
         // Async update the UI for the start of the run
         DispatchQueue.main.async {
-            self.appendLogString(stringToAppend: "Beginning Update Run! Sending \(self.concurrentRuns) rows at a time.")
-            self.printLineBreak()
-            self.lblLine.isHidden = false
-            self.lblCurrent.isHidden = false
-            self.lblEndLine.isHidden = false
-            self.lblOf.isHidden = false
-            self.barProgress.isHidden = false
-            self.barProgress.maxValue = Double(self.globalParsedCSV.rows.count)
-            self.btnSubmitOutlet.isHidden = true
-            self.btnCancelOutlet.isHidden = false
+            self.beginRunView()
         }
         // Declare variables needed for progress tracking
         var rowCounter = 0
         let row = globalParsedCSV.rows // Send parsed rows to an array
-        print(row)
         let lastrow = row.count - 1
-        print("The last row will be \(lastrow)")
         var i = 0
         lblEndLine.stringValue = "\(row.count)"
         
@@ -614,8 +591,6 @@ class ViewController: NSViewController, URLSessionDelegate {
             let currentRow = row[i]
 
             let myURL = xmlBuilder().createPUTURL(url: self.globalServerURL!, endpoint: self.globalEndpoint!, idType: self.globalEndpointID!, columnA: currentRow[0])
-            print(myURL.absoluteString)
-            
             let encodedXML = xmlBuilder().createXML(popIdentifier: popIDOutlet.titleOfSelectedItem!, popDevice: popDeviceOutlet.titleOfSelectedItem!, popAttribute: popAttributeOutlet.titleOfSelectedItem!, eaID: txtEAID.stringValue, columnB: currentRow[1], columnA: currentRow[0])
             
             // Add a PUT request to the operation queue
@@ -675,15 +650,7 @@ class ViewController: NSViewController, URLSessionDelegate {
                 // If we're on the last row sent, update the UI to reset for another run
                 if rowCounter == lastrow || lastrow == 0 {
                     DispatchQueue.main.async {
-                        self.lblLine.isHidden = true
-                        self.lblCurrent.isHidden = true
-                        self.lblEndLine.isHidden = true
-                        self.lblOf.isHidden = true
-                        self.barProgress.isHidden = true
-                        self.btnSubmitOutlet.isHidden = false
-                        self.barProgress.doubleValue = 0.0
-                        self.lblLine.stringValue = "0"
-                        self.btnCancelOutlet.isHidden = true
+                        self.resetView()
                     }
                 }
             }
@@ -698,19 +665,9 @@ class ViewController: NSViewController, URLSessionDelegate {
             concurrentRuns = Int(mainViewDefaults.value(forKey: "ConcurrentRows") as! String)!
         }
         
-        //print("ENFORCING NAMES!")
         // Async update the UI for the start of the run
         DispatchQueue.main.async {
-            self.appendLogString(stringToAppend: "Beginning Update Run! Sending \(self.concurrentRuns) rows at a time.")
-            self.printLineBreak()
-            self.lblLine.isHidden = false
-            self.lblCurrent.isHidden = false
-            self.lblEndLine.isHidden = false
-            self.lblOf.isHidden = false
-            self.barProgress.isHidden = false
-            self.barProgress.maxValue = Double(self.globalParsedCSV.rows.count)
-            self.btnSubmitOutlet.isHidden = true
-            self.btnCancelOutlet.isHidden = false
+            self.beginRunView()
         }
         // Declare variables needed for progress tracking
         var rowCounter = 0
@@ -731,18 +688,16 @@ class ViewController: NSViewController, URLSessionDelegate {
             let currentRow = row[i]
             
             // Concatenate the URL from attribute page variables and CSV
-            let myURL = "\(self.globalServerURL!)mobiledevicecommands/command/DeviceName"
+            let myURL = xmlBuilder().createPOSTURL(url: self.globalServerURL!)
+
             
-            let encodedXML = xmlBuilder().enforceName(newName: currentRow[1], serialNumber: currentRow[0])
-            //let encodedXML = returnedXML?.data(using: String.Encoding.utf8)
+            let encodedXML = xmlBuilder().createXML(popIdentifier: popIDOutlet.titleOfSelectedItem!, popDevice: popDeviceOutlet.titleOfSelectedItem!, popAttribute: popAttributeOutlet.titleOfSelectedItem!, eaID: txtEAID.stringValue, columnB: currentRow[1], columnA: currentRow[0])
             
             // Add a POST request to the operation queue
             myOpQueue.addOperation {
-                let urlwithPercentEscapes = myURL.addingPercentEncoding( withAllowedCharacters: .urlQueryAllowed)
-                let encodedURL = NSURL(string: urlwithPercentEscapes!)
-                let request = NSMutableURLRequest(url: encodedURL! as URL)
+                let request = NSMutableURLRequest(url: myURL)
                 request.httpMethod = "POST"
-                request.httpBody = encodedXML!
+                request.httpBody = encodedXML
                 let configuration = URLSessionConfiguration.default
                 configuration.httpAdditionalHeaders = ["Authorization" : "Basic \(self.globalServerCredentials!)", "Content-Type" : "text/xml", "Accept" : "text/xml"]
                 let session = Foundation.URLSession(configuration: configuration, delegate: self, delegateQueue: OperationQueue.main)
@@ -766,6 +721,12 @@ class ViewController: NSViewController, URLSessionDelegate {
                                 // Print information to the log box
                                 self.printString(stringToPrint: "Device with \(self.globalEndpointID!) \(currentRow[0]) - ")
                                 self.appendRed(stringToPrint: "Failed! - \(httpResponse.statusCode)!")
+                                if httpResponse.statusCode == 404 {
+                                    self.printLineBreak()
+                                    self.appendLogString(stringToAppend: "HTTP 404 means 'not found'. There is no device with \(self.globalEndpointID!) \(currentRow[0]) enrolled in your JSS.")
+                                    self.printLineBreak()
+                                }
+
                                 // Update the progress bar
                                 self.barProgress.doubleValue = Double(rowCounter)
                             }
@@ -788,17 +749,9 @@ class ViewController: NSViewController, URLSessionDelegate {
                 semaphore.wait()
                 
                 // If we're on the last row sent, update the UI to reset for another run
-                if rowCounter == lastrow {
+                if rowCounter == lastrow || lastrow == 0 {
                     DispatchQueue.main.async {
-                        self.lblLine.isHidden = true
-                        self.lblCurrent.isHidden = true
-                        self.lblEndLine.isHidden = true
-                        self.lblOf.isHidden = true
-                        self.barProgress.isHidden = true
-                        self.btnSubmitOutlet.isHidden = false
-                        self.barProgress.doubleValue = 0.0
-                        self.lblLine.stringValue = "0"
-                        self.btnCancelOutlet.isHidden = true
+                        self.resetView()
                     }
                 }
             }
@@ -817,15 +770,8 @@ class ViewController: NSViewController, URLSessionDelegate {
             self.appendLogString(stringToAppend: "The \(self.concurrentRuns) Requests that have already been initiated will complete.")
             self.appendLogString(stringToAppend: "           All other requests have been cancelled.")
             self.appendRed(stringToPrint:        "**************************************************************")
-            self.lblLine.isHidden = true
-            self.lblCurrent.isHidden = true
-            self.lblEndLine.isHidden = true
-            self.lblOf.isHidden = true
-            self.barProgress.isHidden = true
-            self.btnSubmitOutlet.isHidden = false
-            self.barProgress.doubleValue = 0.0
-            self.lblLine.stringValue = "0"
-            self.btnCancelOutlet.isHidden = true
+            self.resetView()
+            
         }
     }
     
@@ -906,10 +852,30 @@ class ViewController: NSViewController, URLSessionDelegate {
         btnPreFlightOutlet.isHidden = false
     }
     @IBAction func btnTest(_ sender: Any) {
-        let returnedxml = xmlBuilder().createXML(popIdentifier: popIDOutlet.titleOfSelectedItem!, popDevice: popDeviceOutlet.titleOfSelectedItem!, popAttribute: popAttributeOutlet.titleOfSelectedItem!, eaID: txtEAID.stringValue, columnB: "NEW VALUE WILL GO HERE", columnA: "C123456789")
-        
-        //let returnedXML = xmlBuilder().generateXML(popDevice: popDeviceOutlet.titleOfSelectedItem!, popIdentifier: popIDOutlet.titleOfSelectedItem!, popAttribute: popAttributeOutlet.titleOfSelectedItem!, popEAID: txtEAID.stringValue, newValue: "TEST", jssURL: "")
-        
-        
+
+    }
+    func resetView() {
+        self.lblLine.isHidden = true
+        self.lblCurrent.isHidden = true
+        self.lblEndLine.isHidden = true
+        self.lblOf.isHidden = true
+        self.barProgress.isHidden = true
+        self.btnSubmitOutlet.isHidden = false
+        self.barProgress.doubleValue = 0.0
+        self.lblLine.stringValue = "0"
+        self.btnCancelOutlet.isHidden = true
+    }
+    
+    func beginRunView() {
+        self.appendLogString(stringToAppend: "Beginning Update Run! Sending \(self.concurrentRuns) rows at a time.")
+        self.printLineBreak()
+        self.lblLine.isHidden = false
+        self.lblCurrent.isHidden = false
+        self.lblEndLine.isHidden = false
+        self.lblOf.isHidden = false
+        self.barProgress.isHidden = false
+        self.barProgress.maxValue = Double(self.globalParsedCSV.rows.count)
+        self.btnSubmitOutlet.isHidden = true
+        self.btnCancelOutlet.isHidden = false
     }
 }

@@ -117,7 +117,7 @@ public class xmlBuilder {
         }
         
         // BUILD XML FOR GENERIC DEVICE UPDATES
-        if xmlDevice != "user" && xmlExtra == "" {
+        if xmlDevice != "user" && xmlExtra == "" && xmlAttribute != "name" {
             let root = XMLElement(name: xmlDevice!)
             let xml = XMLDocument(rootElement: root)
             let subset = XMLElement(name: xmlSubset!)
