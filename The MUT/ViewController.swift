@@ -682,12 +682,11 @@ class ViewController: NSViewController, URLSessionDelegate {
         // Semaphore causes the op queue to wait for responses before sending a new request
         let semaphore = DispatchSemaphore(value: 0)
         
-        
+
         while i <= lastrow {
             // Sets the current row to the row of the loop
             let currentRow = row[i]
             
-            // Concatenate the URL from attribute page variables and CSV
             let myURL = xmlBuilder().createPOSTURL(url: self.globalServerURL!)
 
             
@@ -726,7 +725,6 @@ class ViewController: NSViewController, URLSessionDelegate {
                                     self.appendLogString(stringToAppend: "HTTP 404 means 'not found'. There is no device with \(self.globalEndpointID!) \(currentRow[0]) enrolled in your JSS.")
                                     self.printLineBreak()
                                 }
-
                                 // Update the progress bar
                                 self.barProgress.doubleValue = Double(rowCounter)
                             }
