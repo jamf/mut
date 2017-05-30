@@ -35,6 +35,8 @@ class ViewController: NSViewController, URLSessionDelegate {
     var serverURL: String!
     var verified = false
     var columnChecker = 0
+    var globalHTTPFunction: String!
+    var myURL: URL!
     
     // Set up operation queue for runs
     let myOpQueue = OperationQueue()
@@ -70,21 +72,7 @@ class ViewController: NSViewController, URLSessionDelegate {
     @IBOutlet weak var radioPrem: NSButton!
     @IBOutlet weak var txtPrem: NSTextField!
     @IBOutlet weak var txtHosted: NSTextField!
-    @IBAction func radioServer(_ sender: NSButton) {
-        notReadyToRun()
-        // Disable On-Prem if Hosted = TRUE
-        if radioHosted.state == 1 {
-            txtPrem.isEnabled = false
-            txtHosted.isEnabled = true
-            txtHosted.becomeFirstResponder()
-            
-            // Else Disable Hosted if Hosted = FALSE
-        } else {
-            txtHosted.isEnabled = false
-            txtPrem.isEnabled = true
-            txtPrem.becomeFirstResponder()
-        }
-    }
+
 
     // Declare outlet for entire controller
     @IBOutlet var MainViewController: NSView!
@@ -113,7 +101,6 @@ class ViewController: NSViewController, URLSessionDelegate {
     // Takes place right after view loads
     override func viewDidLoad() {
         super.viewDidLoad()
-        
 
         // Print welcome message
         txtMain.textStorage?.append(NSAttributedString(string: "Welcome to The MUT v3.2", attributes: myHeaderAttribute))
@@ -177,17 +164,26 @@ class ViewController: NSViewController, URLSessionDelegate {
         preferredContentSize = NSSize(width: 540, height: 628)
         
     }
-    /*
-    // TODO: - Delete this function? I don't think it's needed
-    override var representedObject: Any? {
-        didSet {
-        // Update the view, if already loaded.
-        }
-    }*/
     
     //Unique Identifier Dropdown to show pre-flight again
     @IBAction func popIdentifierAction(_ sender: Any) {
         notReadyToRun()
+    }
+    
+    @IBAction func radioServer(_ sender: NSButton) {
+        notReadyToRun()
+        // Disable On-Prem if Hosted = TRUE
+        if radioHosted.state == 1 {
+            txtPrem.isEnabled = false
+            txtHosted.isEnabled = true
+            txtHosted.becomeFirstResponder()
+            
+            // Else Disable Hosted if Hosted = FALSE
+        } else {
+            txtHosted.isEnabled = false
+            txtPrem.isEnabled = true
+            txtPrem.becomeFirstResponder()
+        }
     }
     
     // Set up the dropdown items depending on what record type is selected
@@ -286,7 +282,6 @@ class ViewController: NSViewController, URLSessionDelegate {
                 // If no URL is filled, warn user
                 _ = popPrompt().generalWarning(question: "No Server Info", text: "You have selected the option for a hosted Jamf server, but no instance name was entered. Please enter your instance name and try again.")
             }
-            
         }
         
         // If Prem Radio Chekced
@@ -378,7 +373,7 @@ class ViewController: NSViewController, URLSessionDelegate {
 
     
     
-    func userDidEnterAttributes() {
+    func prepareToBuildXML() {
         btnSubmitOutlet.isHidden = false
         globalDeviceType = popDeviceOutlet.titleOfSelectedItem
         globalIDType = popIDOutlet.titleOfSelectedItem
@@ -420,7 +415,7 @@ class ViewController: NSViewController, URLSessionDelegate {
     }
     
     // Pass back the CSV Path
-    func userDidEnterPath() {
+    func parseCSV() {
         
         globalCSVPath = txtCSV.stringValue
         //printLineBreak()
@@ -440,11 +435,9 @@ class ViewController: NSViewController, URLSessionDelegate {
         if columnChecker < 2 {
             self.appendRed(stringToPrint: "The MUT did not find at least two columns in your CSV. If you are trying to blank out values, please include headers so that it can find the second column.")
             printLineBreak()
-            
         } else if columnChecker > 2 {
             self.appendRed(stringToPrint: "The MUT found more than two columns in your CSV. The first column should be your unique identifier (eg: serial) and the second column should be the value to be updated.")
             printLineBreak()
-            
         } else {
             // Display a preview of row 1 if only 1 row, or row 2 otherwise (to not preview headers)
             if globalParsedCSV.rows.count > 1 {
@@ -469,7 +462,6 @@ class ViewController: NSViewController, URLSessionDelegate {
                 appendRed(stringToPrint: "No rows found in your CSV!!!")
             }
             printLineBreak()
-
         }
     }
     
@@ -479,6 +471,7 @@ class ViewController: NSViewController, URLSessionDelegate {
             UserDefaults.standard.removePersistentDomain(forName: bundle)
         }
     }
+    
     @IBAction func btnChangeDelim(_ sender: AnyObject) {
         
         let newDelim = popPrompt().selectDelim(question: "Change Delimiter", text: "What would you like your new delimiter to be?")
@@ -516,10 +509,10 @@ class ViewController: NSViewController, URLSessionDelegate {
     @IBAction func btnPreFlight(_ sender: Any) {
         if verified {
 
-            userDidEnterAttributes()
+            prepareToBuildXML()
             
             if txtCSV.stringValue != "" {
-                userDidEnterPath()
+                parseCSV()
                 readyToRun()
                 appendLogString(stringToAppend: "==================================================")
                 appendLogString(stringToAppend: "Please review the above information. If everything looks good, press the submit button. Otherwise, please verify the dropdowns and your CSV file and run another pre-flight check.")
@@ -528,13 +521,9 @@ class ViewController: NSViewController, URLSessionDelegate {
                 _ = popPrompt().generalWarning(question: "No CSV Path Found", text: "Please browse for a CSV file in order to continue.")
                 return
             }
-            
-
         } else {
             _ = popPrompt().generalWarning(question: "Please Verify Credentials", text: "Please enter your server URL, and the credentials for an administrator account, and then verify your credentials to continue.")
         }
-
-        
     }
     
     // Run enforce name function if proper attributes are selected
@@ -542,32 +531,30 @@ class ViewController: NSViewController, URLSessionDelegate {
     @IBAction func submitRequests(_ sender: Any) {
         if verified {
             if txtCSV.stringValue != "" {
-                 userDidEnterPath()
+                 parseCSV()
             } else {
                 _ = popPrompt().generalWarning(question: "No CSV Path Found", text: "Please browse for a CSV file in order to continue.")
                 return
             }
-            
-            userDidEnterAttributes()
+            prepareToBuildXML()
             if globalDeviceType == "iOS Devices" && globalAttributeType == "Device Name" {
-                enforceMobileNames()
+                globalHTTPFunction = "POST"
+                uploadData()
             } else {
-                putData()
+                globalHTTPFunction = "PUT"
+                uploadData()
             }
         } else {
             _ = popPrompt().generalWarning(question: "Please Verify Credentials", text: "Please enter your server URL, and the credentials for an administrator account, and then verify your credentials to continue.")
         }
-
-        
     }
     
-    // MARK: - PUT DATA FUNCTION
-    func putData() {
+    // MARK: - UPLOAD DATA FUNCTION
+    func uploadData() {
         
         if mainViewDefaults.value(forKey: "ConcurrentRows") != nil {
             concurrentRuns = Int(mainViewDefaults.value(forKey: "ConcurrentRows") as! String)!
         }
-        
         // Async update the UI for the start of the run
         DispatchQueue.main.async {
             self.beginRunView()
@@ -589,113 +576,19 @@ class ViewController: NSViewController, URLSessionDelegate {
         while i <= lastrow {
             // Sets the current row to the row of the loop
             let currentRow = row[i]
-
-            let myURL = xmlBuilder().createPUTURL(url: self.globalServerURL!, endpoint: self.globalEndpoint!, idType: self.globalEndpointID!, columnA: currentRow[0])
-            let encodedXML = xmlBuilder().createXML(popIdentifier: popIDOutlet.titleOfSelectedItem!, popDevice: popDeviceOutlet.titleOfSelectedItem!, popAttribute: popAttributeOutlet.titleOfSelectedItem!, eaID: txtEAID.stringValue, columnB: currentRow[1], columnA: currentRow[0])
             
-            // Add a PUT request to the operation queue
-            myOpQueue.addOperation {
-                let request = NSMutableURLRequest(url: myURL)
-                request.httpMethod = "PUT"
-                request.httpBody = encodedXML
-                let configuration = URLSessionConfiguration.default
-                configuration.httpAdditionalHeaders = ["Authorization" : "Basic \(self.globalServerCredentials!)", "Content-Type" : "text/xml", "Accept" : "text/xml"]
-                let session = Foundation.URLSession(configuration: configuration, delegate: self, delegateQueue: OperationQueue.main)
-                let task = session.dataTask(with: request as URLRequest, completionHandler: {
-                    (data, response, error) -> Void in
-                    
-                    // If we got a response
-                    if let httpResponse = response as? HTTPURLResponse {
-                        // If that response is a success response
-                        if httpResponse.statusCode >= 200 && httpResponse.statusCode <= 299 {
-                            DispatchQueue.main.async {
-                                // Print information to the log box
-                                self.printString(stringToPrint: "Device with \(self.globalEndpointID!) \(currentRow[0]) - ")
-                                self.appendGreen(stringToPrint: "OK! - \(httpResponse.statusCode)")
-                                // Update the progress bar
-                                self.barProgress.doubleValue = Double(rowCounter)
-                            }
-                        } else {
-                            // If that response is not a success response
-                            DispatchQueue.main.async {
-                                // Print information to the log box
-                                self.printString(stringToPrint: "Device with \(self.globalEndpointID!) \(currentRow[0]) - ")
-                                self.appendRed(stringToPrint: "Failed! - \(httpResponse.statusCode)!")
-                                if httpResponse.statusCode == 404 {
-                                    self.printLineBreak()
-                                    self.appendLogString(stringToAppend: "HTTP 404 means 'not found'. There is no device with \(self.globalEndpointID!) \(currentRow[0]) enrolled in your JSS.")
-                                    self.printLineBreak()
-                                }
-                                // Update the progress bar
-                                self.barProgress.doubleValue = Double(rowCounter)
-                            }
-                        }
-                        // Increment the row counter and signal that the response was received
-                        rowCounter += 1
-                        semaphore.signal()
-                        // Async update the row count label
-                        DispatchQueue.main.async {
-                            self.lblLine.stringValue = "\(rowCounter)"
-                        }
-                    }
-                    // Log errors if received (we probably shouldn't ever end up needing this)
-                    if error != nil {
-                        _ = popPrompt().generalWarning(question: "Fatal Error", text: "The MUT received a fatal error while uploading. \n\n \(error!.localizedDescription)")
-                    }
-                })
-                // Send the request and then wait for the semaphore signal
-                task.resume()
-                semaphore.wait()
-                
-                // If we're on the last row sent, update the UI to reset for another run
-                if rowCounter == lastrow || lastrow == 0 {
-                    DispatchQueue.main.async {
-                        self.resetView()
-                    }
-                }
+            if globalHTTPFunction == "PUT" {
+                myURL = xmlBuilder().createPUTURL(url: self.globalServerURL!, endpoint: self.globalEndpoint!, idType: self.globalEndpointID!, columnA: currentRow[0])
+            } else {
+                myURL = xmlBuilder().createPOSTURL(url: self.globalServerURL!)
             }
-            i += 1
-        }
-    }
-    
-    // MARK: - Enforce Mobile Device Names
-    func enforceMobileNames() {
-        
-        if mainViewDefaults.value(forKey: "ConcurrentRows") != nil {
-            concurrentRuns = Int(mainViewDefaults.value(forKey: "ConcurrentRows") as! String)!
-        }
-        
-        // Async update the UI for the start of the run
-        DispatchQueue.main.async {
-            self.beginRunView()
-        }
-        // Declare variables needed for progress tracking
-        var rowCounter = 0
-        let row = globalParsedCSV.rows // Send parsed rows to an array
-        let lastrow = row.count - 1
-        var i = 0
-        lblEndLine.stringValue = "\(row.count)"
-        
-        // Set the max concurrent ops to the selectable number
-        myOpQueue.maxConcurrentOperationCount = concurrentRuns
-        
-        // Semaphore causes the op queue to wait for responses before sending a new request
-        let semaphore = DispatchSemaphore(value: 0)
-        
-
-        while i <= lastrow {
-            // Sets the current row to the row of the loop
-            let currentRow = row[i]
-            
-            let myURL = xmlBuilder().createPOSTURL(url: self.globalServerURL!)
-
             
             let encodedXML = xmlBuilder().createXML(popIdentifier: popIDOutlet.titleOfSelectedItem!, popDevice: popDeviceOutlet.titleOfSelectedItem!, popAttribute: popAttributeOutlet.titleOfSelectedItem!, eaID: txtEAID.stringValue, columnB: currentRow[1], columnA: currentRow[0])
             
-            // Add a POST request to the operation queue
+            // Add a PUT or POST request to the operation queue
             myOpQueue.addOperation {
-                let request = NSMutableURLRequest(url: myURL)
-                request.httpMethod = "POST"
+                let request = NSMutableURLRequest(url: self.myURL)
+                request.httpMethod = self.globalHTTPFunction
                 request.httpBody = encodedXML
                 let configuration = URLSessionConfiguration.default
                 configuration.httpAdditionalHeaders = ["Authorization" : "Basic \(self.globalServerCredentials!)", "Content-Type" : "text/xml", "Accept" : "text/xml"]
@@ -793,13 +686,12 @@ class ViewController: NSViewController, URLSessionDelegate {
                 do {
                     try logcontents.write(toFile: (saveDialogue.url?.path)!, atomically: true, encoding: String.Encoding.ascii)
                 } catch {
-                    /* error handling here */
+                    // error handling here
                 }
 
             }
         }
     }
-    
         
     func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         completionHandler(Foundation.URLSession.AuthChallengeDisposition.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
@@ -849,9 +741,7 @@ class ViewController: NSViewController, URLSessionDelegate {
         btnSubmitOutlet.isHidden = true
         btnPreFlightOutlet.isHidden = false
     }
-    @IBAction func btnTest(_ sender: Any) {
-
-    }
+    
     func resetView() {
         self.lblLine.isHidden = true
         self.lblCurrent.isHidden = true

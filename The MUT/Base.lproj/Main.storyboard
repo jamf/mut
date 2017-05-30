@@ -566,17 +566,6 @@ DQ
                                     <action selector="btnPreFlight:" target="Wso-JF-mtF" id="B2t-iL-c6P"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T9d-fc-LMf">
-                                <rect key="frame" x="303" y="600" width="81" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Button" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3C4-LY-Y6y">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="btnTest:" target="Wso-JF-mtF" id="4xA-HV-8Z2"/>
-                                </connections>
-                            </button>
                         </subviews>
                     </view>
                     <connections>
