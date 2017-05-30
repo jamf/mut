@@ -20,6 +20,13 @@ public class xmlBuilder {
         return encodedURL! as URL
     }
     
+    public func createGROUPURL(url: String, columnB: String) -> URL {
+        let stringURL = "\(url)computergroups/id/\(columnB)"
+        let urlwithPercentEscapes = stringURL.addingPercentEncoding( withAllowedCharacters: .urlQueryAllowed)
+        let encodedURL = NSURL(string: urlwithPercentEscapes!)
+        return encodedURL! as URL
+    }
+    
     public func createPOSTURL(url: String) -> URL {
         let stringURL = "\(url)mobiledevicecommands/command/DeviceName"
         let encodedURL = NSURL(string: stringURL)
@@ -49,7 +56,14 @@ public class xmlBuilder {
             let xml = XMLDocument(rootElement: root)
             let subset = XMLElement(name: "computer_additions")
             let child = XMLElement(name: "computer")
-            let identifier = XMLElement(name: "serial_number", stringValue: columnA)
+            var identifier = XMLElement(name: "null", stringValue: columnA)
+            if popIdentifier == "Serial Number" {
+                identifier = XMLElement(name: "serial_number", stringValue: columnA)
+            }
+            if popIdentifier == "ID Number" {
+                identifier = XMLElement(name: "id", stringValue: columnA)
+            }
+            //let identifier = XMLElement(name: "serial_number", stringValue: columnA)
             //let value = XMLElement(name: "value", stringValue: columnB)
             child.addChild(identifier)
             //child.addChild(value)

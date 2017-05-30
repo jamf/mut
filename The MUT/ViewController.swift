@@ -211,7 +211,7 @@ class ViewController: NSViewController, URLSessionDelegate {
             popIDOutlet.addItems(withTitles: ["Serial Number","ID Number"])
             
             popAttributeOutlet.removeAllItems()
-            popAttributeOutlet.addItems(withTitles: ["Asset Tag","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute","PO Number"/*,"macOS Static Group"*/])
+            popAttributeOutlet.addItems(withTitles: ["Asset Tag","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute","PO Number","macOS Static Group"])
         }
     }
     
@@ -578,7 +578,12 @@ class ViewController: NSViewController, URLSessionDelegate {
             let currentRow = row[i]
             
             if globalHTTPFunction == "PUT" {
-                myURL = xmlBuilder().createPUTURL(url: self.globalServerURL!, endpoint: self.globalEndpoint!, idType: self.globalEndpointID!, columnA: currentRow[0])
+                if popAttributeOutlet.titleOfSelectedItem != "macOS Static Group" {
+                    myURL = xmlBuilder().createPUTURL(url: self.globalServerURL!, endpoint: self.globalEndpoint!, idType: self.globalEndpointID!, columnA: currentRow[0])
+                } else {
+                    myURL = xmlBuilder().createGROUPURL(url: self.globalServerURL!, columnB: currentRow[1])
+                }
+
             } else {
                 myURL = xmlBuilder().createPOSTURL(url: self.globalServerURL!)
             }
