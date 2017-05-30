@@ -154,7 +154,7 @@ class ViewController: NSViewController, URLSessionDelegate {
         
         // Set up the attribute outlet drop down
         popAttributeOutlet.removeAllItems()
-        popAttributeOutlet.addItems(withTitles: ["Asset Tag","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute"])
+        popAttributeOutlet.addItems(withTitles: ["Asset Tag","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute","PO Number"])
 
     }
     
@@ -197,7 +197,7 @@ class ViewController: NSViewController, URLSessionDelegate {
         }
         if popDeviceOutlet.titleOfSelectedItem == "iOS Devices" {
             popAttributeOutlet.removeAllItems()
-            popAttributeOutlet.addItems(withTitles: ["Asset Tag","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute"]) // Removed Sites for now, they appear to not be working
+            popAttributeOutlet.addItems(withTitles: ["Asset Tag","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute","PO Number"]) 
             if popAttributeOutlet.titleOfSelectedItem == "Device Name" {
                 popIDOutlet.removeAllItems()
                 popIDOutlet.addItems(withTitles: ["Serial Number"])
@@ -211,7 +211,7 @@ class ViewController: NSViewController, URLSessionDelegate {
             popIDOutlet.addItems(withTitles: ["Serial Number","ID Number"])
             
             popAttributeOutlet.removeAllItems()
-            popAttributeOutlet.addItems(withTitles: ["Asset Tag","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute"])
+            popAttributeOutlet.addItems(withTitles: ["Asset Tag","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute","PO Number"/*,"macOS Static Group"*/])
         }
     }
     
