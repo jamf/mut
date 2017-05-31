@@ -37,6 +37,7 @@ class ViewController: NSViewController, URLSessionDelegate {
     var columnChecker = 0
     var globalHTTPFunction: String!
     var myURL: URL!
+    var globalDebug = "off"
     
     // Set up operation queue for runs
     let myOpQueue = OperationQueue()
@@ -94,7 +95,7 @@ class ViewController: NSViewController, URLSessionDelegate {
     @IBOutlet weak var popIDOutlet: NSPopUpButton!
     @IBOutlet weak var txtEAID: NSTextField!
     @IBOutlet weak var txtCSV: NSTextField!
-
+    
     
     // MARK: - On load
     
@@ -154,7 +155,7 @@ class ViewController: NSViewController, URLSessionDelegate {
         
         // Set up the attribute outlet drop down
         popAttributeOutlet.removeAllItems()
-        popAttributeOutlet.addItems(withTitles: ["Asset Tag","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute","PO Number"])
+        popAttributeOutlet.addItems(withTitles: ["Asset Tag","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute","PO Number","macOS Static Group"])
 
     }
     
@@ -197,7 +198,7 @@ class ViewController: NSViewController, URLSessionDelegate {
         }
         if popDeviceOutlet.titleOfSelectedItem == "iOS Devices" {
             popAttributeOutlet.removeAllItems()
-            popAttributeOutlet.addItems(withTitles: ["Asset Tag","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute","PO Number"]) 
+            popAttributeOutlet.addItems(withTitles: ["Asset Tag","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute","PO Number","iOS Static Group"])
             if popAttributeOutlet.titleOfSelectedItem == "Device Name" {
                 popIDOutlet.removeAllItems()
                 popIDOutlet.addItems(withTitles: ["Serial Number"])
@@ -229,6 +230,11 @@ class ViewController: NSViewController, URLSessionDelegate {
         if popAttributeOutlet.titleOfSelectedItem == "Site by Name" {
             appendRed(stringToPrint: "To remove a device from all sites, assign a device to Site Name 'None'.")
             printLineBreak()
+        }
+        if popAttributeOutlet.titleOfSelectedItem == "macOS Static Group" || popAttributeOutlet.titleOfSelectedItem == "iOS Static Group" {
+            appendRed(stringToPrint: "To assign Devices to a static group, put the device identifier (Serial Number or JSS ID) in Column A, with the Group ID in Column B.")
+            printLineBreak()
+            appendRed(stringToPrint: "You must first manually create the group in the JSS, and then you can find the Group ID in the URL when viewing the group.")
         }
         if popDeviceOutlet.titleOfSelectedItem == "iOS Devices" {
             if popAttributeOutlet.titleOfSelectedItem == "Device Name" {
@@ -582,10 +588,17 @@ class ViewController: NSViewController, URLSessionDelegate {
             // Add a PUT or POST request to the operation queue
             myOpQueue.addOperation {
                 if self.globalHTTPFunction == "PUT" {
-                    if self.popAttributeOutlet.titleOfSelectedItem != "macOS Static Group" {
+                    if self.popAttributeOutlet.titleOfSelectedItem != "macOS Static Group" && self.popAttributeOutlet.titleOfSelectedItem != "iOS Static Group" {
                         self.myURL = xmlBuilder().createPUTURL(url: self.globalServerURL!, endpoint: self.globalEndpoint!, idType: self.globalEndpointID!, columnA: currentRow[0])
                     } else {
-                        self.myURL = xmlBuilder().createGROUPURL(url: self.globalServerURL!, columnB: currentRow[1])
+                        if self.popAttributeOutlet.titleOfSelectedItem == "macOS Static Group" {
+                            self.myURL = xmlBuilder().createMacGroupURL(url: self.globalServerURL!, columnB: currentRow[1])
+                        }
+                        
+                        if self.popAttributeOutlet.titleOfSelectedItem == "iOS Static Group" {
+                            self.myURL = xmlBuilder().createiOSGroupURL(url: self.globalServerURL!, columnB: currentRow[1])
+                        }
+                        
                     }
                     
                 } else {
@@ -602,6 +615,15 @@ class ViewController: NSViewController, URLSessionDelegate {
                 let session = Foundation.URLSession(configuration: configuration, delegate: self, delegateQueue: OperationQueue.main)
                 let task = session.dataTask(with: request as URLRequest, completionHandler: {
                     (data, response, error) -> Void in
+                    
+                    // If debug mode is enabled, print out the full data from the curl
+                    if let myData = String(data: data!, encoding: .utf8) {
+                        if self.globalDebug == "on" {
+                            self.appendLogString(stringToAppend: "Full Response Data:")
+                            self.appendLogString(stringToAppend: myData)
+                            self.printLineBreak()
+                        }
+                    }
                     
                     // If we got a response
                     if let httpResponse = response as? HTTPURLResponse {
@@ -673,6 +695,17 @@ class ViewController: NSViewController, URLSessionDelegate {
             
         }
     }
+    
+    @IBAction func btnEnableDebug(_ sender: Any) {
+        if globalDebug == "off" {
+            globalDebug = "on"
+        } else {
+            globalDebug = "off"
+        }
+        self.appendLogString(stringToAppend: "Debug set to: " + self.globalDebug)
+        self.printLineBreak()
+    }
+    
     
     // MARK: - Save Log Text
     @IBAction func btnSaveLog(_ sender: Any) {

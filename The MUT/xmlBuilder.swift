@@ -21,8 +21,15 @@ public class xmlBuilder {
         return encodedURL! as URL
     }
     
-    public func createGROUPURL(url: String, columnB: String) -> URL {
+    public func createMacGroupURL(url: String, columnB: String) -> URL {
         let stringURL = "\(url)computergroups/id/\(columnB)"
+        let urlwithPercentEscapes = stringURL.addingPercentEncoding( withAllowedCharacters: .urlQueryAllowed)
+        let encodedURL = NSURL(string: urlwithPercentEscapes!)
+        return encodedURL! as URL
+    }
+    
+    public func createiOSGroupURL(url: String, columnB: String) -> URL {
+        let stringURL = "\(url)mobiledevicegroups/id/\(columnB)"
         let urlwithPercentEscapes = stringURL.addingPercentEncoding( withAllowedCharacters: .urlQueryAllowed)
         let encodedURL = NSURL(string: urlwithPercentEscapes!)
         return encodedURL! as URL
@@ -45,18 +52,18 @@ public class xmlBuilder {
         
         let xmlDevice = ["macOS Devices": "computer", "iOS Devices": "mobile_device", "Users": "user"][popDevice]
         
-        let xmlSubset = ["Asset Tag": "general", "Device Name": "general", "Site by ID": "general", "Site by Name": "general", "Username": "location", "Full Name": "location", "Email": "location", "Position": "location", "Department": "location", "Building": "location", "Room": "location", "Extension Attribute": "extension_attributes", "User's Username": "", "User's Full Name": "", "Email Address": "", "User's Position": "", "Phone Number": "", "User's Site by ID": "sites", "User's Site by Name": "sites", "User Extension Attribute": "extension_attributes", "PO Number": "purchasing"][popAttribute]
+        let xmlSubset = ["Asset Tag": "general", "Device Name": "general", "Site by ID": "general", "Site by Name": "general", "Username": "location", "Full Name": "location", "Email": "location", "Position": "location", "Department": "location", "Building": "location", "Room": "location", "Extension Attribute": "extension_attributes", "User's Username": "", "User's Full Name": "", "Email Address": "", "User's Position": "", "Phone Number": "", "User's Site by ID": "sites", "User's Site by Name": "sites", "User Extension Attribute": "extension_attributes", "macOS Static Group": "computer_additions", "iOS Static Group": "mobile_device_additions", "PO Number": "purchasing"][popAttribute]
         
-        let xmlAttribute = ["Asset Tag": "asset_tag", "Device Name": "name", "Site by ID": "site", "Site by Name": "site", "Username": "username", "Full Name": "real_name", "Email": "email_address", "Position": "position", "Department": "department", "Building": "building", "Room": "room", "Extension Attribute": "extension_attribute", "User's Username": "name", "User's Full Name": "full_name", "Email Address": "email", "User's Position": "position", "Phone Number": "phone_number", "User's Site by ID": "site", "User's Site by Name": "site", "User Extension Attribute": "extension_attribute", "macOS Static Group": "computer_group", "PO Number":"po_number"][popAttribute]
+        let xmlAttribute = ["Asset Tag": "asset_tag", "Device Name": "name", "Site by ID": "site", "Site by Name": "site", "Username": "username", "Full Name": "real_name", "Email": "email_address", "Position": "position", "Department": "department", "Building": "building", "Room": "room", "Extension Attribute": "extension_attribute", "User's Username": "name", "User's Full Name": "full_name", "Email Address": "email", "User's Position": "position", "Phone Number": "phone_number", "User's Site by ID": "site", "User's Site by Name": "site", "User Extension Attribute": "extension_attribute", "macOS Static Group": "computer_group", "iOS Static Group": "mobile_device_group", "PO Number":"po_number"][popAttribute]
         
-        let xmlExtra = ["Asset Tag": "", "Device Name": "", "Site by ID": "id", "Site by Name": "name", "Username": "", "Full Name": "", "Email": "", "Position": "", "Department": "", "Building": "", "Room": "", "Extension Attribute": "value", "User's Username": "", "User's Full Name": "", "Email Address": "", "User's Position": "", "Phone Number": "", "User's Site by ID": "id", "User's Site by Name": "name", "User Extension Attribute": "value", "PO Number":""][popAttribute]
+        let xmlExtra = ["Asset Tag": "", "Device Name": "", "Site by ID": "id", "Site by Name": "name", "Username": "", "Full Name": "", "Email": "", "Position": "", "Department": "", "Building": "", "Room": "", "Extension Attribute": "value", "User's Username": "", "User's Full Name": "", "Email Address": "", "User's Position": "", "Phone Number": "", "User's Site by ID": "id", "User's Site by Name": "name", "User Extension Attribute": "value", "macOS Static Group": "computer", "iOS Static Group": "mobile_device", "PO Number":""][popAttribute]
         
-        // BUILD XML FOR macOS STATIC GROUP
-        if xmlAttribute == "computer_group" {
-            let root = XMLElement(name: "computer_group")
+        // BUILD XML FOR STATIC GROUP
+        if xmlAttribute == "computer_group" || xmlAttribute == "mobile_device_group" {
+            let root = XMLElement(name: xmlAttribute!)
             let xml = XMLDocument(rootElement: root)
-            let subset = XMLElement(name: "computer_additions")
-            let child = XMLElement(name: "computer")
+            let subset = XMLElement(name: xmlSubset!)
+            let child = XMLElement(name: xmlExtra!)
             var identifier = XMLElement(name: "null", stringValue: columnA)
             if popIdentifier == "Serial Number" {
                 identifier = XMLElement(name: "serial_number", stringValue: columnA)

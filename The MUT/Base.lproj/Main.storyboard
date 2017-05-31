@@ -84,6 +84,12 @@
                                                 <action selector="btnChangeConcurrent:" target="Ady-hI-5gd" id="s6r-qN-uHa"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Toggle Advanced Debugging" id="Ug6-KN-evu">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="btnEnableDebug:" target="Ady-hI-5gd" id="e4K-JX-eIw"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="8lX-Q9-rhv"/>
                                         <menuItem title="Clear Stored Values" id="xsf-6S-z4t">
                                             <modifierMask key="keyEquivalentModifierMask"/>
