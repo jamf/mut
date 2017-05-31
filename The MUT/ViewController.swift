@@ -577,21 +577,23 @@ class ViewController: NSViewController, URLSessionDelegate {
             // Sets the current row to the row of the loop
             let currentRow = row[i]
             
-            if globalHTTPFunction == "PUT" {
-                if popAttributeOutlet.titleOfSelectedItem != "macOS Static Group" {
-                    myURL = xmlBuilder().createPUTURL(url: self.globalServerURL!, endpoint: self.globalEndpoint!, idType: self.globalEndpointID!, columnA: currentRow[0])
-                } else {
-                    myURL = xmlBuilder().createGROUPURL(url: self.globalServerURL!, columnB: currentRow[1])
-                }
-
-            } else {
-                myURL = xmlBuilder().createPOSTURL(url: self.globalServerURL!)
-            }
             
-            let encodedXML = xmlBuilder().createXML(popIdentifier: popIDOutlet.titleOfSelectedItem!, popDevice: popDeviceOutlet.titleOfSelectedItem!, popAttribute: popAttributeOutlet.titleOfSelectedItem!, eaID: txtEAID.stringValue, columnB: currentRow[1], columnA: currentRow[0])
             
             // Add a PUT or POST request to the operation queue
             myOpQueue.addOperation {
+                if self.globalHTTPFunction == "PUT" {
+                    if self.popAttributeOutlet.titleOfSelectedItem != "macOS Static Group" {
+                        self.myURL = xmlBuilder().createPUTURL(url: self.globalServerURL!, endpoint: self.globalEndpoint!, idType: self.globalEndpointID!, columnA: currentRow[0])
+                    } else {
+                        self.myURL = xmlBuilder().createGROUPURL(url: self.globalServerURL!, columnB: currentRow[1])
+                    }
+                    
+                } else {
+                    self.myURL = xmlBuilder().createPOSTURL(url: self.globalServerURL!)
+                }
+                
+                let encodedXML = xmlBuilder().createXML(popIdentifier: self.popIDOutlet.titleOfSelectedItem!, popDevice: self.popDeviceOutlet.titleOfSelectedItem!, popAttribute: self.popAttributeOutlet.titleOfSelectedItem!, eaID: self.txtEAID.stringValue, columnB: currentRow[1], columnA: currentRow[0])
+                
                 let request = NSMutableURLRequest(url: self.myURL)
                 request.httpMethod = self.globalHTTPFunction
                 request.httpBody = encodedXML
@@ -603,6 +605,7 @@ class ViewController: NSViewController, URLSessionDelegate {
                     
                     // If we got a response
                     if let httpResponse = response as? HTTPURLResponse {
+                        
                         // If that response is a success response
                         if httpResponse.statusCode >= 200 && httpResponse.statusCode <= 299 {
                             DispatchQueue.main.async {

@@ -17,6 +17,7 @@ public class xmlBuilder {
         let stringURL = "\(url)\(endpoint)/\(idType)/\(columnA)"
         let urlwithPercentEscapes = stringURL.addingPercentEncoding( withAllowedCharacters: .urlQueryAllowed)
         let encodedURL = NSURL(string: urlwithPercentEscapes!)
+        //print(urlwithPercentEscapes!)
         return encodedURL! as URL
     }
     
@@ -154,7 +155,7 @@ public class xmlBuilder {
             let value = XMLElement(name: xmlAttribute!, stringValue: columnB)
             subset.addChild(value)
             root.addChild(subset)
-            print(xml.xmlString) // Uncomment for debugging*/
+            //print(xml.xmlString) // Uncomment for debugging*/
             returnedXML = xml.xmlData
         }
         return returnedXML!
