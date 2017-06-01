@@ -104,7 +104,7 @@ class ViewController: NSViewController, URLSessionDelegate {
         super.viewDidLoad()
 
         // Print welcome message
-        txtMain.textStorage?.append(NSAttributedString(string: "Welcome to The MUT v3.2", attributes: myHeaderAttribute))
+        txtMain.textStorage?.append(NSAttributedString(string: "Welcome to The MUT v3.2.0", attributes: myHeaderAttribute))
         printLineBreak()
         printLineBreak()
         
@@ -424,7 +424,6 @@ class ViewController: NSViewController, URLSessionDelegate {
     func parseCSV() {
         
         globalCSVPath = txtCSV.stringValue
-        //printLineBreak()
         appendLogString(stringToAppend: "CSV: \(globalCSVPath!)")
         
         // Parse the CSV into an array

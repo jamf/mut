@@ -10,42 +10,73 @@ import Cocoa
 import Foundation
 
 public class xmlBuilder {
-    var formattedEndpoint = ""
+    // Globally declaring the xml variable to allow the various functions to populate it
     var xml: XMLDocument?
     
+    // MARK: - URL Creation based on dropdowns
+    
+    /* ===
+    These various functions are called when the HTTP Requests are made, based on the dropdown values selected
+    I used to have these all in one big function and split them out through if/then statements here, but
+    it became rather difficult to add new functionality such as the static group population.
+    === */
+    
+    // Create the URL for generic updates, such as asset tag and username
     public func createPUTURL(url: String, endpoint: String, idType: String, columnA: String) -> URL {
         let stringURL = "\(url)\(endpoint)/\(idType)/\(columnA)"
         let urlwithPercentEscapes = stringURL.addingPercentEncoding( withAllowedCharacters: .urlQueryAllowed)
         let encodedURL = NSURL(string: urlwithPercentEscapes!)
-        //print(urlwithPercentEscapes!)
+        //print(urlwithPercentEscapes!) // Uncomment for debugging
         return encodedURL! as URL
     }
     
+    // Create the URL for populating macOS Static Groups
     public func createMacGroupURL(url: String, columnB: String) -> URL {
         let stringURL = "\(url)computergroups/id/\(columnB)"
         let urlwithPercentEscapes = stringURL.addingPercentEncoding( withAllowedCharacters: .urlQueryAllowed)
         let encodedURL = NSURL(string: urlwithPercentEscapes!)
+        //print(urlwithPercentEscapes!) // Uncomment for debugging
         return encodedURL! as URL
     }
     
+    // Create the URL for populating iOS Static Groups
     public func createiOSGroupURL(url: String, columnB: String) -> URL {
         let stringURL = "\(url)mobiledevicegroups/id/\(columnB)"
         let urlwithPercentEscapes = stringURL.addingPercentEncoding( withAllowedCharacters: .urlQueryAllowed)
         let encodedURL = NSURL(string: urlwithPercentEscapes!)
+        //print(urlwithPercentEscapes!) // Uncomment for debugging
         return encodedURL! as URL
     }
     
+    // Create the URL for generating MDM commands via POST to enforce mobile device name
     public func createPOSTURL(url: String) -> URL {
         let stringURL = "\(url)mobiledevicecommands/command/DeviceName"
         let encodedURL = NSURL(string: stringURL)
+        //print(urlwithPercentEscapes!) // Uncomment for debugging
         return encodedURL! as URL
     }
     
+    // Create the URL that is used to verify the credentials against reading activation code
     public func createGETURL(url: String) -> URL {
         let stringURL = "\(url)activationcode"
         let encodedURL = NSURL(string: stringURL)
+        //print(urlwithPercentEscapes!) // Uncomment for debugging
         return encodedURL! as URL
     }
+    
+    
+    // MARK: - XML Creation based on dropdowns
+    
+    /* ===
+     This section will first use an anonymous hash/tuple to "translate" the human readable dropdowns into
+     a more computer readable format. 
+     
+     The values here typically directly translate into what the XML expects to see on a PUT or POST
+     however some are simply identifiable placeholders. The logic statements below help to determine which XML format
+     should be built and used for the upload, depending on what is being done. The various methods of building the xml
+     are mostly due to how different various JSS API endpoints behave, and how the xml format differs between them.
+     For example, sites are under the general subset, in a site sub-subset for ios and mac, but simply in the sites subset for users
+    === */
     
     public func createXML(popIdentifier: String, popDevice: String, popAttribute: String, eaID: String, columnB: String, columnA: String) -> Data {
         var returnedXML: Data?
@@ -71,13 +102,10 @@ public class xmlBuilder {
             if popIdentifier == "ID Number" {
                 identifier = XMLElement(name: "id", stringValue: columnA)
             }
-            //let identifier = XMLElement(name: "serial_number", stringValue: columnA)
-            //let value = XMLElement(name: "value", stringValue: columnB)
             child.addChild(identifier)
-            //child.addChild(value)
             subset.addChild(child)
             root.addChild(subset)
-            print(xml.xmlString) // Uncomment for debugging
+            //print(xml.xmlString) // Uncomment for debugging
             returnedXML = xml.xmlData
         }
         
@@ -98,7 +126,7 @@ public class xmlBuilder {
             returnedXML = xml.xmlData
         }
         
-        // BUILD XML FOR iOS AND macOS SITES (do iOS sites work yet?)
+        // BUILD XML FOR iOS AND macOS SITES
         if xmlAttribute == "site" && xmlDevice != "user" {
             let root = XMLElement(name: xmlDevice!)
             let xml = XMLDocument(rootElement: root)
@@ -166,89 +194,5 @@ public class xmlBuilder {
             returnedXML = xml.xmlData
         }
         return returnedXML!
-    }
-    
-    // BUILD XML FOR GENERIC UPDATES - iOS AND macOS
-    public func generalDeviceUpdates(deviceType: String, subsetType: String, attributeType: String, attributeValue: String) -> Data? {
-        let root = XMLElement(name: deviceType)
-        let xml = XMLDocument(rootElement: root)
-        let subset = XMLElement(name: subsetType)
-        let value = XMLElement(name: attributeType, stringValue: attributeValue)
-        subset.addChild(value)
-        root.addChild(subset)
-        print(xml.xmlString) // Uncomment for debugging
-        return xml.xmlData
-    }
-    
-    // BUILD XML FOR EXTENSION ATTRIBUTES - USER, iOS AND macOS
-    public func updateExtensionAttribute(deviceType: String, eaValue: String, eaID: String) -> Data? {
-        let root = XMLElement(name: deviceType)
-        let xml = XMLDocument(rootElement: root)
-        let subset = XMLElement(name: "extension_attributes")
-        let child = XMLElement(name: "extension_attribute")
-        let identifier = XMLElement(name: "id", stringValue: eaID)
-        let value = XMLElement(name: "value", stringValue: eaValue)
-        child.addChild(identifier)
-        child.addChild(value)
-        subset.addChild(child)
-        root.addChild(subset)
-        //print(xml.xmlString) // Uncomment for debugging
-        return xml.xmlData
-    }
-    
-    // BUILD XML FOR SITES - iOS AND macOS
-    public func deviceSite(deviceType: String, identifierType: String, identifierValue: String) -> Data? {
-        let root = XMLElement(name: deviceType)
-        let xml = XMLDocument(rootElement: root)
-        let subset = XMLElement(name: "general")
-        let child = XMLElement(name: "site")
-        let identifier = XMLElement(name: identifierType, stringValue: identifierValue)
-        child.addChild(identifier)
-        subset.addChild(child)
-        root.addChild(subset)
-        //print(xml.xmlString) // Uncomment for debugging
-        return xml.xmlData
-    }
-    
-    // BUILD XML FOR SITES - USERS
-    public func userSite(identifierType: String, identifierValue: String) -> Data? {
-        let root = XMLElement(name: "user")
-        let xml = XMLDocument(rootElement: root)
-        let subset = XMLElement(name: "sites")
-        let child = XMLElement(name: "site")
-        let identifier = XMLElement(name: identifierType, stringValue: identifierValue)
-        child.addChild(identifier)
-        subset.addChild(child)
-        root.addChild(subset)
-        //print(xml.xmlString) // Uncomment for debugging
-        return xml.xmlData
-    }
-    
-    // BUILD XML FOR GENERIC UPDATES - USER
-    public func generalUserUpdates(attributeType: String, attributeValue: String) -> Data? {
-        let root = XMLElement(name: "user")
-        let xml = XMLDocument(rootElement: root)
-        let value = XMLElement(name: attributeType, stringValue: attributeValue)
-        root.addChild(value)
-        //print(xml.xmlString) // Uncomment for debugging
-        return xml.xmlData
-    }
-    
-    // BUILD XML FOR ENFORCING MOBILE DEVICE NAMES - iOS
-    public func enforceName(newName: String, serialNumber: String) -> Data? {
-        let root = XMLElement(name: "mobile_device_command")
-        let xml = XMLDocument(rootElement: root)
-        let command = XMLElement(name: "command", stringValue: "DeviceName")
-        let name = XMLElement(name: "device_name", stringValue: newName)
-        let subset = XMLElement(name: "mobile_devices")
-        let child = XMLElement(name: "mobile_device")
-        let identifier = XMLElement(name: "serial_number", stringValue: serialNumber)
-        child.addChild(identifier)
-        subset.addChild(child)
-        root.addChild(command)
-        root.addChild(name)
-        root.addChild(subset)
-        //print(xml.xmlString) // Uncomment for debugging
-        return xml.xmlData
     }
 }
