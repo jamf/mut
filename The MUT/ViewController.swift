@@ -26,7 +26,6 @@ class ViewController: NSViewController, URLSessionDelegate {
     var globalXMLDevice: String!
     var globalEndpointID: String!
     var globalEAID: String!
-    var concurrentRuns = 1
     var delimiter = ","
     var globalCSVContent: String!
     var globalParsedCSV: CSwiftV!
@@ -138,17 +137,6 @@ class ViewController: NSViewController, URLSessionDelegate {
             printLineBreak()
         } else {
             appendLogString(stringToAppend: "No stored delimiter found. Using default of comma. You can change this under Settings in the menu bar if you wish.")
-            printLineBreak()
-            delimiter = ","
-        }
-        
-        // Set up concurrent runs
-        if mainViewDefaults.value(forKey: "Concurrent") != nil {
-            concurrentRuns = mainViewDefaults.value(forKey: "Concurrent")! as! Int
-            appendLogString(stringToAppend: "Stored concurrent run value found: \(concurrentRuns)")
-            printLineBreak()
-        } else {
-            appendLogString(stringToAppend: "No stored concurrent run value found. Using default value of 1. You can change this under Settings in the menu bar if you wish.")
             printLineBreak()
             delimiter = ","
         }
@@ -493,23 +481,6 @@ class ViewController: NSViewController, URLSessionDelegate {
         }
     }
     
-    @IBAction func btnChangeConcurrent(_ sender: AnyObject) {
-        
-        let newConcurrent = popPrompt().selectConcurrent(question: "Change Concurrent Runs", text: "How many updates would you like to run concurrently? More will be faster, but will put a higher load on your server.")
-        if newConcurrent == true {
-            appendLogString(stringToAppend: "MUT will only run one (1) update at a time. This value will be stored to defaults.")
-            printLineBreak()
-            concurrentRuns = 1
-            mainViewDefaults.set(concurrentRuns, forKey: "Concurrent")
-        } else {
-            appendLogString(stringToAppend: "MUT will run two (2) updates at a time. This value will be stored to defaults.")
-            printLineBreak()
-            concurrentRuns = 2
-            mainViewDefaults.set(concurrentRuns, forKey: "Concurrent")
-        }
-    }
-    
-    
     //Pre Flight Checks
     @IBAction func btnPreFlight(_ sender: Any) {
         if verified {
@@ -557,9 +528,6 @@ class ViewController: NSViewController, URLSessionDelegate {
     // MARK: - UPLOAD DATA FUNCTION
     func uploadData() {
         
-        if mainViewDefaults.value(forKey: "ConcurrentRows") != nil {
-            concurrentRuns = Int(mainViewDefaults.value(forKey: "ConcurrentRows") as! String)!
-        }
         // Async update the UI for the start of the run
         DispatchQueue.main.async {
             self.beginRunView()
@@ -572,7 +540,7 @@ class ViewController: NSViewController, URLSessionDelegate {
         lblEndLine.stringValue = "\(row.count)"
         
         // Set the max concurrent ops to the selectable number
-        myOpQueue.maxConcurrentOperationCount = concurrentRuns
+        myOpQueue.maxConcurrentOperationCount = 1
         
         // Semaphore causes the op queue to wait for responses before sending a new request
         let semaphore = DispatchSemaphore(value: 0)
@@ -687,7 +655,7 @@ class ViewController: NSViewController, URLSessionDelegate {
         DispatchQueue.main.async {
             self.appendRed(stringToPrint:        "**************************************************************")
             self.appendLogString(stringToAppend: "               UPDATE RUN CANCELLED BY USER!")
-            self.appendLogString(stringToAppend: "The \(self.concurrentRuns) Requests that have already been initiated will complete.")
+            self.appendLogString(stringToAppend: "The request that has already been initiated will complete.")
             self.appendLogString(stringToAppend: "           All other requests have been cancelled.")
             self.appendRed(stringToPrint:        "**************************************************************")
             self.resetView()
@@ -795,7 +763,7 @@ class ViewController: NSViewController, URLSessionDelegate {
     }
     
     func beginRunView() {
-        self.appendLogString(stringToAppend: "Beginning Update Run! Sending \(self.concurrentRuns) rows at a time.")
+        self.appendLogString(stringToAppend: "Beginning Update Run!")
         self.printLineBreak()
         self.lblLine.isHidden = false
         self.lblCurrent.isHidden = false

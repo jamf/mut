@@ -78,12 +78,6 @@
                                                 <action selector="btnChangeDelim:" target="Ady-hI-5gd" id="Ycv-Ai-bAu"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Change Number of Concurrent Updates" id="bhJ-OA-du3">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="btnChangeConcurrent:" target="Ady-hI-5gd" id="s6r-qN-uHa"/>
-                                            </connections>
-                                        </menuItem>
                                         <menuItem title="Toggle Advanced Debugging" id="Ug6-KN-evu">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
