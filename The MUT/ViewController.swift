@@ -774,4 +774,7 @@ class ViewController: NSViewController, URLSessionDelegate {
         self.btnSubmitOutlet.isHidden = true
         self.btnCancelOutlet.isHidden = false
     }
+    @IBAction func btnGiveThanks(_ sender: Any) {
+        
+    }
 }
