@@ -224,6 +224,11 @@ class ViewController: NSViewController, URLSessionDelegate {
             printLineBreak()
             appendRed(stringToPrint: "You must first manually create the group in the JSS, and then you can find the Group ID in the URL when viewing the group.")
         }
+        if popAttributeOutlet.titleOfSelectedItem == "Department" || popAttributeOutlet.titleOfSelectedItem == "Building" {
+            appendRed(stringToPrint: "The JSS does not create Department or Building on demand when you assign a device to them.")
+            printLineBreak()
+            appendRed(stringToPrint: "You must first manually create the Building or Department in the JSS before being able to assign a device to one.")
+        }
         if popDeviceOutlet.titleOfSelectedItem == "iOS Devices" {
             if popAttributeOutlet.titleOfSelectedItem == "Device Name" {
                 popIDOutlet.removeAllItems()
