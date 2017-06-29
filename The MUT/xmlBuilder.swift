@@ -193,6 +193,18 @@ public class xmlBuilder {
             //print(xml.xmlString) // Uncomment for debugging*/
             returnedXML = xml.xmlData
         }
+        
+        // BUILD XML FOR COMPUTER NAME UPDATES (TODO: Clean up the logic here)
+        if xmlDevice == "computer" && xmlExtra == "" && xmlAttribute == "name" {
+            let root = XMLElement(name: xmlDevice!)
+            let xml = XMLDocument(rootElement: root)
+            let subset = XMLElement(name: xmlSubset!)
+            let value = XMLElement(name: xmlAttribute!, stringValue: columnB)
+            subset.addChild(value)
+            root.addChild(subset)
+            //print(xml.xmlString) // Uncomment for debugging*/
+            returnedXML = xml.xmlData
+        }
         return returnedXML!
     }
 }
