@@ -48,6 +48,15 @@ public class xmlBuilder {
         return encodedURL! as URL
     }
     
+    // Create the URL for populating User Static Groups
+    public func createUserGroupURL(url: String, columnB: String) -> URL {
+        let stringURL = "\(url)usergroups/id/\(columnB)"
+        let urlwithPercentEscapes = stringURL.addingPercentEncoding( withAllowedCharacters: .urlQueryAllowed)
+        let encodedURL = NSURL(string: urlwithPercentEscapes!)
+        //print(urlwithPercentEscapes!) // Uncomment for debugging
+        return encodedURL! as URL
+    }
+    
     // Create the URL for generating MDM commands via POST to enforce mobile device name
     public func createPOSTURL(url: String) -> URL {
         let stringURL = "\(url)mobiledevicecommands/command/DeviceName"
@@ -83,13 +92,13 @@ public class xmlBuilder {
         
         let xmlDevice = ["macOS Devices": "computer", "iOS Devices": "mobile_device", "Users": "user"][popDevice]
         
-        let xmlSubset = ["Asset Tag": "general", "Device Name": "general", "Site by ID": "general", "Site by Name": "general", "Username": "location", "Full Name": "location", "Email": "location", "Position": "location", "Department": "location", "Building": "location", "Room": "location", "Extension Attribute": "extension_attributes", "User's Username": "", "User's Full Name": "", "Email Address": "", "User's Position": "", "Phone Number": "", "User's Site by ID": "sites", "User's Site by Name": "sites", "User Extension Attribute": "extension_attributes", "macOS Static Group": "computer_additions", "iOS Static Group": "mobile_device_additions", "PO Number": "purchasing", "Vendor": "purchasing"][popAttribute]
+        let xmlSubset = ["Asset Tag": "general", "Device Name": "general", "Site by ID": "general", "Site by Name": "general", "Username": "location", "Full Name": "location", "Email": "location", "Position": "location", "Department": "location", "Building": "location", "Room": "location", "Extension Attribute": "extension_attributes", "User's Username": "", "User's Full Name": "", "Email Address": "", "User's Position": "", "Phone Number": "", "User's Site by ID": "sites", "User's Site by Name": "sites", "User Extension Attribute": "extension_attributes", "macOS Static Group": "computer_additions", "iOS Static Group": "mobile_device_additions","User Static Group": "user_additions","PO Number": "purchasing", "Vendor": "purchasing"][popAttribute]
         
-        let xmlAttribute = ["Asset Tag": "asset_tag", "Device Name": "name", "Site by ID": "site", "Site by Name": "site", "Username": "username", "Full Name": "real_name", "Email": "email_address", "Position": "position", "Department": "department", "Building": "building", "Room": "room", "Extension Attribute": "extension_attribute", "User's Username": "name", "User's Full Name": "full_name", "Email Address": "email", "User's Position": "position", "Phone Number": "phone_number", "User's Site by ID": "site", "User's Site by Name": "site", "User Extension Attribute": "extension_attribute", "macOS Static Group": "computer_group", "iOS Static Group": "mobile_device_group", "PO Number":"po_number", "Vendor": "vendor"][popAttribute]
+        let xmlAttribute = ["Asset Tag": "asset_tag", "Device Name": "name", "Site by ID": "site", "Site by Name": "site", "Username": "username", "Full Name": "real_name", "Email": "email_address", "Position": "position", "Department": "department", "Building": "building", "Room": "room", "Extension Attribute": "extension_attribute", "User's Username": "name", "User's Full Name": "full_name", "Email Address": "email", "User's Position": "position", "Phone Number": "phone_number", "User's Site by ID": "site", "User's Site by Name": "site", "User Extension Attribute": "extension_attribute", "macOS Static Group": "computer_group", "iOS Static Group": "mobile_device_group","User Static Group": "user_group", "PO Number":"po_number", "Vendor": "vendor"][popAttribute]
         
-        let xmlExtra = ["Asset Tag": "", "Device Name": "", "Site by ID": "id", "Site by Name": "name", "Username": "", "Full Name": "", "Email": "", "Position": "", "Department": "", "Building": "", "Room": "", "Extension Attribute": "value", "User's Username": "", "User's Full Name": "", "Email Address": "", "User's Position": "", "Phone Number": "", "User's Site by ID": "id", "User's Site by Name": "name", "User Extension Attribute": "value", "macOS Static Group": "computer", "iOS Static Group": "mobile_device", "PO Number":"", "Vendor": ""][popAttribute]
+        let xmlExtra = ["Asset Tag": "", "Device Name": "", "Site by ID": "id", "Site by Name": "name", "Username": "", "Full Name": "", "Email": "", "Position": "", "Department": "", "Building": "", "Room": "", "Extension Attribute": "value", "User's Username": "", "User's Full Name": "", "Email Address": "", "User's Position": "", "Phone Number": "", "User's Site by ID": "id", "User's Site by Name": "name", "User Extension Attribute": "value", "macOS Static Group": "computer", "iOS Static Group": "mobile_device","User Static Group": "user", "PO Number":"", "Vendor": ""][popAttribute]
         
-        // BUILD XML FOR STATIC GROUP
+        // BUILD XML FOR DEVICE STATIC GROUP
         if xmlAttribute == "computer_group" || xmlAttribute == "mobile_device_group" {
             let root = XMLElement(name: xmlAttribute!)
             let xml = XMLDocument(rootElement: root)
@@ -98,6 +107,26 @@ public class xmlBuilder {
             var identifier = XMLElement(name: "null", stringValue: columnA)
             if popIdentifier == "Serial Number" {
                 identifier = XMLElement(name: "serial_number", stringValue: columnA)
+            }
+            if popIdentifier == "ID Number" {
+                identifier = XMLElement(name: "id", stringValue: columnA)
+            }
+            child.addChild(identifier)
+            subset.addChild(child)
+            root.addChild(subset)
+            //print(xml.xmlString) // Uncomment for debugging
+            returnedXML = xml.xmlData
+        }
+        
+        // BUILD XML FOR USER STATIC GROUP
+        if xmlAttribute == "user_group" {
+            let root = XMLElement(name: xmlAttribute!)
+            let xml = XMLDocument(rootElement: root)
+            let subset = XMLElement(name: xmlSubset!)
+            let child = XMLElement(name: xmlExtra!)
+            var identifier = XMLElement(name: "null", stringValue: columnA)
+            if popIdentifier == "Username" {
+                identifier = XMLElement(name: "username", stringValue: columnA)
             }
             if popIdentifier == "ID Number" {
                 identifier = XMLElement(name: "id", stringValue: columnA)

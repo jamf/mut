@@ -182,7 +182,7 @@ class ViewController: NSViewController, URLSessionDelegate {
             popIDOutlet.removeAllItems()
             popIDOutlet.addItems(withTitles: ["Username","ID Number"])
             popAttributeOutlet.removeAllItems()
-            popAttributeOutlet.addItems(withTitles: ["User's Username","User's Full Name","Email Address","User's Position","Phone Number","User's Site by ID","User's Site by Name","User Extension Attribute"])
+            popAttributeOutlet.addItems(withTitles: ["User's Username","User's Full Name","Email Address","User's Position","Phone Number","User's Site by ID","User's Site by Name","User Extension Attribute","User Static Group"])
         }
         if popDeviceOutlet.titleOfSelectedItem == "iOS Devices" {
             popAttributeOutlet.removeAllItems()
@@ -560,7 +560,7 @@ class ViewController: NSViewController, URLSessionDelegate {
             // Add a PUT or POST request to the operation queue
             myOpQueue.addOperation {
                 if self.globalHTTPFunction == "PUT" {
-                    if self.popAttributeOutlet.titleOfSelectedItem != "macOS Static Group" && self.popAttributeOutlet.titleOfSelectedItem != "iOS Static Group" {
+                    if self.popAttributeOutlet.titleOfSelectedItem != "macOS Static Group" && self.popAttributeOutlet.titleOfSelectedItem != "iOS Static Group" && self.popAttributeOutlet.titleOfSelectedItem != "User Static Group" {
                         self.myURL = xmlBuilder().createPUTURL(url: self.globalServerURL!, endpoint: self.globalEndpoint!, idType: self.globalEndpointID!, columnA: currentRow[0])
                     } else {
                         if self.popAttributeOutlet.titleOfSelectedItem == "macOS Static Group" {
@@ -571,6 +571,9 @@ class ViewController: NSViewController, URLSessionDelegate {
                             self.myURL = xmlBuilder().createiOSGroupURL(url: self.globalServerURL!, columnB: currentRow[1])
                         }
                         
+                        if self.popAttributeOutlet.titleOfSelectedItem == "User Static Group" {
+                            self.myURL = xmlBuilder().createUserGroupURL(url: self.globalServerURL!, columnB: currentRow[1])
+                        }
                     }
                     
                 } else {
