@@ -103,7 +103,7 @@ class ViewController: NSViewController, URLSessionDelegate {
         super.viewDidLoad()
 
         // Print welcome message
-        txtMain.textStorage?.append(NSAttributedString(string: "Welcome to The MUT v3.2.1", attributes: myHeaderAttribute))
+        txtMain.textStorage?.append(NSAttributedString(string: "Welcome to The MUT v3.4.0", attributes: myHeaderAttribute))
         printLineBreak()
         printLineBreak()
         
@@ -143,7 +143,7 @@ class ViewController: NSViewController, URLSessionDelegate {
         
         // Set up the attribute outlet drop down
         popAttributeOutlet.removeAllItems()
-        popAttributeOutlet.addItems(withTitles: ["Asset Tag","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute","PO Number","macOS Static Group"])
+        popAttributeOutlet.addItems(withTitles: ["Asset Tag","Barcode 1", "Barcode 2","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute","PO Number","macOS Static Group"])
 
     }
     
@@ -200,7 +200,7 @@ class ViewController: NSViewController, URLSessionDelegate {
             popIDOutlet.addItems(withTitles: ["Serial Number","ID Number"])
             
             popAttributeOutlet.removeAllItems()
-            popAttributeOutlet.addItems(withTitles: ["Asset Tag","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute","PO Number","Vendor","macOS Static Group"])
+            popAttributeOutlet.addItems(withTitles: ["Asset Tag","Barcode 1","Barcode 2","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute","PO Number","Vendor","macOS Static Group"])
         }
     }
     
