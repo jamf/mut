@@ -186,7 +186,7 @@ class ViewController: NSViewController, URLSessionDelegate {
         }
         if popDeviceOutlet.titleOfSelectedItem == "iOS Devices" {
             popAttributeOutlet.removeAllItems()
-            popAttributeOutlet.addItems(withTitles: ["Asset Tag","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute","PO Number","Vendor","PO Number", "PO Date", "Warranty Expires", "Lease Expires", "iOS Static Group"])
+            popAttributeOutlet.addItems(withTitles: ["Asset Tag","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute","Vendor","PO Number", "PO Date", "Warranty Expires", "Lease Expires", "iOS Static Group"])
             if popAttributeOutlet.titleOfSelectedItem == "Device Name" {
                 popIDOutlet.removeAllItems()
                 popIDOutlet.addItems(withTitles: ["Serial Number"])
@@ -200,7 +200,7 @@ class ViewController: NSViewController, URLSessionDelegate {
             popIDOutlet.addItems(withTitles: ["Serial Number","ID Number"])
             
             popAttributeOutlet.removeAllItems()
-            popAttributeOutlet.addItems(withTitles: ["Asset Tag","Barcode 1","Barcode 2","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute","PO Number","Vendor","macOS Static Group"])
+            popAttributeOutlet.addItems(withTitles: ["Asset Tag","Barcode 1","Barcode 2","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute","PO Number","Vendor", "PO Date", "Warranty Expires", "Lease Expires", "macOS Static Group"])
         }
     }
     
