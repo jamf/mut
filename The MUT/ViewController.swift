@@ -95,6 +95,7 @@ class ViewController: NSViewController, URLSessionDelegate {
     @IBOutlet weak var txtEAID: NSTextField!
     @IBOutlet weak var txtCSV: NSTextField!
     
+    @IBOutlet weak var chkBypass: NSButton!
     
     // MARK: - On load
     
@@ -351,6 +352,15 @@ class ViewController: NSViewController, URLSessionDelegate {
                                     self.spinWheel.stopAnimation(self)
                                     self.btnAcceptOutlet.isHidden = false
                                     _ = popPrompt().generalWarning(question: "Invalid Credentials", text: "The credentials you entered do not seem to have sufficient permissions. This could be due to an incorrect user/password, or possibly from insufficient permissions. MUT tests this against the user's ability to view the Activation Code via the API.")
+                                    if self.chkBypass.state == 1 {
+                                        print("BYPASSED")
+                                        self.globalServerCredentials = self.base64Credentials
+                                        self.globalServerURL = self.serverURL
+                                        self.appendLogString(stringToAppend: "Credentials Successfully Verified.")
+                                        self.printLineBreak()
+                                        self.verified = true
+                                    }
+                                    
                                 }
                             }
                         }
