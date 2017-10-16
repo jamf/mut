@@ -211,6 +211,18 @@ public class xmlBuilder {
             returnedXML = xml.xmlData
         }
         
+        // BUILD XML FOR LDAP SERVER USER UPDATES
+        if xmlDevice == "user" && xmlSubset == "ldap_server" {
+            let root = XMLElement(name: "user")
+            let xml = XMLDocument(rootElement: root)
+            let subset = XMLElement(name: xmlSubset!)
+            let value = XMLElement(name: "id", stringValue: columnB)
+            subset.addChild(value)
+            root.addChild(subset)
+            print(xml.xmlString) // Uncomment for debugging
+            returnedXML = xml.xmlData
+        }
+        
         // BUILD XML FOR GENERIC DEVICE UPDATES
         if xmlDevice != "user" && xmlExtra == "" && xmlAttribute != "name" {
             let root = XMLElement(name: xmlDevice!)
