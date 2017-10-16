@@ -183,7 +183,7 @@ class ViewController: NSViewController, URLSessionDelegate {
             popIDOutlet.removeAllItems()
             popIDOutlet.addItems(withTitles: ["Username","ID Number"])
             popAttributeOutlet.removeAllItems()
-            popAttributeOutlet.addItems(withTitles: ["User's Username","User's Full Name","Email Address","User's Position","Phone Number","User's Site by ID","User's Site by Name","User Extension Attribute","User Static Group"])
+            popAttributeOutlet.addItems(withTitles: ["User's Username","User's Full Name","Email Address","User's Position","Phone Number","User's Site by ID","User's Site by Name","User Extension Attribute","User Static Group","LDAP Server"])
         }
         if popDeviceOutlet.titleOfSelectedItem == "iOS Devices" {
             popAttributeOutlet.removeAllItems()
@@ -211,6 +211,9 @@ class ViewController: NSViewController, URLSessionDelegate {
             txtEAID.isEnabled = true
         } else {
             txtEAID.isEnabled = false
+        }
+        if popAttributeOutlet.titleOfSelectedItem == "User Extension Attribute" {
+            appendRed(stringToPrint: "")
         }
         if popAttributeOutlet.titleOfSelectedItem == "Site by ID" {
             appendRed(stringToPrint: "To remove a device from all sites, assign a device to Site ID '-1'.")
@@ -356,7 +359,7 @@ class ViewController: NSViewController, URLSessionDelegate {
                                         print("BYPASSED")
                                         self.globalServerCredentials = self.base64Credentials
                                         self.globalServerURL = self.serverURL
-                                        self.appendLogString(stringToAppend: "Credentials Successfully Verified.")
+                                        self.appendLogString(stringToAppend: "Credential Verification Bypassed - USE WITH CAUTION.")
                                         self.printLineBreak()
                                         self.verified = true
                                     }
