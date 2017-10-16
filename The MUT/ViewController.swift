@@ -104,7 +104,7 @@ class ViewController: NSViewController, URLSessionDelegate {
         super.viewDidLoad()
 
         // Print welcome message
-        txtMain.textStorage?.append(NSAttributedString(string: "Welcome to The MUT v3.5.0", attributes: myHeaderAttribute))
+        txtMain.textStorage?.append(NSAttributedString(string: "Welcome to The MUT v3.6.0", attributes: myHeaderAttribute))
         printLineBreak()
         printLineBreak()
         
