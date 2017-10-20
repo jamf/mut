@@ -144,7 +144,7 @@ class ViewController: NSViewController, URLSessionDelegate {
         
         // Set up the attribute outlet drop down
         popAttributeOutlet.removeAllItems()
-        popAttributeOutlet.addItems(withTitles: ["Asset Tag","Barcode 1", "Barcode 2","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute","Vendor","PO Number", "PO Date", "Warranty Expires", "Lease Expires", "macOS Static Group"])
+        popAttributeOutlet.addItems(withTitles: ["Asset Tag","Barcode 1", "Barcode 2","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute","Vendor","PO Number", "PO Date", "Warranty Expires", "Lease Expires", "ADD TO macOS Static Group", "REMOVE FROM macOS Static Group"])
 
     }
     
@@ -183,11 +183,11 @@ class ViewController: NSViewController, URLSessionDelegate {
             popIDOutlet.removeAllItems()
             popIDOutlet.addItems(withTitles: ["Username","ID Number"])
             popAttributeOutlet.removeAllItems()
-            popAttributeOutlet.addItems(withTitles: ["User's Username","User's Full Name","Email Address","User's Position","Phone Number","User's Site by ID","User's Site by Name","User Extension Attribute","User Static Group","LDAP Server"])
+            popAttributeOutlet.addItems(withTitles: ["User's Username","User's Full Name","Email Address","User's Position","Phone Number","User's Site by ID","User's Site by Name","User Extension Attribute","ADD TO User Static Group", "REMOVE FROM User Static Group","LDAP Server"])
         }
         if popDeviceOutlet.titleOfSelectedItem == "iOS Devices" {
             popAttributeOutlet.removeAllItems()
-            popAttributeOutlet.addItems(withTitles: ["Asset Tag","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute","Vendor","PO Number", "PO Date", "Warranty Expires", "Lease Expires", "iOS Static Group"])
+            popAttributeOutlet.addItems(withTitles: ["Asset Tag","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute","Vendor","PO Number", "PO Date", "Warranty Expires", "Lease Expires", "ADD TO iOS Static Group", "REMOVE FROM iOS Static Group"])
             if popAttributeOutlet.titleOfSelectedItem == "Device Name" {
                 popIDOutlet.removeAllItems()
                 popIDOutlet.addItems(withTitles: ["Serial Number"])
@@ -201,7 +201,7 @@ class ViewController: NSViewController, URLSessionDelegate {
             popIDOutlet.addItems(withTitles: ["Serial Number","ID Number"])
             
             popAttributeOutlet.removeAllItems()
-            popAttributeOutlet.addItems(withTitles: ["Asset Tag","Barcode 1","Barcode 2","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute","PO Number","Vendor", "PO Date", "Warranty Expires", "Lease Expires", "macOS Static Group"])
+            popAttributeOutlet.addItems(withTitles: ["Asset Tag","Barcode 1","Barcode 2","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute","PO Number","Vendor", "PO Date", "Warranty Expires", "Lease Expires", "ADD TO macOS Static Group", "REMOVE FROM macOS Static Group"])
         }
     }
     
@@ -573,18 +573,18 @@ class ViewController: NSViewController, URLSessionDelegate {
             // Add a PUT or POST request to the operation queue
             myOpQueue.addOperation {
                 if self.globalHTTPFunction == "PUT" {
-                    if self.popAttributeOutlet.titleOfSelectedItem != "macOS Static Group" && self.popAttributeOutlet.titleOfSelectedItem != "iOS Static Group" && self.popAttributeOutlet.titleOfSelectedItem != "User Static Group" {
+                    if self.popAttributeOutlet.titleOfSelectedItem != "ADD TO macOS Static Group" && self.popAttributeOutlet.titleOfSelectedItem != "ADD TO iOS Static Group" && self.popAttributeOutlet.titleOfSelectedItem != "ADD TO User Static Group" && self.popAttributeOutlet.titleOfSelectedItem != "REMOVE FROM macOS Static Group" && self.popAttributeOutlet.titleOfSelectedItem != "REMOVE FROM iOS Static Group" && self.popAttributeOutlet.titleOfSelectedItem != "REMOVE FROM User Static Group" {
                         self.myURL = xmlBuilder().createPUTURL(url: self.globalServerURL!, endpoint: self.globalEndpoint!, idType: self.globalEndpointID!, columnA: currentRow[0])
                     } else {
-                        if self.popAttributeOutlet.titleOfSelectedItem == "macOS Static Group" {
+                        if self.popAttributeOutlet.titleOfSelectedItem!.contains("macOS Static Group") {
                             self.myURL = xmlBuilder().createMacGroupURL(url: self.globalServerURL!, columnB: currentRow[1])
                         }
                         
-                        if self.popAttributeOutlet.titleOfSelectedItem == "iOS Static Group" {
+                        if self.popAttributeOutlet.titleOfSelectedItem!.contains("iOS Static Group") {
                             self.myURL = xmlBuilder().createiOSGroupURL(url: self.globalServerURL!, columnB: currentRow[1])
                         }
                         
-                        if self.popAttributeOutlet.titleOfSelectedItem == "User Static Group" {
+                        if self.popAttributeOutlet.titleOfSelectedItem!.contains("User Static Group") {
                             self.myURL = xmlBuilder().createUserGroupURL(url: self.globalServerURL!, columnB: currentRow[1])
                         }
                     }
