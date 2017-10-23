@@ -151,7 +151,7 @@ class ViewController: NSViewController, URLSessionDelegate {
     override func viewWillAppear() {
         //resize the view
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 540, height: 628)
+        preferredContentSize = NSSize(width: 540, height: 650)
         
     }
     
@@ -183,7 +183,7 @@ class ViewController: NSViewController, URLSessionDelegate {
             popIDOutlet.removeAllItems()
             popIDOutlet.addItems(withTitles: ["Username","ID Number"])
             popAttributeOutlet.removeAllItems()
-            popAttributeOutlet.addItems(withTitles: ["User's Username","User's Full Name","Email Address","User's Position","Phone Number","User's Site by ID","User's Site by Name","User Extension Attribute","ADD TO User Static Group", "REMOVE FROM User Static Group","LDAP Server"])
+            popAttributeOutlet.addItems(withTitles: ["User's Username","User's Full Name","Email Address","User's Position","Phone Number","User's Site by ID","User's Site by Name","User Extension Attribute","LDAP Server","ADD TO User Static Group", "REMOVE FROM User Static Group"])
         }
         if popDeviceOutlet.titleOfSelectedItem == "iOS Devices" {
             popAttributeOutlet.removeAllItems()
@@ -223,15 +223,15 @@ class ViewController: NSViewController, URLSessionDelegate {
             appendRed(stringToPrint: "To remove a device from all sites, assign a device to Site Name 'None'.")
             printLineBreak()
         }
-        if popAttributeOutlet.titleOfSelectedItem == "macOS Static Group" || popAttributeOutlet.titleOfSelectedItem == "iOS Static Group" {
-            appendRed(stringToPrint: "To assign Devices to a static group, put the device identifier (Serial Number or JSS ID) in Column A, with the Group ID in Column B.")
+        if popAttributeOutlet.titleOfSelectedItem!.contains("Static Group") {
+            appendRed(stringToPrint: "To add or remove a record in a static group, put the unique identifier (Serial Number or Jamf ID for devices, Username or Jamf ID for Users) in Column A, with the Group ID in Column B.")
             printLineBreak()
-            appendRed(stringToPrint: "You must first manually create the group in the JSS, and then you can find the Group ID in the URL when viewing the group.")
+            appendRed(stringToPrint: "You must first manually create the group in Jamf Pro, and then you can find the Group ID in the URL when viewing the group.")
         }
         if popAttributeOutlet.titleOfSelectedItem == "Department" || popAttributeOutlet.titleOfSelectedItem == "Building" {
-            appendRed(stringToPrint: "The JSS does not create Department or Building on demand when you assign a device to them.")
+            appendRed(stringToPrint: "Jamf Pro does not create Department or Building on demand when you assign a device to them.")
             printLineBreak()
-            appendRed(stringToPrint: "You must first manually create the Building or Department in the JSS before being able to assign a device to one.")
+            appendRed(stringToPrint: "You must first manually create the Building or Department in Jamf Pro before being able to assign a device to one.")
         }
         if popDeviceOutlet.titleOfSelectedItem == "iOS Devices" {
             if popAttributeOutlet.titleOfSelectedItem == "Device Name" {
@@ -573,6 +573,8 @@ class ViewController: NSViewController, URLSessionDelegate {
             // Add a PUT or POST request to the operation queue
             myOpQueue.addOperation {
                 if self.globalHTTPFunction == "PUT" {
+                    
+                    // TODO clean this section up I hate this logic block soooooo much.
                     if self.popAttributeOutlet.titleOfSelectedItem != "ADD TO macOS Static Group" && self.popAttributeOutlet.titleOfSelectedItem != "ADD TO iOS Static Group" && self.popAttributeOutlet.titleOfSelectedItem != "ADD TO User Static Group" && self.popAttributeOutlet.titleOfSelectedItem != "REMOVE FROM macOS Static Group" && self.popAttributeOutlet.titleOfSelectedItem != "REMOVE FROM iOS Static Group" && self.popAttributeOutlet.titleOfSelectedItem != "REMOVE FROM User Static Group" {
                         self.myURL = xmlBuilder().createPUTURL(url: self.globalServerURL!, endpoint: self.globalEndpoint!, idType: self.globalEndpointID!, columnA: currentRow[0])
                     } else {
@@ -633,7 +635,7 @@ class ViewController: NSViewController, URLSessionDelegate {
                                 self.appendRed(stringToPrint: "Failed! - \(httpResponse.statusCode)!")
                                 if httpResponse.statusCode == 404 {
                                     self.printLineBreak()
-                                    self.appendLogString(stringToAppend: "HTTP 404 means 'not found'. There is no device with \(self.globalEndpointID!) \(currentRow[0]) enrolled in your JSS.")
+                                    self.appendLogString(stringToAppend: "HTTP 404 means 'not found'. There is no device with \(self.globalEndpointID!) \(currentRow[0]) enrolled in Jamf Pro.")
                                     self.printLineBreak()
                                 }
                                 // Update the progress bar
@@ -794,6 +796,13 @@ class ViewController: NSViewController, URLSessionDelegate {
         self.barProgress.maxValue = Double(self.globalParsedCSV.rows.count)
         self.btnSubmitOutlet.isHidden = true
         self.btnCancelOutlet.isHidden = false
+    }
+    @IBAction func chkBypass(_ sender: Any) {
+        if chkBypass.state == 1 {
+            appendRed(stringToPrint: "By checking this box, you are disabling The MUT's verification of your API user credentials.")
+            printLineBreak()
+            appendRed(stringToPrint: "Only use this setting if you are 100% confident that the credentials are correct, and you do not wish to give the user Read privileges for the Activation Code. Improper use of this setting may cause behavior that appears similar to an attack on your system.")
+        }
     }
     @IBAction func btnGiveThanks(_ sender: Any) {
         
