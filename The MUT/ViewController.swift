@@ -154,6 +154,9 @@ class ViewController: NSViewController, URLSessionDelegate {
         preferredContentSize = NSSize(width: 540, height: 650)
         
     }
+    override func viewDidAppear() {
+        performSegue(withIdentifier: "segueLogin", sender: self)
+    }
     
     //Unique Identifier Dropdown to show pre-flight again
     @IBAction func popIdentifierAction(_ sender: Any) {
