@@ -151,7 +151,7 @@ class ViewController: NSViewController, URLSessionDelegate {
     override func viewWillAppear() {
         //resize the view
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 540, height: 650)
+        preferredContentSize = NSSize(width: 800, height: 600)
         
     }
     override func viewDidAppear() {
