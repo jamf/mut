@@ -350,19 +350,8 @@ DQ
                                             </view>
                                             <color key="fillColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
                                         </box>
-                                        <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="38O-Ye-mHE">
-                                            <rect key="frame" x="738" y="541" width="35" height="36"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSActionTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="2a7-1u-5A3">
-                                                <behavior key="behavior" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="btnAdvanced:" target="joq-rD-vnU" id="dic-tC-xrF"/>
-                                            </connections>
-                                        </button>
                                         <box hidden="YES" fixedFrame="YES" boxType="custom" borderWidth="0.0" cornerRadius="4" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="2P0-Kw-ONr">
-                                            <rect key="frame" x="566" y="478" width="164" height="102"/>
+                                            <rect key="frame" x="572" y="484" width="164" height="102"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <view key="contentView" ambiguous="YES" id="66J-jY-jdy">
                                                 <rect key="frame" x="0.0" y="0.0" width="164" height="102"/>
@@ -396,6 +385,17 @@ DQ
                                             </view>
                                             <color key="fillColor" red="0.94509803921568625" green="0.94509803921568625" blue="0.94509803921568625" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </box>
+                                        <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="38O-Ye-mHE">
+                                            <rect key="frame" x="740" y="539" width="50" height="51"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSAdvanced" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="2a7-1u-5A3">
+                                                <behavior key="behavior" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="btnAdvanced:" target="joq-rD-vnU" id="dic-tC-xrF"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                 </view>
                                 <color key="fillColor" red="0.26666666666666666" green="0.26666666666666666" blue="0.26666666666666666" alpha="1" colorSpace="calibratedRGB"/>
@@ -418,7 +418,7 @@ DQ
                 </viewController>
                 <customObject id="N3V-GS-oRH" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="396" y="449"/>
+            <point key="canvasLocation" x="305" y="545"/>
         </scene>
         <!--MainView-->
         <scene sceneID="Id2-45-lJz">
@@ -887,7 +887,7 @@ DQ
     <resources>
         <image name="512" width="122.87999725341797" height="122.87999725341797"/>
         <image name="MUTv4-glow" width="122.87999725341797" height="122.87999725341797"/>
-        <image name="NSActionTemplate" width="14" height="14"/>
+        <image name="NSAdvanced" width="32" height="32"/>
         <image name="NSGoRightTemplate" width="9" height="12"/>
         <image name="NSInfo" width="32" height="32"/>
     </resources>

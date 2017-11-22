@@ -10,9 +10,14 @@
 import Cocoa
 import Foundation
 
+protocol DataSentDelegate {
+    func userDidAuthenticate(base64Credentials: String, url: String)
+}
+
 class loginWindow: NSViewController, URLSessionDelegate {
 
     let loginDefaults = UserDefaults.standard
+    var delegateAuth: DataSentDelegate? = nil
     
     @IBOutlet weak var txtCloudOutlet: NSTextField!
     @IBOutlet weak var txtPremOutlet: NSTextField!
@@ -174,9 +179,16 @@ class loginWindow: NSViewController, URLSessionDelegate {
                             }
                             self.spinProgress.stopAnimation(self)
                             self.btnSubmitOutlet.isHidden = false
-                            self.dismiss(self)
-                            print(httpResponse.statusCode)
-                            print(httpResponse.description)
+                            
+                            //if self.delegate != nil {
+                            self.delegateAuth?.userDidAuthenticate(base64Credentials: self.base64Credentials!, url: self.serverURL!)
+                                self.dismissViewController(self)
+                            //}
+                            
+                            
+                            //self.dismiss(self)
+                            //print(httpResponse.statusCode)
+                            //print(httpResponse.description)
                             
                         } else {
                             DispatchQueue.main.async {

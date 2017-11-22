@@ -10,7 +10,7 @@
 import Cocoa
 import Foundation
 
-class ViewController: NSViewController, URLSessionDelegate {
+class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     
     // MARK: - Declarations
     
@@ -96,6 +96,13 @@ class ViewController: NSViewController, URLSessionDelegate {
     @IBOutlet weak var txtCSV: NSTextField!
     
     @IBOutlet weak var chkBypass: NSButton!
+    
+    override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
+        if segue.identifier == "segueLogin" {
+            let loginWindow: loginWindow = segue.destinationController as! loginWindow
+            loginWindow.delegateAuth = self
+        }
+    }
     
     // MARK: - On load
     
@@ -807,7 +814,11 @@ class ViewController: NSViewController, URLSessionDelegate {
             appendRed(stringToPrint: "Only use this setting if you are 100% confident that the credentials are correct, and you do not wish to give the user Read privileges for the Activation Code. Improper use of this setting may cause behavior that appears similar to an attack on your system.")
         }
     }
-    @IBAction func btnGiveThanks(_ sender: Any) {
-        
+    
+    func userDidAuthenticate(base64Credentials: String, url: String) {
+        print(base64Credentials)
+        print(url)
+        print("Stuff")
     }
+
 }
