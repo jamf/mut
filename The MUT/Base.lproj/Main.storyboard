@@ -358,6 +358,10 @@ DQ
                                                             </allowedInputSourceLocales>
                                                         </secureTextFieldCell>
                                                     </secureTextField>
+                                                    <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="UGZ-Cb-nSM">
+                                                        <rect key="frame" x="464" y="16" width="16" height="16"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    </progressIndicator>
                                                 </subviews>
                                             </view>
                                             <color key="fillColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
@@ -371,6 +375,8 @@ DQ
                     <connections>
                         <outlet property="btnStoreURLOutlet" destination="mXI-vX-2Oe" id="CNK-ce-f8a"/>
                         <outlet property="btnStoreUserOutlet" destination="1zV-sf-dRh" id="N0C-fT-Duh"/>
+                        <outlet property="btnSubmitOutlet" destination="WUb-Z1-3Ry" id="eET-Q1-c0a"/>
+                        <outlet property="spinProgress" destination="UGZ-Cb-nSM" id="q7Z-HU-bLP"/>
                         <outlet property="txtCloudOutlet" destination="dy8-Z3-rSU" id="Wj0-cn-cxN"/>
                         <outlet property="txtPassOutlet" destination="Gba-Xu-esz" id="uFz-in-6IS"/>
                         <outlet property="txtPremOutlet" destination="eLh-eC-clr" id="Ksg-om-d9Q"/>
