@@ -59,7 +59,6 @@ class loginWindow: NSViewController, URLSessionDelegate {
             if self.txtPassOutlet.acceptsFirstResponder == true {
                 self.txtPassOutlet.becomeFirstResponder()
             }
-            
         }
     }
     
@@ -70,11 +69,6 @@ class loginWindow: NSViewController, URLSessionDelegate {
         if ( loginDefaults.value(forKey: "HostedInstanceName") != nil || loginDefaults.value(forKey: "PremInstanceURL") != nil ) && loginDefaults.value(forKey: "UserName") != nil {
                 self.txtPassOutlet.becomeFirstResponder()
         }
-    }
-    
-    @IBAction func txtPrem(_ sender: Any) {
-    }
-    @IBAction func txtCloud(_ sender: Any) {
     }
     
     @IBAction func btnSubmit(_ sender: Any) {
@@ -167,7 +161,7 @@ class loginWindow: NSViewController, URLSessionDelegate {
                     if let httpResponse = response as? HTTPURLResponse {
                         if httpResponse.statusCode >= 199 && httpResponse.statusCode <= 299 {
                             self.verified = true
-                            print("Good to go")
+                            
                             // Store username if button pressed
                             if self.chkStoreUser.state == 1 {
                                 self.loginDefaults.set(self.txtUserOutlet.stringValue, forKey: "UserName")
@@ -180,15 +174,10 @@ class loginWindow: NSViewController, URLSessionDelegate {
                             self.spinProgress.stopAnimation(self)
                             self.btnSubmitOutlet.isHidden = false
                             
-                            //if self.delegate != nil {
+                            if self.delegateAuth != nil {
                             self.delegateAuth?.userDidAuthenticate(base64Credentials: self.base64Credentials!, url: self.serverURL!)
                                 self.dismissViewController(self)
-                            //}
-                            
-                            
-                            //self.dismiss(self)
-                            //print(httpResponse.statusCode)
-                            //print(httpResponse.description)
+                            }
                             
                         } else {
                             DispatchQueue.main.async {
@@ -203,7 +192,6 @@ class loginWindow: NSViewController, URLSessionDelegate {
                                  self.printLineBreak()
                                  self.verified = true
                                  }*/
-                                
                             }
                         }
                     }
@@ -215,12 +203,12 @@ class loginWindow: NSViewController, URLSessionDelegate {
                 })
                 task.resume()
             }
-            
         } else {
             // Reset the Do Not Run flag so that on subsequent runs we try the checks again.
             doNotRun = "0"
         }
     }
+    
     // This is required to allow un-trusted SSL certificates. Leave it alone.
     func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         completionHandler(Foundation.URLSession.AuthChallengeDisposition.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
@@ -233,6 +221,4 @@ class loginWindow: NSViewController, URLSessionDelegate {
             boxAdvanced.isHidden = true
         }
     }
-    
 }
-
