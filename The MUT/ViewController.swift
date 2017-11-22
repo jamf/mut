@@ -58,21 +58,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
 
     // Declare outlets for Buttons to change color and hide/show
     @IBOutlet weak var btnSubmitOutlet: NSButton!
-    @IBOutlet weak var btnAcceptOutlet: NSButton!
-    @IBOutlet weak var btnStoreUser: NSButton!
-    @IBOutlet weak var spinWheel: NSProgressIndicator!
     @IBOutlet weak var btnPreFlightOutlet: NSButton!
-    
-    // Declare Text Boxes
-    @IBOutlet weak var txtUser: NSTextField!
-    @IBOutlet weak var txtPass: NSSecureTextField!
-    
-    // Declarations for Server Name
-    @IBOutlet weak var radioHosted: NSButton!
-    @IBOutlet weak var radioPrem: NSButton!
-    @IBOutlet weak var txtPrem: NSTextField!
-    @IBOutlet weak var txtHosted: NSTextField!
-
 
     // Declare outlet for entire controller
     @IBOutlet var MainViewController: NSView!
@@ -95,7 +81,6 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     @IBOutlet weak var txtEAID: NSTextField!
     @IBOutlet weak var txtCSV: NSTextField!
     
-    @IBOutlet weak var chkBypass: NSButton!
     
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueLogin" {
@@ -114,29 +99,6 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         txtMain.textStorage?.append(NSAttributedString(string: "Welcome to The MUT v3.6.0", attributes: myHeaderAttribute))
         printLineBreak()
         printLineBreak()
-        
-        // Restoring Username if not null
-        if mainViewDefaults.value(forKey: "UserName") != nil {
-            printString(stringToPrint: "Stored Username: ")
-            appendLogString(stringToAppend: mainViewDefaults.value(forKey: "UserName") as! String)
-                txtUser.stringValue = mainViewDefaults.value(forKey: "UserName") as! String
-            printLineBreak()
-                btnStoreUser.state = 1
-        }
-        
-        // Restore Instance Name if Hosted
-        if mainViewDefaults.value(forKey: "HostedInstanceName") != nil {
-            txtHosted.stringValue = mainViewDefaults.value(forKey: "HostedInstanceName") as! String
-        }
-        
-        // Restore Prem URL if on prem
-        if mainViewDefaults.value(forKey: "PremInstanceURL") != nil {
-            txtPrem.stringValue = mainViewDefaults.value(forKey: "PremInstanceURL") as! String
-            radioPrem.state = 1
-            txtPrem.becomeFirstResponder()
-            txtHosted.isEnabled = false
-            txtPrem.isEnabled = true
-        }
         
         // Set up delimiter
         if mainViewDefaults.value(forKey: "Delimiter") != nil {
@@ -169,22 +131,6 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     //Unique Identifier Dropdown to show pre-flight again
     @IBAction func popIdentifierAction(_ sender: Any) {
         notReadyToRun()
-    }
-    
-    @IBAction func radioServer(_ sender: NSButton) {
-        notReadyToRun()
-        // Disable On-Prem if Hosted = TRUE
-        if radioHosted.state == 1 {
-            txtPrem.isEnabled = false
-            txtHosted.isEnabled = true
-            txtHosted.becomeFirstResponder()
-            
-            // Else Disable Hosted if Hosted = FALSE
-        } else {
-            txtHosted.isEnabled = false
-            txtPrem.isEnabled = true
-            txtPrem.becomeFirstResponder()
-        }
     }
     
     // Set up the dropdown items depending on what record type is selected
@@ -683,18 +629,12 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         self.btnSubmitOutlet.isHidden = true
         self.btnCancelOutlet.isHidden = false
     }
-    @IBAction func chkBypass(_ sender: Any) {
-        if chkBypass.state == 1 {
-            appendRed(stringToPrint: "By checking this box, you are disabling The MUT's verification of your API user credentials.")
-            printLineBreak()
-            appendRed(stringToPrint: "Only use this setting if you are 100% confident that the credentials are correct, and you do not wish to give the user Read privileges for the Activation Code. Improper use of this setting may cause behavior that appears similar to an attack on your system.")
-        }
-    }
     
     func userDidAuthenticate(base64Credentials: String, url: String) {
         print(base64Credentials)
         print(url)
         print("Stuff")
+        verified = true
     }
 
 }
