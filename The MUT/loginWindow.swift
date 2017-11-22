@@ -18,10 +18,13 @@ class loginWindow: NSViewController, URLSessionDelegate {
     @IBOutlet weak var txtPremOutlet: NSTextField!
     @IBOutlet weak var txtUserOutlet: NSTextField!
     @IBOutlet weak var txtPassOutlet: NSSecureTextField!
-    @IBOutlet weak var btnStoreUserOutlet: NSButton!
-    @IBOutlet weak var btnStoreURLOutlet: NSButton!
     @IBOutlet weak var spinProgress: NSProgressIndicator!
     @IBOutlet weak var btnSubmitOutlet: NSButton!
+    @IBOutlet weak var boxAdvanced: NSBox!
+    @IBOutlet weak var chkStoreUser: NSButton!
+    @IBOutlet weak var chkStoreURL: NSButton!
+    @IBOutlet weak var chkBypass: NSButton!
+    @IBOutlet weak var btnAdvancedOutlet: NSButton!
     
     var doNotRun: String!
     var serverURL: String!
@@ -34,7 +37,7 @@ class loginWindow: NSViewController, URLSessionDelegate {
         // Restore the Username to text box if we have a default stored
         if loginDefaults.value(forKey: "UserName") != nil {
             txtUserOutlet.stringValue = loginDefaults.value(forKey: "UserName") as! String
-            btnStoreUserOutlet.state = 1
+            chkStoreUser.state = 1
         }
         
         // Restore the Instance Name to text box if we have a default stored
@@ -71,6 +74,10 @@ class loginWindow: NSViewController, URLSessionDelegate {
     
     @IBAction func btnSubmit(_ sender: Any) {
         //self.dismiss(self)
+        txtPremOutlet.stringValue = txtPremOutlet.stringValue.trimmingCharacters(in: CharacterSet.whitespaces)
+        txtCloudOutlet.stringValue = txtCloudOutlet.stringValue.trimmingCharacters(in: CharacterSet.whitespaces)
+        txtUserOutlet.stringValue = txtUserOutlet.stringValue.trimmingCharacters(in: CharacterSet.whitespaces)
+        txtPassOutlet.stringValue = txtPassOutlet.stringValue.trimmingCharacters(in: CharacterSet.whitespaces)
         
         // Warn the user if they have failed to enter an instancename AND prem URL
         if txtPremOutlet.stringValue == "" && txtCloudOutlet.stringValue == "" {
@@ -102,7 +109,7 @@ class loginWindow: NSViewController, URLSessionDelegate {
             // Create the API-Friendly Jamf Pro URL with resource appended
             if txtCloudOutlet.stringValue != "" {
                 serverURL = "https://\(txtCloudOutlet.stringValue).jamfcloud.com/JSSResource/"
-                if btnStoreURLOutlet.state == 1 {
+                if chkStoreURL.state == 1 {
                     // Store Defaults if the button is selected to store defaults
                     let instanceName = txtCloudOutlet.stringValue
                     loginDefaults.set(instanceName, forKey: "HostedInstanceName")
@@ -119,7 +126,7 @@ class loginWindow: NSViewController, URLSessionDelegate {
             if txtPremOutlet.stringValue != "" {
                 serverURL = "\(txtPremOutlet.stringValue)/JSSResource/"
                 serverURL = serverURL.replacingOccurrences(of: "//JSSResource", with: "/JSSResource") // Clean up in case of double slash
-                if btnStoreURLOutlet.state == 1 {
+                if chkStoreURL.state == 1 {
                     // Store Defaults if the button is selected to store defaults
                     let serverSave = txtPremOutlet.stringValue
                     loginDefaults.set(serverSave, forKey: "PremInstanceURL")
@@ -157,7 +164,7 @@ class loginWindow: NSViewController, URLSessionDelegate {
                             self.verified = true
                             print("Good to go")
                             // Store username if button pressed
-                            if self.btnStoreUserOutlet.state == 1 {
+                            if self.chkStoreUser.state == 1 {
                                 self.loginDefaults.set(self.txtUserOutlet.stringValue, forKey: "UserName")
                                 self.loginDefaults.synchronize()
                                 
@@ -167,6 +174,9 @@ class loginWindow: NSViewController, URLSessionDelegate {
                             }
                             self.spinProgress.stopAnimation(self)
                             self.btnSubmitOutlet.isHidden = false
+                            self.dismiss(self)
+                            print(httpResponse.statusCode)
+                            print(httpResponse.description)
                             
                         } else {
                             DispatchQueue.main.async {
@@ -203,5 +213,14 @@ class loginWindow: NSViewController, URLSessionDelegate {
     func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         completionHandler(Foundation.URLSession.AuthChallengeDisposition.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
     }
+    
+    @IBAction func btnAdvanced(_ sender: Any) {
+        if boxAdvanced.isHidden == true {
+            boxAdvanced.isHidden = false
+        } else {
+            boxAdvanced.isHidden = true
+        }
+    }
+    
 }
 

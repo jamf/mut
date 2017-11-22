@@ -192,22 +192,6 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="MUTv4-glow" id="KN0-Q3-SQb"/>
                                         </imageView>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1zV-sf-dRh">
-                                            <rect key="frame" x="12" y="10" width="112" height="25"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="roundTextured" title="Store Username" bezelStyle="texturedRounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="EaM-a5-L5X">
-                                                <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                        </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mXI-vX-2Oe">
-                                            <rect key="frame" x="132" y="10" width="76" height="25"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="roundTextured" title="Store URL" bezelStyle="texturedRounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dmi-Bp-n0O">
-                                                <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                        </button>
                                         <box fixedFrame="YES" boxType="custom" borderType="line" borderWidth="0.0" cornerRadius="5" title="LoginShadow" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="sD1-If-CVK">
                                             <rect key="frame" x="155" y="218" width="496" height="160"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -302,7 +286,7 @@
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
-                                                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WUb-Z1-3Ry">
+                                                    <button toolTip="Submit (⏎)" fixedFrame="YES" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WUb-Z1-3Ry">
                                                         <rect key="frame" x="462" y="16" width="18" height="18"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSGoRightTemplate" imagePosition="overlaps" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="ca0-lj-pwo">
@@ -366,6 +350,52 @@ DQ
                                             </view>
                                             <color key="fillColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
                                         </box>
+                                        <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="38O-Ye-mHE">
+                                            <rect key="frame" x="738" y="541" width="35" height="36"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSActionTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="2a7-1u-5A3">
+                                                <behavior key="behavior" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="btnAdvanced:" target="joq-rD-vnU" id="dic-tC-xrF"/>
+                                            </connections>
+                                        </button>
+                                        <box hidden="YES" fixedFrame="YES" boxType="custom" borderWidth="0.0" cornerRadius="4" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="2P0-Kw-ONr">
+                                            <rect key="frame" x="566" y="478" width="164" height="102"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <view key="contentView" ambiguous="YES" id="66J-jY-jdy">
+                                                <rect key="frame" x="0.0" y="0.0" width="164" height="102"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <subviews>
+                                                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L5l-WM-R2q">
+                                                        <rect key="frame" x="13" y="66" width="139" height="23"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <buttonCell key="cell" type="check" title="Store Username" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="AgC-NC-2Uh">
+                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                            <font key="font" size="16" name="HelveticaNeue"/>
+                                                        </buttonCell>
+                                                    </button>
+                                                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yTD-3z-GV7">
+                                                        <rect key="frame" x="13" y="38" width="97" height="23"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <buttonCell key="cell" type="check" title="Store URL" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="oBI-so-cqM">
+                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                            <font key="font" size="16" name="HelveticaNeue"/>
+                                                        </buttonCell>
+                                                    </button>
+                                                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="12z-RX-JCY">
+                                                        <rect key="frame" x="13" y="11" width="113" height="23"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <buttonCell key="cell" type="check" title="Bypass Auth" bezelStyle="regularSquare" imagePosition="left" enabled="NO" inset="2" id="8LL-mM-5Ms">
+                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                            <font key="font" size="16" name="HelveticaNeue"/>
+                                                        </buttonCell>
+                                                    </button>
+                                                </subviews>
+                                            </view>
+                                            <color key="fillColor" red="0.94509803921568625" green="0.94509803921568625" blue="0.94509803921568625" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </box>
                                     </subviews>
                                 </view>
                                 <color key="fillColor" red="0.26666666666666666" green="0.26666666666666666" blue="0.26666666666666666" alpha="1" colorSpace="calibratedRGB"/>
@@ -373,9 +403,12 @@ DQ
                         </subviews>
                     </view>
                     <connections>
-                        <outlet property="btnStoreURLOutlet" destination="mXI-vX-2Oe" id="CNK-ce-f8a"/>
-                        <outlet property="btnStoreUserOutlet" destination="1zV-sf-dRh" id="N0C-fT-Duh"/>
+                        <outlet property="boxAdvanced" destination="2P0-Kw-ONr" id="JXT-Iv-J9d"/>
+                        <outlet property="btnAdvancedOutlet" destination="38O-Ye-mHE" id="ULk-We-apJ"/>
                         <outlet property="btnSubmitOutlet" destination="WUb-Z1-3Ry" id="eET-Q1-c0a"/>
+                        <outlet property="chkBypass" destination="12z-RX-JCY" id="Pg3-DN-hWO"/>
+                        <outlet property="chkStoreURL" destination="yTD-3z-GV7" id="7xE-hX-lI2"/>
+                        <outlet property="chkStoreUser" destination="L5l-WM-R2q" id="RxE-R3-TNT"/>
                         <outlet property="spinProgress" destination="UGZ-Cb-nSM" id="q7Z-HU-bLP"/>
                         <outlet property="txtCloudOutlet" destination="dy8-Z3-rSU" id="Wj0-cn-cxN"/>
                         <outlet property="txtPassOutlet" destination="Gba-Xu-esz" id="uFz-in-6IS"/>
@@ -854,6 +887,7 @@ DQ
     <resources>
         <image name="512" width="122.87999725341797" height="122.87999725341797"/>
         <image name="MUTv4-glow" width="122.87999725341797" height="122.87999725341797"/>
+        <image name="NSActionTemplate" width="14" height="14"/>
         <image name="NSGoRightTemplate" width="9" height="12"/>
         <image name="NSInfo" width="32" height="32"/>
     </resources>
