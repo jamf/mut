@@ -96,7 +96,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         super.viewDidLoad()
 
         // Print welcome message
-        txtMain.textStorage?.append(NSAttributedString(string: "Welcome to The MUT v3.6.0", attributes: myHeaderAttribute))
+        txtMain.textStorage?.append(NSAttributedString(string: "Welcome to The MUT v4", attributes: myHeaderAttribute))
         printLineBreak()
         printLineBreak()
         
@@ -632,7 +632,12 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     
     func userDidAuthenticate(base64Credentials: String, url: String) {
         print(base64Credentials)
+        self.globalServerCredentials = base64Credentials
+        
         print(url)
+        
+        self.globalServerURL = url
+        
         print("Stuff")
         verified = true
     }
