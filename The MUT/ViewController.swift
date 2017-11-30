@@ -81,6 +81,12 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     @IBOutlet weak var txtEAID: NSTextField!
     @IBOutlet weak var txtCSV: NSTextField!
     
+    // Boxes for Button Switching
+    @IBOutlet weak var boxComputers: NSBox!
+    @IBOutlet weak var boxMobile: NSBox!
+    @IBOutlet weak var boxUsers: NSBox!
+    
+    
     
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueLogin" {
@@ -641,5 +647,22 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         print("Stuff")
         verified = true
     }
-
+    @IBAction func btnMobile(_ sender: Any) {
+        boxComputers.isHidden = true
+        boxUsers.isHidden = true
+        boxMobile.isHidden = false
+    }
+    
+    @IBAction func btnUsers(_ sender: Any) {
+        boxComputers.isHidden = true
+        boxUsers.isHidden = false
+        boxMobile.isHidden = true
+    }
+    
+    @IBAction func btnComputers(_ sender: Any) {
+        boxComputers.isHidden = false
+        boxUsers.isHidden = true
+        boxMobile.isHidden = true
+    }
+    
 }

@@ -392,7 +392,7 @@ DQ
                                         </button>
                                     </subviews>
                                 </view>
-                                <color key="fillColor" red="0.26666666666666666" green="0.26666666666666666" blue="0.26666666666666666" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="fillColor" white="0.24966718809945243" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </box>
                         </subviews>
                     </view>
@@ -456,58 +456,6 @@ DQ
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
                                         </scrollView>
-                                        <scrollView identifier="ScrollUsers" fixedFrame="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" scrollerKnobStyle="dark" translatesAutoresizingMaskIntoConstraints="NO" id="ZRH-15-9Fi">
-                                            <rect key="frame" x="0.0" y="0.0" width="326" height="452"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="Hzi-l5-Mo7">
-                                                <rect key="frame" x="0.0" y="0.0" width="326" height="452"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                <subviews>
-                                                    <view fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a2H-Za-Brf">
-                                                        <rect key="frame" x="0.0" y="0.0" width="311" height="437"/>
-                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                        <subviews>
-                                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zQh-IM-eVS">
-                                                                <rect key="frame" x="18" y="395" width="67" height="22"/>
-                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="General" id="wDY-hh-rE5">
-                                                                    <font key="font" size="18" name="HelveticaNeue"/>
-                                                                    <color key="textColor" white="1" alpha="0.84999999999999998" colorSpace="calibratedWhite"/>
-                                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                                </textFieldCell>
-                                                            </textField>
-                                                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rdB-Kg-CRt">
-                                                                <rect key="frame" x="26" y="368" width="81" height="23"/>
-                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                <buttonCell key="cell" type="bevel" title="Username" bezelStyle="regularSquare" alignment="left" state="on" imageScaling="proportionallyDown" inset="2" id="LnD-HP-hHH">
-                                                                    <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
-                                                                    <font key="font" size="16" name="HelveticaNeue"/>
-                                                                </buttonCell>
-                                                                <accessibility identifier="1"/>
-                                                            </button>
-                                                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aWT-hY-LAm">
-                                                                <rect key="frame" x="26" y="340" width="81" height="23"/>
-                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                <buttonCell key="cell" type="bevel" title="Full Name" bezelStyle="regularSquare" alignment="left" imageScaling="proportionallyDown" inset="2" id="57f-9i-eul">
-                                                                    <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
-                                                                    <font key="font" size="16" name="HelveticaNeue"/>
-                                                                </buttonCell>
-                                                                <accessibility identifier="1"/>
-                                                            </button>
-                                                        </subviews>
-                                                    </view>
-                                                </subviews>
-                                                <color key="backgroundColor" white="0.53200984169999999" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            </clipView>
-                                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="Usz-dG-yc1">
-                                                <rect key="frame" x="-100" y="-100" width="309" height="15"/>
-                                                <autoresizingMask key="autoresizingMask"/>
-                                            </scroller>
-                                            <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="ynH-KU-SU7">
-                                                <rect key="frame" x="-100" y="-100" width="15" height="450"/>
-                                                <autoresizingMask key="autoresizingMask"/>
-                                            </scroller>
-                                        </scrollView>
                                         <scrollView identifier="ScrollMobile" fixedFrame="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" scrollerKnobStyle="dark" translatesAutoresizingMaskIntoConstraints="NO" id="3NH-hq-dAk">
                                             <rect key="frame" x="611" y="-304" width="326" height="452"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -554,9 +502,61 @@ DQ
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
                                         </scrollView>
+                                        <scrollView identifier="ScrollUsers" fixedFrame="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" scrollerKnobStyle="dark" translatesAutoresizingMaskIntoConstraints="NO" id="ZRH-15-9Fi">
+                                            <rect key="frame" x="9" y="0.0" width="326" height="452"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="Hzi-l5-Mo7">
+                                                <rect key="frame" x="0.0" y="0.0" width="326" height="452"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <subviews>
+                                                    <view fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a2H-Za-Brf">
+                                                        <rect key="frame" x="0.0" y="0.0" width="311" height="437"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        <subviews>
+                                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zQh-IM-eVS">
+                                                                <rect key="frame" x="18" y="395" width="67" height="22"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="General" id="wDY-hh-rE5">
+                                                                    <font key="font" size="18" name="HelveticaNeue"/>
+                                                                    <color key="textColor" white="1" alpha="0.84999999999999998" colorSpace="calibratedWhite"/>
+                                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                </textFieldCell>
+                                                            </textField>
+                                                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rdB-Kg-CRt">
+                                                                <rect key="frame" x="26" y="368" width="81" height="23"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                <buttonCell key="cell" type="bevel" title="Username" bezelStyle="regularSquare" alignment="left" state="on" imageScaling="proportionallyDown" inset="2" id="LnD-HP-hHH">
+                                                                    <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                                                    <font key="font" size="16" name="HelveticaNeue"/>
+                                                                </buttonCell>
+                                                                <accessibility identifier="1"/>
+                                                            </button>
+                                                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aWT-hY-LAm">
+                                                                <rect key="frame" x="26" y="340" width="81" height="23"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                <buttonCell key="cell" type="bevel" title="Full Name" bezelStyle="regularSquare" alignment="left" imageScaling="proportionallyDown" inset="2" id="57f-9i-eul">
+                                                                    <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                                                    <font key="font" size="16" name="HelveticaNeue"/>
+                                                                </buttonCell>
+                                                                <accessibility identifier="1"/>
+                                                            </button>
+                                                        </subviews>
+                                                    </view>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.24981118098571428" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </clipView>
+                                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="Usz-dG-yc1">
+                                                <rect key="frame" x="-100" y="-100" width="309" height="15"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                            </scroller>
+                                            <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="ynH-KU-SU7">
+                                                <rect key="frame" x="-100" y="-100" width="15" height="450"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                            </scroller>
+                                        </scrollView>
                                     </subviews>
                                 </view>
-                                <color key="fillColor" white="0.34361049110000003" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="fillColor" white="0.27798549109999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </box>
                             <box fixedFrame="YES" boxType="custom" borderWidth="0.0" title="LightGreyBox" translatesAutoresizingMaskIntoConstraints="NO" id="qfP-cs-Yfc">
                                 <rect key="frame" x="0.0" y="452" width="800" height="148"/>
@@ -745,6 +745,39 @@ DQ
                                                 <action selector="btnCancel:" target="Wso-JF-mtF" id="AKX-41-NlE"/>
                                             </connections>
                                         </button>
+                                        <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0zq-xN-pR0">
+                                            <rect key="frame" x="8" y="9" width="90" height="60"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="ComputerInactive" imagePosition="overlaps" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="Vto-La-0yj">
+                                                <behavior key="behavior" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="btnComputers:" target="Wso-JF-mtF" id="scd-sg-5zf"/>
+                                            </connections>
+                                        </button>
+                                        <button identifier="btnUsers" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6vg-ey-1OD">
+                                            <rect key="frame" x="228" y="8" width="90" height="60"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="UsersInactive" imagePosition="overlaps" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="EZe-TB-JfX">
+                                                <behavior key="behavior" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="btnUsers:" target="Wso-JF-mtF" id="q1M-ya-kHI"/>
+                                            </connections>
+                                        </button>
+                                        <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KmT-IG-XT9">
+                                            <rect key="frame" x="119" y="9" width="90" height="60"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="MobileInactive" imagePosition="overlaps" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="l4l-Xx-JJX">
+                                                <behavior key="behavior" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="btnMobile:" target="Wso-JF-mtF" id="hsQ-cu-P8V"/>
+                                            </connections>
+                                        </button>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AOy-KK-CFH">
                                             <rect key="frame" x="660" y="33" width="132" height="25"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -756,45 +789,69 @@ DQ
                                                 <action selector="btnPreFlight:" target="Wso-JF-mtF" id="B2t-iL-c6P"/>
                                             </connections>
                                         </button>
-                                        <box fixedFrame="YES" boxType="custom" cornerRadius="6" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="U1j-a3-SZM">
-                                            <rect key="frame" x="-5" y="-14" width="115" height="110"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <view key="contentView" ambiguous="YES" id="wek-XY-LcJ">
-                                                <rect key="frame" x="1" y="1" width="113" height="108"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            </view>
-                                            <color key="borderColor" white="0.53200984171458654" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <color key="fillColor" white="0.34361049107142855" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </box>
-                                        <box fixedFrame="YES" boxType="custom" cornerRadius="6" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="Zwl-Tx-eOA">
-                                            <rect key="frame" x="109" y="-14" width="110" height="110"/>
+                                        <box hidden="YES" fixedFrame="YES" boxType="custom" borderWidth="0.0" cornerRadius="6" title="BoxMobile" translatesAutoresizingMaskIntoConstraints="NO" id="Zwl-Tx-eOA">
+                                            <rect key="frame" x="109" y="-14" width="110" height="91"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <view key="contentView" ambiguous="YES" id="Tte-jK-lJb">
-                                                <rect key="frame" x="1" y="1" width="108" height="108"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="110" height="91"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <subviews>
+                                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zmx-Kg-c0l">
+                                                        <rect key="frame" x="10" y="23" width="90" height="60"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="MobileActive" id="Zxg-hi-O0n"/>
+                                                    </imageView>
+                                                </subviews>
                                             </view>
                                             <color key="borderColor" white="0.53200984169999999" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <color key="fillColor" white="0.34361049110000003" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="fillColor" white="0.27829241074285715" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </box>
-                                        <box fixedFrame="YES" boxType="custom" cornerRadius="6" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="gdh-82-r5y">
-                                            <rect key="frame" x="218" y="-14" width="110" height="110"/>
+                                        <box hidden="YES" fixedFrame="YES" boxType="custom" borderWidth="0.0" cornerRadius="6" title="BoxUsers" translatesAutoresizingMaskIntoConstraints="NO" id="gdh-82-r5y">
+                                            <rect key="frame" x="218" y="-14" width="110" height="91"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <view key="contentView" ambiguous="YES" id="Yc3-MB-4Nt">
-                                                <rect key="frame" x="1" y="1" width="108" height="108"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="110" height="91"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <subviews>
+                                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5wm-NC-hFa">
+                                                        <rect key="frame" x="10" y="22" width="90" height="60"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="UsersActive" id="Soo-yv-eFw"/>
+                                                    </imageView>
+                                                </subviews>
                                             </view>
                                             <color key="borderColor" white="0.53200984169999999" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <color key="fillColor" white="0.34361049110000003" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="fillColor" white="0.27829241074285715" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </box>
+                                        <box fixedFrame="YES" boxType="custom" borderWidth="0.0" cornerRadius="6" title="BoxComputer" translatesAutoresizingMaskIntoConstraints="NO" id="U1j-a3-SZM">
+                                            <rect key="frame" x="-4" y="-14" width="115" height="91"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <view key="contentView" ambiguous="YES" id="wek-XY-LcJ">
+                                                <rect key="frame" x="0.0" y="0.0" width="115" height="91"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <subviews>
+                                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Lfj-fV-DX7">
+                                                        <rect key="frame" x="12" y="23" width="90" height="60"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="ComputerActive" id="v42-Is-SxH"/>
+                                                    </imageView>
+                                                </subviews>
+                                            </view>
+                                            <color key="borderColor" white="0.53200984171458654" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="fillColor" white="0.27829241074285715" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </box>
                                     </subviews>
                                 </view>
-                                <color key="fillColor" white="0.51350647381373815" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="fillColor" white="0.32363482202802385" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </box>
                         </subviews>
                     </view>
                     <connections>
                         <outlet property="MainViewController" destination="xfl-iX-lsl" id="7M1-6i-wAx"/>
                         <outlet property="barProgress" destination="8pW-Oe-fIA" id="6Ka-zV-FO5"/>
+                        <outlet property="boxComputers" destination="U1j-a3-SZM" id="Csb-NW-hU1"/>
+                        <outlet property="boxMobile" destination="Zwl-Tx-eOA" id="3cp-Fg-dEn"/>
+                        <outlet property="boxUsers" destination="gdh-82-r5y" id="ocB-my-DeJ"/>
                         <outlet property="btnCancelOutlet" destination="m6p-k2-jN9" id="0Uk-mJ-7pP"/>
                         <outlet property="btnPreFlightOutlet" destination="AOy-KK-CFH" id="5x2-a5-dto"/>
                         <outlet property="btnSubmitOutlet" destination="yi8-lJ-HaJ" id="yKL-La-qw5"/>
@@ -818,8 +875,14 @@ DQ
         </scene>
     </scenes>
     <resources>
+        <image name="ComputerActive" width="120" height="76.080001831054688"/>
+        <image name="ComputerInactive" width="120" height="76.080001831054688"/>
         <image name="MUTv4-glow" width="122.87999725341797" height="122.87999725341797"/>
+        <image name="MobileActive" width="88.800003051757812" height="120"/>
+        <image name="MobileInactive" width="88.800003051757812" height="120"/>
         <image name="NSAdvanced" width="32" height="32"/>
         <image name="NSGoRightTemplate" width="9" height="12"/>
+        <image name="UsersActive" width="120" height="120"/>
+        <image name="UsersInactive" width="120" height="120"/>
     </resources>
 </document>
