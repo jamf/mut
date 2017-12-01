@@ -86,6 +86,11 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     @IBOutlet weak var boxMobile: NSBox!
     @IBOutlet weak var boxUsers: NSBox!
     
+    // Outlets of Attribute Buttons
+    @IBOutlet weak var btnUserAttribute: NSButton!
+    
+    //OUTLET ARRAY HERE:
+    // var buttons: [NSButton?] { return [btnNumberOne, btnNumberTwo] }
     
     
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
@@ -664,5 +669,6 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         boxUsers.isHidden = true
         boxMobile.isHidden = true
     }
+
     
 }
