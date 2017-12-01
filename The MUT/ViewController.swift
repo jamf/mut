@@ -85,14 +85,15 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     @IBOutlet weak var boxComputers: NSBox!
     @IBOutlet weak var boxMobile: NSBox!
     @IBOutlet weak var boxUsers: NSBox!
+    @IBOutlet weak var scrollMobile: NSScrollView!
+    @IBOutlet weak var scrollComputer: NSScrollView!
     
     // Outlets of Attribute Buttons
     @IBOutlet weak var btnUserAttribute: NSButton!
     
     //OUTLET ARRAY HERE:
-    // var buttons: [NSButton?] { return [btnNumberOne, btnNumberTwo] }
-    
-    
+    //var buttons: [NSButton?] { return [btnNumberOne, btnNumberTwo] }
+
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueLogin" {
             let loginWindow: loginWindow = segue.destinationController as! loginWindow
@@ -656,6 +657,8 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         boxComputers.isHidden = true
         boxUsers.isHidden = true
         boxMobile.isHidden = false
+        scrollComputer.isHidden = true
+        scrollMobile.isHidden = false
     }
     
     @IBAction func btnUsers(_ sender: Any) {
@@ -668,6 +671,8 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         boxComputers.isHidden = false
         boxUsers.isHidden = true
         boxMobile.isHidden = true
+        scrollMobile.isHidden = true
+        scrollComputer.isHidden = false
     }
 
     
