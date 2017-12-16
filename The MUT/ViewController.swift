@@ -38,6 +38,8 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     var myURL: URL!
     var globalDebug = "off"
     
+    let scrollBox = NSRect(x: 0, y: 20, width: 226, height: 481)
+    
     // Set up operation queue for runs
     let myOpQueue = OperationQueue()
 
@@ -87,9 +89,11 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     @IBOutlet weak var boxUsers: NSBox!
     @IBOutlet weak var scrollMobile: NSScrollView!
     @IBOutlet weak var scrollComputer: NSScrollView!
+    @IBOutlet weak var scrollUser: NSScrollView!
     
-    // Outlets of Attribute Buttons
-    @IBOutlet weak var btnUserAttribute: NSButton!
+    // Mobile Device 
+    
+
     
     //OUTLET ARRAY HERE:
     //var buttons: [NSButton?] { return [btnNumberOne, btnNumberTwo] }
@@ -134,6 +138,12 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         super.viewWillAppear()
         preferredContentSize = NSSize(width: 800, height: 600)
         
+        //Hide and move the scroll boxes into place--they are left off screen for ease of editing them.
+        scrollUser.isHidden = true
+        scrollUser.frame = scrollBox
+        scrollMobile.isHidden = true
+        scrollMobile.frame = scrollBox
+        scrollComputer.frame = scrollBox
     }
     
     override func viewDidAppear() {
@@ -643,14 +653,10 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     }
     
     func userDidAuthenticate(base64Credentials: String, url: String) {
-        print(base64Credentials)
+        //print(base64Credentials)
         self.globalServerCredentials = base64Credentials
-        
-        print(url)
-        
+        //print(url)
         self.globalServerURL = url
-        
-        print("Stuff")
         verified = true
     }
     @IBAction func btnMobile(_ sender: Any) {
@@ -659,12 +665,16 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         boxMobile.isHidden = false
         scrollComputer.isHidden = true
         scrollMobile.isHidden = false
+        scrollUser.isHidden = true
     }
     
     @IBAction func btnUsers(_ sender: Any) {
         boxComputers.isHidden = true
         boxUsers.isHidden = false
         boxMobile.isHidden = true
+        scrollComputer.isHidden = true
+        scrollMobile.isHidden = true
+        scrollUser.isHidden = false
     }
     
     @IBAction func btnComputers(_ sender: Any) {
@@ -673,6 +683,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         boxMobile.isHidden = true
         scrollMobile.isHidden = true
         scrollComputer.isHidden = false
+        scrollUser.isHidden = true
     }
 
     
