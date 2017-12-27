@@ -38,7 +38,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     var myURL: URL!
     var globalDebug = "off"
     
-    let scrollBox = NSRect(x: 0, y: 20, width: 226, height: 481)
+    let scrollBox = NSRect(x: 0, y: 10, width: 226, height: 586)
     
     // Set up operation queue for runs
     let myOpQueue = OperationQueue()
@@ -47,8 +47,8 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     let mainViewDefaults = UserDefaults.standard
     
     // Declare format for various logging fonts
-    let myFontAttribute = [ NSFontAttributeName: NSFont(name: "Courier", size: 12.0)! ]
-    let myHeaderAttribute = [ NSFontAttributeName: NSFont(name: "Helvetica Neue Thin", size: 18.0)! ]
+    let myFontAttribute = [ NSFontAttributeName: NSFont(name: "Helvetica Neue Thin", size: 16.0)! ]
+    let myHeaderAttribute = [ NSFontAttributeName: NSFont(name: "Helvetica Neue Thin", size: 24.0)! ]
     let myOKFontAttribute = [
         NSFontAttributeName: NSFont(name: "Courier", size: 12.0)!,
         NSForegroundColorAttributeName: NSColor(deviceRed: 0.0, green: 0.8, blue: 0.0, alpha: 1.0)
@@ -56,6 +56,10 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     let myFailFontAttribute = [
         NSFontAttributeName: NSFont(name: "Courier", size: 12.0)!,
         NSForegroundColorAttributeName: NSColor(deviceRed: 0.8, green: 0.0, blue: 0.0, alpha: 1.0)
+    ]
+    
+    let myOffStateAttribute = [
+        NSForegroundColorAttributeName: NSColor(deviceRed: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     ]
 
     // Declare outlets for Buttons to change color and hide/show
@@ -91,7 +95,13 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     @IBOutlet weak var scrollComputer: NSScrollView!
     @IBOutlet weak var scrollUser: NSScrollView!
     
-    // Mobile Device 
+    // Mobile Device Attribute Buttons
+    
+    // Computer Attribute Buttons
+    
+    @IBOutlet weak var btnCompDeviceName: NSButton!
+    @IBOutlet weak var btnCompSiteByID: NSButton!
+    
     
 
     
@@ -131,23 +141,29 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         popAttributeOutlet.removeAllItems()
         popAttributeOutlet.addItems(withTitles: ["Asset Tag","Barcode 1", "Barcode 2","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute","Vendor","PO Number", "PO Date", "Warranty Expires", "Lease Expires", "ADD TO macOS Static Group", "REMOVE FROM macOS Static Group"])
 
+        
+        
     }
     
     override func viewWillAppear() {
         //resize the view
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 800, height: 600)
+        preferredContentSize = NSSize(width: 800, height: 660)
         
         //Hide and move the scroll boxes into place--they are left off screen for ease of editing them.
         scrollUser.isHidden = true
         scrollUser.frame = scrollBox
+        //scrollUser.verticalScroller?.floatValue = 0
         scrollMobile.isHidden = true
         scrollMobile.frame = scrollBox
         scrollComputer.frame = scrollBox
+        //scrollComputer.documentView?.scroll(NSPoint.zero)
+        //scrollComputer.documentView?.scroll(NSPoint.zero)
+        //self.scrollComputer.scrollToBeginningOfDocument(self)
     }
     
     override func viewDidAppear() {
-        performSegue(withIdentifier: "segueLogin", sender: self)
+        //performSegue(withIdentifier: "segueLogin", sender: self)
     }
     
     //Unique Identifier Dropdown to show pre-flight again
@@ -685,6 +701,5 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         scrollComputer.isHidden = false
         scrollUser.isHidden = true
     }
-
     
 }
