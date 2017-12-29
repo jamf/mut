@@ -87,23 +87,6 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     @IBOutlet weak var txtEAID: NSTextField!
     @IBOutlet weak var txtCSV: NSTextField!
     
-    // Boxes for Button Switching
-    @IBOutlet weak var boxComputers: NSBox!
-    @IBOutlet weak var boxMobile: NSBox!
-    @IBOutlet weak var boxUsers: NSBox!
-    @IBOutlet weak var scrollMobile: NSScrollView!
-    @IBOutlet weak var scrollComputer: NSScrollView!
-    @IBOutlet weak var scrollUser: NSScrollView!
-    
-    // Mobile Device Attribute Buttons
-    
-    // Computer Attribute Buttons
-    
-    @IBOutlet weak var btnCompDeviceName: NSButton!
-    @IBOutlet weak var btnCompSiteByID: NSButton!
-    
-    
-
     
     //OUTLET ARRAY HERE:
     //var buttons: [NSButton?] { return [btnNumberOne, btnNumberTwo] }
@@ -148,22 +131,11 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     override func viewWillAppear() {
         //resize the view
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 800, height: 660)
-        
-        //Hide and move the scroll boxes into place--they are left off screen for ease of editing them.
-        scrollUser.isHidden = true
-        scrollUser.frame = scrollBox
-        //scrollUser.verticalScroller?.floatValue = 0
-        scrollMobile.isHidden = true
-        scrollMobile.frame = scrollBox
-        scrollComputer.frame = scrollBox
-        //scrollComputer.documentView?.scroll(NSPoint.zero)
-        //scrollComputer.documentView?.scroll(NSPoint.zero)
-        //self.scrollComputer.scrollToBeginningOfDocument(self)
+        preferredContentSize = NSSize(width: 800, height: 450)
     }
     
     override func viewDidAppear() {
-        //performSegue(withIdentifier: "segueLogin", sender: self)
+        performSegue(withIdentifier: "segueLogin", sender: self)
     }
     
     //Unique Identifier Dropdown to show pre-flight again
@@ -674,32 +646,6 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         //print(url)
         self.globalServerURL = url
         verified = true
-    }
-    @IBAction func btnMobile(_ sender: Any) {
-        boxComputers.isHidden = true
-        boxUsers.isHidden = true
-        boxMobile.isHidden = false
-        scrollComputer.isHidden = true
-        scrollMobile.isHidden = false
-        scrollUser.isHidden = true
-    }
-    
-    @IBAction func btnUsers(_ sender: Any) {
-        boxComputers.isHidden = true
-        boxUsers.isHidden = false
-        boxMobile.isHidden = true
-        scrollComputer.isHidden = true
-        scrollMobile.isHidden = true
-        scrollUser.isHidden = false
-    }
-    
-    @IBAction func btnComputers(_ sender: Any) {
-        boxComputers.isHidden = false
-        boxUsers.isHidden = true
-        boxMobile.isHidden = true
-        scrollMobile.isHidden = true
-        scrollComputer.isHidden = false
-        scrollUser.isHidden = true
     }
     
 }
