@@ -38,8 +38,6 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     var myURL: URL!
     var globalDebug = "off"
     
-    let scrollBox = NSRect(x: 0, y: 10, width: 226, height: 586)
-    
     // Set up operation queue for runs
     let myOpQueue = OperationQueue()
 
@@ -131,7 +129,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     override func viewWillAppear() {
         //resize the view
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 800, height: 450)
+        preferredContentSize = NSSize(width: 450, height: 600)
     }
     
     override func viewDidAppear() {
