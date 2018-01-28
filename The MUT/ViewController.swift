@@ -85,6 +85,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     @IBOutlet weak var txtEAID: NSTextField!
     @IBOutlet weak var txtCSV: NSTextField!
     
+    @IBOutlet weak var boxLog: NSBox!
     
     //OUTLET ARRAY HERE:
     //var buttons: [NSButton?] { return [btnNumberOne, btnNumberTwo] }
@@ -134,6 +135,10 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     
     override func viewDidAppear() {
         performSegue(withIdentifier: "segueLogin", sender: self)
+        self.view.window?.isMovableByWindowBackground = true
+        self.view.window?.titleVisibility = .hidden
+        self.view.window?.titlebarAppearsTransparent = true
+        self.view.window?.styleMask.insert(.fullSizeContentView)
     }
     
     //Unique Identifier Dropdown to show pre-flight again
@@ -645,5 +650,16 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         self.globalServerURL = url
         verified = true
     }
+    @IBAction func btnToggleLog(_ sender: Any) {
+        if boxLog.isHidden == true {
+            boxLog.isHidden = false
+            preferredContentSize = NSSize(width: 450, height: 600)
+        } else {
+            boxLog.isHidden = true
+            preferredContentSize = NSSize(width: 450, height: 200)
+        }
+        
+    }
+    
     
 }
