@@ -68,11 +68,10 @@ class loginWindow: NSViewController, URLSessionDelegate {
         if loginDefaults.value(forKey: "InstanceURL") != nil  && loginDefaults.value(forKey: "UserName") != nil {
                 self.txtPassOutlet.becomeFirstResponder()
         }
-        self.view.window?.titlebarAppearsTransparent = true
-        self.view.window?.isMovableByWindowBackground = true
+        /*self.view.window?.isMovableByWindowBackground = true
         self.view.window?.titleVisibility = .hidden
         self.view.window?.titlebarAppearsTransparent = true
-        self.view.window?.styleMask.insert(.fullSizeContentView)
+        self.view.window?.styleMask.insert(.fullSizeContentView)*/
     }
     
     @IBAction func btnSubmit(_ sender: Any) {
