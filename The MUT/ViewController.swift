@@ -656,10 +656,11 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
             preferredContentSize = NSSize(width: 450, height: 600)
         } else {
             boxLog.isHidden = true
-            preferredContentSize = NSSize(width: 450, height: 250)
+            preferredContentSize = NSSize(width: 450, height: 260)
         }
         
     }
+
     
     
 }
