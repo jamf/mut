@@ -37,6 +37,7 @@ class loginWindow: NSViewController, URLSessionDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         // Restore the Username to text box if we have a default stored
         if loginDefaults.value(forKey: "UserName") != nil {
             txtUserOutlet.stringValue = loginDefaults.value(forKey: "UserName") as! String
@@ -186,5 +187,9 @@ class loginWindow: NSViewController, URLSessionDelegate {
     // This is required to allow un-trusted SSL certificates. Leave it alone.
     func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         completionHandler(Foundation.URLSession.AuthChallengeDisposition.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
+    }
+    @IBAction func btnQuit(_ sender: Any) {
+        self.dismiss(self)
+        NSApplication.shared().terminate(self)
     }
 }
