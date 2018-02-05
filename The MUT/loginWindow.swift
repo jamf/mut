@@ -159,14 +159,14 @@ class loginWindow: NSViewController, URLSessionDelegate {
                                 self.spinProgress.stopAnimation(self)
                                 self.btnSubmitOutlet.isHidden = false
                                 _ = popPrompt().generalWarning(question: "Invalid Credentials", text: "The credentials you entered do not seem to have sufficient permissions. This could be due to an incorrect user/password, or possibly from insufficient permissions. MUT tests this against the user's ability to view the Activation Code via the API.")
-                                /*if self.chkBypass.state == 1 {
+                                if self.chkBypass.state == 1 {
                                  print("BYPASSED")
                                  self.globalServerCredentials = self.base64Credentials
                                  self.globalServerURL = self.serverURL
                                  self.appendLogString(stringToAppend: "Credential Verification Bypassed - USE WITH CAUTION.")
                                  self.printLineBreak()
                                  self.verified = true
-                                 }*/
+                                 }
                             }
                         }
                     }

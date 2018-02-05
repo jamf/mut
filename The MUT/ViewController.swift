@@ -131,14 +131,12 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         //resize the view
         super.viewWillAppear()
         preferredContentSize = NSSize(width: 450, height: 600)
+        performSegue(withIdentifier: "segueLogin", sender: self)
     }
     
     override func viewDidAppear() {
-        performSegue(withIdentifier: "segueLogin", sender: self)
-        /*self.view.window?.isMovableByWindowBackground = true
-        self.view.window?.titleVisibility = .hidden
-        self.view.window?.titlebarAppearsTransparent = true
-        self.view.window?.styleMask.insert(.fullSizeContentView)*/
+        super.viewDidAppear()
+        self.view.window?.isMovableByWindowBackground = true
     }
     
     //Unique Identifier Dropdown to show pre-flight again
