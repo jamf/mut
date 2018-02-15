@@ -481,6 +481,11 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
                                     self.appendLogString(stringToAppend: "HTTP 404 means 'not found'. There is no device with \(self.globalEndpointID!) \(currentRow[0]) enrolled in Jamf Pro.")
                                     self.printLineBreak()
                                 }
+                                if httpResponse.statusCode == 404 {
+                                    self.printLineBreak()
+                                    self.appendLogString(stringToAppend: "HTTP 409 is a generic error code code. Turn on Advanced Debugging from the settings menu at the top of the screen for more information.")
+                                    self.printLineBreak()
+                                }
                                 // Update the progress bar
                                 self.barProgress.doubleValue = Double(rowCounter)
                             }
@@ -654,7 +659,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
             preferredContentSize = NSSize(width: 450, height: 600)
         } else {
             boxLog.isHidden = true
-            preferredContentSize = NSSize(width: 450, height: 260)
+            preferredContentSize = NSSize(width: 450, height: 240)
         }
         
     }
