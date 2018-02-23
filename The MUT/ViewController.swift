@@ -5,12 +5,18 @@
 //  Created by Michael Levenick on 10/17/16.
 //  Copyright © 2016 Levenick Enterprises LLC. All rights reserved.
 //
-
+extension String  {
+    var isNumber: Bool {
+        return !isEmpty && rangeOfCharacter(from: CharacterSet.decimalDigits.inverted) == nil
+    }
+}
 
 import Cocoa
 import Foundation
 
 class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
+    
+    
     
     // MARK: - Declarations
     
@@ -226,7 +232,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
                 self.txtCSV.stringValue = self.globalPathToCSV.path!
             }
         }
-    }   
+    }
     
     func prepareToBuildXML() {
         btnSubmitOutlet.isHidden = false
@@ -257,6 +263,65 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         }
         
         // Switches to set Identifier type
+        //iOS
+        if globalParsedCSV.rows.count > 0 {
+            let row1 = globalParsedCSV.rows[0]
+            
+            if globalParsedCSV.rows.count > 1 {
+                
+                let row2 = globalParsedCSV.rows[1]
+                
+                //iOS
+                if globalXMLDevice == "mobile_device" {
+                    if row2[0].isNumber {
+                        print("logically it is an ID")
+                        globalEndpointID = "id"
+                    } else {
+                        print("logically it is a serial")
+                        globalEndpointID = "serialnumber"
+                    }
+                }
+                
+                //macOS
+                if globalXMLDevice == "computer" {
+                    if row2[0].isNumber {
+                        print("logically it is an ID")
+                        globalEndpointID = "id"
+                    } else {
+                        print("logically it is a serial")
+                        globalEndpointID = "serialnumber"
+                    }
+                }
+                
+                //User
+                if globalXMLDevice == "user" {
+                    if row2[0].isNumber {
+                        print("logically it is an ID")
+                        globalEndpointID = "id"
+                    } else {
+                        print("logically it is a username")
+                        globalEndpointID = "name"
+                    }
+                }
+            }
+        
+            if row1[0] == "id" {
+                print ("it says ID")
+                globalEndpointID = "id"
+            }
+            
+            if row1[0] == "serial" {
+                print ("it says serial")
+                globalEndpointID = "serialnumber"
+            }
+            
+            if row1[0] == "username" {
+                print ("it says username")
+                globalEndpointID = "name"
+            }
+        }
+
+        /*
         switch (globalIDType) {
             case "Serial Number" :
                 globalEndpointID = "serialnumber"
@@ -266,7 +331,9 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
                 globalEndpointID = "name"
             default:
                 print("Something Broke")
-        }
+        }*/
+        
+        
     }
     
     // Pass back the CSV Path
@@ -292,7 +359,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         } else if columnChecker > 2 {
             self.appendRed(stringToPrint: "The MUT found more than two columns in your CSV. The first column should be your unique identifier (eg: serial) and the second column should be the value to be updated.")
             printLineBreak()
-        } else {
+        } /*else {
             // Display a preview of row 1 if only 1 row, or row 2 otherwise (to not preview headers)
             if globalParsedCSV.rows.count > 1 {
                 let line1 = globalParsedCSV.rows[1]
@@ -316,7 +383,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
                 appendRed(stringToPrint: "No rows found in your CSV!!!")
             }
             printLineBreak()
-        }
+        }*/
     }
     
     @IBAction func btnClearStored(_ sender: AnyObject) {
@@ -346,14 +413,15 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     @IBAction func btnPreFlight(_ sender: Any) {
         if verified {
 
-            prepareToBuildXML()
+            
             
             if txtCSV.stringValue != "" {
                 parseCSV()
+                prepareToBuildXML()
                 readyToRun()
-                appendLogString(stringToAppend: "==================================================")
+                appendLogString(stringToAppend: "=====================================")
                 appendLogString(stringToAppend: "Please review the above information. If everything looks good, press the submit button. Otherwise, please verify the dropdowns and your CSV file and run another pre-flight check.")
-                appendLogString(stringToAppend: "==================================================")
+                appendLogString(stringToAppend: "=====================================")
             } else {
                 _ = popPrompt().generalWarning(question: "No CSV Path Found", text: "Please browse for a CSV file in order to continue.")
                 return
@@ -481,7 +549,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
                                     self.appendLogString(stringToAppend: "HTTP 404 means 'not found'. There is no device with \(self.globalEndpointID!) \(currentRow[0]) enrolled in Jamf Pro.")
                                     self.printLineBreak()
                                 }
-                                if httpResponse.statusCode == 404 {
+                                if httpResponse.statusCode == 409 {
                                     self.printLineBreak()
                                     self.appendLogString(stringToAppend: "HTTP 409 is a generic error code code. Turn on Advanced Debugging from the settings menu at the top of the screen for more information.")
                                     self.printLineBreak()
@@ -524,11 +592,11 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     @IBAction func btnCancel(_ sender: Any) {
         myOpQueue.cancelAllOperations()
         DispatchQueue.main.async {
-            self.appendRed(stringToPrint:        "**************************************************************")
+            self.appendRed(stringToPrint:        "*************************************************")
             self.appendLogString(stringToAppend: "               UPDATE RUN CANCELLED BY USER!")
             self.appendLogString(stringToAppend: "The request that has already been initiated will complete.")
             self.appendLogString(stringToAppend: "           All other requests have been cancelled.")
-            self.appendRed(stringToPrint:        "**************************************************************")
+            self.appendRed(stringToPrint:        "*************************************************")
             self.resetView()
             
         }
