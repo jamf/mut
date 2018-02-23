@@ -87,7 +87,6 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     // DropDowns for Attributes etc
     @IBOutlet weak var popAttributeOutlet: NSPopUpButton!
     @IBOutlet weak var popDeviceOutlet: NSPopUpButton!
-    @IBOutlet weak var popIDOutlet: NSPopUpButton!
     @IBOutlet weak var txtEAID: NSTextField!
     @IBOutlet weak var txtCSV: NSTextField!
     
@@ -144,35 +143,20 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         super.viewDidAppear()
         self.view.window?.isMovableByWindowBackground = true
     }
-    
-    //Unique Identifier Dropdown to show pre-flight again
-    @IBAction func popIdentifierAction(_ sender: Any) {
-        notReadyToRun()
-    }
+
     
     // Set up the dropdown items depending on what record type is selected
     @IBAction func popDeviceAction(_ sender: Any) {
         notReadyToRun()
         if popDeviceOutlet.titleOfSelectedItem == "Users" {
-            popIDOutlet.removeAllItems()
-            popIDOutlet.addItems(withTitles: ["Username","ID Number"])
             popAttributeOutlet.removeAllItems()
             popAttributeOutlet.addItems(withTitles: ["User's Username","User's Full Name","Email Address","User's Position","Phone Number","User's Site by ID","User's Site by Name","User Extension Attribute","LDAP Server","ADD TO User Static Group", "REMOVE FROM User Static Group"])
         }
         if popDeviceOutlet.titleOfSelectedItem == "iOS Devices" {
             popAttributeOutlet.removeAllItems()
             popAttributeOutlet.addItems(withTitles: ["Asset Tag","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute","Vendor","PO Number", "PO Date", "Warranty Expires", "Lease Expires", "ADD TO iOS Static Group", "REMOVE FROM iOS Static Group"])
-            if popAttributeOutlet.titleOfSelectedItem == "Device Name" {
-                popIDOutlet.removeAllItems()
-                popIDOutlet.addItems(withTitles: ["Serial Number"])
-            } else {
-                popIDOutlet.removeAllItems()
-                popIDOutlet.addItems(withTitles: ["Serial Number","ID Number"])
-            }
                     }
         if popDeviceOutlet.titleOfSelectedItem == "macOS Devices" {
-            popIDOutlet.removeAllItems()
-            popIDOutlet.addItems(withTitles: ["Serial Number","ID Number"])
             
             popAttributeOutlet.removeAllItems()
             popAttributeOutlet.addItems(withTitles: ["Asset Tag","Barcode 1","Barcode 2","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute","PO Number","Vendor", "PO Date", "Warranty Expires", "Lease Expires", "ADD TO macOS Static Group", "REMOVE FROM macOS Static Group"])
@@ -207,15 +191,6 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
             printLineBreak()
             appendRed(stringToPrint: "You must first manually create the Building or Department in Jamf Pro before being able to assign a device to one.")
         }
-        if popDeviceOutlet.titleOfSelectedItem == "iOS Devices" {
-            if popAttributeOutlet.titleOfSelectedItem == "Device Name" {
-                popIDOutlet.removeAllItems()
-                popIDOutlet.addItems(withTitles: ["Serial Number"])
-            } else {
-                popIDOutlet.removeAllItems()
-                popIDOutlet.addItems(withTitles: ["Serial Number","ID Number"])
-            }
-        }
     }
     
     @IBAction func btnBrowse(_ sender: Any) {
@@ -237,13 +212,8 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     func prepareToBuildXML() {
         btnSubmitOutlet.isHidden = false
         globalDeviceType = popDeviceOutlet.titleOfSelectedItem
-        globalIDType = popIDOutlet.titleOfSelectedItem
         globalAttributeType = popAttributeOutlet.titleOfSelectedItem
         globalEAID = txtEAID.stringValue
-        appendLogString(stringToAppend: "Device Type: \(globalDeviceType!)")
-        appendLogString(stringToAppend: "ID Type: \(globalIDType!)")
-        appendLogString(stringToAppend: "Attribute Type: \(globalAttributeType!)")
-        printLineBreak()
         
         // MARK: - XML Building variables
         
@@ -422,6 +392,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
                 appendLogString(stringToAppend: "=====================================")
                 appendLogString(stringToAppend: "Please review the above information. If everything looks good, press the submit button. Otherwise, please verify the dropdowns and your CSV file and run another pre-flight check.")
                 appendLogString(stringToAppend: "=====================================")
+                printLineBreak()
             } else {
                 _ = popPrompt().generalWarning(question: "No CSV Path Found", text: "Please browse for a CSV file in order to continue.")
                 return
@@ -506,7 +477,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
                     self.myURL = xmlBuilder().createPOSTURL(url: self.globalServerURL!)
                 }
                 
-                let encodedXML = xmlBuilder().createXML(popIdentifier: self.popIDOutlet.titleOfSelectedItem!, popDevice: self.popDeviceOutlet.titleOfSelectedItem!, popAttribute: self.popAttributeOutlet.titleOfSelectedItem!, eaID: self.txtEAID.stringValue, columnB: currentRow[1], columnA: currentRow[0])
+                let encodedXML = xmlBuilder().createXML(popIdentifier: self.globalEndpointID, popDevice: self.popDeviceOutlet.titleOfSelectedItem!, popAttribute: self.popAttributeOutlet.titleOfSelectedItem!, eaID: self.txtEAID.stringValue, columnB: currentRow[1], columnA: currentRow[0])
                 
                 let request = NSMutableURLRequest(url: self.myURL)
                 request.httpMethod = self.globalHTTPFunction
@@ -533,7 +504,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
                         if httpResponse.statusCode >= 200 && httpResponse.statusCode <= 299 {
                             DispatchQueue.main.async {
                                 // Print information to the log box
-                                self.printString(stringToPrint: "Device with \(self.globalEndpointID!) \(currentRow[0]) - ")
+                                self.printString(stringToPrint: "Device \(currentRow[0]) - ")
                                 self.appendGreen(stringToPrint: "OK! - \(httpResponse.statusCode)")
                                 // Update the progress bar
                                 self.barProgress.doubleValue = Double(rowCounter)
@@ -542,7 +513,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
                             // If that response is not a success response
                             DispatchQueue.main.async {
                                 // Print information to the log box
-                                self.printString(stringToPrint: "Device with \(self.globalEndpointID!) \(currentRow[0]) - ")
+                                self.printString(stringToPrint: "Device \(currentRow[0]) - ")
                                 self.appendRed(stringToPrint: "Failed! - \(httpResponse.statusCode)!")
                                 if httpResponse.statusCode == 404 {
                                     self.printLineBreak()

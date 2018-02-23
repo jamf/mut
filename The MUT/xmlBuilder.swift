@@ -105,10 +105,10 @@ public class xmlBuilder {
             let subset = XMLElement(name: xmlSubset!)
             let child = XMLElement(name: xmlExtra!)
             var identifier = XMLElement(name: "null", stringValue: columnA)
-            if popIdentifier == "Serial Number" {
+            if popIdentifier == "serialnumber" {
                 identifier = XMLElement(name: "serial_number", stringValue: columnA)
             }
-            if popIdentifier == "ID Number" {
+            if popIdentifier == "id" {
                 identifier = XMLElement(name: "id", stringValue: columnA)
             }
             child.addChild(identifier)
@@ -125,10 +125,10 @@ public class xmlBuilder {
             let subset = XMLElement(name: xmlSubset!)
             let child = XMLElement(name: xmlExtra!)
             var identifier = XMLElement(name: "null", stringValue: columnA)
-            if popIdentifier == "Username" {
+            if popIdentifier == "name" {
                 identifier = XMLElement(name: "username", stringValue: columnA)
             }
-            if popIdentifier == "ID Number" {
+            if popIdentifier == "id" {
                 identifier = XMLElement(name: "id", stringValue: columnA)
             }
             child.addChild(identifier)
