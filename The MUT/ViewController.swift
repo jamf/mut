@@ -238,9 +238,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
             let row1 = globalParsedCSV.rows[0]
             
             if globalParsedCSV.rows.count > 1 {
-                
                 let row2 = globalParsedCSV.rows[1]
-                
                 //iOS
                 if globalXMLDevice == "mobile_device" {
                     if row2[0].isNumber {
@@ -251,7 +249,6 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
                         globalEndpointID = "serialnumber"
                     }
                 }
-                
                 //macOS
                 if globalXMLDevice == "computer" {
                     if row2[0].isNumber {
@@ -262,7 +259,6 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
                         globalEndpointID = "serialnumber"
                     }
                 }
-                
                 //User
                 if globalXMLDevice == "user" {
                     if row2[0].isNumber {
@@ -274,36 +270,19 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
                     }
                 }
             }
-        
             if row1[0] == "id" {
                 print ("it says ID")
                 globalEndpointID = "id"
             }
-            
             if row1[0] == "serial" {
                 print ("it says serial")
                 globalEndpointID = "serialnumber"
             }
-            
             if row1[0] == "username" {
                 print ("it says username")
                 globalEndpointID = "name"
             }
         }
-
-        /*
-        switch (globalIDType) {
-            case "Serial Number" :
-                globalEndpointID = "serialnumber"
-            case "ID Number" :
-                globalEndpointID = "id"
-            case "Username" :
-                globalEndpointID = "name"
-            default:
-                print("Something Broke")
-        }*/
-        
-        
     }
     
     // Pass back the CSV Path
@@ -692,7 +671,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         self.globalServerURL = url
         verified = true
     }
-    @IBAction func btnToggleLog(_ sender: Any) {
+    /*@IBAction func btnToggleLog(_ sender: Any) {
         if boxLog.isHidden == true {
             boxLog.isHidden = false
             preferredContentSize = NSSize(width: 450, height: 600)
@@ -701,7 +680,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
             preferredContentSize = NSSize(width: 450, height: 240)
         }
         
-    }
+    }*/
 
     
     
