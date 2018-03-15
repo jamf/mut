@@ -51,14 +51,19 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     let mainViewDefaults = UserDefaults.standard
     
     // Declare format for various logging fonts
-    let myFontAttribute = [ NSFontAttributeName: NSFont(name: "Helvetica Neue Thin", size: 16.0)! ]
-    let myHeaderAttribute = [ NSFontAttributeName: NSFont(name: "Helvetica Neue Thin", size: 24.0)! ]
+    let myFontAttribute = [ NSFontAttributeName: NSFont(name: "Helvetica Neue Thin", size: 14.0)! ]
+    let myHeaderAttribute = [ NSFontAttributeName: NSFont(name: "Helvetica Neue Thin", size: 20.0)! ]
     let myOKFontAttribute = [
-        NSFontAttributeName: NSFont(name: "Courier", size: 12.0)!,
+        NSFontAttributeName: NSFont(name: "Courier", size: 14.0)!,
         NSForegroundColorAttributeName: NSColor(deviceRed: 0.0, green: 0.8, blue: 0.0, alpha: 1.0)
     ]
     let myFailFontAttribute = [
-        NSFontAttributeName: NSFont(name: "Courier", size: 12.0)!,
+        NSFontAttributeName: NSFont(name: "Courier", size: 14.0)!,
+        NSForegroundColorAttributeName: NSColor(deviceRed: 0.8, green: 0.0, blue: 0.0, alpha: 1.0)
+    ]
+    
+    let myAlertFontAttribute = [
+        NSFontAttributeName: NSFont(name: "Helvetica Neue Thin", size: 14.0)!,
         NSForegroundColorAttributeName: NSColor(deviceRed: 0.8, green: 0.0, blue: 0.0, alpha: 1.0)
     ]
     
@@ -238,49 +243,124 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
             let row1 = globalParsedCSV.rows[0]
             
             if globalParsedCSV.rows.count > 1 {
+                // MORE THAN ONE ROW, LOGICAL DETERMINATIONS
                 let row2 = globalParsedCSV.rows[1]
                 //iOS
                 if globalXMLDevice == "mobile_device" {
                     if row2[0].isNumber {
                         print("logically it is an ID")
+                        globalIDType = "ID"
                         globalEndpointID = "id"
+                        appendLogString(stringToAppend: "MUT has logically detected IDs for the unique identifier.")
+                        appendLogString(stringToAppend: "To override: include a header row specifying 'id' or 'serial' in Column A.")
                     } else {
                         print("logically it is a serial")
+                        globalIDType = "Serial Number"
                         globalEndpointID = "serialnumber"
+                        appendLogString(stringToAppend: "MUT has logically detected Serial Numbers for the unique identifier.")
+                        appendLogString(stringToAppend: "To override: include a header row specifying 'id' or 'serial' in Column A.")
                     }
+                    printLineBreak()
                 }
                 //macOS
                 if globalXMLDevice == "computer" {
                     if row2[0].isNumber {
                         print("logically it is an ID")
+                        globalIDType = "ID"
                         globalEndpointID = "id"
+                        appendLogString(stringToAppend: "MUT has logically detected IDs for the unique identifier.")
+                        appendLogString(stringToAppend: "To override: include a header row specifying 'id' or 'serial' in Column A.")
                     } else {
                         print("logically it is a serial")
+                        globalIDType = "Serial Number"
                         globalEndpointID = "serialnumber"
+                        appendLogString(stringToAppend: "MUT has logically detected Serial Numbers for the unique identifier.")
+                        appendLogString(stringToAppend: "To override: include a header row specifying 'id' or 'serial' in Column A.")
                     }
+                    printLineBreak()
                 }
                 //User
                 if globalXMLDevice == "user" {
                     if row2[0].isNumber {
                         print("logically it is an ID")
+                        globalIDType = "ID"
                         globalEndpointID = "id"
+                        appendLogString(stringToAppend: "MUT has logically detected IDs for the unique identifier.")
+                        appendLogString(stringToAppend: "To override: include a header row specifying 'id' or 'username' in Column A.")
                     } else {
                         print("logically it is a username")
+                        globalIDType = "Username"
                         globalEndpointID = "name"
+                        appendLogString(stringToAppend: "MUT has logically detected Usernames for the unique identifier.")
+                        appendLogString(stringToAppend: "To override: include a header row specifying 'id' or 'username' in Column A.")
                     }
+                    printLineBreak()
+                }
+            } else {
+                // ONLY ONE ROW, LOGICAL DETERMINATIONS
+                //iOS
+                if globalXMLDevice == "mobile_device" {
+                    if row1[0].isNumber {
+                        globalIDType = "ID"
+                        globalEndpointID = "id"
+                        appendLogString(stringToAppend: "MUT has logically detected IDs for the unique identifier.")
+                        appendLogString(stringToAppend: "To override: include a header row specifying 'id' or 'serial' in Column A.")
+                    } else {
+                        globalIDType = "Serial Number"
+                        globalEndpointID = "serialnumber"
+                        appendLogString(stringToAppend: "MUT has logically detected Serial Numbers for the unique identifier.")
+                        appendLogString(stringToAppend: "To override: include a header row specifying 'id' or 'serial' in Column A.")
+                    }
+                    printLineBreak()
+                }
+                //macOS
+                if globalXMLDevice == "computer" {
+                    if row1[0].isNumber {
+                        globalIDType = "ID"
+                        globalEndpointID = "id"
+                        appendLogString(stringToAppend: "MUT has logically detected IDs for the unique identifier.")
+                        appendLogString(stringToAppend: "To override: include a header row specifying 'id' or 'serial' in Column A.")
+                    } else {
+                        globalIDType = "Serial Number"
+                        globalEndpointID = "serialnumber"
+                        appendLogString(stringToAppend: "MUT has logically detected Serial Numbers for the unique identifier.")
+                        appendLogString(stringToAppend: "To override: include a header row specifying 'id' or 'serial' in Column A.")
+                    }
+                    printLineBreak()
+                }
+                //User
+                if globalXMLDevice == "user" {
+                    if row1[0].isNumber {
+                        globalIDType = "ID"
+                        globalEndpointID = "id"
+                        appendLogString(stringToAppend: "MUT has logically detected IDs for the unique identifier.")
+                        appendLogString(stringToAppend: "To override: include a header row specifying 'id' or 'username' in Column A.")
+                    } else {
+                        globalIDType = "Username"
+                        globalEndpointID = "name"
+                        appendLogString(stringToAppend: "MUT has logically detected Usernames for the unique identifier.")
+                        appendLogString(stringToAppend: "To override: include a header row specifying 'id' or 'username' in Column A.")
+                    }
+                    printLineBreak()
                 }
             }
             if row1[0] == "id" {
-                print ("it says ID")
                 globalEndpointID = "id"
+                globalIDType = "ID"
+                appendLogString(stringToAppend: "Your header specifying IDs overrides the previous logical determination.")
+                printLineBreak()
             }
             if row1[0] == "serial" {
-                print ("it says serial")
                 globalEndpointID = "serialnumber"
+                globalIDType = "Serial Number"
+                appendLogString(stringToAppend: "Your header specifying Serial Numbers overrides the previous logical determination.")
+                printLineBreak()
             }
             if row1[0] == "username" {
-                print ("it says username")
                 globalEndpointID = "name"
+                globalIDType = "Username"
+                appendLogString(stringToAppend: "Your header specifying Usernames overrides the previous logical determination.")
+                printLineBreak()
             }
         }
     }
@@ -289,50 +369,15 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     func parseCSV() {
         
         globalCSVPath = txtCSV.stringValue
-        appendLogString(stringToAppend: "CSV: \(globalCSVPath!)")
-        
         // Parse the CSV into an array
         globalCSVContent = try! NSString(contentsOfFile: globalCSVPath, encoding: String.Encoding.utf8.rawValue) as String!
         globalParsedCSV = CSwiftV(with: globalCSVContent as String, separator: delimiter, headers: ["Device", "Attribute"])
         
-        appendLogString(stringToAppend: "Found \(globalParsedCSV.rows.count) rows in the CSV.")
-        printLineBreak()
         let columnCheck = globalParsedCSV.rows[0]
         let numberOfCommas = columnCheck.split(separator: delimiter, omittingEmptySubsequences: false)
         let newNumberOfCommas = numberOfCommas[0]
         columnChecker = newNumberOfCommas.count
         
-        if columnChecker < 2 {
-            self.appendRed(stringToPrint: "The MUT did not find at least two columns in your CSV. If you are trying to blank out values, please include headers so that it can find the second column.")
-            printLineBreak()
-        } else if columnChecker > 2 {
-            self.appendRed(stringToPrint: "The MUT found more than two columns in your CSV. The first column should be your unique identifier (eg: serial) and the second column should be the value to be updated.")
-            printLineBreak()
-        } /*else {
-            // Display a preview of row 1 if only 1 row, or row 2 otherwise (to not preview headers)
-            if globalParsedCSV.rows.count > 1 {
-                let line1 = globalParsedCSV.rows[1]
-                if line1.count >= 2 {
-                    self.appendLogString(stringToAppend: "Example row from your CSV:")
-                    self.appendLogString(stringToAppend: "\(globalIDType!.replacingOccurrences(of: " ", with: "")): \(line1[0]), \(globalAttributeType!): \(line1[1])")
-                } else {
-                    self.appendRed(stringToPrint: "Not enough columns were found in your CSV!!!")
-                    self.appendRed(stringToPrint: "You can set a custom delimiter under Settings in the menu bar if you wish.")
-                }
-            } else if globalParsedCSV.rows.count > 0 {
-                let line1 = globalParsedCSV.rows[0]
-                if line1.count >= 2 {
-                    self.appendLogString(stringToAppend: "Example row from your CSV:")
-                    self.appendLogString(stringToAppend: "\(globalIDType.replacingOccurrences(of: " ", with: "")): \(line1[0]), \(globalAttributeType!): \(line1[1])")
-                } else {
-                    self.appendRed(stringToPrint: "Not enough columns were found in your CSV!!!")
-                    self.appendRed(stringToPrint: "You can set a custom delimiter under Settings in the menu bar if you wish.")
-                }
-            } else {
-                appendRed(stringToPrint: "No rows found in your CSV!!!")
-            }
-            printLineBreak()
-        }*/
     }
     
     @IBAction func btnClearStored(_ sender: AnyObject) {
@@ -367,7 +412,9 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
             if txtCSV.stringValue != "" {
                 parseCSV()
                 prepareToBuildXML()
+                displayPreFlightInfo()
                 readyToRun()
+                
                 appendLogString(stringToAppend: "=====================================")
                 appendLogString(stringToAppend: "Please review the above information. If everything looks good, press the submit button. Otherwise, please verify the dropdowns and your CSV file and run another pre-flight check.")
                 appendLogString(stringToAppend: "=====================================")
@@ -379,6 +426,45 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         } else {
             _ = popPrompt().generalWarning(question: "Please Verify Credentials", text: "Please enter your server URL, and the credentials for an administrator account, and then verify your credentials to continue.")
         }
+    }
+    
+    func displayPreFlightInfo() {
+        
+        appendLogString(stringToAppend: "Found \(globalParsedCSV.rows.count) rows in the CSV.")
+        printLineBreak()
+        
+        if columnChecker < 2 {
+            self.appendRed(stringToPrint: "The MUT did not find at least two columns in your CSV. If you are trying to blank out values, please include headers so that it can find the second column.")
+            printLineBreak()
+        } else if columnChecker > 2 {
+            self.appendRed(stringToPrint: "The MUT found more than two columns in your CSV. The first column should be your unique identifier (eg: serial) and the second column should be the value to be updated.")
+            printLineBreak()
+        } else {
+            // Display a preview of row 1 if only 1 row, or row 2 otherwise (to not preview headers)
+            if globalParsedCSV.rows.count > 1 {
+                let line1 = globalParsedCSV.rows[1]
+                if line1.count >= 2 {
+                    self.appendLogString(stringToAppend: "Example row from your CSV:")
+                    self.appendLogString(stringToAppend: "\(globalIDType!.replacingOccurrences(of: " ", with: "")): \(line1[0]), \(globalAttributeType!): \(line1[1])")
+                } else {
+                    self.appendRed(stringToPrint: "Not enough columns were found in your CSV!!!")
+                    self.appendRed(stringToPrint: "You can set a custom delimiter under Settings in the menu bar if you wish.")
+                }
+            } else if globalParsedCSV.rows.count > 0 {
+                let line1 = globalParsedCSV.rows[0]
+                if line1.count >= 2 {
+                    self.appendLogString(stringToAppend: "Example row from your CSV:")
+                    self.appendLogString(stringToAppend: "\(globalIDType.replacingOccurrences(of: " ", with: "")): \(line1[0]), \(globalAttributeType!): \(line1[1])")
+                } else {
+                    self.appendRed(stringToPrint: "Not enough columns were found in your CSV!!!")
+                    self.appendRed(stringToPrint: "You can set a custom delimiter under Settings in the menu bar if you wish.")
+                }
+            } else {
+                appendRed(stringToPrint: "No rows found in your CSV!!!")
+            }
+            printLineBreak()
+        }
+        
     }
     
     // Run enforce name function if proper attributes are selected
@@ -617,6 +703,12 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     // Prints red fixed point text with line break after - "FAIL"
     func appendRed(stringToPrint: String) {
         self.txtMain.textStorage?.append(NSAttributedString(string: "\(stringToPrint)\n", attributes: self.myFailFontAttribute))
+        self.txtMain.scrollToEndOfDocument(self)
+    }
+    
+    // Prints red Helventica text with line break after - "FAIL"
+    func appendAlert(stringToPrint: String) {
+        self.txtMain.textStorage?.append(NSAttributedString(string: "\(stringToPrint)\n", attributes: self.myAlertFontAttribute))
         self.txtMain.scrollToEndOfDocument(self)
     }
     
