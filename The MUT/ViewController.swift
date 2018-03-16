@@ -3,7 +3,7 @@
 //  The MUT
 //
 //  Created by Michael Levenick on 10/17/16.
-//  Copyright © 2016 Levenick Enterprises LLC. All rights reserved.
+//  Copyright © 2018 Levenick Enterprises LLC. All rights reserved.
 //
 extension String  {
     var isNumber: Bool {
