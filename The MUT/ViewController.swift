@@ -16,8 +16,6 @@ import Foundation
 
 class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     
-    
-    
     // MARK: - Declarations
     
     // Declare a bunch of global variables to use in various functions
@@ -62,6 +60,8 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         NSForegroundColorAttributeName: NSColor(deviceRed: 0.8, green: 0.0, blue: 0.0, alpha: 1.0)
     ]
     
+    let myCSVFontAttribute = [ NSFontAttributeName: NSFont(name: "Courier", size: 14.0)! ]
+    
     let myAlertFontAttribute = [
         NSFontAttributeName: NSFont(name: "Helvetica Neue Thin", size: 14.0)!,
         NSForegroundColorAttributeName: NSColor(deviceRed: 0.8, green: 0.0, blue: 0.0, alpha: 1.0)
@@ -96,9 +96,6 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     @IBOutlet weak var txtCSV: NSTextField!
     
     @IBOutlet weak var boxLog: NSBox!
-    
-    //OUTLET ARRAY HERE:
-    //var buttons: [NSButton?] { return [btnNumberOne, btnNumberTwo] }
 
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueLogin" {
@@ -124,17 +121,30 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
             appendLogString(stringToAppend: "Stored delimiter found: \(delimiter)")
             printLineBreak()
         } else {
-            appendLogString(stringToAppend: "No stored delimiter found. Using default of comma. You can change this under Settings in the menu bar if you wish.")
+            appendLogString(stringToAppend: "No stored delimiter found. Using default of comma.")
             printLineBreak()
             delimiter = ","
+            appendLogString(stringToAppend: "Example CSV for macOS Username Updates:")
+            appendLogString(stringToAppend: "(Including optional header)")
+            appendCSV(stringToPrint: "+--------------------+-------------------+")
+            appendCSV(stringToPrint: "| Serial Number      | Username          |")
+            appendCSV(stringToPrint: "+--------------------+-------------------+")
+            appendCSV(stringToPrint: "| C123456789         | mike.levenick     |")
+            appendCSV(stringToPrint: "+--------------------+-------------------+")
+            appendCSV(stringToPrint: "| C987654321         | alex.ekblad       |")
+            appendCSV(stringToPrint: "+--------------------+-------------------+")
+            printLineBreak()
+            appendLogString(stringToAppend: "(Without optional header)")
+            appendCSV(stringToPrint: "+--------------------+-------------------+")
+            appendCSV(stringToPrint: "| C123456789         | mike.levenick     |")
+            appendCSV(stringToPrint: "+--------------------+-------------------+")
+            appendCSV(stringToPrint: "| C987654321         | alex.ekblad       |")
+            appendCSV(stringToPrint: "+--------------------+-------------------+")
         }
         
         // Set up the attribute outlet drop down
         popAttributeOutlet.removeAllItems()
         popAttributeOutlet.addItems(withTitles: ["Asset Tag","Barcode 1", "Barcode 2","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute","Vendor","PO Number", "PO Date", "Warranty Expires", "Lease Expires", "ADD TO macOS Static Group", "REMOVE FROM macOS Static Group"])
-
-        
-        
     }
     
     override func viewWillAppear() {
@@ -149,7 +159,6 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         self.view.window?.isMovableByWindowBackground = true
     }
 
-    
     // Set up the dropdown items depending on what record type is selected
     @IBAction func popDeviceAction(_ sender: Any) {
         notReadyToRun()
@@ -162,7 +171,6 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
             popAttributeOutlet.addItems(withTitles: ["Asset Tag","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute","Vendor","PO Number", "PO Date", "Warranty Expires", "Lease Expires", "ADD TO iOS Static Group", "REMOVE FROM iOS Static Group"])
                     }
         if popDeviceOutlet.titleOfSelectedItem == "macOS Devices" {
-            
             popAttributeOutlet.removeAllItems()
             popAttributeOutlet.addItems(withTitles: ["Asset Tag","Barcode 1","Barcode 2","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute","PO Number","Vendor", "PO Date", "Warranty Expires", "Lease Expires", "ADD TO macOS Static Group", "REMOVE FROM macOS Static Group"])
         }
@@ -241,7 +249,6 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         //iOS
         if globalParsedCSV.rows.count > 0 {
             let row1 = globalParsedCSV.rows[0]
-            
             if globalParsedCSV.rows.count > 1 {
                 // MORE THAN ONE ROW, LOGICAL DETERMINATIONS
                 let row2 = globalParsedCSV.rows[1]
@@ -344,19 +351,19 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
                     printLineBreak()
                 }
             }
-            if row1[0] == "id" {
+            if row1[0].lowercased() == "id" {
                 globalEndpointID = "id"
                 globalIDType = "ID"
                 appendLogString(stringToAppend: "Your header specifying IDs overrides the previous logical determination.")
                 printLineBreak()
             }
-            if row1[0] == "serial" {
+            if row1[0].lowercased() == "serial" || row1[0].lowercased() == "serial number" || row1[0].lowercased() == "serialnumber" {
                 globalEndpointID = "serialnumber"
                 globalIDType = "Serial Number"
                 appendLogString(stringToAppend: "Your header specifying Serial Numbers overrides the previous logical determination.")
                 printLineBreak()
             }
-            if row1[0] == "username" {
+            if row1[0].lowercased() == "username" {
                 globalEndpointID = "name"
                 globalIDType = "Username"
                 appendLogString(stringToAppend: "Your header specifying Usernames overrides the previous logical determination.")
@@ -367,7 +374,6 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     
     // Pass back the CSV Path
     func parseCSV() {
-        
         globalCSVPath = txtCSV.stringValue
         // Parse the CSV into an array
         globalCSVContent = try! NSString(contentsOfFile: globalCSVPath, encoding: String.Encoding.utf8.rawValue) as String!
@@ -380,6 +386,8 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         
     }
     
+    // Clear Stored Values -- DO NOT DELETE
+    // Although it appears to not be linked, it is tied to a menu option
     @IBAction func btnClearStored(_ sender: AnyObject) {
         //Clear all stored values
         if let bundle = Bundle.main.bundleIdentifier {
@@ -387,6 +395,8 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         }
     }
     
+    // Change Delimiter -- DO NOT DELETE
+    // Although it appears to not be linked, it is tied to a menu option
     @IBAction func btnChangeDelim(_ sender: AnyObject) {
         
         let newDelim = popPrompt().selectDelim(question: "Change Delimiter", text: "What would you like your new delimiter to be?")
@@ -406,15 +416,11 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     //Pre Flight Checks
     @IBAction func btnPreFlight(_ sender: Any) {
         if verified {
-
-            
-            
             if txtCSV.stringValue != "" {
                 parseCSV()
                 prepareToBuildXML()
                 displayPreFlightInfo()
                 readyToRun()
-                
                 appendLogString(stringToAppend: "=====================================")
                 appendLogString(stringToAppend: "Please review the above information. If everything looks good, press the submit button. Otherwise, please verify the dropdowns and your CSV file and run another pre-flight check.")
                 appendLogString(stringToAppend: "=====================================")
@@ -429,10 +435,8 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     }
     
     func displayPreFlightInfo() {
-        
         appendLogString(stringToAppend: "Found \(globalParsedCSV.rows.count) rows in the CSV.")
         printLineBreak()
-        
         if columnChecker < 2 {
             self.appendRed(stringToPrint: "The MUT did not find at least two columns in your CSV. If you are trying to blank out values, please include headers so that it can find the second column.")
             printLineBreak()
@@ -514,8 +518,6 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         while i <= lastrow {
             // Sets the current row to the row of the loop
             let currentRow = row[i]
-            
-            
             
             // Add a PUT or POST request to the operation queue
             myOpQueue.addOperation {
@@ -637,7 +639,8 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
             
         }
     }
-    
+    // Enable Debug -- DO NOT DELETE
+    // Although it appears to not be linked, it is tied to a menu option
     @IBAction func btnEnableDebug(_ sender: Any) {
         if globalDebug == "off" {
             globalDebug = "on"
@@ -649,7 +652,8 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     }
     
     
-    // MARK: - Save Log Text
+    // Save Log Text -- DO NOT DELETE
+    // Although it appears to not be linked, it is tied to a menu option
     @IBAction func btnSaveLog(_ sender: Any) {
         // Get the current date/time and format it
         let currentDate = NSDate()
@@ -675,6 +679,8 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
             }
         }
     }
+    
+    
         
     func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         completionHandler(Foundation.URLSession.AuthChallengeDisposition.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
@@ -697,6 +703,11 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     // Prints green fixed point text with line break after - "OK"
     func appendGreen(stringToPrint: String) {
         self.txtMain.textStorage?.append(NSAttributedString(string: "\(stringToPrint)\n", attributes: self.myOKFontAttribute))
+        self.txtMain.scrollToEndOfDocument(self)
+    }
+    
+    func appendCSV(stringToPrint: String) {
+        self.txtMain.textStorage?.append(NSAttributedString(string: "\(stringToPrint)\n", attributes: self.myCSVFontAttribute))
         self.txtMain.scrollToEndOfDocument(self)
     }
     
@@ -763,17 +774,5 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         self.globalServerURL = url
         verified = true
     }
-    /*@IBAction func btnToggleLog(_ sender: Any) {
-        if boxLog.isHidden == true {
-            boxLog.isHidden = false
-            preferredContentSize = NSSize(width: 450, height: 600)
-        } else {
-            boxLog.isHidden = true
-            preferredContentSize = NSSize(width: 450, height: 240)
-        }
-        
-    }*/
-
-    
     
 }
