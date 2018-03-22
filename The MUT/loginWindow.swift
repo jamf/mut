@@ -32,6 +32,7 @@ class loginWindow: NSViewController, URLSessionDelegate {
     var serverURL: String!
     var base64Credentials: String!
     var verified = false
+
     let punctuation = CharacterSet(charactersIn: ".:/")
     
     override func viewDidLoad() {
@@ -41,7 +42,6 @@ class loginWindow: NSViewController, URLSessionDelegate {
         // Restore the Username to text box if we have a default stored
         if loginDefaults.value(forKey: "UserName") != nil {
             txtUserOutlet.stringValue = loginDefaults.value(forKey: "UserName") as! String
-            chkRememberMe.state = 1
         }
         
         // Restore Prem URL to text box if we have a default stored
@@ -56,9 +56,15 @@ class loginWindow: NSViewController, URLSessionDelegate {
         }
         
         if loginDefaults.value(forKey: "Remember") != nil {
-            chkRememberMe.state = 1
+            if loginDefaults.bool(forKey: "Remember") {
+                chkRememberMe.state = 1
+                print("It wasn't zero")
+            } else {
+                chkRememberMe.state = 0
+                print("it was zero")
+            }
         } else {
-            chkRememberMe.state = 0
+            print("it was null")
         }
     }
     
@@ -69,10 +75,6 @@ class loginWindow: NSViewController, URLSessionDelegate {
         if loginDefaults.value(forKey: "InstanceURL") != nil  && loginDefaults.value(forKey: "UserName") != nil {
                 self.txtPassOutlet.becomeFirstResponder()
         }
-        /*self.view.window?.isMovableByWindowBackground = true
-        self.view.window?.titleVisibility = .hidden
-        self.view.window?.titlebarAppearsTransparent = true
-        self.view.window?.styleMask.insert(.fullSizeContentView)*/
     }
     
     @IBAction func btnSubmit(_ sender: Any) {
@@ -137,13 +139,13 @@ class loginWindow: NSViewController, URLSessionDelegate {
                             if self.chkRememberMe.state == 1 {
                                 self.loginDefaults.set(self.txtUserOutlet.stringValue, forKey: "UserName")
                                 self.loginDefaults.set(self.txtURLOutlet.stringValue, forKey: "InstanceURL")
-                                self.loginDefaults.set("1", forKey: "Remember")
+                                self.loginDefaults.set(true, forKey: "Remember")
                                 self.loginDefaults.synchronize()
                                 
                             } else {
                                 self.loginDefaults.removeObject(forKey: "UserName")
                                 self.loginDefaults.removeObject(forKey: "InstanceURL")
-                                self.loginDefaults.removeObject(forKey: "Remember")
+                                self.loginDefaults.set(false, forKey: "Remember")
                                 self.loginDefaults.synchronize()
                             }
                             self.spinProgress.stopAnimation(self)
