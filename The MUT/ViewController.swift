@@ -259,12 +259,14 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
                         globalIDType = "ID"
                         globalEndpointID = "id"
                         appendLogString(stringToAppend: "MUT has logically detected IDs for the unique identifier.")
+                        printLineBreak()
                         appendLogString(stringToAppend: "To override: include a header row specifying 'id' or 'serial' in Column A.")
                     } else {
                         print("logically it is a serial")
                         globalIDType = "Serial Number"
                         globalEndpointID = "serialnumber"
                         appendLogString(stringToAppend: "MUT has logically detected Serial Numbers for the unique identifier.")
+                        printLineBreak()
                         appendLogString(stringToAppend: "To override: include a header row specifying 'id' or 'serial' in Column A.")
                     }
                     printLineBreak()
@@ -276,12 +278,14 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
                         globalIDType = "ID"
                         globalEndpointID = "id"
                         appendLogString(stringToAppend: "MUT has logically detected IDs for the unique identifier.")
+                        printLineBreak()
                         appendLogString(stringToAppend: "To override: include a header row specifying 'id' or 'serial' in Column A.")
                     } else {
                         print("logically it is a serial")
                         globalIDType = "Serial Number"
                         globalEndpointID = "serialnumber"
                         appendLogString(stringToAppend: "MUT has logically detected Serial Numbers for the unique identifier.")
+                        printLineBreak()
                         appendLogString(stringToAppend: "To override: include a header row specifying 'id' or 'serial' in Column A.")
                     }
                     printLineBreak()
@@ -293,12 +297,14 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
                         globalIDType = "ID"
                         globalEndpointID = "id"
                         appendLogString(stringToAppend: "MUT has logically detected IDs for the unique identifier.")
+                        printLineBreak()
                         appendLogString(stringToAppend: "To override: include a header row specifying 'id' or 'username' in Column A.")
                     } else {
                         print("logically it is a username")
                         globalIDType = "Username"
                         globalEndpointID = "name"
                         appendLogString(stringToAppend: "MUT has logically detected Usernames for the unique identifier.")
+                        printLineBreak()
                         appendLogString(stringToAppend: "To override: include a header row specifying 'id' or 'username' in Column A.")
                     }
                     printLineBreak()
@@ -311,11 +317,13 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
                         globalIDType = "ID"
                         globalEndpointID = "id"
                         appendLogString(stringToAppend: "MUT has logically detected IDs for the unique identifier.")
+                        printLineBreak()
                         appendLogString(stringToAppend: "To override: include a header row specifying 'id' or 'serial' in Column A.")
                     } else {
                         globalIDType = "Serial Number"
                         globalEndpointID = "serialnumber"
                         appendLogString(stringToAppend: "MUT has logically detected Serial Numbers for the unique identifier.")
+                        printLineBreak()
                         appendLogString(stringToAppend: "To override: include a header row specifying 'id' or 'serial' in Column A.")
                     }
                     printLineBreak()
@@ -326,11 +334,13 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
                         globalIDType = "ID"
                         globalEndpointID = "id"
                         appendLogString(stringToAppend: "MUT has logically detected IDs for the unique identifier.")
+                        printLineBreak()
                         appendLogString(stringToAppend: "To override: include a header row specifying 'id' or 'serial' in Column A.")
                     } else {
                         globalIDType = "Serial Number"
                         globalEndpointID = "serialnumber"
                         appendLogString(stringToAppend: "MUT has logically detected Serial Numbers for the unique identifier.")
+                        printLineBreak()
                         appendLogString(stringToAppend: "To override: include a header row specifying 'id' or 'serial' in Column A.")
                     }
                     printLineBreak()
@@ -341,11 +351,13 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
                         globalIDType = "ID"
                         globalEndpointID = "id"
                         appendLogString(stringToAppend: "MUT has logically detected IDs for the unique identifier.")
+                        printLineBreak()
                         appendLogString(stringToAppend: "To override: include a header row specifying 'id' or 'username' in Column A.")
                     } else {
                         globalIDType = "Username"
                         globalEndpointID = "name"
                         appendLogString(stringToAppend: "MUT has logically detected Usernames for the unique identifier.")
+                        printLineBreak()
                         appendLogString(stringToAppend: "To override: include a header row specifying 'id' or 'username' in Column A.")
                     }
                     printLineBreak()
@@ -357,7 +369,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
                 appendLogString(stringToAppend: "Your header specifying IDs overrides the previous logical determination.")
                 printLineBreak()
             }
-            if row1[0].lowercased() == "serial" || row1[0].lowercased() == "serial number" || row1[0].lowercased() == "serialnumber" {
+            if row1[0].lowercased().contains("serial") {
                 globalEndpointID = "serialnumber"
                 globalIDType = "Serial Number"
                 appendLogString(stringToAppend: "Your header specifying Serial Numbers overrides the previous logical determination.")
