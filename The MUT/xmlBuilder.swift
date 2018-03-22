@@ -114,7 +114,7 @@ public class xmlBuilder {
             child.addChild(identifier)
             subset.addChild(child)
             root.addChild(subset)
-            print(xml.xmlString) // Uncomment for debugging
+            //print(xml.xmlString) // Uncomment for debugging
             returnedXML = xml.xmlData
         }
         
@@ -219,7 +219,7 @@ public class xmlBuilder {
             let value = XMLElement(name: "id", stringValue: columnB)
             subset.addChild(value)
             root.addChild(subset)
-            print(xml.xmlString) // Uncomment for debugging
+            //print(xml.xmlString) // Uncomment for debugging
             returnedXML = xml.xmlData
         }
         

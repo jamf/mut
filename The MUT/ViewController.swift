@@ -255,14 +255,14 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
                 //iOS
                 if globalXMLDevice == "mobile_device" {
                     if row2[0].isNumber {
-                        print("logically it is an ID")
+                        //print("logically it is an ID")//uncomment for debugging
                         globalIDType = "ID"
                         globalEndpointID = "id"
                         appendLogString(stringToAppend: "MUT has logically detected IDs for the unique identifier.")
                         printLineBreak()
                         appendLogString(stringToAppend: "To override: include a header row specifying 'id' or 'serial' in Column A.")
                     } else {
-                        print("logically it is a serial")
+                        //print("logically it is a serial")//uncomment for debugging
                         globalIDType = "Serial Number"
                         globalEndpointID = "serialnumber"
                         appendLogString(stringToAppend: "MUT has logically detected Serial Numbers for the unique identifier.")
@@ -274,14 +274,14 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
                 //macOS
                 if globalXMLDevice == "computer" {
                     if row2[0].isNumber {
-                        print("logically it is an ID")
+                        //print("logically it is an ID")//uncomment for debugging
                         globalIDType = "ID"
                         globalEndpointID = "id"
                         appendLogString(stringToAppend: "MUT has logically detected IDs for the unique identifier.")
                         printLineBreak()
                         appendLogString(stringToAppend: "To override: include a header row specifying 'id' or 'serial' in Column A.")
                     } else {
-                        print("logically it is a serial")
+                        //print("logically it is a serial")//uncomment for debugging
                         globalIDType = "Serial Number"
                         globalEndpointID = "serialnumber"
                         appendLogString(stringToAppend: "MUT has logically detected Serial Numbers for the unique identifier.")
@@ -293,14 +293,14 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
                 //User
                 if globalXMLDevice == "user" {
                     if row2[0].isNumber {
-                        print("logically it is an ID")
+                        //print("logically it is an ID")//uncomment for debugging
                         globalIDType = "ID"
                         globalEndpointID = "id"
                         appendLogString(stringToAppend: "MUT has logically detected IDs for the unique identifier.")
                         printLineBreak()
                         appendLogString(stringToAppend: "To override: include a header row specifying 'id' or 'username' in Column A.")
                     } else {
-                        print("logically it is a username")
+                        //print("logically it is a username")//uncomment for debugging
                         globalIDType = "Username"
                         globalEndpointID = "name"
                         appendLogString(stringToAppend: "MUT has logically detected Usernames for the unique identifier.")

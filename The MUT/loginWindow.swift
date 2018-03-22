@@ -58,13 +58,11 @@ class loginWindow: NSViewController, URLSessionDelegate {
         if loginDefaults.value(forKey: "Remember") != nil {
             if loginDefaults.bool(forKey: "Remember") {
                 chkRememberMe.state = 1
-                print("It wasn't zero")
             } else {
                 chkRememberMe.state = 0
-                print("it was zero")
             }
         } else {
-            print("it was null")
+            // Just in case you ever want to do something for no default stored
         }
     }
     
@@ -162,11 +160,6 @@ class loginWindow: NSViewController, URLSessionDelegate {
                                 self.btnSubmitOutlet.isHidden = false
                                 _ = popPrompt().generalWarning(question: "Invalid Credentials", text: "The credentials you entered do not seem to have sufficient permissions. This could be due to an incorrect user/password, or possibly from insufficient permissions. MUT tests this against the user's ability to view the Activation Code via the API.")
                                 if self.chkBypass.state == 1 {
-                                 print("BYPASSED")
-                                 /*self.globalServerCredentials = self.base64Credentials
-                                 self.globalServerURL = self.serverURL
-                                 self.appendLogString(stringToAppend: "Credential Verification Bypassed - USE WITH CAUTION.")
-                                 self.printLineBreak()*/
                                     if self.delegateAuth != nil {
                                         self.delegateAuth?.userDidAuthenticate(base64Credentials: self.base64Credentials!, url: self.serverURL!)
                                         self.dismissViewController(self)
