@@ -375,7 +375,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
                 appendLogString(stringToAppend: "Your header specifying Serial Numbers overrides the previous logical determination.")
                 printLineBreak()
             }
-            if row1[0].lowercased() == "username" {
+            if row1[0].lowercased().contains("user") {
                 globalEndpointID = "name"
                 globalIDType = "Username"
                 appendLogString(stringToAppend: "Your header specifying Usernames overrides the previous logical determination.")
