@@ -168,7 +168,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         }
         if popDeviceOutlet.titleOfSelectedItem == "iOS Devices" {
             popAttributeOutlet.removeAllItems()
-            popAttributeOutlet.addItems(withTitles: ["Asset Tag","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute","Vendor","PO Number", "PO Date", "Warranty Expires", "Lease Expires", "ADD TO iOS Static Group", "REMOVE FROM iOS Static Group"])
+            popAttributeOutlet.addItems(withTitles: ["Asset Tag","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute","Vendor","PO Number", "PO Date", "Warranty Expires", "Lease Expires", "tvOS AirPlay Password", "ADD TO iOS Static Group", "REMOVE FROM iOS Static Group"])
                     }
         if popDeviceOutlet.titleOfSelectedItem == "macOS Devices" {
             popAttributeOutlet.removeAllItems()
