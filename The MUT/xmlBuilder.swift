@@ -90,7 +90,7 @@ public class xmlBuilder {
     public func createXML(popIdentifier: String, popDevice: String, popAttribute: String, eaID: String, columnB: String, columnA: String) -> Data {
         var returnedXML: Data?
         
-        let xmlDevice = ["macOS Devices": "computer", "iOS Devices": "mobile_device", "Users": "user"][popDevice]
+        let xmlDevice = ["macOS Devices": "computer", "Mobile Devices": "mobile_device", "Users": "user"][popDevice]
         
         let xmlSubset = ["Asset Tag": "general", "Barcode 1": "general", "Barcode 2": "general", "Device Name": "general", "Site by ID": "general", "Site by Name": "general", "Username": "location", "Full Name": "location", "Email": "location", "Position": "location", "Department": "location", "Building": "location", "Room": "location", "Extension Attribute": "extension_attributes", "User's Username": "", "User's Full Name": "", "Email Address": "", "User's Position": "", "Phone Number": "", "User's Site by ID": "sites", "User's Site by Name": "sites", "User Extension Attribute": "extension_attributes", "ADD TO macOS Static Group": "computer_additions", "ADD TO iOS Static Group": "mobile_device_additions","ADD TO User Static Group": "user_additions","REMOVE FROM macOS Static Group": "computer_deletions", "REMOVE FROM iOS Static Group": "mobile_device_deletions","REMOVE FROM User Static Group": "user_deletions","PO Number": "purchasing", "Vendor": "purchasing", "PO Date": "purchasing", "Warranty Expires": "purchasing", "Lease Expires": "purchasing", "LDAP Server": "ldap_server", "tvOS AirPlay Password": "general" ][popAttribute]
         

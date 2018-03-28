@@ -166,7 +166,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
             popAttributeOutlet.removeAllItems()
             popAttributeOutlet.addItems(withTitles: ["User's Username","User's Full Name","Email Address","User's Position","Phone Number","User's Site by ID","User's Site by Name","User Extension Attribute","LDAP Server","ADD TO User Static Group", "REMOVE FROM User Static Group"])
         }
-        if popDeviceOutlet.titleOfSelectedItem == "iOS Devices" {
+        if popDeviceOutlet.titleOfSelectedItem == "Mobile Devices" {
             popAttributeOutlet.removeAllItems()
             popAttributeOutlet.addItems(withTitles: ["Asset Tag","Device Name","Username","Full Name","Email","Position","Department","Building","Room","Site by ID","Site by Name","Extension Attribute","Vendor","PO Number", "PO Date", "Warranty Expires", "Lease Expires", "tvOS AirPlay Password", "ADD TO iOS Static Group", "REMOVE FROM iOS Static Group"])
                     }
@@ -232,7 +232,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         
         // Switches to set XML and Endpoint values
         switch (globalDeviceType) {
-            case "iOS Devices" :
+            case "Mobile Devices" :
                 globalXMLDevice = "mobile_device"
                 globalEndpoint = "mobiledevices"
             case "macOS Devices" :
@@ -494,7 +494,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
                 return
             }
             prepareToBuildXML()
-            if globalDeviceType == "iOS Devices" && globalAttributeType == "Device Name" {
+            if globalDeviceType == "Mobile Devices" && globalAttributeType == "Device Name" {
                 globalHTTPFunction = "POST"
                 uploadData()
             } else {

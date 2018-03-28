@@ -494,7 +494,7 @@ DQ
                                                         <menuItem title="macOS Devices" state="on" id="BvJ-rs-bkh">
                                                             <attributedString key="attributedTitle"/>
                                                         </menuItem>
-                                                        <menuItem title="iOS Devices" id="atr-kW-4L4"/>
+                                                        <menuItem title="Mobile Devices" id="atr-kW-4L4"/>
                                                         <menuItem title="Users" id="nEq-4a-sjt">
                                                             <attributedString key="attributedTitle"/>
                                                         </menuItem>
