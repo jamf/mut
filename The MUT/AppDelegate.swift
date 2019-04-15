@@ -87,7 +87,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if shouldFail || (failError != nil) {
             // Report any error we got.
             if let error = failError {
-                NSApplication.shared().presentError(error)
+                NSApplication.shared.presentError(error)
                 fatalError("Unresolved error: \(error), \(error.userInfo)")
             }
             fatalError("Unsresolved error: \(failureReason)")
@@ -116,7 +116,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 try managedObjectContext.save()
             } catch {
                 let nserror = error as NSError
-                NSApplication.shared().presentError(nserror)
+                NSApplication.shared.presentError(nserror)
             }
         }
     }
@@ -130,7 +130,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return true
     }
 
-    func applicationShouldTerminate(_ sender: NSApplication) -> NSApplicationTerminateReply {
+    func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
         // Save changes in the application's managed object context before the application terminates.
         
         if !managedObjectContext.commitEditing() {
@@ -163,7 +163,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             alert.addButton(withTitle: cancelButton)
             
             let answer = alert.runModal()
-            if answer == NSAlertSecondButtonReturn {
+            if answer == NSApplication.ModalResponse.alertSecondButtonReturn {
                 return .terminateCancel
             }
         }

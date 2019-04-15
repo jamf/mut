@@ -49,26 +49,26 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     let mainViewDefaults = UserDefaults.standard
     
     // Declare format for various logging fonts
-    let myFontAttribute = [ NSFontAttributeName: NSFont(name: "Helvetica Neue Thin", size: 14.0)! ]
-    let myHeaderAttribute = [ NSFontAttributeName: NSFont(name: "Helvetica Neue Thin", size: 20.0)! ]
+    let myFontAttribute = [ convertFromNSAttributedStringKey(NSAttributedString.Key.font): NSFont(name: "Helvetica Neue Thin", size: 14.0)! ]
+    let myHeaderAttribute = [ convertFromNSAttributedStringKey(NSAttributedString.Key.font): NSFont(name: "Helvetica Neue Thin", size: 20.0)! ]
     let myOKFontAttribute = [
-        NSFontAttributeName: NSFont(name: "Courier", size: 14.0)!,
-        NSForegroundColorAttributeName: NSColor(deviceRed: 0.0, green: 0.8, blue: 0.0, alpha: 1.0)
+        convertFromNSAttributedStringKey(NSAttributedString.Key.font): NSFont(name: "Courier", size: 14.0)!,
+        convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor): NSColor(deviceRed: 0.0, green: 0.8, blue: 0.0, alpha: 1.0)
     ]
     let myFailFontAttribute = [
-        NSFontAttributeName: NSFont(name: "Courier", size: 14.0)!,
-        NSForegroundColorAttributeName: NSColor(deviceRed: 0.8, green: 0.0, blue: 0.0, alpha: 1.0)
+        convertFromNSAttributedStringKey(NSAttributedString.Key.font): NSFont(name: "Courier", size: 14.0)!,
+        convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor): NSColor(deviceRed: 0.8, green: 0.0, blue: 0.0, alpha: 1.0)
     ]
     
-    let myCSVFontAttribute = [ NSFontAttributeName: NSFont(name: "Courier", size: 14.0)! ]
+    let myCSVFontAttribute = [ convertFromNSAttributedStringKey(NSAttributedString.Key.font): NSFont(name: "Courier", size: 14.0)! ]
     
     let myAlertFontAttribute = [
-        NSFontAttributeName: NSFont(name: "Helvetica Neue Thin", size: 14.0)!,
-        NSForegroundColorAttributeName: NSColor(deviceRed: 0.8, green: 0.0, blue: 0.0, alpha: 1.0)
+        convertFromNSAttributedStringKey(NSAttributedString.Key.font): NSFont(name: "Helvetica Neue Thin", size: 14.0)!,
+        convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor): NSColor(deviceRed: 0.8, green: 0.0, blue: 0.0, alpha: 1.0)
     ]
     
     let myOffStateAttribute = [
-        NSForegroundColorAttributeName: NSColor(deviceRed: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor): NSColor(deviceRed: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     ]
 
     // Declare outlets for Buttons to change color and hide/show
@@ -111,7 +111,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         super.viewDidLoad()
 
         // Print welcome message
-        txtMain.textStorage?.append(NSAttributedString(string: "Welcome to The MUT v4", attributes: myHeaderAttribute))
+        txtMain.textStorage?.append(NSAttributedString(string: "Welcome to The MUT v4", attributes: convertToOptionalNSAttributedStringKeyDictionary(myHeaderAttribute)))
         printLineBreak()
         printLineBreak()
         
@@ -215,7 +215,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         openPanel.canChooseFiles = true
         openPanel.allowedFileTypes = ["csv"]
         openPanel.begin { (result) in
-            if result == NSFileHandlingPanelOKButton {
+            if result.rawValue == NSFileHandlingPanelOKButton {
                 self.globalPathToCSV = openPanel.url! as NSURL!
                 self.txtCSV.stringValue = self.globalPathToCSV.path!
             }
@@ -679,16 +679,15 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         saveDialogue.isExtensionHidden = false
         saveDialogue.message = "Allowed file formats are .log and .txt."
         saveDialogue.nameFieldStringValue = "MUT-Output-\(currentFormattedDate)"
-        saveDialogue.begin() { (result: Int) -> Void in
-            if result == NSFileHandlingPanelOKButton {
-                let logcontents = "\(self.txtMain.string!)"
+        saveDialogue.begin() {_ in 
+            let logcontents = "\(self.txtMain.string)"
                 do {
                     try logcontents.write(toFile: (saveDialogue.url?.path)!, atomically: true, encoding: String.Encoding.ascii)
                 } catch {
                     // error handling here
                 }
 
-            }
+            
         }
     }
     
@@ -702,48 +701,48 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     
     // Simple line break
     func printLineBreak() {
-        self.txtMain.textStorage?.append(NSAttributedString(string: "\n", attributes: self.myFontAttribute))
+        self.txtMain.textStorage?.append(NSAttributedString(string: "\n", attributes: convertToOptionalNSAttributedStringKeyDictionary(self.myFontAttribute)))
         self.txtMain.scrollToEndOfDocument(self)
     }
     
     // Prints fixed point text with no line break after
     func printString(stringToPrint: String) {
-        self.txtMain.textStorage?.append(NSAttributedString(string: "\(stringToPrint)", attributes: self.myFontAttribute))
+        self.txtMain.textStorage?.append(NSAttributedString(string: "\(stringToPrint)", attributes: convertToOptionalNSAttributedStringKeyDictionary(self.myFontAttribute)))
         self.txtMain.scrollToEndOfDocument(self)
     }
     
     // Prints green fixed point text with line break after - "OK"
     func appendGreen(stringToPrint: String) {
-        self.txtMain.textStorage?.append(NSAttributedString(string: "\(stringToPrint)\n", attributes: self.myOKFontAttribute))
+        self.txtMain.textStorage?.append(NSAttributedString(string: "\(stringToPrint)\n", attributes: convertToOptionalNSAttributedStringKeyDictionary(self.myOKFontAttribute)))
         self.txtMain.scrollToEndOfDocument(self)
     }
     
     func appendCSV(stringToPrint: String) {
-        self.txtMain.textStorage?.append(NSAttributedString(string: "\(stringToPrint)\n", attributes: self.myCSVFontAttribute))
+        self.txtMain.textStorage?.append(NSAttributedString(string: "\(stringToPrint)\n", attributes: convertToOptionalNSAttributedStringKeyDictionary(self.myCSVFontAttribute)))
         self.txtMain.scrollToEndOfDocument(self)
     }
     
     // Prints red fixed point text with line break after - "FAIL"
     func appendRed(stringToPrint: String) {
-        self.txtMain.textStorage?.append(NSAttributedString(string: "\(stringToPrint)\n", attributes: self.myFailFontAttribute))
+        self.txtMain.textStorage?.append(NSAttributedString(string: "\(stringToPrint)\n", attributes: convertToOptionalNSAttributedStringKeyDictionary(self.myFailFontAttribute)))
         self.txtMain.scrollToEndOfDocument(self)
     }
     
     // Prints red Helventica text with line break after - "FAIL"
     func appendAlert(stringToPrint: String) {
-        self.txtMain.textStorage?.append(NSAttributedString(string: "\(stringToPrint)\n", attributes: self.myAlertFontAttribute))
+        self.txtMain.textStorage?.append(NSAttributedString(string: "\(stringToPrint)\n", attributes: convertToOptionalNSAttributedStringKeyDictionary(self.myAlertFontAttribute)))
         self.txtMain.scrollToEndOfDocument(self)
     }
     
     // Prints black fixed point text with line break after
     func appendLogString(stringToAppend: String) {
-        self.txtMain.textStorage?.append(NSAttributedString(string: "\(stringToAppend)\n", attributes: self.myFontAttribute))
+        self.txtMain.textStorage?.append(NSAttributedString(string: "\(stringToAppend)\n", attributes: convertToOptionalNSAttributedStringKeyDictionary(self.myFontAttribute)))
         self.txtMain.scrollToEndOfDocument(self)
     }
     
     // Clears the entire logging text field
     func clearLog() {
-        self.txtMain.textStorage?.setAttributedString(NSAttributedString(string: "", attributes: self.myFontAttribute))
+        self.txtMain.textStorage?.setAttributedString(NSAttributedString(string: "", attributes: convertToOptionalNSAttributedStringKeyDictionary(self.myFontAttribute)))
     }
     func readyToRun() {
         btnSubmitOutlet.isHidden = false
@@ -787,4 +786,15 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         verified = true
     }
     
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSAttributedStringKey(_ input: NSAttributedString.Key) -> String {
+	return input.rawValue
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [String: Any]?) -> [NSAttributedString.Key: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSAttributedString.Key(rawValue: key), value)})
 }
