@@ -57,9 +57,9 @@ class loginWindow: NSViewController, URLSessionDelegate {
         
         if loginDefaults.value(forKey: "Remember") != nil {
             if loginDefaults.bool(forKey: "Remember") {
-                chkRememberMe.state = 1
+                chkRememberMe.state = convertToNSControlStateValue(1)
             } else {
-                chkRememberMe.state = 0
+                chkRememberMe.state = convertToNSControlStateValue(0)
             }
         } else {
             // Just in case you ever want to do something for no default stored
@@ -134,7 +134,7 @@ class loginWindow: NSViewController, URLSessionDelegate {
                             self.verified = true
                             
                             // Store username if button pressed
-                            if self.chkRememberMe.state == 1 {
+                            if self.chkRememberMe.state.rawValue == 1 {
                                 self.loginDefaults.set(self.txtUserOutlet.stringValue, forKey: "UserName")
                                 self.loginDefaults.set(self.txtURLOutlet.stringValue, forKey: "InstanceURL")
                                 self.loginDefaults.set(true, forKey: "Remember")
@@ -151,7 +151,7 @@ class loginWindow: NSViewController, URLSessionDelegate {
                             
                             if self.delegateAuth != nil {
                             self.delegateAuth?.userDidAuthenticate(base64Credentials: self.base64Credentials!, url: self.serverURL!)
-                                self.dismissViewController(self)
+                                self.dismiss(self)
                             }
                             
                         } else {
@@ -159,10 +159,10 @@ class loginWindow: NSViewController, URLSessionDelegate {
                                 self.spinProgress.stopAnimation(self)
                                 self.btnSubmitOutlet.isHidden = false
                                 _ = popPrompt().generalWarning(question: "Invalid Credentials", text: "The credentials you entered do not seem to have sufficient permissions. This could be due to an incorrect user/password, or possibly from insufficient permissions. MUT tests this against the user's ability to view the Activation Code via the API.")
-                                if self.chkBypass.state == 1 {
+                                if self.chkBypass.state.rawValue == 1 {
                                     if self.delegateAuth != nil {
                                         self.delegateAuth?.userDidAuthenticate(base64Credentials: self.base64Credentials!, url: self.serverURL!)
-                                        self.dismissViewController(self)
+                                        self.dismiss(self)
                                     }
                                  self.verified = true
                                  }
@@ -189,6 +189,11 @@ class loginWindow: NSViewController, URLSessionDelegate {
     }
     @IBAction func btnQuit(_ sender: Any) {
         self.dismiss(self)
-        NSApplication.shared().terminate(self)
+        NSApplication.shared.terminate(self)
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToNSControlStateValue(_ input: Int) -> NSControl.StateValue {
+	return NSControl.StateValue(rawValue: input)
 }

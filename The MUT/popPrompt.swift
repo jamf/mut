@@ -19,9 +19,9 @@ public class popPrompt {
         let myPopup: NSAlert = NSAlert()
         myPopup.messageText = question
         myPopup.informativeText = text
-        myPopup.alertStyle = NSAlertStyle.warning
+        myPopup.alertStyle = NSAlert.Style.warning
         myPopup.addButton(withTitle: "OK")
-        return myPopup.runModal() == NSAlertFirstButtonReturn
+        return myPopup.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn
     }
     
     // Generate a specific prompt to ask for credentials
@@ -29,10 +29,10 @@ public class popPrompt {
         let myPopup: NSAlert = NSAlert()
         myPopup.messageText = question
         myPopup.informativeText = text
-        myPopup.alertStyle = NSAlertStyle.warning
+        myPopup.alertStyle = NSAlert.Style.warning
         myPopup.addButton(withTitle: "Use Comma")
         myPopup.addButton(withTitle: "Use Semi-Colon")
-        return myPopup.runModal() == NSAlertFirstButtonReturn
+        return myPopup.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn
     }
     
     // Generate a specific prompt to ask for concurrent runs
@@ -40,10 +40,10 @@ public class popPrompt {
         let myPopup: NSAlert = NSAlert()
         myPopup.messageText = question
         myPopup.informativeText = text
-        myPopup.alertStyle = NSAlertStyle.warning
+        myPopup.alertStyle = NSAlert.Style.warning
         myPopup.addButton(withTitle: "2 at a time")
         myPopup.addButton(withTitle: "1 at a time")
-        return myPopup.runModal() == NSAlertSecondButtonReturn
+        return myPopup.runModal() == NSApplication.ModalResponse.alertSecondButtonReturn
     }
     
     // Browse for a CSV File
@@ -55,7 +55,7 @@ public class popPrompt {
         openPanel.canChooseFiles = true
         openPanel.allowedFileTypes = ["csv"]
         openPanel.begin { (result) in
-            if result == NSFileHandlingPanelOKButton {
+            if result.rawValue == NSFileHandlingPanelOKButton {
                 //print(openPanel.URL!) //uncomment for debugging
                 let globalPathToCSV = openPanel.url! as NSURL!
                 //print(self.globalPathToCSV.path!) //uncomment for debugging
