@@ -596,7 +596,12 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
                                 self.appendRed(stringToPrint: "Failed! - \(httpResponse.statusCode)!")
                                 if httpResponse.statusCode == 404 {
                                     self.printLineBreak()
-                                    self.appendLogString(stringToAppend: "HTTP 404 means 'not found'. There is no device with \(self.globalEndpointID!) \(currentRow[0]) enrolled in Jamf Pro.")
+                                    // handle group changes here
+                                    if self.popAttributeOutlet.titleOfSelectedItem?.contains("Group") ?? false {
+                                        self.appendLogString(stringToAppend: "HTTP 404 means 'not found'. There is no group with an ID of \(currentRow[1]) found in Jamf Pro.")
+                                    } else {
+                                        self.appendLogString(stringToAppend: "HTTP 404 means 'not found'. There is no device with \(self.globalEndpointID!) \(currentRow[0]) enrolled in Jamf Pro.")
+                                    }
                                     self.printLineBreak()
                                 }
                                 if httpResponse.statusCode == 409 {
