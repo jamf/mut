@@ -15,9 +15,13 @@ class ViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //let token = APIFunc.generateToken(url: "https://mlevenick.jamfcloud.com/", user: "apiadmin", password: "jamf1234")
-        let myvar = dataMan.generateURL(baseURL: "string", endpoint: "endpoint", jpapi: false, jpapiVersion: "v1")
-        print(myvar)
+
+        
+        let token = APIFunc.generateToken(url: "https://mlevenick.jamfcloud.com/", user: "apiadmin", password: "jamf1234")
+        print(String(decoding: token, as: UTF8.self))
+        
+        let extendedToken = APIFunc.extendToken(url: "https://mlevenick.jamfcloud.com/", user: "apiadmin", password: "jamf1234")
+        print(String(decoding: extendedToken, as: UTF8.self))
         // Do any additional setup after loading the view.
     }
     
