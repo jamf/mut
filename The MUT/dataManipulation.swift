@@ -15,15 +15,23 @@ public class dataManipulation {
     // ******************************************
     
     public func generateURL(baseURL: String, endpoint: String, jpapi: Bool, jpapiVersion: String) -> URL {
+        var versionEndpoint = ""
         var encodedURL = NSURL(string: "https://null".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)! as URL
         if jpapi {
             //JPAPI URLS
-            let concatURL = baseURL + "/uapi/" + jpapiVersion + endpoint.replacingOccurrences(of: "//uapi/", with: "/uapi/")
-            encodedURL = NSURL(string: "\(concatURL)".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)! as URL
+            if jpapiVersion != "nil" {
+                versionEndpoint = "\(jpapiVersion)/"
+            }
+            let concatURL = baseURL + "/uapi" + versionEndpoint + endpoint
+            let cleanURL = concatURL.replacingOccurrences(of: "//uapi", with: "/uapi")
+            print(cleanURL)
+            encodedURL = NSURL(string: "\(cleanURL)")! as URL
         } else {
             // CAPI URLS
-            let concatURL = baseURL + "/JSSResource/" + endpoint.replacingOccurrences(of: "//JSSResource/", with: "/JSSResource/")
-            encodedURL = NSURL(string: "\(concatURL)".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)! as URL
+            let concatURL = baseURL + "/JSSResource" + endpoint
+            let cleanURL = concatURL.replacingOccurrences(of: "//JSSResource", with: "/JSSResource")
+            print(cleanURL)
+            encodedURL = NSURL(string: "\(cleanURL)".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)! as URL
         }
         return encodedURL
     }
