@@ -532,6 +532,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
             let currentRow = row[i]
             
             // Add a PUT or POST request to the operation queue
+            
             myOpQueue.addOperation {
                 if self.globalHTTPFunction == "PUT" {
                     
