@@ -1,10 +1,14 @@
 //
 //  popPrompt.swift
-//  The MUT
+//  The MUT v5
 //
-//  Created by Michael Levenick on 4/17/17.
-//  Copyright © 2017 Levenick Enterprises LLC. All rights reserved.
+//  Created by Michael Levenick on 5/24/19.
+//  Copyright © 2019 Michael Levenick. All rights reserved.
 //
+
+
+// THIS IS ALL OLD CODE!!!
+// THIS ENTIRE CLASS SHOULD BE REWRITTEN
 
 import Cocoa
 import Foundation
