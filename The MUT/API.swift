@@ -75,7 +75,7 @@ public class API {
         let request = NSMutableURLRequest(url: tokenURL)
         request.httpMethod = "POST"
         let configuration = URLSessionConfiguration.default
-        configuration.httpAdditionalHeaders = ["Authorization" : "Basic \(base64Credentials)"]
+        configuration.httpAdditionalHeaders = ["Authorization" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdXRoZW50aWNhdGVkLWFwcCI6IkdFTkVSSUMiLCJhdXRoZW50aWNhdGlvbi10eXBlIjoiSlNTIiwiZ3JvdXBzIjpbXSwic3ViamVjdC10eXBlIjoiSlNTX1VTRVJfSUQiLCJ0b2tlbi11dWlkIjoiMjY2YjI3MDUtZWYxNy00OGMzLTgzYjktOGM0ZmJjY2ViNzM4IiwibGRhcC1zZXJ2ZXItaWQiOi0xLCJzdWIiOiIyIiwiZXhwIjoxNTU4NzI5MjAwfQ.KMaIVqeiRlmdryuUNyYBy43R3B73JjnF7yOp0kbuZRM"]
         let session = Foundation.URLSession(configuration: configuration)
         
         // Completion handler. This is what ensures that the response is good/bad

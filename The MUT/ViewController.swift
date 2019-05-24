@@ -17,8 +17,8 @@ class ViewController: NSViewController {
         super.viewDidLoad()
 
         
-        let token = APIFunc.generateToken(url: "https://mlevenick.jamfcloud.com/", user: "apiadmin", password: "jamf1234")
-        print(String(decoding: token, as: UTF8.self))
+        //let token = APIFunc.generateToken(url: "https://mlevenick.jamfcloud.com/", user: "apiadmin", password: "jamf1234")
+        //print(String(decoding: token, as: UTF8.self))
         
         let extendedToken = APIFunc.extendToken(url: "https://mlevenick.jamfcloud.com/", user: "apiadmin", password: "jamf1234")
         print(String(decoding: extendedToken, as: UTF8.self))
