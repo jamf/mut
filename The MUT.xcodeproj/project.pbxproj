@@ -14,9 +14,9 @@
 		F7333BDB1DB55EDF00F89C00 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F7333BD91DB55EDF00F89C00 /* Main.storyboard */; };
 		F7333BE61DB55EDF00F89C00 /* The_MUTTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7333BE51DB55EDF00F89C00 /* The_MUTTests.swift */; };
 		F7333BF11DB55EDF00F89C00 /* The_MUTUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7333BF01DB55EDF00F89C00 /* The_MUTUITests.swift */; };
-		F7BCCA511DDEBE5400233348 /* CSwiftV.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BCCA501DDEBE5400233348 /* CSwiftV.swift */; };
+		F7CF61EA2298671E003A0CBB /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CF61E92298671E003A0CBB /* API.swift */; };
+		F7CF61EC22986736003A0CBB /* dataManipulation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CF61EB22986736003A0CBB /* dataManipulation.swift */; };
 		F7D670BE1EA54E51006010AA /* popPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D670BD1EA54E51006010AA /* popPrompt.swift */; };
-		F7EE88E61FBA20CF003D12CC /* loginWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7EE88E51FBA20CF003D12CC /* loginWindow.swift */; };
 		F7FF428B1EA645680044F126 /* xmlBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7FF428A1EA645680044F126 /* xmlBuilder.swift */; };
 /* End PBXBuildFile section */
 
@@ -51,10 +51,10 @@
 		F7333BEC1DB55EDF00F89C00 /* The MUTUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "The MUTUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7333BF01DB55EDF00F89C00 /* The_MUTUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = The_MUTUITests.swift; sourceTree = "<group>"; };
 		F7333BF21DB55EDF00F89C00 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F7BCCA501DDEBE5400233348 /* CSwiftV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSwiftV.swift; sourceTree = "<group>"; };
+		F7CF61E92298671E003A0CBB /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		F7CF61EB22986736003A0CBB /* dataManipulation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dataManipulation.swift; sourceTree = "<group>"; };
 		F7D623911DE2C745004040F1 /* The MUT.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "The MUT.entitlements"; sourceTree = "<group>"; };
 		F7D670BD1EA54E51006010AA /* popPrompt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = popPrompt.swift; sourceTree = "<group>"; };
-		F7EE88E51FBA20CF003D12CC /* loginWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginWindow.swift; sourceTree = "<group>"; };
 		F7FF428A1EA645680044F126 /* xmlBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = xmlBuilder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -109,14 +109,14 @@
 				F7D623911DE2C745004040F1 /* The MUT.entitlements */,
 				F7333BD01DB55EDF00F89C00 /* AppDelegate.swift */,
 				F7333BD21DB55EDF00F89C00 /* ViewController.swift */,
+				F7CF61E92298671E003A0CBB /* API.swift */,
+				F7CF61EB22986736003A0CBB /* dataManipulation.swift */,
 				F7333BD71DB55EDF00F89C00 /* Assets.xcassets */,
 				F7333BD91DB55EDF00F89C00 /* Main.storyboard */,
-				F7EE88E51FBA20CF003D12CC /* loginWindow.swift */,
 				F7FF428A1EA645680044F126 /* xmlBuilder.swift */,
 				F7D670BD1EA54E51006010AA /* popPrompt.swift */,
 				F7333BDC1DB55EDF00F89C00 /* Info.plist */,
 				F7333BD41DB55EDF00F89C00 /* The_MUT.xcdatamodeld */,
-				F7BCCA501DDEBE5400233348 /* CSwiftV.swift */,
 			);
 			path = "The MUT";
 			sourceTree = "<group>";
@@ -286,13 +286,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F7BCCA511DDEBE5400233348 /* CSwiftV.swift in Sources */,
 				F7333BD31DB55EDF00F89C00 /* ViewController.swift in Sources */,
 				F7333BD61DB55EDF00F89C00 /* The_MUT.xcdatamodeld in Sources */,
 				F7FF428B1EA645680044F126 /* xmlBuilder.swift in Sources */,
+				F7CF61EC22986736003A0CBB /* dataManipulation.swift in Sources */,
 				F7D670BE1EA54E51006010AA /* popPrompt.swift in Sources */,
+				F7CF61EA2298671E003A0CBB /* API.swift in Sources */,
 				F7333BD11DB55EDF00F89C00 /* AppDelegate.swift in Sources */,
-				F7EE88E61FBA20CF003D12CC /* loginWindow.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -461,12 +461,12 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "The MUT/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jssmut.jssmut;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -482,12 +482,12 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "The MUT/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jssmut.jssmut;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
