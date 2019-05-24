@@ -57,7 +57,7 @@ public class popPrompt {
         openPanel.begin { (result) in
             if result.rawValue == NSFileHandlingPanelOKButton {
                 //print(openPanel.URL!) //uncomment for debugging
-                let globalPathToCSV = openPanel.url! as NSURL!
+                let globalPathToCSV = openPanel.url! as NSURL?
                 //print(self.globalPathToCSV.path!) //uncomment for debugging
                 self.globalCSVString = globalPathToCSV?.path!
             }
