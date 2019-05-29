@@ -106,13 +106,45 @@ class loginWindow: NSViewController, URLSessionDelegate {
 
         // Move forward with verification if we have not flagged the doNotRun flag
         if !doNotRun {
-
+            
+            // Change the UI to a running state
+            btnSubmitOutlet.isHidden = true
+            spinProgress.startAnimation(self)
+            
             let tokenData = APIFunc.verifyCredentials(url: txtURLOutlet.stringValue, user: txtUserOutlet.stringValue, password: txtPassOutlet.stringValue)
             print(String(decoding: tokenData, as: UTF8.self))
 
+            if String(decoding: tokenData, as: UTF8.self).contains("token") {
+                // Good credentials here
+                print("Token found")
+                self.verified = true
+                
+                // Store username if button pressed
+                if self.chkRememberMe.state.rawValue == 1 {
+                    self.loginDefaults.set(self.txtUserOutlet.stringValue, forKey: "UserName")
+                    self.loginDefaults.set(self.txtURLOutlet.stringValue, forKey: "InstanceURL")
+                    self.loginDefaults.set(true, forKey: "Remember")
+                    self.loginDefaults.synchronize()
+                    
+                } else {
+                    self.loginDefaults.removeObject(forKey: "UserName")
+                    self.loginDefaults.removeObject(forKey: "InstanceURL")
+                    self.loginDefaults.set(false, forKey: "Remember")
+                    self.loginDefaults.synchronize()
+                }
+                self.spinProgress.stopAnimation(self)
+                self.btnSubmitOutlet.isHidden = false
+                self.dismiss(self)
+                /*if self.delegateAuth != nil {
+                    self.delegateAuth?.userDidAuthenticate(base64Credentials: self.base64Credentials!, url: self.serverURL!)
+                    self.dismiss(self)
+                }*/
+            } else {
+                // Bad credentials here
+                self.spinProgress.stopAnimation(self)
+                self.btnSubmitOutlet.isHidden = false
+            }
 
-            //btnSubmitOutlet.isHidden = true
-            //spinProgress.startAnimation(self)
 
             // Concatenate the credentials and base64 encode the resulting string
             //let concatCredentials = "\(txtUserOutlet.stringValue):\(txtPassOutlet.stringValue)"
