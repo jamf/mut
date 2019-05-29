@@ -12,7 +12,7 @@ public class API {
     
     // This function can be used to generate a token. Pass in a URL and base64 encoded credentials.
     // The credentials are inserted into the header.
-    public func generateToken(url: String, user: String, password: String) -> Data {
+    public func verifyCredentials(url: String, user: String, password: String) -> Data {
         
         let dataMan = dataManipulation()
         
@@ -21,10 +21,8 @@ public class API {
         //print("base64 creds: " + base64Credentials) // Uncomment for debugging
         
         // Create a URL for getting a token.
-        // This could be generalized and then this class could be used for any POST (or PUT really)
-        // We should decide how we want to structure these functions
         let tokenURL = dataMan.generateURL(baseURL: url, endpoint: "/auth/tokens", jpapi: true, jpapiVersion: "nil")
-        print(tokenURL)
+        //print("The URL is " + tokenURL) // Uncomment for debugging
         
         // Declare a variable to be populated, and set up the HTTP Request with headers
         var token = "nil".data(using: String.Encoding.utf8, allowLossyConversion: false)!
@@ -37,14 +35,12 @@ public class API {
         // The semaphore is what allows us to force the code to wait for this request to complete
         // Without the semaphore, MUT will queue up a request for every single line of the CSV simultaneously
         let semaphore = DispatchSemaphore(value: 0)
-        
         let request = NSMutableURLRequest(url: tokenURL)
-        
+
         // Determine the request type. If we pass this in with a variable, we could use this function for PUT as well.
         request.httpMethod = "POST"
         
         // Set configuration settings for the request, such as headers
-        // Putting a logic block here to pass in our token instead of Base64 creds would be good
         let configuration = URLSessionConfiguration.default
         configuration.httpAdditionalHeaders = ["Authorization" : "Basic \(base64Credentials)"]
         let session = Foundation.URLSession(configuration: configuration)
