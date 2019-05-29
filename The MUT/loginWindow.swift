@@ -11,7 +11,7 @@ import Foundation
 
 // Delegate required to send data forward to the main view controller
 protocol DataSentDelegate {
-    func userDidAuthenticate(base64Credentials: String, url: String)
+    func userDidAuthenticate(base64Credentials: String, url: String, token: String, expiry: Int)
 }
 
 class loginWindow: NSViewController, URLSessionDelegate {
@@ -38,9 +38,9 @@ class loginWindow: NSViewController, URLSessionDelegate {
 
     let APIFunc = API()
 
+    // This runs when the view loads
     override func viewDidLoad() {
         super.viewDidLoad()
-
 
         // Restore the Username to text box if we have a default stored
         if loginDefaults.value(forKey: "UserName") != nil {
@@ -51,18 +51,20 @@ class loginWindow: NSViewController, URLSessionDelegate {
         if loginDefaults.value(forKey: "InstanceURL") != nil {
             txtURLOutlet.stringValue = loginDefaults.value(forKey: "InstanceURL") as! String
         }
-
+        
+        // Move the cursor to the password field if that's where it should be
         if ( loginDefaults.value(forKey: "InstanceURL") != nil || loginDefaults.value(forKey: "InstanceURL") != nil ) && loginDefaults.value(forKey: "UserName") != nil {
             if self.txtPassOutlet.acceptsFirstResponder == true {
                 self.txtPassOutlet.becomeFirstResponder()
             }
         }
 
+        // Restore "remember me" checkbox settings if we have a default stored
         if loginDefaults.value(forKey: "Remember") != nil {
             if loginDefaults.bool(forKey: "Remember") {
-                chkRememberMe.state = convertToNSControlStateValue(1)
+                chkRememberMe.state = NSControl.StateValue(rawValue: 1)
             } else {
-                chkRememberMe.state = convertToNSControlStateValue(0)
+                chkRememberMe.state = NSControl.StateValue(rawValue: 0)
             }
         } else {
             // Just in case you ever want to do something for no default stored
@@ -112,108 +114,70 @@ class loginWindow: NSViewController, URLSessionDelegate {
             spinProgress.startAnimation(self)
             
             let tokenData = APIFunc.verifyCredentials(url: txtURLOutlet.stringValue, user: txtUserOutlet.stringValue, password: txtPassOutlet.stringValue)
-            print(String(decoding: tokenData, as: UTF8.self))
-
-            if String(decoding: tokenData, as: UTF8.self).contains("token") {
-                // Good credentials here
-                print("Token found")
-                self.verified = true
-                
-                // Store username if button pressed
-                if self.chkRememberMe.state.rawValue == 1 {
-                    self.loginDefaults.set(self.txtUserOutlet.stringValue, forKey: "UserName")
-                    self.loginDefaults.set(self.txtURLOutlet.stringValue, forKey: "InstanceURL")
-                    self.loginDefaults.set(true, forKey: "Remember")
-                    self.loginDefaults.synchronize()
-                    
-                } else {
-                    self.loginDefaults.removeObject(forKey: "UserName")
-                    self.loginDefaults.removeObject(forKey: "InstanceURL")
-                    self.loginDefaults.set(false, forKey: "Remember")
-                    self.loginDefaults.synchronize()
-                }
+            //print(String(decoding: tokenData, as: UTF8.self)) // Uncomment for debugging
+            if String(decoding: tokenData, as: UTF8.self).contains("FATAL") {
+                _ = popPrompt().generalWarning(question: "Fatal Error", text: "The MUT received a fatal error at authentication. The most common cause of this is an incorrect server URL. The full error output is below. \n\n \(String(decoding: tokenData, as: UTF8.self))")
                 self.spinProgress.stopAnimation(self)
                 self.btnSubmitOutlet.isHidden = false
-                self.dismiss(self)
-                /*if self.delegateAuth != nil {
-                    self.delegateAuth?.userDidAuthenticate(base64Credentials: self.base64Credentials!, url: self.serverURL!)
-                    self.dismiss(self)
-                }*/
             } else {
-                // Bad credentials here
-                self.spinProgress.stopAnimation(self)
-                self.btnSubmitOutlet.isHidden = false
-            }
-
-
-            // Concatenate the credentials and base64 encode the resulting string
-            //let concatCredentials = "\(txtUserOutlet.stringValue):\(txtPassOutlet.stringValue)"
-            //let utf8Credentials = concatCredentials.data(using: String.Encoding.utf8)
-            //base64Credentials = utf8Credentials?.base64EncodedString()
-
-            // MARK - Credential Verification API Call
-
-
-            // Commenting out the old API call, as this is the primary thing to clean up.
-            // Use the new API class, and build the function there.
-            /*DispatchQueue.main.async {
-                let myURL = xmlBuilder().createGETURL(url: self.serverURL!)
-                let request = NSMutableURLRequest(url: myURL)
-                request.httpMethod = "GET"
-                let configuration = URLSessionConfiguration.default
-                configuration.httpAdditionalHeaders = ["Authorization" : "Basic \(self.base64Credentials!)", "Content-Type" : "text/xml", "Accept" : "text/xml"]
-                let session = Foundation.URLSession(configuration: configuration, delegate: self, delegateQueue: OperationQueue.main)
-                let task = session.dataTask(with: request as URLRequest, completionHandler: {
-                    (data, response, error) -> Void in
-                    if let httpResponse = response as? HTTPURLResponse {
-                        if httpResponse.statusCode >= 199 && httpResponse.statusCode <= 299 {
-                            self.verified = true
-
-                            // Store username if button pressed
-                            if self.chkRememberMe.state.rawValue == 1 {
-                                self.loginDefaults.set(self.txtUserOutlet.stringValue, forKey: "UserName")
-                                self.loginDefaults.set(self.txtURLOutlet.stringValue, forKey: "InstanceURL")
-                                self.loginDefaults.set(true, forKey: "Remember")
-                                self.loginDefaults.synchronize()
-
-                            } else {
-                                self.loginDefaults.removeObject(forKey: "UserName")
-                                self.loginDefaults.removeObject(forKey: "InstanceURL")
-                                self.loginDefaults.set(false, forKey: "Remember")
-                                self.loginDefaults.synchronize()
-                            }
-                            self.spinProgress.stopAnimation(self)
-                            self.btnSubmitOutlet.isHidden = false
-
-                            if self.delegateAuth != nil {
-                                self.delegateAuth?.userDidAuthenticate(base64Credentials: self.base64Credentials!, url: self.serverURL!)
-                                self.dismiss(self)
-                            }
-
-                        } else {
-                            DispatchQueue.main.async {
-                                self.spinProgress.stopAnimation(self)
-                                self.btnSubmitOutlet.isHidden = false
-                                _ = popPrompt().generalWarning(question: "Invalid Credentials", text: "The credentials you entered do not seem to have sufficient permissions. This could be due to an incorrect user/password, or possibly from insufficient permissions. MUT tests this against the user's ability to view the Activation Code via the API.")
-                                if self.chkBypass.state.rawValue == 1 {
-                                    if self.delegateAuth != nil {
-                                        self.delegateAuth?.userDidAuthenticate(base64Credentials: self.base64Credentials!, url: self.serverURL!)
-                                        self.dismiss(self)
-                                    }
-                                    self.verified = true
-                                }
-                            }
-                        }
+                
+                if String(decoding: tokenData, as: UTF8.self).contains("token") {
+                    // Good credentials here, as told by there being a token
+                    self.verified = true
+                    do {
+                        // Parse the JSON resturned to get the token and expiry
+                        let tokenJson = try JSONSerialization.jsonObject(with: tokenData, options: []) as! [String: AnyObject]
+                        let token = tokenJson["token"] as? String
+                        let expiry = tokenJson["expires"] as? Int
+                        // print(token!) // Uncomment for debugging
+                        // print(expiry!) // Uncomment for debugging
+                        
+                        // Get current epoch time in ms
+                        let currentEpoch = Int(Date().timeIntervalSince1970 * 1000)
+                        // print(currentEpoch) // Uncomment for debugging
+                        // Find the difference between expiry time and current epoch
+                        let timeToExpire = expiry! - currentEpoch
+                        print("Expires in \(timeToExpire/1000) seconds")
+                    } catch let error as NSError {
+                        NSLog("[ERROR ]: Failed to load: \(error.localizedDescription)")
                     }
-                    if error != nil {
-                        _ = popPrompt().generalWarning(question: "Fatal Error", text: "The MUT received a fatal error at authentication. The most common cause of this is an incorrect server URL. The full error output is below. \n\n \(error!.localizedDescription)")
+                    
+                    // Store username if button pressed
+                    if self.chkRememberMe.state.rawValue == 1 {
+                        self.loginDefaults.set(self.txtUserOutlet.stringValue, forKey: "UserName")
+                        self.loginDefaults.set(self.txtURLOutlet.stringValue, forKey: "InstanceURL")
+                        self.loginDefaults.set(true, forKey: "Remember")
+                        self.loginDefaults.synchronize()
+                        
+                    } else {
+                        self.loginDefaults.removeObject(forKey: "UserName")
+                        self.loginDefaults.removeObject(forKey: "InstanceURL")
+                        self.loginDefaults.set(false, forKey: "Remember")
+                        self.loginDefaults.synchronize()
+                    }
+                    self.spinProgress.stopAnimation(self)
+                    self.btnSubmitOutlet.isHidden = false
+                    
+                    if self.delegateAuth != nil {
+                        self.dismiss(self)
+                        // Delegate stuff to pass info forward goes here
+                    }
+                } else {
+                    // Bad credentials here
+                    DispatchQueue.main.async {
                         self.spinProgress.stopAnimation(self)
                         self.btnSubmitOutlet.isHidden = false
+                        _ = popPrompt().generalWarning(question: "Invalid Credentials", text: "The credentials you entered do not seem to have sufficient permissions. This could be due to an incorrect user/password, or possibly from insufficient permissions.\n\nMUT tests this against the user's ability to generate a token for the new JPAPI/UAPI. This token is now required for some tasks that MUT performs.")
+                        if self.chkBypass.state.rawValue == 1 {
+                            if self.delegateAuth != nil {
+                                // Delegate stuff to pass info forward goes here
+                                self.dismiss(self)
+                            }
+                            self.verified = true
+                        }
                     }
-                })
-                task.resume()
+                }
             }
-            */
 
 
         } else {
@@ -226,13 +190,9 @@ class loginWindow: NSViewController, URLSessionDelegate {
     func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         completionHandler(Foundation.URLSession.AuthChallengeDisposition.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
     }
+    
     @IBAction func btnQuit(_ sender: Any) {
         self.dismiss(self)
         NSApplication.shared.terminate(self)
     }
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToNSControlStateValue(_ input: Int) -> NSControl.StateValue {
-    return NSControl.StateValue(rawValue: input)
 }

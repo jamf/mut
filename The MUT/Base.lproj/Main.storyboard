@@ -203,6 +203,9 @@
                                                         <buttonCell key="cell" type="square" title="Quit" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ddA-u6-r8d">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" size="16" name="HelveticaNeue-Light"/>
+                                                            <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
                                                         </buttonCell>
                                                         <connections>
                                                             <action selector="btnQuit:" target="joq-rD-vnU" id="bnt-zG-ogG"/>

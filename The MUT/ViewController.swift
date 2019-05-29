@@ -9,11 +9,9 @@
 import Cocoa
 
 class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
-
-    func userDidAuthenticate(base64Credentials: String, url: String) {
-        // code
+    func userDidAuthenticate(base64Credentials: String, url: String, token: String, expiry: Int) {
+        //code
     }
-
     
     let APIFunc = API()
     let dataMan = dataManipulation()
@@ -21,14 +19,6 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
-        //let token = APIFunc.generateToken(url: "https://mlevenick.jamfcloud.com/", user: "apiadmin", password: "jamf1234")
-        //print(String(decoding: token, as: UTF8.self))
-        
-        //let extendedToken = APIFunc.extendToken(url: "https://mlevenick.jamfcloud.com/", user: "apiadmin", password: "jamf1234")
-        //print(String(decoding: extendedToken, as: UTF8.self))
-        // Do any additional setup after loading the view.
-        //performSegue(withIdentifier: "segueLogin", sender: self)
     }
     
     override var representedObject: Any? {
@@ -51,4 +41,3 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         performSegue(withIdentifier: "segueLogin", sender: self)
     }
 }
-
