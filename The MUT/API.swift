@@ -66,6 +66,7 @@ public class API {
             
             if error != nil {
                 NSLog("[FATAL ]: " + error!.localizedDescription)
+                semaphore.signal() // Signal completion to the semaphore
             }
         })
         task.resume() // Kick off the actual GET here
