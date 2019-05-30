@@ -8,11 +8,11 @@
 
 import Foundation
 
-public class API {
+public class tokenManagement {
     
     // This function can be used to generate a token. Pass in a URL and base64 encoded credentials.
     // The credentials are inserted into the header.
-    public func verifyCredentials(url: String, user: String, password: String) -> Data {
+    public func getToken(url: String, user: String, password: String) -> Data {
         
         let dataMan = dataManipulation()
         
