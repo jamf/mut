@@ -47,7 +47,6 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         print(expiry)
     }
     
-    let APIFunc = API()
     let dataMan = dataManipulation()
     
     override func viewDidLoad() {

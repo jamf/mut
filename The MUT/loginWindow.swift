@@ -16,10 +16,9 @@ protocol DataSentDelegate {
 
 class loginWindow: NSViewController, URLSessionDelegate {
 
-    let loginDefaults = UserDefaults.standard
-    var delegateAuth: DataSentDelegate? = nil
 
 
+    // Declare outlets for use in the interface
     @IBOutlet weak var txtURLOutlet: NSTextField!
     @IBOutlet weak var txtUserOutlet: NSTextField!
     @IBOutlet weak var txtPassOutlet: NSSecureTextField!
@@ -28,6 +27,7 @@ class loginWindow: NSViewController, URLSessionDelegate {
     @IBOutlet weak var chkRememberMe: NSButton!
     @IBOutlet weak var chkBypass: NSButton!
 
+    // Set up global variables to be used outside functions
     var doNotRun: Bool!
     var serverURL: String!
     var base64Credentials: String!
@@ -35,9 +35,17 @@ class loginWindow: NSViewController, URLSessionDelegate {
     var verified = false
     var expiry: Int!
 
+    // Punctuation character set to be used in cleaning up URLs
     let punctuation = CharacterSet(charactersIn: ".:/")
+    
+    // Set up defaults to be able to save to and restore from
+    let loginDefaults = UserDefaults.standard
+    
+    // Set up our delegate to pass data forward to the main view
+    var delegateAuth: DataSentDelegate? = nil
 
-    let APIFunc = API()
+    // Constructor for our classes to be used
+    let tokenMan = tokenManagement()
     let dataMan = dataManipulation()
 
     // This runs when the view loads
@@ -54,12 +62,16 @@ class loginWindow: NSViewController, URLSessionDelegate {
             txtURLOutlet.stringValue = loginDefaults.value(forKey: "InstanceURL") as! String
         }
         
+        // I am relatively certain this codeblock does not do anything
+        // But will leave it here, commented, to be sure for now.
+        /*
         // Move the cursor to the password field if that's where it should be
         if ( loginDefaults.value(forKey: "InstanceURL") != nil || loginDefaults.value(forKey: "InstanceURL") != nil ) && loginDefaults.value(forKey: "UserName") != nil {
             if self.txtPassOutlet.acceptsFirstResponder == true {
                 self.txtPassOutlet.becomeFirstResponder()
             }
         }
+        */
 
         // Restore "remember me" checkbox settings if we have a default stored
         if loginDefaults.value(forKey: "Remember") != nil {
@@ -75,6 +87,7 @@ class loginWindow: NSViewController, URLSessionDelegate {
 
     override func viewDidAppear() {
         super.viewDidAppear()
+        // Forces the window to be the size we want, not resizable
         preferredContentSize = NSSize(width: 450, height: 600)
         // If we have a URL and a User stored focus the password field
         if loginDefaults.value(forKey: "InstanceURL") != nil  && loginDefaults.value(forKey: "UserName") != nil {
@@ -88,7 +101,7 @@ class loginWindow: NSViewController, URLSessionDelegate {
         // Clean up whitespace at the beginning and end of the fields, in case of faulty copy/paste
         txtURLOutlet.stringValue = txtURLOutlet.stringValue.trimmingCharacters(in: CharacterSet.whitespaces)
         txtUserOutlet.stringValue = txtUserOutlet.stringValue.trimmingCharacters(in: CharacterSet.whitespaces)
-        txtPassOutlet.stringValue = txtPassOutlet.stringValue.trimmingCharacters(in: CharacterSet.whitespaces)
+        //txtPassOutlet.stringValue = txtPassOutlet.stringValue.trimmingCharacters(in: CharacterSet.whitespaces) // Perhaps we don't want to trim passwords just in case?
 
         // Warn the user if they have failed to enter an instancename AND prem URL
         if txtURLOutlet.stringValue == "" {
@@ -114,13 +127,15 @@ class loginWindow: NSViewController, URLSessionDelegate {
             // Change the UI to a running state
             guiRunning()
             
-            let tokenData = APIFunc.verifyCredentials(url: txtURLOutlet.stringValue, user: txtUserOutlet.stringValue, password: txtPassOutlet.stringValue)
+            // Get our token data from the API class
+            let tokenData = tokenMan.getToken(url: txtURLOutlet.stringValue, user: txtUserOutlet.stringValue, password: txtPassOutlet.stringValue)
             //print(String(decoding: tokenData, as: UTF8.self)) // Uncomment for debugging
+            // Reset the GUI and pop up a warning with the info if we get a fatal error
             if String(decoding: tokenData, as: UTF8.self).contains("FATAL") {
                 _ = popPrompt().fatalWarning(error: String(decoding: tokenData, as: UTF8.self))
                 guiReset()
             } else {
-                
+                // No error found leads you here:
                 if String(decoding: tokenData, as: UTF8.self).contains("token") {
                     // Good credentials here, as told by there being a token
                     self.verified = true
