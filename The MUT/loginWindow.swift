@@ -33,10 +33,12 @@ class loginWindow: NSViewController, URLSessionDelegate {
     var base64Credentials: String!
     var token: String!
     var verified = false
+    var expiry: Int!
 
     let punctuation = CharacterSet(charactersIn: ".:/")
 
     let APIFunc = API()
+    let dataMan = dataManipulation()
 
     // This runs when the view loads
     override func viewDidLoad() {
@@ -90,19 +92,19 @@ class loginWindow: NSViewController, URLSessionDelegate {
 
         // Warn the user if they have failed to enter an instancename AND prem URL
         if txtURLOutlet.stringValue == "" {
-            _ = popPrompt().generalWarning(question: "No Server Info", text: "It appears that you have not entered any information for your Jamf Pro URL. Please enter either a Jamf Cloud instance name, or your full URL if you host your own server.")
+            _ = popPrompt().noServer()
             doNotRun = true // Set Do Not Run flag
         }
 
         // Warn the user if they have failed to enter a username
         if txtUserOutlet.stringValue == "" {
-            _ = popPrompt().generalWarning(question: "No Username Found", text: "It appears that you have not entered a username for MUT to use while accessing Jamf Pro. Please enter your username and password, and try again.")
+            _ = popPrompt().noUser()
             doNotRun = true // Set Do Not Run flag
         }
 
         // Warn the user if they have failed to enter a password
         if txtPassOutlet.stringValue == "" {
-            _ = popPrompt().generalWarning(question: "No Password Found", text: "It appears that you have not entered a password for MUT to use while accessing Jamf Pro. Please enter your username and password, and try again.")
+            _ = popPrompt().noPass()
             doNotRun = true // Set Do Not Run flag
         }
 
@@ -110,15 +112,13 @@ class loginWindow: NSViewController, URLSessionDelegate {
         if !doNotRun {
             
             // Change the UI to a running state
-            btnSubmitOutlet.isHidden = true
-            spinProgress.startAnimation(self)
+            guiRunning()
             
             let tokenData = APIFunc.verifyCredentials(url: txtURLOutlet.stringValue, user: txtUserOutlet.stringValue, password: txtPassOutlet.stringValue)
             //print(String(decoding: tokenData, as: UTF8.self)) // Uncomment for debugging
             if String(decoding: tokenData, as: UTF8.self).contains("FATAL") {
-                _ = popPrompt().generalWarning(question: "Fatal Error", text: "The MUT received a fatal error at authentication. The most common cause of this is an incorrect server URL. The full error output is below. \n\n \(String(decoding: tokenData, as: UTF8.self))")
-                self.spinProgress.stopAnimation(self)
-                self.btnSubmitOutlet.isHidden = false
+                _ = popPrompt().fatalWarning(error: String(decoding: tokenData, as: UTF8.self))
+                guiReset()
             } else {
                 
                 if String(decoding: tokenData, as: UTF8.self).contains("token") {
@@ -127,8 +127,8 @@ class loginWindow: NSViewController, URLSessionDelegate {
                     do {
                         // Parse the JSON resturned to get the token and expiry
                         let tokenJson = try JSONSerialization.jsonObject(with: tokenData, options: []) as! [String: AnyObject]
-                        let token = tokenJson["token"] as? String
-                        let expiry = tokenJson["expires"] as? Int
+                        token = tokenJson["token"] as? String
+                        expiry = tokenJson["expires"] as? Int
                         // print(token!) // Uncomment for debugging
                         // print(expiry!) // Uncomment for debugging
                         
@@ -159,18 +159,25 @@ class loginWindow: NSViewController, URLSessionDelegate {
                     self.btnSubmitOutlet.isHidden = false
                     
                     if self.delegateAuth != nil {
-                        self.dismiss(self)
+
                         // Delegate stuff to pass info forward goes here
+                        let base64creds = dataMan.base64Credentials(user: self.txtUserOutlet.stringValue, password: self.txtPassOutlet.stringValue)
+                        self.delegateAuth?.userDidAuthenticate(base64Credentials: base64creds, url: txtURLOutlet.stringValue, token: token, expiry: expiry)
+                    
+                        self.dismiss(self)
                     }
                 } else {
                     // Bad credentials here
                     DispatchQueue.main.async {
-                        self.spinProgress.stopAnimation(self)
-                        self.btnSubmitOutlet.isHidden = false
-                        _ = popPrompt().generalWarning(question: "Invalid Credentials", text: "The credentials you entered do not seem to have sufficient permissions. This could be due to an incorrect user/password, or possibly from insufficient permissions.\n\nMUT tests this against the user's ability to generate a token for the new JPAPI/UAPI. This token is now required for some tasks that MUT performs.")
+                        self.guiReset()
+                        // Popup warning of invalid credentials
+                        _ = popPrompt().invalidCredentials()
                         if self.chkBypass.state.rawValue == 1 {
                             if self.delegateAuth != nil {
                                 // Delegate stuff to pass info forward goes here
+                                let base64creds = self.dataMan.base64Credentials(user: self.txtUserOutlet.stringValue, password: self.txtPassOutlet.stringValue)
+                                self.delegateAuth?.userDidAuthenticate(base64Credentials: base64creds, url: self.txtURLOutlet.stringValue, token: self.token, expiry: self.expiry)
+                                
                                 self.dismiss(self)
                             }
                             self.verified = true
@@ -194,5 +201,14 @@ class loginWindow: NSViewController, URLSessionDelegate {
     @IBAction func btnQuit(_ sender: Any) {
         self.dismiss(self)
         NSApplication.shared.terminate(self)
+    }
+    
+    func guiRunning() {
+        btnSubmitOutlet.isHidden = true
+        spinProgress.startAnimation(self)
+    }
+    func guiReset() {
+        spinProgress.stopAnimation(self)
+        btnSubmitOutlet.isHidden = false
     }
 }
