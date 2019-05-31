@@ -9,26 +9,49 @@
 import Cocoa
 
 class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
-
-    func userDidAuthenticate(base64Credentials: String, url: String) {
-        // code
-    }
-
     
-    let APIFunc = API()
+    // Declare outlets for Buttons to change color and hide/show
+    @IBOutlet weak var btnSubmitOutlet: NSButton!
+    @IBOutlet weak var btnPreFlightOutlet: NSButton!
+    
+    // Declare outlet for entire controller
+    @IBOutlet var MainViewController: NSView!
+    
+    // Outlet for Logging text window and scroll view
+    @IBOutlet var txtMain: NSTextView!
+    @IBOutlet weak var txtMainWrapper: NSScrollView!
+    
+    // Progress bar and labels for runtime
+    @IBOutlet weak var barProgress: NSProgressIndicator!
+    @IBOutlet weak var lblCurrent: NSTextField!
+    @IBOutlet weak var lblOf: NSTextField!
+    @IBOutlet weak var lblEndLine: NSTextField!
+    @IBOutlet weak var lblLine: NSTextField!
+    
+    // DropDowns for Attributes etc
+    @IBOutlet weak var popAttributeOutlet: NSPopUpButton!
+    @IBOutlet weak var popDeviceOutlet: NSPopUpButton!
+    @IBOutlet weak var txtEAID: NSTextField!
+    @IBOutlet weak var txtCSV: NSTextField!
+    
+    @IBOutlet weak var boxLog: NSBox!
+    
+    var globalPathToCSV: NSURL!
+    
+    func userDidAuthenticate(base64Credentials: String, url: String, token: String, expiry: Int) {
+        //code
+        print("It ran on main view")
+        print(base64Credentials)
+        print(url)
+        print(token)
+        print(expiry)
+    }
+    
     let dataMan = dataManipulation()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
-        //let token = APIFunc.generateToken(url: "https://mlevenick.jamfcloud.com/", user: "apiadmin", password: "jamf1234")
-        //print(String(decoding: token, as: UTF8.self))
-        
-        //let extendedToken = APIFunc.extendToken(url: "https://mlevenick.jamfcloud.com/", user: "apiadmin", password: "jamf1234")
-        //print(String(decoding: extendedToken, as: UTF8.self))
-        // Do any additional setup after loading the view.
-        //performSegue(withIdentifier: "segueLogin", sender: self)
     }
     
     override var representedObject: Any? {
@@ -50,5 +73,27 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         preferredContentSize = NSSize(width: 450, height: 600)
         performSegue(withIdentifier: "segueLogin", sender: self)
     }
+    
+    
+    @IBAction func btnBrowse(_ sender: Any) {
+        //notReadyToRun() // OLD CODE
+        let openPanel = NSOpenPanel()
+        openPanel.allowsMultipleSelection = false
+        openPanel.canChooseDirectories = false
+        openPanel.canCreateDirectories = false
+        openPanel.canChooseFiles = true
+        openPanel.allowedFileTypes = ["csv"]
+        openPanel.begin { (result) in
+            if result.rawValue == NSFileHandlingPanelOKButton {
+                self.globalPathToCSV = openPanel.url! as NSURL
+                self.txtCSV.stringValue = self.globalPathToCSV.path!
+            }
+        }
+    }
+    
+    
+    
+    
+    
+    
 }
-
