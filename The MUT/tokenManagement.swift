@@ -8,11 +8,11 @@
 
 import Foundation
 
-public class API {
+public class tokenManagement {
     
     // This function can be used to generate a token. Pass in a URL and base64 encoded credentials.
     // The credentials are inserted into the header.
-    public func verifyCredentials(url: String, user: String, password: String) -> Data {
+    public func getToken(url: String, user: String, password: String) -> Data {
         
         let dataMan = dataManipulation()
         
@@ -65,6 +65,8 @@ public class API {
             }
             
             if error != nil {
+                let errorString = "[FATAL ]: " + error!.localizedDescription
+                token = errorString.data(using: .utf8)!
                 NSLog("[FATAL ]: " + error!.localizedDescription)
                 semaphore.signal() // Signal completion to the semaphore
             }
@@ -74,8 +76,7 @@ public class API {
         return token
     }
     
-    
-    
+
     public func extendToken(url: String, user: String, password: String) -> Data {
         let dataMan = dataManipulation()
         

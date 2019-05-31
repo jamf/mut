@@ -45,8 +45,8 @@ public class dataManipulation {
         let concatCredentials = "\(user):\(password)"
         let utf8Credentials = concatCredentials.data(using: String.Encoding.utf8)
         let base64Credentials = utf8Credentials?.base64EncodedString() ?? "nil"
+        print(base64Credentials)
         return base64Credentials
     }
-    
     
 }

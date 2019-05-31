@@ -68,4 +68,50 @@ public class popPrompt {
         }
         return globalCSVString
     }
+    
+    public func invalidCredentials() -> Bool {
+        let myPopup: NSAlert = NSAlert()
+        myPopup.messageText = "Invalid Credentials"
+        myPopup.informativeText = "The credentials you entered do not seem to have sufficient permissions. This could be due to an incorrect user/password, or possibly from insufficient permissions.\n\nMUT tests this against the user's ability to generate a token for the new JPAPI/UAPI. This token is now required for some tasks that MUT performs."
+        myPopup.alertStyle = NSAlert.Style.warning
+        myPopup.addButton(withTitle: "OK")
+        return myPopup.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn
+    }
+    
+    public func noServer() -> Bool {
+        let myPopup: NSAlert = NSAlert()
+        myPopup.messageText = "No Server Info"
+        myPopup.informativeText = "It appears that you have not entered any information for your Jamf Pro URL. Please enter either a Jamf Cloud instance name, or your full URL if you host your own server."
+        myPopup.alertStyle = NSAlert.Style.warning
+        myPopup.addButton(withTitle: "OK")
+        return myPopup.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn
+    }
+    
+    public func noUser() -> Bool {
+        let myPopup: NSAlert = NSAlert()
+        myPopup.messageText = "No Username Found"
+        myPopup.informativeText = "It appears that you have not entered a username for MUT to use while accessing Jamf Pro. Please enter your username and password, and try again."
+        myPopup.alertStyle = NSAlert.Style.warning
+        myPopup.addButton(withTitle: "OK")
+        return myPopup.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn
+    }
+    
+    public func noPass() -> Bool {
+        let myPopup: NSAlert = NSAlert()
+        myPopup.messageText = "No Password Found"
+        myPopup.informativeText = "It appears that you have not entered a password for MUT to use while accessing Jamf Pro. Please enter your username and password, and try again."
+        myPopup.alertStyle = NSAlert.Style.warning
+        myPopup.addButton(withTitle: "OK")
+        return myPopup.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn
+    }
+    
+    public func fatalWarning(error: String) -> Bool {
+        let myPopup: NSAlert = NSAlert()
+        myPopup.messageText = "Fatal Error"
+        myPopup.informativeText = "The MUT received a fatal error at authentication. The most common cause of this is an incorrect server URL. The full error output is below. \n\n \(error))"
+        myPopup.alertStyle = NSAlert.Style.warning
+        myPopup.addButton(withTitle: "OK")
+        return myPopup.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn
+    }
+    
 }
