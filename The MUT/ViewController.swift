@@ -37,6 +37,10 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     @IBOutlet weak var boxLog: NSBox!
     
     var globalPathToCSV: NSURL!
+    var globalToken: String!
+    var globalURL: String!
+    var globalExpiry: Int!
+    var globalBase64: String!
     
     func userDidAuthenticate(base64Credentials: String, url: String, token: String, expiry: Int) {
         //code
@@ -45,9 +49,15 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         print(url)
         print(token)
         print(expiry)
+        globalExpiry = expiry
+        globalToken = token
+        globalURL = url
+        globalBase64 = base64Credentials
+        
     }
     
     let dataMan = dataManipulation()
+    let tokenMan = tokenManagement()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,6 +99,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
                 self.txtCSV.stringValue = self.globalPathToCSV.path!
             }
         }
+
     }
     
     

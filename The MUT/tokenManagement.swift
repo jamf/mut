@@ -77,7 +77,7 @@ public class tokenManagement {
     }
     
 
-    public func extendToken(url: String, user: String, password: String) -> Data {
+    public func renewToken(url: String, user: String, password: String) -> Data {
         let dataMan = dataManipulation()
         
         let base64Credentials = dataMan.base64Credentials(user: user, password: password)
