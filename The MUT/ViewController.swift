@@ -73,7 +73,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueLogin" {
             let loginWindow: loginWindow = segue.destinationController as! loginWindow
-            loginWindow.delegateAuth = self as! DataSentDelegate
+            loginWindow.delegateAuth = self as DataSentDelegate
         }
     }
 
@@ -101,10 +101,5 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         }
 
     }
-    
-    
-    
-    
-    
-    
+     
 }

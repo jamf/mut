@@ -76,6 +76,20 @@ public class tokenManagement {
         return token
     }
     
+    public func checkExpiry(expiry: Int) -> Bool {
+        // Usage: let isExpired = tokenMan.checkExpiry(expiry: expiryEpoch)
+        // Get current epoch time in ms
+        let currentEpoch = Int(Date().timeIntervalSince1970 * 1000)
+        // print(currentEpoch) // Uncomment for debugging
+        // Find the difference between expiry time and current epoch
+        let secondsToExpire = (expiry - currentEpoch)/1000
+        print("Expires in \(secondsToExpire) seconds")
+        if secondsToExpire <= 30 {
+            return true
+        } else {
+            return false
+        }
+    }
 
     public func renewToken(url: String, user: String, password: String) -> Data {
         let dataMan = dataManipulation()
