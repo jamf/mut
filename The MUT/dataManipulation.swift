@@ -15,6 +15,10 @@ public class dataManipulation {
     // ******************************************
     
     public func generateURL(baseURL: String, endpoint: String, jpapi: Bool, jpapiVersion: String) -> URL {
+        var instancedURL = baseURL
+        if !baseURL.contains(".") {
+            instancedURL = "https://" + baseURL + ".jamfcloud.com/"
+        }
         var versionEndpoint = ""
         var encodedURL = NSURL(string: "https://null".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)! as URL
         if jpapi {
@@ -22,13 +26,13 @@ public class dataManipulation {
             if jpapiVersion != "nil" {
                 versionEndpoint = "\(jpapiVersion)/"
             }
-            let concatURL = baseURL + "/uapi" + versionEndpoint + endpoint
+            let concatURL = instancedURL + "/uapi" + versionEndpoint + endpoint
             let cleanURL = concatURL.replacingOccurrences(of: "//uapi", with: "/uapi")
             print(cleanURL)
             encodedURL = NSURL(string: "\(cleanURL)")! as URL
         } else {
             // CAPI URLS
-            let concatURL = baseURL + "/JSSResource" + endpoint
+            let concatURL = instancedURL + "/JSSResource" + endpoint
             let cleanURL = concatURL.replacingOccurrences(of: "//JSSResource", with: "/JSSResource")
             print(cleanURL)
             encodedURL = NSURL(string: "\(cleanURL)".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)! as URL
