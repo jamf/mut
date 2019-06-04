@@ -117,7 +117,7 @@ class loginWindow: NSViewController, URLSessionDelegate {
             guiRunning()
             
             // Get our token data from the API class
-            let tokenData = tokenMan.getToken(url: txtURLOutlet.stringValue, user: txtUserOutlet.stringValue, password: txtPassOutlet.stringValue)
+            let tokenData = tokenMan.getToken(url: txtURLOutlet.stringValue, user: txtUserOutlet.stringValue, password: txtPassOutlet.stringValue, allowUntrusted: true)
             //print(String(decoding: tokenData, as: UTF8.self)) // Uncomment for debugging
             // Reset the GUI and pop up a warning with the info if we get a fatal error
             if String(decoding: tokenData, as: UTF8.self).contains("FATAL") {

@@ -8,12 +8,16 @@
 
 import Foundation
 
-public class tokenManagement {
+public class tokenManagement: NSObject, URLSessionDelegate {
+    
+    var allowUntrustedFlag: Bool!
     
     // This function can be used to generate a token. Pass in a URL and base64 encoded credentials.
     // The credentials are inserted into the header.
-    public func getToken(url: String, user: String, password: String) -> Data {
+    public func getToken(url: String, user: String, password: String, allowUntrusted: Bool) -> Data {
         
+        allowUntrustedFlag = allowUntrusted
+        let myOpQueue = OperationQueue()
         let dataMan = dataManipulation()
         
         // Call the data manipulation class to base64 encode the credentials
@@ -43,7 +47,7 @@ public class tokenManagement {
         // Set configuration settings for the request, such as headers
         let configuration = URLSessionConfiguration.default
         configuration.httpAdditionalHeaders = ["Authorization" : "Basic \(base64Credentials)"]
-        let session = Foundation.URLSession(configuration: configuration)
+        let session = Foundation.URLSession(configuration: configuration, delegate: self, delegateQueue: myOpQueue)
         
         // Completion handler. This is what ensures that the response is good/bad
         // and also what handles the semaphore
@@ -135,5 +139,17 @@ public class tokenManagement {
         task.resume() // Kick off the actual GET here
         semaphore.wait() // Wait for the semaphore before moving on to the return value
         return token
+    }
+    
+    public func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping(  URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        
+        if allowUntrustedFlag {
+            print("Allow All")
+             completionHandler(.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
+        } else {
+            print("Using default handling")
+            completionHandler(.performDefaultHandling, URLCredential(trust: challenge.protectionSpace.serverTrust!))
+        }
+       
     }
 }
