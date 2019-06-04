@@ -58,6 +58,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     
     let dataMan = dataManipulation()
     let tokenMan = tokenManagement()
+    let xmlMan = xmlManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
