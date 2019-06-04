@@ -145,10 +145,10 @@
                     <window key="window" identifier="MainWindow" title="The MUT v5.0.0" autorecalculatesKeyViewLoop="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
                         <windowCollectionBehavior key="collectionBehavior" fullScreenNone="YES"/>
-                        <rect key="contentRect" x="100" y="100" width="387" height="365"/>
+                        <rect key="contentRect" x="100" y="100" width="568" height="667"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
-                        <value key="minSize" type="size" width="800" height="600"/>
-                        <value key="maxSize" type="size" width="800" height="600"/>
+                        <value key="minSize" type="size" width="568" height="667"/>
+                        <value key="maxSize" type="size" width="568" height="667"/>
                         <connections>
                             <outlet property="delegate" destination="B8D-0N-5wS" id="U4h-m0-Xi3"/>
                         </connections>
@@ -160,7 +160,7 @@
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="592" y="-505"/>
+            <point key="canvasLocation" x="506" y="-646.5"/>
         </scene>
         <!--loginWindow-->
         <scene sceneID="mca-aV-j20">
