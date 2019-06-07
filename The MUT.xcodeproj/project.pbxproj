@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4E34CEBDD3E9CAFA4078D64E /* Pods_The_MUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FA3D385BC259B1F15FD237F /* Pods_The_MUT.framework */; };
+		85C4D46922AAEF6A00512000 /* CSVFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C4D46822AAEF6A00512000 /* CSVFunctions.swift */; };
 		F7333BD11DB55EDF00F89C00 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7333BD01DB55EDF00F89C00 /* AppDelegate.swift */; };
 		F7333BD31DB55EDF00F89C00 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7333BD21DB55EDF00F89C00 /* ViewController.swift */; };
 		F7333BD61DB55EDF00F89C00 /* The_MUT.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F7333BD41DB55EDF00F89C00 /* The_MUT.xcdatamodeld */; };
@@ -27,6 +28,7 @@
 		5D24CA59F173F09D24CF81E6 /* Pods-The MUTUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-The MUTUITests.debug.xcconfig"; path = "Target Support Files/Pods-The MUTUITests/Pods-The MUTUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		653C5ABC4F2A053D8824333F /* Pods-The MUT.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-The MUT.release.xcconfig"; path = "Target Support Files/Pods-The MUT/Pods-The MUT.release.xcconfig"; sourceTree = "<group>"; };
 		7F024CD838B9592865655070 /* Pods-The MUTTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-The MUTTests.release.xcconfig"; path = "Target Support Files/Pods-The MUTTests/Pods-The MUTTests.release.xcconfig"; sourceTree = "<group>"; };
+		85C4D46822AAEF6A00512000 /* CSVFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVFunctions.swift; sourceTree = "<group>"; };
 		9FA3D385BC259B1F15FD237F /* Pods_The_MUT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_The_MUT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD44CCECF8E8A8F8B5926F8C /* Pods_The_MUTUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_The_MUTUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1D0A74B1515FA252F13A885 /* Pods-The MUT.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-The MUT.debug.xcconfig"; path = "Target Support Files/Pods-The MUT/Pods-The MUT.debug.xcconfig"; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 				F7D623911DE2C745004040F1 /* The MUT.entitlements */,
 				F7333BD01DB55EDF00F89C00 /* AppDelegate.swift */,
 				F7333BD21DB55EDF00F89C00 /* ViewController.swift */,
+				85C4D46822AAEF6A00512000 /* CSVFunctions.swift */,
 				F7CF61E92298671E003A0CBB /* tokenManagement.swift */,
 				F7CF61EB22986736003A0CBB /* dataManipulation.swift */,
 				F7333BD71DB55EDF00F89C00 /* Assets.xcassets */,
@@ -183,7 +186,7 @@
 								enabled = 1;
 							};
 							com.apple.Sandbox = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -274,6 +277,7 @@
 				F7CEE52A229E3C420027CAE8 /* loginWindow.swift in Sources */,
 				F7CF61EA2298671E003A0CBB /* tokenManagement.swift in Sources */,
 				F7333BD11DB55EDF00F89C00 /* AppDelegate.swift in Sources */,
+				85C4D46922AAEF6A00512000 /* CSVFunctions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
