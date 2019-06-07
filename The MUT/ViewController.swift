@@ -59,6 +59,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     let dataMan = dataManipulation()
     let tokenMan = tokenManagement()
     let xmlMan = xmlManager()
+    let CSVMan = CSVManipulation()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,5 +103,15 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         }
 
     }
-     
+    
+    
+    @IBAction func btnExportCSV(_ sender: Any) {
+        print("exporting CSV")
+        NSLog("[INFO  : Saving CSV Templates to User's Download's Directory")
+        CSVMan.ExportCSV()
+        
+        print("export of CSV done")
+    }
+    
+    
 }
