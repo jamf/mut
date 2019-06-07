@@ -61,17 +61,6 @@ class loginWindow: NSViewController, URLSessionDelegate {
         if loginDefaults.value(forKey: "InstanceURL") != nil {
             txtURLOutlet.stringValue = loginDefaults.value(forKey: "InstanceURL") as! String
         }
-        
-        // I am relatively certain this codeblock does not do anything
-        // But will leave it here, commented, to be sure for now.
-        /*
-        // Move the cursor to the password field if that's where it should be
-        if ( loginDefaults.value(forKey: "InstanceURL") != nil || loginDefaults.value(forKey: "InstanceURL") != nil ) && loginDefaults.value(forKey: "UserName") != nil {
-            if self.txtPassOutlet.acceptsFirstResponder == true {
-                self.txtPassOutlet.becomeFirstResponder()
-            }
-        }
-        */
 
         // Restore "remember me" checkbox settings if we have a default stored
         if loginDefaults.value(forKey: "Remember") != nil {
@@ -128,7 +117,7 @@ class loginWindow: NSViewController, URLSessionDelegate {
             guiRunning()
             
             // Get our token data from the API class
-            let tokenData = tokenMan.getToken(url: txtURLOutlet.stringValue, user: txtUserOutlet.stringValue, password: txtPassOutlet.stringValue)
+            let tokenData = tokenMan.getToken(url: txtURLOutlet.stringValue, user: txtUserOutlet.stringValue, password: txtPassOutlet.stringValue, allowUntrusted: true)
             //print(String(decoding: tokenData, as: UTF8.self)) // Uncomment for debugging
             // Reset the GUI and pop up a warning with the info if we get a fatal error
             if String(decoding: tokenData, as: UTF8.self).contains("FATAL") {
@@ -146,13 +135,6 @@ class loginWindow: NSViewController, URLSessionDelegate {
                         expiry = tokenJson["expires"] as? Int
                         // print(token!) // Uncomment for debugging
                         // print(expiry!) // Uncomment for debugging
-                        
-                        // Get current epoch time in ms
-                        let currentEpoch = Int(Date().timeIntervalSince1970 * 1000)
-                        // print(currentEpoch) // Uncomment for debugging
-                        // Find the difference between expiry time and current epoch
-                        let timeToExpire = expiry! - currentEpoch
-                        print("Expires in \(timeToExpire/1000) seconds")
                     } catch let error as NSError {
                         NSLog("[ERROR ]: Failed to load: \(error.localizedDescription)")
                     }
@@ -206,11 +188,6 @@ class loginWindow: NSViewController, URLSessionDelegate {
             // Reset the Do Not Run flag so that on subsequent runs we try the checks again.
             doNotRun = false
         }
-    }
-
-    // This is required to allow un-trusted SSL certificates. Leave it alone.
-    func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-        completionHandler(Foundation.URLSession.AuthChallengeDisposition.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
     }
     
     @IBAction func btnQuit(_ sender: Any) {
