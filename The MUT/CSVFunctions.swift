@@ -23,7 +23,7 @@ public class CSVManipulation {
     }
     
     
-    let usersCSV = "Username,Full Name,Email Address,Phone Number,Position,LDAP Server ID\n"
+    let userCSV = "Username,Full Name,Email Address,Phone Number,Position,LDAP Server ID\n"
     
     let mobileDeviceCSV = "Display Name,Asset Tag,Username,Real Name,Email Address,Position,Phone Number,Department,Building,Room,PO Number,Vendor,PO Date,Warranty Expires,Lease Expires\n"
    
@@ -72,7 +72,7 @@ public class CSVManipulation {
         } else {
             NSLog("[INFO  ]: User Template does not exist. Creating.")
             do {
-                try usersCSV.write(to: userURL!, atomically: false, encoding: .utf8)
+                try userCSV.write(to: userURL!, atomically: false, encoding: .utf8)
             }
             catch {
                 NSLog("[ERROR ]: An error occured while creating the User Template. \(error).")
