@@ -59,14 +59,14 @@ public class xmlManager {
         let extensionAttributes = XMLElement(name: "extension_attributes")
         
         // Add all the XML Nodes to the root element
-        root.addChild(username)
+        //root.addChild(username)
         root.addChild(fullName)
         root.addChild(email)
         root.addChild(emailAddress)
         root.addChild(phoneNumber)
         root.addChild(position)
-        ldapServer.addChild(ldapServerID)
-        root.addChild(ldapServer)
+//        ldapServer.addChild(ldapServerID)
+        //root.addChild(ldapServer)
         
         // Loop through the EA values, adding them to the EA node
         for i in 1...2 {
@@ -79,7 +79,7 @@ public class xmlManager {
         }
         
         // Add the EA subset to the root element
-        root.addChild(extensionAttributes)
+        //root.addChild(extensionAttributes)
         
         // Print the XML
         print(xml.debugDescription) // Uncomment for debugging
