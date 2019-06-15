@@ -1,0 +1,6 @@
+framework module CSV {
+  umbrella header "CSV.swift-umbrella.h"
+
+  export *
+  module * { export * }
+}
