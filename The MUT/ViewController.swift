@@ -7,6 +7,8 @@
 //
 
 import Cocoa
+import CSV
+import Foundation
 
 class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     
@@ -60,7 +62,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     let tokenMan = tokenManagement()
     let xmlMan = xmlManager()
     let CSVMan = CSVManipulation()
-    
+    let APIFunc = APIFunctions()
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -104,6 +106,43 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
 
     }
     
+    
+    func readCSV(pathToCSV: String) -> [[String]]{
+        
+        print("begin readCSV...")
+        let stream = InputStream(fileAtPath: pathToCSV)!
+        var csvArray = [[String]]()
+        let csv = try! CSVReader(stream: stream)
+        while let row = csv.next() {
+            print("\(row)")
+            csvArray = (csvArray + [row])
+        }
+        
+        return csvArray
+    }
+    
+    @IBAction func btnPreFlightAction(_ sender: Any) {
+        print("Begin specificLine...")
+        let csvArray = readCSV(pathToCSV: self.globalPathToCSV.path!)
+        /*print("Number of rows including header: \(csvArray.count)")
+        print("Array of Arrays containing each row: \(csvArray)")
+        print("")
+        print("Printing Array 0 of the csvArray: \(csvArray[0])")
+        print("")
+        print("Printing Array 1 of the csvArray: \(csvArray[1])")
+         */
+        for row in 1...(csvArray.count - 1) {
+            let currentRow = csvArray[row]
+            //print("csvArray: \(csvArray[row])")
+            print("Username is: \(currentRow[0])")
+            print("...")
+            let xmlToPut = xmlMan.userObject(username: currentRow[0], full_name: currentRow[1], email_address: currentRow[2], phone_number: currentRow[3], position: currentRow[4], ldap_server: currentRow[5])
+            var encodedURL = NSURL(string: "https://bwhitis.jamfcloud.com/JSSResource/users/name/\(currentRow[0])")! as URL
+            let response = APIFunc.putData(passedurl: encodedURL, credentials: globalBase64, endpoint: "", allowUntrusted: true, xmlToPut: xmlToPut)
+            print("Attempted to PUT \(response)")
+        }
+        
+    }
     
     @IBAction func btnExportCSV(_ sender: Any) {
         print("exporting CSV")

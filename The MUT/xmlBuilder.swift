@@ -36,7 +36,7 @@ public class xmlManager {
      </user>
      */
     
-    public func userObject() -> Data {
+    public func userObject(username: String, full_name: String, email_address: String, phone_number: String, position: String, ldap_server: String) -> Data {
         // BUILD XML FOR LDAP SERVER USER UPDATES
         
         // Variables needed to dynamically build the EA portion of the XML
@@ -48,25 +48,25 @@ public class xmlManager {
         // Variables needed for the rest of the XML Generation
         let root = XMLElement(name: "user")
         let xml = XMLDocument(rootElement: root)
-        let username = XMLElement(name: "name", stringValue: "mike.levenick")
-        let fullName = XMLElement(name: "full_name", stringValue: "Mike Levenick")
-        let email = XMLElement(name: "email", stringValue: "mike.levenick@jamf.com")
-        let emailAddress = XMLElement(name: "email_address", stringValue: "mike.levenick@jamf.com")
-        let phoneNumber = XMLElement(name: "phone_number", stringValue: "715 955 4897")
-        let position = XMLElement(name: "position", stringValue: "Support")
+        let username = XMLElement(name: "name", stringValue: username)
+        let fullName = XMLElement(name: "full_name", stringValue: full_name)
+        let email = XMLElement(name: "email", stringValue: email_address)
+        let emailAddress = XMLElement(name: "email_address", stringValue: email_address)
+        let phoneNumber = XMLElement(name: "phone_number", stringValue: phone_number)
+        let position = XMLElement(name: "position", stringValue: position)
         let ldapServer = XMLElement(name: "ldap_server")
-        let ldapServerID = XMLElement(name: "id", stringValue: "1") // Set LDAP Server ID to -1 to unassign from all.
+        let ldapServerID = XMLElement(name: "id", stringValue: ldap_server) // Set LDAP Server ID to -1 to unassign from all.
         let extensionAttributes = XMLElement(name: "extension_attributes")
         
         // Add all the XML Nodes to the root element
-        root.addChild(username)
+        //root.addChild(username)
         root.addChild(fullName)
         root.addChild(email)
         root.addChild(emailAddress)
         root.addChild(phoneNumber)
         root.addChild(position)
-        ldapServer.addChild(ldapServerID)
-        root.addChild(ldapServer)
+//        ldapServer.addChild(ldapServerID)
+        //root.addChild(ldapServer)
         
         // Loop through the EA values, adding them to the EA node
         for i in 1...2 {
@@ -79,7 +79,7 @@ public class xmlManager {
         }
         
         // Add the EA subset to the root element
-        root.addChild(extensionAttributes)
+        //root.addChild(extensionAttributes)
         
         // Print the XML
         print(xml.debugDescription) // Uncomment for debugging
