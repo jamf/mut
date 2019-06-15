@@ -8,6 +8,7 @@
 
 import Foundation
 import Cocoa
+import CSV
 
 public class CSVManipulation {
     
@@ -21,8 +22,6 @@ public class CSVManipulation {
         exportComputerCSV()
         exportMobileDeviceCSV()
     }
-    
-    
     let userCSV = "Username,Full Name,Email Address,Phone Number,Position,LDAP Server ID\n"
     
     let mobileDeviceCSV = "Display Name,Asset Tag,Username,Real Name,Email Address,Position,Phone Number,Department,Building,Room,PO Number,Vendor,PO Date,Warranty Expires,Lease Expires\n"
@@ -47,7 +46,6 @@ public class CSVManipulation {
     }
 
     func exportCSVReadme() {
-        print("Starting CSVReadme")
         let readmeURL = downloadsURL?.appendingPathComponent("CSVReadme.txt")
         if fileManager.fileExists(atPath: readmeURL!.path) {
             NSLog("[INFO  ]: Readme file already exists. Skipping creation.")
@@ -64,8 +62,6 @@ public class CSVManipulation {
     }
     
     func exportUserCSV() {
-
-        print("Starting ExportUserCSV")
         let userURL = downloadsURL?.appendingPathComponent("UserTemplate.csv")
         if fileManager.fileExists(atPath: userURL!.path) {
             NSLog("[INFO  ]: User Template already exists. Skipping creation.")
@@ -81,7 +77,6 @@ public class CSVManipulation {
     }
     
     func exportMobileDeviceCSV() {
-        print("Starting MobileDeviceCSV")
         let mobileURL = downloadsURL?.appendingPathComponent("MobileDeviceTemplate.csv")
         if fileManager.fileExists(atPath: mobileURL!.path) {
             NSLog("[INFO  ]: Mobile Template already exists. Skipping creation.")
@@ -97,7 +92,6 @@ public class CSVManipulation {
     }
 
     func exportComputerCSV() {
-        print("Starting ComputerCSV")
         let computerURL = downloadsURL?.appendingPathComponent("ComputerTemplate.csv")
         if fileManager.fileExists(atPath: computerURL!.path) {
             NSLog("[INFO  ]: Computer Template already exists. Skipping creation.")
@@ -112,6 +106,19 @@ public class CSVManipulation {
         }
     }
 
+    func readCSV(pathToCSV: String) -> [[String]]{
+        let stream = InputStream(fileAtPath: pathToCSV)!
+
+        // Initialize the array
+        var csvArray = [[String]]()
+        let csv = try! CSVReader(stream: stream)
+
+        // For each row in the CSV, append it to the end of the array
+        while let row = csv.next() {
+            csvArray = (csvArray + [row])
+        }
+        return csvArray
+    }
 }
 
     
