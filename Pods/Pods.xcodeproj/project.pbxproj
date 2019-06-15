@@ -1,0 +1,1003 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 51;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		00A17330EA4251AFDA59D8B6B629FB18 /* Pods-The MUTTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 549083AFBE602A6DD664C7D552612CD2 /* Pods-The MUTTests-dummy.m */; };
+		06795CD596C466F66874C5589D121911 /* Endian.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B35C2DB1150D3FBB8C3B0D56A42E452 /* Endian.swift */; };
+		1E79B4AB7318BC33514FB25F6F24BF2C /* Pods-The MUT-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = FECFDC1A58B9ABD07A05174A57888EED /* Pods-The MUT-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		24EDCB2DDA1AD510E913EF16C0263411 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F940C819049CFF8741C0F5E3E075E607 /* Cocoa.framework */; };
+		2A19AF75AC59C55479BF975DDD47232D /* CSVWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FED922419C3DF45BA90CCADE40E152 /* CSVWriter.swift */; };
+		3017A734B8167D7C8E0B3D54BD436BE5 /* CSV.swift-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CF3946119F907294421514E6F63804B /* CSV.swift-dummy.m */; };
+		47CB1AA8A920D2E86DBCE6E353B315DF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F940C819049CFF8741C0F5E3E075E607 /* Cocoa.framework */; };
+		4DBC3C7D916ED4746D7AB15E0F9B8738 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F940C819049CFF8741C0F5E3E075E607 /* Cocoa.framework */; };
+		4FC446A21C902D2D6605DF63EDA1F9C9 /* Pods-The MUTUITests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 1843A24CF3AAF01B3242E2D15826127C /* Pods-The MUTUITests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		528C89F68F20C22FB26D6E3B3D3CCAF6 /* Pods-The MUT-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ED60C3D87B69DC0E37E5756A2557E97 /* Pods-The MUT-dummy.m */; };
+		6D944CDE977AE9325B8D5DFAC70C4CB4 /* CSVRowDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A40CA14167942E69BBDB7AD3978CC5A2 /* CSVRowDecoder.swift */; };
+		C0A48E3AA1EF7A1A632071DCAA0A3D31 /* Pods-The MUTUITests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 22DA04CB9BF77EC56A90847FCEB27235 /* Pods-The MUTUITests-dummy.m */; };
+		C78D8CBCAC6DDB21D453A11843DF592B /* UnicodeIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7DF8D90BD5B9E7B17AFC9B82E5FEFE /* UnicodeIterator.swift */; };
+		CA6CA5416C32127B66FFF8424B3CCC33 /* Pods-The MUTTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = CA96E7D73890EED888EE0BECD70905DA /* Pods-The MUTTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CFECF52A76CDCE2408F80902717E43CC /* CSV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FBAE0803FC269FACFE5430F181E953 /* CSV.swift */; };
+		D02084C4A0173CCAE2850C0449E1D32C /* BinaryReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7869DDD0166E7E813AE50AE5BDE23E0E /* BinaryReader.swift */; };
+		D78EFABFFD9EAF01C170E154BE01D500 /* CSV.swift-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 8DAE63D6B9E7E85229733BB4BAB59F5C /* CSV.swift-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E5DDBAE44D72B308204FC80091F9F8E6 /* CSVError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF8030E724369D16F9162B43CA6EC29 /* CSVError.swift */; };
+		EA406C5C7BDF1AE1E3B5AA38A2D002B0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F940C819049CFF8741C0F5E3E075E607 /* Cocoa.framework */; };
+		FF4FF521BB9FA637F34A910F2EFF1485 /* CSVReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE341E089B3A8F2E9A11E28031444D9 /* CSVReader.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		133775EE8A892EEC67F9DBC64765FB35 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9617FEF749C2A4DEB177789B70E08C51;
+			remoteInfo = CSV.swift;
+		};
+		58948812950E464D6939F9203276BCF9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F36119EF8FDF7DC4639609CC435A4923;
+			remoteInfo = "Pods-The MUT";
+		};
+		EF66AD04F444071AE58ED6DA2231C778 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F36119EF8FDF7DC4639609CC435A4923;
+			remoteInfo = "Pods-The MUT";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		013C729FEE3609E50B14F7C2514EFCE8 /* Pods-The MUTUITests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-The MUTUITests-Info.plist"; sourceTree = "<group>"; };
+		03C98B619E0544A8F576A8C364D2760A /* Pods-The MUT-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-The MUT-acknowledgements.plist"; sourceTree = "<group>"; };
+		1843A24CF3AAF01B3242E2D15826127C /* Pods-The MUTUITests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-The MUTUITests-umbrella.h"; sourceTree = "<group>"; };
+		22DA04CB9BF77EC56A90847FCEB27235 /* Pods-The MUTUITests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-The MUTUITests-dummy.m"; sourceTree = "<group>"; };
+		261ED99BBBBDE11F993819F837E64401 /* CSV.swift-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "CSV.swift-prefix.pch"; sourceTree = "<group>"; };
+		28DC87D60C0A88E96AB411F8D73BEE08 /* CSV.swift.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = CSV.swift.xcconfig; sourceTree = "<group>"; };
+		2F13070DE116DE0804E181F1BA1A5251 /* Pods-The MUT-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-The MUT-Info.plist"; sourceTree = "<group>"; };
+		31C29849A196B168579C3D444903929B /* Pods_The_MUTUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_The_MUTUITests.framework; path = "Pods-The MUTUITests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F7DF8D90BD5B9E7B17AFC9B82E5FEFE /* UnicodeIterator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UnicodeIterator.swift; path = Sources/CSV/UnicodeIterator.swift; sourceTree = "<group>"; };
+		40FBAE0803FC269FACFE5430F181E953 /* CSV.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CSV.swift; path = Sources/CSV/CSV.swift; sourceTree = "<group>"; };
+		4B35C2DB1150D3FBB8C3B0D56A42E452 /* Endian.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Endian.swift; path = Sources/CSV/Endian.swift; sourceTree = "<group>"; };
+		4C8AA1C4E5C2859923BBAA5ADFBC2061 /* Pods-The MUTTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-The MUTTests-acknowledgements.plist"; sourceTree = "<group>"; };
+		535C9F6C3B33977D51D575DAF2A823E2 /* Pods-The MUTUITests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-The MUTUITests.modulemap"; sourceTree = "<group>"; };
+		549083AFBE602A6DD664C7D552612CD2 /* Pods-The MUTTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-The MUTTests-dummy.m"; sourceTree = "<group>"; };
+		55E9A1939158D4403859ED0C8C4B951F /* Pods-The MUT-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-The MUT-frameworks.sh"; sourceTree = "<group>"; };
+		6832838ECF0A8450AE6F4FEC9C93A7CC /* Pods-The MUTTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-The MUTTests.release.xcconfig"; sourceTree = "<group>"; };
+		6DAD678A1D4C75BDB9FAE65B8B9FC713 /* Pods_The_MUT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_The_MUT.framework; path = "Pods-The MUT.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		70449778760D93B4F65CA9C996485D85 /* Pods-The MUTUITests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-The MUTUITests-acknowledgements.plist"; sourceTree = "<group>"; };
+		7113368712DAD5DE8F6F237BCD36BBF6 /* Pods-The MUT-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-The MUT-acknowledgements.markdown"; sourceTree = "<group>"; };
+		7406BF58C8D16DB5586BB299E955C2DF /* CSV.swift-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "CSV.swift-Info.plist"; sourceTree = "<group>"; };
+		7869DDD0166E7E813AE50AE5BDE23E0E /* BinaryReader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BinaryReader.swift; path = Sources/CSV/BinaryReader.swift; sourceTree = "<group>"; };
+		7BEF7D9983FB99C83FC127537976D85D /* Pods-The MUTTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-The MUTTests.debug.xcconfig"; sourceTree = "<group>"; };
+		7CF3946119F907294421514E6F63804B /* CSV.swift-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "CSV.swift-dummy.m"; sourceTree = "<group>"; };
+		84FED922419C3DF45BA90CCADE40E152 /* CSVWriter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CSVWriter.swift; path = Sources/CSV/CSVWriter.swift; sourceTree = "<group>"; };
+		8691E5EBE88C91FAC11F633CFC207EFF /* Pods-The MUTUITests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-The MUTUITests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		8DAE63D6B9E7E85229733BB4BAB59F5C /* CSV.swift-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "CSV.swift-umbrella.h"; sourceTree = "<group>"; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9ED60C3D87B69DC0E37E5756A2557E97 /* Pods-The MUT-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-The MUT-dummy.m"; sourceTree = "<group>"; };
+		A40CA14167942E69BBDB7AD3978CC5A2 /* CSVRowDecoder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CSVRowDecoder.swift; path = Sources/CSV/CSVRowDecoder.swift; sourceTree = "<group>"; };
+		A578ADD2DE6CB945E6959DE56B4208B4 /* CSV.swift.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = CSV.swift.modulemap; sourceTree = "<group>"; };
+		AB85C0CBF3517D5FC4DF5E72F3AD0186 /* Pods-The MUTTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-The MUTTests.modulemap"; sourceTree = "<group>"; };
+		ABF8030E724369D16F9162B43CA6EC29 /* CSVError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CSVError.swift; path = Sources/CSV/CSVError.swift; sourceTree = "<group>"; };
+		B000EE49D457505B84A3706024C98354 /* CSV.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = CSV.framework; path = CSV.swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B1308F2CFE0270A71ED03984A7B52219 /* Pods-The MUTUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-The MUTUITests.release.xcconfig"; sourceTree = "<group>"; };
+		B469F2887110CAD6089857BD2824AD1E /* Pods-The MUT.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-The MUT.modulemap"; sourceTree = "<group>"; };
+		B7DE2E283881E052C4F24F8D85D41AB8 /* Pods-The MUTTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-The MUTTests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		BEE6A6213578A462178BD03F7F52E43A /* Pods-The MUTTests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-The MUTTests-Info.plist"; sourceTree = "<group>"; };
+		CA96E7D73890EED888EE0BECD70905DA /* Pods-The MUTTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-The MUTTests-umbrella.h"; sourceTree = "<group>"; };
+		CAA6EF50E50FF94CA7AD185D59423FB9 /* Pods-The MUT.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-The MUT.debug.xcconfig"; sourceTree = "<group>"; };
+		E5B84F5CE67072353D79E03F4A852EA5 /* Pods-The MUT.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-The MUT.release.xcconfig"; sourceTree = "<group>"; };
+		EBE341E089B3A8F2E9A11E28031444D9 /* CSVReader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CSVReader.swift; path = Sources/CSV/CSVReader.swift; sourceTree = "<group>"; };
+		ED08F95C89735945BC30ACB0593B36F5 /* Pods-The MUTUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-The MUTUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		F940C819049CFF8741C0F5E3E075E607 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
+		FA5DCAF142CAB3A7CCB10336EF718F45 /* Pods_The_MUTTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_The_MUTTests.framework; path = "Pods-The MUTTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FECFDC1A58B9ABD07A05174A57888EED /* Pods-The MUT-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-The MUT-umbrella.h"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5D15FA8BB9F987C6F62C2B69BF6B5CCB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				47CB1AA8A920D2E86DBCE6E353B315DF /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6FBFB01773AC879F05534B9569BCD5AC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA406C5C7BDF1AE1E3B5AA38A2D002B0 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		81DDF3E403CF6C50030524E4B39EB02B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				24EDCB2DDA1AD510E913EF16C0263411 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8F24DF9FC63AA9E1BCA3C91177087146 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4DBC3C7D916ED4746D7AB15E0F9B8738 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		43A002FB2B92AABF721738BBA427A65E /* Pods-The MUT */ = {
+			isa = PBXGroup;
+			children = (
+				B469F2887110CAD6089857BD2824AD1E /* Pods-The MUT.modulemap */,
+				7113368712DAD5DE8F6F237BCD36BBF6 /* Pods-The MUT-acknowledgements.markdown */,
+				03C98B619E0544A8F576A8C364D2760A /* Pods-The MUT-acknowledgements.plist */,
+				9ED60C3D87B69DC0E37E5756A2557E97 /* Pods-The MUT-dummy.m */,
+				55E9A1939158D4403859ED0C8C4B951F /* Pods-The MUT-frameworks.sh */,
+				2F13070DE116DE0804E181F1BA1A5251 /* Pods-The MUT-Info.plist */,
+				FECFDC1A58B9ABD07A05174A57888EED /* Pods-The MUT-umbrella.h */,
+				CAA6EF50E50FF94CA7AD185D59423FB9 /* Pods-The MUT.debug.xcconfig */,
+				E5B84F5CE67072353D79E03F4A852EA5 /* Pods-The MUT.release.xcconfig */,
+			);
+			name = "Pods-The MUT";
+			path = "Target Support Files/Pods-The MUT";
+			sourceTree = "<group>";
+		};
+		58732056964C2D816890179162BA432D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7E3E00C39DEA85EC9C33001A6072093A /* CSV.swift */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		7E3E00C39DEA85EC9C33001A6072093A /* CSV.swift */ = {
+			isa = PBXGroup;
+			children = (
+				7869DDD0166E7E813AE50AE5BDE23E0E /* BinaryReader.swift */,
+				40FBAE0803FC269FACFE5430F181E953 /* CSV.swift */,
+				ABF8030E724369D16F9162B43CA6EC29 /* CSVError.swift */,
+				EBE341E089B3A8F2E9A11E28031444D9 /* CSVReader.swift */,
+				A40CA14167942E69BBDB7AD3978CC5A2 /* CSVRowDecoder.swift */,
+				84FED922419C3DF45BA90CCADE40E152 /* CSVWriter.swift */,
+				4B35C2DB1150D3FBB8C3B0D56A42E452 /* Endian.swift */,
+				3F7DF8D90BD5B9E7B17AFC9B82E5FEFE /* UnicodeIterator.swift */,
+				B3A04BE15F4646D9DEA28CA80BFFE139 /* Support Files */,
+			);
+			name = CSV.swift;
+			path = CSV.swift;
+			sourceTree = "<group>";
+		};
+		B3A04BE15F4646D9DEA28CA80BFFE139 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				A578ADD2DE6CB945E6959DE56B4208B4 /* CSV.swift.modulemap */,
+				28DC87D60C0A88E96AB411F8D73BEE08 /* CSV.swift.xcconfig */,
+				7CF3946119F907294421514E6F63804B /* CSV.swift-dummy.m */,
+				7406BF58C8D16DB5586BB299E955C2DF /* CSV.swift-Info.plist */,
+				261ED99BBBBDE11F993819F837E64401 /* CSV.swift-prefix.pch */,
+				8DAE63D6B9E7E85229733BB4BAB59F5C /* CSV.swift-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/CSV.swift";
+			sourceTree = "<group>";
+		};
+		BB5EB4B16F07AC24B6792F0B27F55282 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B000EE49D457505B84A3706024C98354 /* CSV.framework */,
+				6DAD678A1D4C75BDB9FAE65B8B9FC713 /* Pods_The_MUT.framework */,
+				FA5DCAF142CAB3A7CCB10336EF718F45 /* Pods_The_MUTTests.framework */,
+				31C29849A196B168579C3D444903929B /* Pods_The_MUTUITests.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C1641AA6A3528C7256C06D5BF16DE932 /* Pods-The MUTUITests */ = {
+			isa = PBXGroup;
+			children = (
+				535C9F6C3B33977D51D575DAF2A823E2 /* Pods-The MUTUITests.modulemap */,
+				8691E5EBE88C91FAC11F633CFC207EFF /* Pods-The MUTUITests-acknowledgements.markdown */,
+				70449778760D93B4F65CA9C996485D85 /* Pods-The MUTUITests-acknowledgements.plist */,
+				22DA04CB9BF77EC56A90847FCEB27235 /* Pods-The MUTUITests-dummy.m */,
+				013C729FEE3609E50B14F7C2514EFCE8 /* Pods-The MUTUITests-Info.plist */,
+				1843A24CF3AAF01B3242E2D15826127C /* Pods-The MUTUITests-umbrella.h */,
+				ED08F95C89735945BC30ACB0593B36F5 /* Pods-The MUTUITests.debug.xcconfig */,
+				B1308F2CFE0270A71ED03984A7B52219 /* Pods-The MUTUITests.release.xcconfig */,
+			);
+			name = "Pods-The MUTUITests";
+			path = "Target Support Files/Pods-The MUTUITests";
+			sourceTree = "<group>";
+		};
+		CBD43E0947D94E318A0ED1350CFF29ED /* OS X */ = {
+			isa = PBXGroup;
+			children = (
+				F940C819049CFF8741C0F5E3E075E607 /* Cocoa.framework */,
+			);
+			name = "OS X";
+			sourceTree = "<group>";
+		};
+		CF1408CF629C7361332E53B88F7BD30C = {
+			isa = PBXGroup;
+			children = (
+				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
+				E0A1E60606E0BF6E2E10F1F01350DFE8 /* Frameworks */,
+				58732056964C2D816890179162BA432D /* Pods */,
+				BB5EB4B16F07AC24B6792F0B27F55282 /* Products */,
+				D621E197B32F7CC1DB28CCA72EA2AD6B /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		D621E197B32F7CC1DB28CCA72EA2AD6B /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				43A002FB2B92AABF721738BBA427A65E /* Pods-The MUT */,
+				FCEC4425EFF468B34AAEAB4504C92B50 /* Pods-The MUTTests */,
+				C1641AA6A3528C7256C06D5BF16DE932 /* Pods-The MUTUITests */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		E0A1E60606E0BF6E2E10F1F01350DFE8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CBD43E0947D94E318A0ED1350CFF29ED /* OS X */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FCEC4425EFF468B34AAEAB4504C92B50 /* Pods-The MUTTests */ = {
+			isa = PBXGroup;
+			children = (
+				AB85C0CBF3517D5FC4DF5E72F3AD0186 /* Pods-The MUTTests.modulemap */,
+				B7DE2E283881E052C4F24F8D85D41AB8 /* Pods-The MUTTests-acknowledgements.markdown */,
+				4C8AA1C4E5C2859923BBAA5ADFBC2061 /* Pods-The MUTTests-acknowledgements.plist */,
+				549083AFBE602A6DD664C7D552612CD2 /* Pods-The MUTTests-dummy.m */,
+				BEE6A6213578A462178BD03F7F52E43A /* Pods-The MUTTests-Info.plist */,
+				CA96E7D73890EED888EE0BECD70905DA /* Pods-The MUTTests-umbrella.h */,
+				7BEF7D9983FB99C83FC127537976D85D /* Pods-The MUTTests.debug.xcconfig */,
+				6832838ECF0A8450AE6F4FEC9C93A7CC /* Pods-The MUTTests.release.xcconfig */,
+			);
+			name = "Pods-The MUTTests";
+			path = "Target Support Files/Pods-The MUTTests";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		11BCCE7CFC132AB10410F4C9A12E8457 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D78EFABFFD9EAF01C170E154BE01D500 /* CSV.swift-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		878B3856E99775F8DA926B544729C5E2 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CA6CA5416C32127B66FFF8424B3CCC33 /* Pods-The MUTTests-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BF370674B766D78AA9C1295056E03F38 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4FC446A21C902D2D6605DF63EDA1F9C9 /* Pods-The MUTUITests-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5B0E982D4A3A895582265830B18B690 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1E79B4AB7318BC33514FB25F6F24BF2C /* Pods-The MUT-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		9617FEF749C2A4DEB177789B70E08C51 /* CSV.swift */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BF7EA31EA60AAF451FEA82E3D979F5B4 /* Build configuration list for PBXNativeTarget "CSV.swift" */;
+			buildPhases = (
+				11BCCE7CFC132AB10410F4C9A12E8457 /* Headers */,
+				814AC06352786A6CE94FF642AA73F93F /* Sources */,
+				5D15FA8BB9F987C6F62C2B69BF6B5CCB /* Frameworks */,
+				8050B6821AD52D1412BCF77AE0628956 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CSV.swift;
+			productName = CSV.swift;
+			productReference = B000EE49D457505B84A3706024C98354 /* CSV.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		A547E7DF58D970120153211F0FE85E2E /* Pods-The MUTUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 584128311FBA01E87353F822B6E50090 /* Build configuration list for PBXNativeTarget "Pods-The MUTUITests" */;
+			buildPhases = (
+				BF370674B766D78AA9C1295056E03F38 /* Headers */,
+				99E45F48D9E74EA45223500EF4331958 /* Sources */,
+				6FBFB01773AC879F05534B9569BCD5AC /* Frameworks */,
+				0C0F92A9C8C56BA142B47F21602A9ABB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				341D02C12624720C679BB1509E583D79 /* PBXTargetDependency */,
+			);
+			name = "Pods-The MUTUITests";
+			productName = "Pods-The MUTUITests";
+			productReference = 31C29849A196B168579C3D444903929B /* Pods_The_MUTUITests.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		B9C75003C4588D82D22A28A06F4C6FFC /* Pods-The MUTTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BD90E486EE44DB551DB69C9CEE769B20 /* Build configuration list for PBXNativeTarget "Pods-The MUTTests" */;
+			buildPhases = (
+				878B3856E99775F8DA926B544729C5E2 /* Headers */,
+				9ED188F724974711EB1A873332D29E0E /* Sources */,
+				8F24DF9FC63AA9E1BCA3C91177087146 /* Frameworks */,
+				F44D67DFDA1C023D98A7A7F0804FC9F3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				833D412B0FBC49BFA1176239DFECA3C4 /* PBXTargetDependency */,
+			);
+			name = "Pods-The MUTTests";
+			productName = "Pods-The MUTTests";
+			productReference = FA5DCAF142CAB3A7CCB10336EF718F45 /* Pods_The_MUTTests.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		F36119EF8FDF7DC4639609CC435A4923 /* Pods-The MUT */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6576C0A861B8F6D050B66F7E11A797D7 /* Build configuration list for PBXNativeTarget "Pods-The MUT" */;
+			buildPhases = (
+				C5B0E982D4A3A895582265830B18B690 /* Headers */,
+				6F7890B688EA7E91A5ED64C2753B6E6C /* Sources */,
+				81DDF3E403CF6C50030524E4B39EB02B /* Frameworks */,
+				9E07B063C1B2BE517793E0607FC60628 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C48BF0AABB7A7C723DA7903354403544 /* PBXTargetDependency */,
+			);
+			name = "Pods-The MUT";
+			productName = "Pods-The MUT";
+			productReference = 6DAD678A1D4C75BDB9FAE65B8B9FC713 /* Pods_The_MUT.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BFDFE7DC352907FC980B868725387E98 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1020;
+				LastUpgradeCheck = 1020;
+			};
+			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 10.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
+			productRefGroup = BB5EB4B16F07AC24B6792F0B27F55282 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9617FEF749C2A4DEB177789B70E08C51 /* CSV.swift */,
+				F36119EF8FDF7DC4639609CC435A4923 /* Pods-The MUT */,
+				B9C75003C4588D82D22A28A06F4C6FFC /* Pods-The MUTTests */,
+				A547E7DF58D970120153211F0FE85E2E /* Pods-The MUTUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0C0F92A9C8C56BA142B47F21602A9ABB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8050B6821AD52D1412BCF77AE0628956 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9E07B063C1B2BE517793E0607FC60628 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F44D67DFDA1C023D98A7A7F0804FC9F3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6F7890B688EA7E91A5ED64C2753B6E6C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				528C89F68F20C22FB26D6E3B3D3CCAF6 /* Pods-The MUT-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		814AC06352786A6CE94FF642AA73F93F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D02084C4A0173CCAE2850C0449E1D32C /* BinaryReader.swift in Sources */,
+				CFECF52A76CDCE2408F80902717E43CC /* CSV.swift in Sources */,
+				3017A734B8167D7C8E0B3D54BD436BE5 /* CSV.swift-dummy.m in Sources */,
+				E5DDBAE44D72B308204FC80091F9F8E6 /* CSVError.swift in Sources */,
+				FF4FF521BB9FA637F34A910F2EFF1485 /* CSVReader.swift in Sources */,
+				6D944CDE977AE9325B8D5DFAC70C4CB4 /* CSVRowDecoder.swift in Sources */,
+				2A19AF75AC59C55479BF975DDD47232D /* CSVWriter.swift in Sources */,
+				06795CD596C466F66874C5589D121911 /* Endian.swift in Sources */,
+				C78D8CBCAC6DDB21D453A11843DF592B /* UnicodeIterator.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		99E45F48D9E74EA45223500EF4331958 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C0A48E3AA1EF7A1A632071DCAA0A3D31 /* Pods-The MUTUITests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9ED188F724974711EB1A873332D29E0E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00A17330EA4251AFDA59D8B6B629FB18 /* Pods-The MUTTests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		341D02C12624720C679BB1509E583D79 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-The MUT";
+			target = F36119EF8FDF7DC4639609CC435A4923 /* Pods-The MUT */;
+			targetProxy = EF66AD04F444071AE58ED6DA2231C778 /* PBXContainerItemProxy */;
+		};
+		833D412B0FBC49BFA1176239DFECA3C4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-The MUT";
+			target = F36119EF8FDF7DC4639609CC435A4923 /* Pods-The MUT */;
+			targetProxy = 58948812950E464D6939F9203276BCF9 /* PBXContainerItemProxy */;
+		};
+		C48BF0AABB7A7C723DA7903354403544 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CSV.swift;
+			target = 9617FEF749C2A4DEB177789B70E08C51 /* CSV.swift */;
+			targetProxy = 133775EE8A892EEC67F9DBC64765FB35 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1871C1BC143D0FBDC4B275E600344208 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CAA6EF50E50FF94CA7AD185D59423FB9 /* Pods-The MUT.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = "Target Support Files/Pods-The MUT/Pods-The MUT-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MODULEMAP_FILE = "Target Support Files/Pods-The MUT/Pods-The MUT.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		2D11F4D537F98E7CEA78B460BA13FAE4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = ED08F95C89735945BC30ACB0593B36F5 /* Pods-The MUTUITests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = "Target Support Files/Pods-The MUTUITests/Pods-The MUTUITests-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MODULEMAP_FILE = "Target Support Files/Pods-The MUTUITests/Pods-The MUTUITests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		5F0543D44D59D2071C2C5E451FF69A23 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7BEF7D9983FB99C83FC127537976D85D /* Pods-The MUTTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = "Target Support Files/Pods-The MUTTests/Pods-The MUTTests-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MODULEMAP_FILE = "Target Support Files/Pods-The MUTTests/Pods-The MUTTests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		7440D515053ED0806561AA62F9D68F06 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Release;
+		};
+		7829323FA101EA8537FFE9BF2121753E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E5B84F5CE67072353D79E03F4A852EA5 /* Pods-The MUT.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = "Target Support Files/Pods-The MUT/Pods-The MUT-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MODULEMAP_FILE = "Target Support Files/Pods-The MUT/Pods-The MUT.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		8AA2CB803CA34F9B67E80E3C5D37C974 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 28DC87D60C0A88E96AB411F8D73BEE08 /* CSV.swift.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_PREFIX_HEADER = "Target Support Files/CSV.swift/CSV.swift-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/CSV.swift/CSV.swift-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MODULEMAP_FILE = "Target Support Files/CSV.swift/CSV.swift.modulemap";
+				PRODUCT_MODULE_NAME = CSV;
+				PRODUCT_NAME = CSV;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		B5C09F6FECEE1EDDD26B32E48BDE5241 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B1308F2CFE0270A71ED03984A7B52219 /* Pods-The MUTUITests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = "Target Support Files/Pods-The MUTUITests/Pods-The MUTUITests-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MODULEMAP_FILE = "Target Support Files/Pods-The MUTUITests/Pods-The MUTUITests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		D3FDE71701EE95BC5B568C02E7F676B7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 28DC87D60C0A88E96AB411F8D73BEE08 /* CSV.swift.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_PREFIX_HEADER = "Target Support Files/CSV.swift/CSV.swift-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/CSV.swift/CSV.swift-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MODULEMAP_FILE = "Target Support Files/CSV.swift/CSV.swift.modulemap";
+				PRODUCT_MODULE_NAME = CSV;
+				PRODUCT_NAME = CSV;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		EE5702A916A70A47DCC4BF92B750846E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6832838ECF0A8450AE6F4FEC9C93A7CC /* Pods-The MUTTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = "Target Support Files/Pods-The MUTTests/Pods-The MUTTests-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MODULEMAP_FILE = "Target Support Files/Pods-The MUTTests/Pods-The MUTTests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		FF78091F2E132A0C4F200C5D32A31F56 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_DEBUG=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FF78091F2E132A0C4F200C5D32A31F56 /* Debug */,
+				7440D515053ED0806561AA62F9D68F06 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		584128311FBA01E87353F822B6E50090 /* Build configuration list for PBXNativeTarget "Pods-The MUTUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2D11F4D537F98E7CEA78B460BA13FAE4 /* Debug */,
+				B5C09F6FECEE1EDDD26B32E48BDE5241 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6576C0A861B8F6D050B66F7E11A797D7 /* Build configuration list for PBXNativeTarget "Pods-The MUT" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1871C1BC143D0FBDC4B275E600344208 /* Debug */,
+				7829323FA101EA8537FFE9BF2121753E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BD90E486EE44DB551DB69C9CEE769B20 /* Build configuration list for PBXNativeTarget "Pods-The MUTTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5F0543D44D59D2071C2C5E451FF69A23 /* Debug */,
+				EE5702A916A70A47DCC4BF92B750846E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BF7EA31EA60AAF451FEA82E3D979F5B4 /* Build configuration list for PBXNativeTarget "CSV.swift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D3FDE71701EE95BC5B568C02E7F676B7 /* Debug */,
+				8AA2CB803CA34F9B67E80E3C5D37C974 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+}
