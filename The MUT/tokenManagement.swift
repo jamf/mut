@@ -23,18 +23,16 @@ public class tokenManagement: NSObject, URLSessionDelegate {
         // Call the data manipulation class to base64 encode the credentials
         let base64Credentials = dataMan.base64Credentials(user: user, password: password)
         //print("base64 creds: " + base64Credentials) // Uncomment for debugging
-        
+
+        // Percent encode special characters that are not allowed in URLs, such as spaces
+        let encodedURL = "\(url)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "https://null"
+
         // Create a URL for getting a token.
-        let tokenURL = dataMan.generateURL(baseURL: url, endpoint: "/auth/tokens", jpapi: true, jpapiVersion: "nil")
+        let tokenURL = dataMan.generateURL(baseURL: encodedURL, endpoint: "/auth/tokens", identifierType: "", identifier: "", jpapi: true, jpapiVersion: "nil")
         //print("The URL is " + tokenURL) // Uncomment for debugging
         
         // Declare a variable to be populated, and set up the HTTP Request with headers
         var token = "nil".data(using: String.Encoding.utf8, allowLossyConversion: false)!
-        
-        // I commented this line out because it was replacing our forward slashes.
-        // I think there's an issue in Swift 5 with the "urlHostsAllowed" character set. We should investigate this
-        // Because some URLs need to be percent encoded (things like spaces)
-        //let encodedURL = NSURL(string: "\(url)".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)! as URL
         
         // The semaphore is what allows us to force the code to wait for this request to complete
         // Without the semaphore, MUT will queue up a request for every single line of the CSV simultaneously
@@ -87,7 +85,7 @@ public class tokenManagement: NSObject, URLSessionDelegate {
         // print(currentEpoch) // Uncomment for debugging
         // Find the difference between expiry time and current epoch
         let secondsToExpire = (expiry - currentEpoch)/1000
-        print("Expires in \(secondsToExpire) seconds")
+        // print("Expires in \(secondsToExpire) seconds") // Uncomment for debugging
         if secondsToExpire <= 30 {
             return true
         } else {
@@ -99,10 +97,7 @@ public class tokenManagement: NSObject, URLSessionDelegate {
         let dataMan = dataManipulation()
         
         let base64Credentials = dataMan.base64Credentials(user: user, password: password)
-        print("base64 creds: " + base64Credentials)
-        
-        let tokenURL = dataMan.generateURL(baseURL: url, endpoint: "/auth/keepAlive", jpapi: true, jpapiVersion: "nil")
-        print(tokenURL)
+        let tokenURL = dataMan.generateURL(baseURL: url, endpoint: "/auth/keepAlive", identifierType: "", identifier: "", jpapi: true, jpapiVersion: "nil")
         // Declare a variable to be populated, and set up the HTTP Request with headers
         var token = "nil".data(using: String.Encoding.utf8, allowLossyConversion: false)!
         //let encodedURL = NSURL(string: "\(url)".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)! as URL
@@ -142,15 +137,13 @@ public class tokenManagement: NSObject, URLSessionDelegate {
     }
     
     public func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping(  URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-        
         if allowUntrustedFlag {
-            print("Allow All")
-             completionHandler(.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
+            NSLog("[WARN  ]: The user has selected to allow untrusted SSL. MUT will not be performing SSL verification. This is potentially unsafe.")
+            completionHandler(.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
         } else {
-            print("Using default handling")
+            // NSLog("[INFO  ]: MUT is using default SSL handling.") // Commenting this to not clutter logs of default SSL handing users
             completionHandler(.performDefaultHandling, URLCredential(trust: challenge.protectionSpace.serverTrust!))
         }
-       
     }
 }
 
