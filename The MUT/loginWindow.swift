@@ -117,7 +117,7 @@ class loginWindow: NSViewController, URLSessionDelegate {
             guiRunning()
             
             // Get our token data from the API class
-            let tokenData = tokenMan.getToken(url: txtURLOutlet.stringValue, user: txtUserOutlet.stringValue, password: txtPassOutlet.stringValue, allowUntrusted: true)
+            let tokenData = tokenMan.getToken(url: txtURLOutlet.stringValue, user: txtUserOutlet.stringValue, password: txtPassOutlet.stringValue, allowUntrusted: false)
             //print(String(decoding: tokenData, as: UTF8.self)) // Uncomment for debugging
             // Reset the GUI and pop up a warning with the info if we get a fatal error
             if String(decoding: tokenData, as: UTF8.self).contains("FATAL") {
@@ -128,6 +128,7 @@ class loginWindow: NSViewController, URLSessionDelegate {
                 if String(decoding: tokenData, as: UTF8.self).contains("token") {
                     // Good credentials here, as told by there being a token
                     self.verified = true
+                    let passedURL = dataMan.generateURL(baseURL: txtURLOutlet.stringValue, endpoint: "", identifierType: "", identifier: "", jpapi: false, jpapiVersion: "")
                     do {
                         // Parse the JSON resturned to get the token and expiry
                         let tokenJson = try JSONSerialization.jsonObject(with: tokenData, options: []) as! [String: AnyObject]
