@@ -6,7 +6,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 target 'The MUT' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
-  pod 'CSVImporter', '~> 1.3'
+  pod 'CSV.swift', '~> 2.4.0'
   # Pods for The MUT
 
   target 'The MUTTests' do
