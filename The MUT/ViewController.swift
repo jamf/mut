@@ -79,6 +79,8 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         super.viewWillAppear()
         preferredContentSize = NSSize(width: 450, height: 600)
         performSegue(withIdentifier: "segueLogin", sender: self)
+
+        print(xmlMan.iosObject(displayName: "Mikes iPad", assetTag: "JJ1234", username: "mike.levenick", full_name: "Mike Levenick", email_address: "mike.levenick@jssmut.com", phone_number: "715 955 4897", position: "Developer", department: "Engineering", building: "Eau Claire", room: "2nd floor", poNumber: "PO1234", vendor: "Apple", poDate: "Jan 1 2020", warrantyExpires: "never", leaseExpires: "also never"))
     }
     
     
