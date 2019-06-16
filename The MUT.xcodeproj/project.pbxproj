@@ -12,7 +12,6 @@
 		85C4D46922AAEF6A00512000 /* CSVFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C4D46822AAEF6A00512000 /* CSVFunctions.swift */; };
 		F7333BD11DB55EDF00F89C00 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7333BD01DB55EDF00F89C00 /* AppDelegate.swift */; };
 		F7333BD31DB55EDF00F89C00 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7333BD21DB55EDF00F89C00 /* ViewController.swift */; };
-		F7333BD61DB55EDF00F89C00 /* The_MUT.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F7333BD41DB55EDF00F89C00 /* The_MUT.xcdatamodeld */; };
 		F7333BD81DB55EDF00F89C00 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F7333BD71DB55EDF00F89C00 /* Assets.xcassets */; };
 		F7333BDB1DB55EDF00F89C00 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F7333BD91DB55EDF00F89C00 /* Main.storyboard */; };
 		F7CEE52A229E3C420027CAE8 /* loginWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CEE529229E3C420027CAE8 /* loginWindow.swift */; };
@@ -23,7 +22,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		00D7FF2F39C342765443BEE7 /* Pods_The_MUTTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_The_MUTTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		073ABF91EFD14ABB51B35FD3 /* Pods-The MUTTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-The MUTTests.debug.xcconfig"; path = "Target Support Files/Pods-The MUTTests/Pods-The MUTTests.debug.xcconfig"; sourceTree = "<group>"; };
 		0EC2D98B803002D228093627 /* Pods-The MUTUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-The MUTUITests.release.xcconfig"; path = "Target Support Files/Pods-The MUTUITests/Pods-The MUTUITests.release.xcconfig"; sourceTree = "<group>"; };
 		5D24CA59F173F09D24CF81E6 /* Pods-The MUTUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-The MUTUITests.debug.xcconfig"; path = "Target Support Files/Pods-The MUTUITests/Pods-The MUTUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -32,19 +30,13 @@
 		8525069E22B4322700505757 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		85C4D46822AAEF6A00512000 /* CSVFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVFunctions.swift; sourceTree = "<group>"; };
 		9FA3D385BC259B1F15FD237F /* Pods_The_MUT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_The_MUT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		AD44CCECF8E8A8F8B5926F8C /* Pods_The_MUTUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_The_MUTUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1D0A74B1515FA252F13A885 /* Pods-The MUT.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-The MUT.debug.xcconfig"; path = "Target Support Files/Pods-The MUT/Pods-The MUT.debug.xcconfig"; sourceTree = "<group>"; };
 		F7333BCD1DB55EDF00F89C00 /* The MUT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "The MUT.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7333BD01DB55EDF00F89C00 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F7333BD21DB55EDF00F89C00 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		F7333BD51DB55EDF00F89C00 /* The_MUT.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = The_MUT.xcdatamodel; sourceTree = "<group>"; };
 		F7333BD71DB55EDF00F89C00 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F7333BDA1DB55EDF00F89C00 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F7333BDC1DB55EDF00F89C00 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F7333BE51DB55EDF00F89C00 /* The_MUTTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = The_MUTTests.swift; sourceTree = "<group>"; };
-		F7333BE71DB55EDF00F89C00 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F7333BF01DB55EDF00F89C00 /* The_MUTUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = The_MUTUITests.swift; sourceTree = "<group>"; };
-		F7333BF21DB55EDF00F89C00 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F7CEE529229E3C420027CAE8 /* loginWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginWindow.swift; sourceTree = "<group>"; };
 		F7CF61E92298671E003A0CBB /* tokenManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tokenManagement.swift; sourceTree = "<group>"; };
 		F7CF61EB22986736003A0CBB /* dataManipulation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dataManipulation.swift; sourceTree = "<group>"; };
@@ -82,8 +74,6 @@
 			isa = PBXGroup;
 			children = (
 				9FA3D385BC259B1F15FD237F /* Pods_The_MUT.framework */,
-				00D7FF2F39C342765443BEE7 /* Pods_The_MUTTests.framework */,
-				AD44CCECF8E8A8F8B5926F8C /* Pods_The_MUTUITests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -92,8 +82,6 @@
 			isa = PBXGroup;
 			children = (
 				F7333BCF1DB55EDF00F89C00 /* The MUT */,
-				F7333BE41DB55EDF00F89C00 /* The MUTTests */,
-				F7333BEF1DB55EDF00F89C00 /* The MUTUITests */,
 				F7333BCE1DB55EDF00F89C00 /* Products */,
 				2976E11D356FC1A99CF37045 /* Pods */,
 				771EE706A4988F146EA2B139 /* Frameworks */,
@@ -124,27 +112,8 @@
 				F7FF428A1EA645680044F126 /* xmlBuilder.swift */,
 				F7D670BD1EA54E51006010AA /* popPrompt.swift */,
 				F7333BDC1DB55EDF00F89C00 /* Info.plist */,
-				F7333BD41DB55EDF00F89C00 /* The_MUT.xcdatamodeld */,
 			);
 			path = "The MUT";
-			sourceTree = "<group>";
-		};
-		F7333BE41DB55EDF00F89C00 /* The MUTTests */ = {
-			isa = PBXGroup;
-			children = (
-				F7333BE51DB55EDF00F89C00 /* The_MUTTests.swift */,
-				F7333BE71DB55EDF00F89C00 /* Info.plist */,
-			);
-			path = "The MUTTests";
-			sourceTree = "<group>";
-		};
-		F7333BEF1DB55EDF00F89C00 /* The MUTUITests */ = {
-			isa = PBXGroup;
-			children = (
-				F7333BF01DB55EDF00F89C00 /* The_MUTUITests.swift */,
-				F7333BF21DB55EDF00F89C00 /* Info.plist */,
-			);
-			path = "The MUTUITests";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -273,7 +242,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F7333BD31DB55EDF00F89C00 /* ViewController.swift in Sources */,
-				F7333BD61DB55EDF00F89C00 /* The_MUT.xcdatamodeld in Sources */,
 				F7FF428B1EA645680044F126 /* xmlBuilder.swift in Sources */,
 				F7CF61EC22986736003A0CBB /* dataManipulation.swift in Sources */,
 				8525069F22B4322700505757 /* API.swift in Sources */,
@@ -482,19 +450,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		F7333BD41DB55EDF00F89C00 /* The_MUT.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				F7333BD51DB55EDF00F89C00 /* The_MUT.xcdatamodel */,
-			);
-			currentVersion = F7333BD51DB55EDF00F89C00 /* The_MUT.xcdatamodel */;
-			path = The_MUT.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = F7333BC51DB55EDF00F89C00 /* Project object */;
 }
