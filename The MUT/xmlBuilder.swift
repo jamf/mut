@@ -12,6 +12,7 @@ import Foundation
 public class xmlManager {
     // Globally declaring the xml variable to allow the various functions to populate it
     var xml: XMLDocument?
+    let removalValue = "CLEAR!"
 
 
     public func userObject(username: String, full_name: String, email_address: String, phone_number: String, position: String, ldap_server: String) -> Data {
@@ -41,34 +42,80 @@ public class xmlManager {
          */
         
         // Variables needed to dynamically build the EA portion of the XML
-        var eaIDs = [XMLElement]()
-        eaIDs = [XMLElement(name: "id", stringValue: "1"), XMLElement(name: "id", stringValue: "2")]
-        var eaValues = [XMLElement]()
-        eaValues = [XMLElement(name: "value", stringValue: "Monkey"), XMLElement(name: "value", stringValue: "Banana")]
-        
+//        var eaIDsElement = [XMLElement]()
+//        eaIDs = [XMLElement(name: "id", stringValue: "1"), XMLElement(name: "id", stringValue: "2")]
+//        var eaValuesElement = [XMLElement]()
+//        eaValues = [XMLElement(name: "value", stringValue: "Monkey"), XMLElement(name: "value", stringValue: "Banana")]
+
         // Variables needed for the rest of the XML Generation
         let root = XMLElement(name: "user")
         let xml = XMLDocument(rootElement: root)
-        let username = XMLElement(name: "name", stringValue: username)
-        let fullName = XMLElement(name: "full_name", stringValue: full_name)
-        let email = XMLElement(name: "email", stringValue: email_address)
-        let emailAddress = XMLElement(name: "email_address", stringValue: email_address)
-        let phoneNumber = XMLElement(name: "phone_number", stringValue: phone_number)
-        let position = XMLElement(name: "position", stringValue: position)
-        let ldapServer = XMLElement(name: "ldap_server")
-        let ldapServerID = XMLElement(name: "id", stringValue: ldap_server) // Set LDAP Server ID to -1 to unassign from all.
-        let extensionAttributes = XMLElement(name: "extension_attributes")
+        var usernameElement = XMLElement(name: "name", stringValue: username)
+        var fullNameElement = XMLElement(name: "full_name", stringValue: full_name)
+        var emailElement = XMLElement(name: "email", stringValue: email_address)
+        var emailAddressElement = XMLElement(name: "email_address", stringValue: email_address)
+        var phoneNumberElement = XMLElement(name: "phone_number", stringValue: phone_number)
+        var positionElement = XMLElement(name: "position", stringValue: position)
+        var ldapServerElement = XMLElement(name: "ldap_server")
+        var ldapServerIDElement = XMLElement(name: "id", stringValue: ldap_server) // Set LDAP Server ID to -1 to unassign from all.
+        var extensionAttributesElement = XMLElement(name: "extension_attributes")
         
         // Add all the XML Nodes to the root element
-        root.addChild(username)
-        root.addChild(fullName)
-        root.addChild(email)
-        root.addChild(emailAddress)
-        root.addChild(phoneNumber)
-        root.addChild(position)
-        ldapServer.addChild(ldapServerID)
-        root.addChild(ldapServer)
-        
+
+        // Username
+        if username == removalValue {
+            usernameElement = XMLElement(name: "name", stringValue: "")
+            root.addChild(usernameElement)
+        } else if username != "" {
+            root.addChild(usernameElement)
+        }
+
+        // Full Name
+        if full_name == removalValue {
+            fullNameElement = XMLElement(name: "full_name", stringValue: "")
+            root.addChild(fullNameElement)
+        } else if full_name != "" {
+            root.addChild(fullNameElement)
+        }
+
+        // Email Address
+        if email_address == removalValue {
+            emailElement = XMLElement(name: "email", stringValue: "")
+            emailAddressElement = XMLElement(name: "email_address", stringValue: "")
+            root.addChild(emailElement)
+            root.addChild(emailAddressElement)
+        } else if email_address != "" {
+            root.addChild(emailElement)
+            root.addChild(emailAddressElement)
+        }
+
+        // Phone Number
+        if phone_number == removalValue {
+            phoneNumberElement = XMLElement(name: "phone_number", stringValue: "")
+            root.addChild(phoneNumberElement)
+        } else if phone_number != "" {
+            root.addChild(phoneNumberElement)
+        }
+
+        // Position
+        if position == removalValue {
+            positionElement = XMLElement(name: "position", stringValue: "")
+            root.addChild(positionElement)
+        } else if position != "" {
+            root.addChild(positionElement)
+        }
+
+        // LDAP Server
+        if ldap_server == removalValue {
+            ldapServerElement = XMLElement(name: "ldap_server")
+            ldapServerIDElement = XMLElement(name: "id", stringValue: "-1")
+            ldapServerElement.addChild(ldapServerIDElement)
+            root.addChild(ldapServerElement)
+        } else if ldap_server != "" {
+            ldapServerElement.addChild(ldapServerIDElement)
+            root.addChild(ldapServerElement)
+        }
+
         // Loop through the EA values, adding them to the EA node
 //        for i in 1...2 {
 //            let currentEAID = eaIDs[i-1]
