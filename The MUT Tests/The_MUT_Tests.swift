@@ -7,6 +7,7 @@
 //
 
 import XCTest
+@testable import MUT
 
 class The_MUT_Tests: XCTestCase {
 
@@ -21,12 +22,17 @@ class The_MUT_Tests: XCTestCase {
     func testExample() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
+        let DataMan = dataManipulation()
+        let base64Creds = DataMan.base64Credentials(user: "ladmin", password: "jamf1234")
+        XCTAssertEqual(base64Creds, "bGFkbWluOmphbWYxMjM0")
     }
 
     func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measure {
             // Put the code you want to measure the time of here.
+            let DataMan = dataManipulation()
+            _ = DataMan.base64Credentials(user: "ladmin", password: "jamf1234")
         }
     }
 
