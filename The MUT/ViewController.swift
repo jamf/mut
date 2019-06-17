@@ -80,7 +80,6 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         preferredContentSize = NSSize(width: 450, height: 600)
         performSegue(withIdentifier: "segueLogin", sender: self)
 
-        print(xmlMan.iosObject(displayName: "Mikes iPad", assetTag: "JJ1234", username: "mike.levenick", full_name: "Mike Levenick", email_address: "mike.levenick@jssmut.com", phone_number: "715 955 4897", position: "Developer", department: "Engineering", building: "Eau Claire", room: "2nd floor", poNumber: "PO1234", vendor: "Apple", poDate: "Jan 1 2020", warrantyExpires: "never", leaseExpires: "also never"))
     }
     
     
@@ -112,14 +111,46 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     }
 
     func submitUpdates() {
+
         NSLog("[INFO  : Beginning parsing the CSV file into the array stream.")
         let csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path ?? "/dev/null")
+        let expectedColumns = 6
         let headerRow = csvArray[0]
+        var ea_ids = [String]()
+        var ea_values = [String]()
+
         let numberOfColumns = headerRow.count
+        let numberOfEAs = numberOfColumns - expectedColumns
+        if numberOfEAs > 0 {
+            for i in expectedColumns...(numberOfColumns - 1) {
+                let clean_ea_id = headerRow[i].replacingOccurrences(of: "EA_", with: "")
+                ea_ids = ea_ids + [clean_ea_id]
+                if !clean_ea_id.isInt {
+                    print("Problem with EA ID field \(i)")
+                }
+
+            }
+        }
+
         for row in 1...(csvArray.count - 1) {
+            ea_values = []
             let currentRow = csvArray[row]
-            let xmlToPut = xmlMan.userObject(username: currentRow[0], full_name: currentRow[1], email_address: currentRow[2], phone_number: currentRow[3], position: currentRow[4], ldap_server: currentRow[5])
+            if numberOfEAs > 0 {
+                for i in expectedColumns...(numberOfColumns - 1) {
+                    ea_values = ea_values + [currentRow[i]]
+                }
+                print(ea_ids)
+                print(ea_values)
+            }
+            let xmlToPut = xmlMan.userObject(username: currentRow[0], full_name: currentRow[1], email_address: currentRow[2], phone_number: currentRow[3], position: currentRow[4], ldap_server: currentRow[5], ea_ids: ea_ids, ea_values: ea_values)
             let response = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: "users", identifierType: "name", identifier: currentRow[0], allowUntrusted: false, xmlToPut: xmlToPut)
         }
+    }
+    
+}
+
+extension String {
+    var isInt: Bool {
+        return Int(self) != nil
     }
 }
