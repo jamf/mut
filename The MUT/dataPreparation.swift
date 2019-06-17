@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class dataManipulation {
+public class dataPreparation {
     
     // ******************************************
     // Functions to create URLs can be found here
