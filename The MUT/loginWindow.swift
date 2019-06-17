@@ -46,7 +46,7 @@ class loginWindow: NSViewController, URLSessionDelegate {
 
     // Constructor for our classes to be used
     let tokenMan = tokenManagement()
-    let dataMan = dataManipulation()
+    let dataPrep = dataPreparation()
 
     // This runs when the view loads
     override func viewDidLoad() {
@@ -128,7 +128,7 @@ class loginWindow: NSViewController, URLSessionDelegate {
                 if String(decoding: tokenData, as: UTF8.self).contains("token") {
                     // Good credentials here, as told by there being a token
                     self.verified = true
-                    let passedURL = dataMan.generateURL(baseURL: txtURLOutlet.stringValue, endpoint: "", identifierType: "", identifier: "", jpapi: false, jpapiVersion: "")
+                    let passedURL = dataPrep.generateURL(baseURL: txtURLOutlet.stringValue, endpoint: "", identifierType: "", identifier: "", jpapi: false, jpapiVersion: "")
                     do {
                         // Parse the JSON resturned to get the token and expiry
                         let tokenJson = try JSONSerialization.jsonObject(with: tokenData, options: []) as! [String: AnyObject]
@@ -159,7 +159,7 @@ class loginWindow: NSViewController, URLSessionDelegate {
                     if self.delegateAuth != nil {
 
                         // Delegate stuff to pass info forward goes here
-                        let base64creds = dataMan.base64Credentials(user: self.txtUserOutlet.stringValue, password: self.txtPassOutlet.stringValue)
+                        let base64creds = dataPrep.base64Credentials(user: self.txtUserOutlet.stringValue, password: self.txtPassOutlet.stringValue)
                         self.delegateAuth?.userDidAuthenticate(base64Credentials: base64creds, url: txtURLOutlet.stringValue, token: token, expiry: expiry)
                     
                         self.dismiss(self)
@@ -173,7 +173,7 @@ class loginWindow: NSViewController, URLSessionDelegate {
                         if self.chkBypass.state.rawValue == 1 {
                             if self.delegateAuth != nil {
                                 // Delegate stuff to pass info forward goes here
-                                let base64creds = self.dataMan.base64Credentials(user: self.txtUserOutlet.stringValue, password: self.txtPassOutlet.stringValue)
+                                let base64creds = self.dataPrep.base64Credentials(user: self.txtUserOutlet.stringValue, password: self.txtPassOutlet.stringValue)
                                 self.delegateAuth?.userDidAuthenticate(base64Credentials: base64creds, url: self.txtURLOutlet.stringValue, token: self.token, expiry: self.expiry)
                                 
                                 self.dismiss(self)
