@@ -12,12 +12,12 @@ import Cocoa
 
 public class APIFunctions: NSObject, URLSessionDelegate{
 
-    let dataMan = dataManipulation()
+    let dataPrep = dataPreparation()
     var allowUntrustedFlag: Bool!
 
     public func putData(passedUrl: String, credentials: String, endpoint: String, identifierType: String, identifier: String, allowUntrusted: Bool, xmlToPut: Data) -> String {
 
-        let baseURL = dataMan.generateURL(baseURL: passedUrl, endpoint: endpoint, identifierType: identifierType, identifier: identifier, jpapi: false, jpapiVersion: "")
+        let baseURL = dataPrep.generateURL(baseURL: passedUrl, endpoint: endpoint, identifierType: identifierType, identifier: identifier, jpapi: false, jpapiVersion: "")
 
         let encodedURL = NSURL(string: "\(baseURL)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "https://null")! as URL
         NSLog("[INFO  ]: Submitting a PUT to \(encodedURL.absoluteString)")

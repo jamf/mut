@@ -18,17 +18,17 @@ public class tokenManagement: NSObject, URLSessionDelegate {
         
         allowUntrustedFlag = allowUntrusted
         let myOpQueue = OperationQueue()
-        let dataMan = dataManipulation()
+        let dataPrep = dataPreparation()
         
         // Call the data manipulation class to base64 encode the credentials
-        let base64Credentials = dataMan.base64Credentials(user: user, password: password)
+        let base64Credentials = dataPrep.base64Credentials(user: user, password: password)
         //print("base64 creds: " + base64Credentials) // Uncomment for debugging
 
         // Percent encode special characters that are not allowed in URLs, such as spaces
         let encodedURL = "\(url)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "https://null"
 
         // Create a URL for getting a token.
-        let tokenURL = dataMan.generateURL(baseURL: encodedURL, endpoint: "/auth/tokens", identifierType: "", identifier: "", jpapi: true, jpapiVersion: "nil")
+        let tokenURL = dataPrep.generateURL(baseURL: encodedURL, endpoint: "/auth/tokens", identifierType: "", identifier: "", jpapi: true, jpapiVersion: "nil")
         //print("The URL is " + tokenURL) // Uncomment for debugging
         
         // Declare a variable to be populated, and set up the HTTP Request with headers
@@ -94,10 +94,10 @@ public class tokenManagement: NSObject, URLSessionDelegate {
     }
 
     public func renewToken(url: String, user: String, password: String) -> Data {
-        let dataMan = dataManipulation()
+        let dataPrep = dataPreparation()
         
-        let base64Credentials = dataMan.base64Credentials(user: user, password: password)
-        let tokenURL = dataMan.generateURL(baseURL: url, endpoint: "/auth/keepAlive", identifierType: "", identifier: "", jpapi: true, jpapiVersion: "nil")
+        let base64Credentials = dataPrep.base64Credentials(user: user, password: password)
+        let tokenURL = dataPrep.generateURL(baseURL: url, endpoint: "/auth/keepAlive", identifierType: "", identifier: "", jpapi: true, jpapiVersion: "nil")
         // Declare a variable to be populated, and set up the HTTP Request with headers
         var token = "nil".data(using: String.Encoding.utf8, allowLossyConversion: false)!
         //let encodedURL = NSURL(string: "\(url)".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)! as URL

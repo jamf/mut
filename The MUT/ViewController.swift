@@ -51,7 +51,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         globalBase64 = base64Credentials
     }
     
-    let dataMan = dataManipulation()
+    let dataPrep = dataPreparation()
     let tokenMan = tokenManagement()
     let xmlMan = xmlManager()
     let CSVMan = CSVManipulation()
