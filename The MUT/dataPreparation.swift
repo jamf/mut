@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class dataManipulation {
+public class dataPreparation {
     
     // ******************************************
     // Functions to create URLs can be found here
@@ -51,4 +51,43 @@ public class dataManipulation {
         return base64Credentials
     }
     
+    public func expectedColumns(endpoint: String) -> Int {
+        switch endpoint {
+        case "users":
+            return 6
+        case "computers":
+            return 17
+        case "mobiledevices":
+            return 15
+        default:
+            return 0
+        }
+    }
+    
+    public func eaIDs(expectedColumns: Int, numberOfColumns: Int, headerRow: [String]) -> [String] {
+        var ea_ids = [String]()
+        for i in expectedColumns...(numberOfColumns - 1) {
+            let clean_ea_id = headerRow[i].replacingOccurrences(of: "EA_", with: "")
+            ea_ids = ea_ids + [clean_ea_id]
+            if !clean_ea_id.isInt {
+                print("Problem with EA ID field \(i)")
+            }
+        }
+        return ea_ids
+    }
+    
+    public func eaValues(expectedColumns: Int, numberOfColumns: Int, currentRow: [String]) -> [String] {
+        var ea_values = [String]()
+        for i in expectedColumns...(numberOfColumns - 1) {
+            ea_values = ea_values + [currentRow[i]]
+        }
+        return ea_values
+    }
+}
+
+// This allows us to calculate whether or not EA IDs are actually ints
+extension String {
+    var isInt: Bool {
+        return Int(self) != nil
+    }
 }
