@@ -10,7 +10,7 @@ import XCTest
 @testable import MUT
 
 class The_MUT_Tests: XCTestCase {
-    let DataMan = dataManipulation()
+    let DataPrep = dataPreparation()
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -21,17 +21,17 @@ class The_MUT_Tests: XCTestCase {
     }
 
     func testExample() {
-        let base64Creds = DataMan.base64Credentials(user: "ladmin", password: "jamf1234")
+        let base64Creds = DataPrep.base64Credentials(user: "ladmin", password: "jamf1234")
         XCTAssertEqual(base64Creds, "bGFkbWluOmphbWYxMjM0")
     }
     
     func testURLEncoding() {
-        let encodedURL = DataMan.generateURL(baseURL: "mlevenick", endpoint: "computers", identifierType: "id", identifier: "1", jpapi: false, jpapiVersion: "")
+        let encodedURL = DataPrep.generateURL(baseURL: "mlevenick", endpoint: "computers", identifierType: "id", identifier: "1", jpapi: false, jpapiVersion: "")
         XCTAssertEqual(encodedURL.absoluteString, "https://mlevenick.jamfcloud.com/JSSResource/computers/id/1")
     }
     
     func testURLSpaces() {
-        let encodedURL = DataMan.generateURL(baseURL: "mlevenick", endpoint: "users", identifierType: "name", identifier: "mike levenick", jpapi: false, jpapiVersion: "")
+        let encodedURL = DataPrep.generateURL(baseURL: "mlevenick", endpoint: "users", identifierType: "name", identifier: "mike levenick", jpapi: false, jpapiVersion: "")
         XCTAssertEqual(encodedURL.absoluteString, "https://mlevenick.jamfcloud.com/JSSResource/users/name/mike%20levenick")
     }
     
@@ -40,16 +40,6 @@ class The_MUT_Tests: XCTestCase {
         let yesInt = "1"
         XCTAssertTrue(yesInt.isInt)
         XCTAssertFalse(notInt.isInt)
-    }
-    
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-            let DataMan = dataManipulation()
-            _ = DataMan.base64Credentials(user: "ladmin", password: "jamf1234")
-        }
     }
 
 }
