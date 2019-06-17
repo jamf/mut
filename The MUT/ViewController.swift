@@ -43,6 +43,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     var globalURL: String!
     var globalExpiry: Int!
     var globalBase64: String!
+
     
     func userDidAuthenticate(base64Credentials: String, url: String, token: String, expiry: Int) {
         globalExpiry = expiry
@@ -51,7 +52,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         globalBase64 = base64Credentials
     }
     
-    let dataMan = dataManipulation()
+    let dataPrep = dataPreparation()
     let tokenMan = tokenManagement()
     let xmlMan = xmlManager()
     let CSVMan = CSVManipulation()
@@ -79,6 +80,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         super.viewWillAppear()
         preferredContentSize = NSSize(width: 450, height: 600)
         performSegue(withIdentifier: "segueLogin", sender: self)
+
     }
     
     
@@ -110,14 +112,44 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     }
 
     func submitUpdates() {
+        // Begin the parse
         NSLog("[INFO  : Beginning parsing the CSV file into the array stream.")
         let csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path ?? "/dev/null")
+        
+        // Set variables needed for the run
+        var ea_ids = [String]()
+        var ea_values = [String]()
         let headerRow = csvArray[0]
         let numberOfColumns = headerRow.count
+
+        // Get the expected columns based off update type and calculate number of EAs present
+        let expectedColumns = dataPrep.expectedColumns(endpoint: "users")
+        let numberOfEAs = numberOfColumns - expectedColumns
+        
+        // If there are EAs, get a list of their EA IDs
+        if numberOfEAs > 0 {
+            ea_ids = dataPrep.eaIDs(expectedColumns: expectedColumns, numberOfColumns: numberOfColumns, headerRow: headerRow)
+        }
+        
+        // Begin looping through the CSV sheet
         for row in 1...(csvArray.count - 1) {
+            ea_values = [] // Reset the EA_values so that we aren't just appending
+            
+            // Get the current row of the CSV for updating
             let currentRow = csvArray[row]
-            let xmlToPut = xmlMan.userObject(username: currentRow[0], full_name: currentRow[1], email_address: currentRow[2], phone_number: currentRow[3], position: currentRow[4], ldap_server: currentRow[5])
+            
+            // Populate the ea_values array if there are EAs to update
+            if numberOfEAs > 0 {
+                ea_values = dataPrep.eaValues(expectedColumns: expectedColumns, numberOfColumns: numberOfColumns, currentRow: currentRow)
+            }
+            
+            // Generate the XML to submit
+            let xmlToPut = xmlMan.userObject(username: currentRow[0], full_name: currentRow[1], email_address: currentRow[2], phone_number: currentRow[3], position: currentRow[4], ldap_server: currentRow[5], ea_ids: ea_ids, ea_values: ea_values)
+            
+            // Submit the XML to the Jamf Pro API
             let response = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: "users", identifierType: "name", identifier: currentRow[0], allowUntrusted: false, xmlToPut: xmlToPut)
+            print(response)
         }
     }
+    
 }
