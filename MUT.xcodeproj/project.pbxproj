@@ -45,10 +45,10 @@
 		9FA3D385BC259B1F15FD237F /* Pods_The_MUT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_The_MUT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD44CCECF8E8A8F8B5926F8C /* Pods_The_MUTUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_The_MUTUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1D0A74B1515FA252F13A885 /* Pods-The MUT.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-The MUT.debug.xcconfig"; path = "Target Support Files/Pods-The MUT/Pods-The MUT.debug.xcconfig"; sourceTree = "<group>"; };
-		F70A48E722B7106A003145E0 /* The MUT Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "The MUT Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F70A48E722B7106A003145E0 /* MUT Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MUT Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F70A48E922B7106B003145E0 /* The_MUT_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = The_MUT_Tests.swift; sourceTree = "<group>"; };
 		F70A48EB22B7106B003145E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F7333BCD1DB55EDF00F89C00 /* The MUT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "The MUT.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7333BCD1DB55EDF00F89C00 /* MUT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MUT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7333BD01DB55EDF00F89C00 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F7333BD21DB55EDF00F89C00 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		F7333BD51DB55EDF00F89C00 /* The_MUT.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = The_MUT.xcdatamodel; sourceTree = "<group>"; };
@@ -128,8 +128,8 @@
 		F7333BCE1DB55EDF00F89C00 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F7333BCD1DB55EDF00F89C00 /* The MUT.app */,
-				F70A48E722B7106A003145E0 /* The MUT Tests.xctest */,
+				F7333BCD1DB55EDF00F89C00 /* MUT.app */,
+				F70A48E722B7106A003145E0 /* MUT Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -158,9 +158,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		F70A48E622B7106A003145E0 /* The MUT Tests */ = {
+		F70A48E622B7106A003145E0 /* MUT Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F70A48F022B7106B003145E0 /* Build configuration list for PBXNativeTarget "The MUT Tests" */;
+			buildConfigurationList = F70A48F022B7106B003145E0 /* Build configuration list for PBXNativeTarget "MUT Tests" */;
 			buildPhases = (
 				F70A48E322B7106A003145E0 /* Sources */,
 				F70A48E422B7106A003145E0 /* Frameworks */,
@@ -171,14 +171,14 @@
 			dependencies = (
 				F70A48ED22B7106B003145E0 /* PBXTargetDependency */,
 			);
-			name = "The MUT Tests";
+			name = "MUT Tests";
 			productName = "The MUT Tests";
-			productReference = F70A48E722B7106A003145E0 /* The MUT Tests.xctest */;
+			productReference = F70A48E722B7106A003145E0 /* MUT Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		F7333BCC1DB55EDF00F89C00 /* The MUT */ = {
+		F7333BCC1DB55EDF00F89C00 /* MUT */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F7333BF51DB55EDF00F89C00 /* Build configuration list for PBXNativeTarget "The MUT" */;
+			buildConfigurationList = F7333BF51DB55EDF00F89C00 /* Build configuration list for PBXNativeTarget "MUT" */;
 			buildPhases = (
 				37481AA6DE1BF49C03AE1608 /* [CP] Check Pods Manifest.lock */,
 				F7333BC91DB55EDF00F89C00 /* Sources */,
@@ -190,9 +190,9 @@
 			);
 			dependencies = (
 			);
-			name = "The MUT";
+			name = MUT;
 			productName = "The MUT";
-			productReference = F7333BCD1DB55EDF00F89C00 /* The MUT.app */;
+			productReference = F7333BCD1DB55EDF00F89C00 /* MUT.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -225,7 +225,7 @@
 					};
 				};
 			};
-			buildConfigurationList = F7333BC81DB55EDF00F89C00 /* Build configuration list for PBXProject "The MUT" */;
+			buildConfigurationList = F7333BC81DB55EDF00F89C00 /* Build configuration list for PBXProject "MUT" */;
 			compatibilityVersion = "Xcode 10.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -238,8 +238,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F7333BCC1DB55EDF00F89C00 /* The MUT */,
-				F70A48E622B7106A003145E0 /* The MUT Tests */,
+				F7333BCC1DB55EDF00F89C00 /* MUT */,
+				F70A48E622B7106A003145E0 /* MUT Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -336,7 +336,7 @@
 /* Begin PBXTargetDependency section */
 		F70A48ED22B7106B003145E0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = F7333BCC1DB55EDF00F89C00 /* The MUT */;
+			target = F7333BCC1DB55EDF00F89C00 /* MUT */;
 			targetProxy = F70A48EC22B7106B003145E0 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -378,7 +378,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.levenick.The-MUT-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/The MUT.app/Contents/MacOS/The MUT";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MUT.app/Contents/MacOS/MUT";
 			};
 			name = Debug;
 		};
@@ -406,7 +406,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.levenick.The-MUT-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/The MUT.app/Contents/MacOS/The MUT";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MUT.app/Contents/MacOS/MUT";
 			};
 			name = Release;
 		};
@@ -574,7 +574,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		F70A48F022B7106B003145E0 /* Build configuration list for PBXNativeTarget "The MUT Tests" */ = {
+		F70A48F022B7106B003145E0 /* Build configuration list for PBXNativeTarget "MUT Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F70A48EE22B7106B003145E0 /* Debug */,
@@ -583,7 +583,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F7333BC81DB55EDF00F89C00 /* Build configuration list for PBXProject "The MUT" */ = {
+		F7333BC81DB55EDF00F89C00 /* Build configuration list for PBXProject "MUT" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F7333BF31DB55EDF00F89C00 /* Debug */,
@@ -592,7 +592,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F7333BF51DB55EDF00F89C00 /* Build configuration list for PBXNativeTarget "The MUT" */ = {
+		F7333BF51DB55EDF00F89C00 /* Build configuration list for PBXNativeTarget "MUT" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F7333BF61DB55EDF00F89C00 /* Debug */,
