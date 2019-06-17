@@ -15,7 +15,7 @@ public class xmlManager {
     let removalValue = "CLEAR!"
 
 
-    public func userObject(username: String, full_name: String, email_address: String, phone_number: String, position: String, ldap_server: String) -> Data {
+    public func userObject(username: String, full_name: String, email_address: String, phone_number: String, position: String, ldap_server: String, ea_ids: [String], ea_values: [String]) -> Data {
 
         // User Object update XML Creation:
 
@@ -42,10 +42,8 @@ public class xmlManager {
          */
         
         // Variables needed to dynamically build the EA portion of the XML
-//        var eaIDsElement = [XMLElement]()
-//        eaIDs = [XMLElement(name: "id", stringValue: "1"), XMLElement(name: "id", stringValue: "2")]
-//        var eaValuesElement = [XMLElement]()
-//        eaValues = [XMLElement(name: "value", stringValue: "Monkey"), XMLElement(name: "value", stringValue: "Banana")]
+        var eaIDsElement = [XMLElement]()
+        var eaValuesElement = [XMLElement]()
 
         // Variables needed for the rest of the XML Generation
         let root = XMLElement(name: "user")
@@ -116,21 +114,31 @@ public class xmlManager {
             root.addChild(ldapServerElement)
         }
 
-        // Loop through the EA values, adding them to the EA node
-//        for i in 1...2 {
-//            let currentEAID = eaIDs[i-1]
-//            let currentEAValue = eaValues[i-1]
-//            let currentExtensionAttributes = XMLElement(name: "extension_attribute")
-//            currentExtensionAttributes.addChild(currentEAID)
-//            currentExtensionAttributes.addChild(currentEAValue)
-//            extensionAttributes.addChild(currentExtensionAttributes)
-//        }
+        if ea_values.count > 0 {
+            // Loop through the EA values, adding them to the EA node
+            for i in 0...(ea_ids.count - 1 ) {
 
-        // Add the EA subset to the root element
-//        root.addChild(extensionAttributes)
+                // Position
+                if ea_values[i] == removalValue {
+                    let currentExtensionAttributesElement = XMLElement(name: "extension_attribute")
+                    currentExtensionAttributesElement.addChild(XMLElement(name: "id", stringValue: ea_ids[i]))
+                    currentExtensionAttributesElement.addChild(XMLElement(name: "value", stringValue: ""))
+                    extensionAttributesElement.addChild(currentExtensionAttributesElement)
+                } else if ea_values[i] != "" {
+                    let currentExtensionAttributesElement = XMLElement(name: "extension_attribute")
+                    currentExtensionAttributesElement.addChild(XMLElement(name: "id", stringValue: ea_ids[i]))
+                    currentExtensionAttributesElement.addChild(XMLElement(name: "value", stringValue: ea_values[i]))
+                    extensionAttributesElement.addChild(currentExtensionAttributesElement)
+                }
+            }
+
+            // Add the EA subset to the root element
+
+            root.addChild(extensionAttributesElement)
+        }
 
         // Print the XML
-        // print(xml.debugDescription) // Uncomment for debugging
+        print(xml.debugDescription) // Uncomment for debugging
         return xml.xmlData
     }
 
