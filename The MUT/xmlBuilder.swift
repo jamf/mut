@@ -40,27 +40,14 @@ public class xmlManager {
              <sites/>
          </user>
          */
-        
-        // Variables needed to dynamically build the EA portion of the XML
-        var eaIDsElement = [XMLElement]()
-        var eaValuesElement = [XMLElement]()
 
         // Variables needed for the rest of the XML Generation
         let root = XMLElement(name: "user")
         let xml = XMLDocument(rootElement: root)
-        var usernameElement = XMLElement(name: "name", stringValue: username)
-        var fullNameElement = XMLElement(name: "full_name", stringValue: full_name)
-        var emailElement = XMLElement(name: "email", stringValue: email_address)
-        var emailAddressElement = XMLElement(name: "email_address", stringValue: email_address)
-        var phoneNumberElement = XMLElement(name: "phone_number", stringValue: phone_number)
-        var positionElement = XMLElement(name: "position", stringValue: position)
-        var ldapServerElement = XMLElement(name: "ldap_server")
-        var ldapServerIDElement = XMLElement(name: "id", stringValue: ldap_server) // Set LDAP Server ID to -1 to unassign from all.
-        var extensionAttributesElement = XMLElement(name: "extension_attributes")
-        
-        // Add all the XML Nodes to the root element
 
         // Username
+        var usernameElement = XMLElement(name: "name", stringValue: username)
+        
         if username == removalValue {
             usernameElement = XMLElement(name: "name", stringValue: "")
             root.addChild(usernameElement)
@@ -69,6 +56,8 @@ public class xmlManager {
         }
 
         // Full Name
+        var fullNameElement = XMLElement(name: "full_name", stringValue: full_name)
+        
         if full_name == removalValue {
             fullNameElement = XMLElement(name: "full_name", stringValue: "")
             root.addChild(fullNameElement)
@@ -77,6 +66,9 @@ public class xmlManager {
         }
 
         // Email Address
+        var emailElement = XMLElement(name: "email", stringValue: email_address)
+        var emailAddressElement = XMLElement(name: "email_address", stringValue: email_address)
+        
         if email_address == removalValue {
             emailElement = XMLElement(name: "email", stringValue: "")
             emailAddressElement = XMLElement(name: "email_address", stringValue: "")
@@ -88,6 +80,8 @@ public class xmlManager {
         }
 
         // Phone Number
+        var phoneNumberElement = XMLElement(name: "phone_number", stringValue: phone_number)
+        
         if phone_number == removalValue {
             phoneNumberElement = XMLElement(name: "phone_number", stringValue: "")
             root.addChild(phoneNumberElement)
@@ -96,6 +90,8 @@ public class xmlManager {
         }
 
         // Position
+        var positionElement = XMLElement(name: "position", stringValue: position)
+        
         if position == removalValue {
             positionElement = XMLElement(name: "position", stringValue: "")
             root.addChild(positionElement)
@@ -104,6 +100,9 @@ public class xmlManager {
         }
 
         // LDAP Server
+        var ldapServerElement = XMLElement(name: "ldap_server")
+        var ldapServerIDElement = XMLElement(name: "id", stringValue: ldap_server) // Set LDAP Server ID to -1 to unassign from all.
+        
         if ldap_server == removalValue {
             ldapServerElement = XMLElement(name: "ldap_server")
             ldapServerIDElement = XMLElement(name: "id", stringValue: "-1")
@@ -114,6 +113,9 @@ public class xmlManager {
             root.addChild(ldapServerElement)
         }
 
+        // Extension Attributes
+        let extensionAttributesElement = XMLElement(name: "extension_attributes")
+        
         if ea_values.count > 0 {
             // Loop through the EA values, adding them to the EA node
             for i in 0...(ea_ids.count - 1 ) {
@@ -183,59 +185,189 @@ public class xmlManager {
          </mobile_device>
          */
 
-        // Variables needed to dynamically build the EA portion of the XML
-        var eaIDs = [XMLElement]()
-        eaIDs = [XMLElement(name: "id", stringValue: "1"), XMLElement(name: "id", stringValue: "2")]
-        var eaValues = [XMLElement]()
-        eaValues = [XMLElement(name: "value", stringValue: "Monkey"), XMLElement(name: "value", stringValue: "Banana")]
-
         // Variables needed for the rest of the XML Generation
         let root = XMLElement(name: "mobile_device")
         let xml = XMLDocument(rootElement: root)
         let general = XMLElement(name: "general")
         let location = XMLElement(name: "location")
         let purchasing = XMLElement(name: "purchasing")
+        
+        // Name updates (MDM Commands)
         let display_name = XMLElement(name: "display_name", stringValue: displayName)
         let device_name = XMLElement(name: "device_name", stringValue: displayName)
         let name = XMLElement(name: "name", stringValue: displayName)
-        let asset_tag = XMLElement(name: "asset_tag", stringValue: assetTag)
-        let username = XMLElement(name: "username", stringValue: username)
-        let realname = XMLElement(name: "realname", stringValue: full_name)
-        let real_name = XMLElement(name: "real_name", stringValue: full_name)
-        let emailAddress = XMLElement(name: "email_address", stringValue: email_address)
-        let position = XMLElement(name: "position", stringValue: position)
-        let phone = XMLElement(name: "phone", stringValue: phone_number)
-        let phoneNumber = XMLElement(name: "phone_number", stringValue: phone_number)
-        let department = XMLElement(name: "department", stringValue: department)
-        let building = XMLElement(name: "building", stringValue: building)
-        let room = XMLElement(name: "room", stringValue: room)
-        let po_number = XMLElement(name: "po_number", stringValue: poNumber)
-        let vendor = XMLElement(name: "vendor", stringValue: vendor)
-        let po_date = XMLElement(name: "po_date", stringValue: poDate)
-        let warranty_expires = XMLElement(name: "warranty_expires", stringValue: warrantyExpires)
-        let lease_expires = XMLElement(name: "lease_expires", stringValue: leaseExpires)
-        let extensionAttributes = XMLElement(name: "extension_attributes")
+        
 
+        // ----------------------
+        // GENERAL ATTRIBUTES
+        // ----------------------
+        
+        // Asset Tag
+        var assetTagElement = XMLElement(name: "asset_tag", stringValue: assetTag)
+        
+        if assetTag == removalValue {
+            assetTagElement = XMLElement(name: "asset_tag", stringValue: "")
+            general.addChild(assetTagElement)
+        } else if assetTag != "" {
+            general.addChild(assetTagElement)
+        }
+        
+        // ----------------------
+        // LOCATION ATTRIBUTES
+        // ----------------------
+        
+        // Username
+        var usernameElement = XMLElement(name: "username", stringValue: username)
+        
+        if username == removalValue {
+            usernameElement = XMLElement(name: "username", stringValue: "")
+            location.addChild(usernameElement)
+        } else if email_address != "" {
+            location.addChild(usernameElement)
+        }
+        
+        // Real Name
+        var realnameElement = XMLElement(name: "realname", stringValue: full_name)
+        var real_nameElement = XMLElement(name: "real_name", stringValue: full_name)
+        
+        if full_name == removalValue {
+            realnameElement = XMLElement(name: "realname", stringValue: "")
+            location.addChild(realnameElement)
+            real_nameElement = XMLElement(name: "real_name", stringValue: "")
+            location.addChild(real_nameElement)
+        } else if full_name != "" {
+            location.addChild(realnameElement)
+            location.addChild(real_nameElement)
+        }
+        
+        // Email Address
+        var emailAddressElement = XMLElement(name: "email_address", stringValue: email_address)
+        
+        if email_address == removalValue {
+            emailAddressElement = XMLElement(name: "email_address", stringValue: "")
+            location.addChild(emailAddressElement)
+        } else if email_address != "" {
+            location.addChild(emailAddressElement)
+        }
+        
+        // Position
+        var positionElement = XMLElement(name: "position", stringValue: position)
+        
+        if position == removalValue {
+            positionElement = XMLElement(name: "position", stringValue: "")
+            location.addChild(positionElement)
+        } else if position != "" {
+            location.addChild(positionElement)
+        }
+        
+        // Phone Number
+        var phoneElement = XMLElement(name: "phone", stringValue: phone_number)
+        var phoneNumberElement = XMLElement(name: "phone_number", stringValue: phone_number)
+        
+        if phone_number == removalValue {
+            phoneElement = XMLElement(name: "phone", stringValue: "")
+            location.addChild(phoneElement)
+            phoneNumberElement = XMLElement(name: "phone_number", stringValue: "")
+            location.addChild(phoneNumberElement)
+        } else if phone_number != "" {
+            location.addChild(phoneElement)
+            location.addChild(phoneNumberElement)
+        }
+        
+        // Department
+        var departmentElement = XMLElement(name: "department", stringValue: department)
+        
+        if department == removalValue {
+            departmentElement = XMLElement(name: "department", stringValue: "")
+            location.addChild(departmentElement)
+        } else if department != "" {
+            location.addChild(departmentElement)
+        }
+        
+        // Building
+        var buildingElement = XMLElement(name: "building", stringValue: building)
+        
+        if building == removalValue {
+            buildingElement = XMLElement(name: "building", stringValue: "")
+            location.addChild(buildingElement)
+        } else if building != "" {
+            location.addChild(buildingElement)
+        }
+        
+        // Room
+        var roomElement = XMLElement(name: "room", stringValue: room)
+        
+        if room == removalValue {
+            roomElement = XMLElement(name: "position", stringValue: "")
+            location.addChild(roomElement)
+        } else if room != "" {
+            location.addChild(roomElement)
+        }
+        
+        // ----------------------
+        // PURCHASING ATTRIBUTES
+        // ----------------------
+        
+        // PO Number
+        var poNumberElement = XMLElement(name: "po_number", stringValue: poNumber)
+        
+        if poNumber == removalValue {
+            poNumberElement = XMLElement(name: "po_number", stringValue: "")
+            purchasing.addChild(poNumberElement)
+        } else if poNumber != "" {
+            purchasing.addChild(poNumberElement)
+        }
+        
+        // Vendor
+        var vendorElement = XMLElement(name: "vendor", stringValue: vendor)
+        
+        if vendor == removalValue {
+            vendorElement = XMLElement(name: "vendor", stringValue: "")
+            purchasing.addChild(vendorElement)
+        } else if vendor != "" {
+            purchasing.addChild(vendorElement)
+        }
+        
+        // PO Date
+        var poDateElement = XMLElement(name: "po_date", stringValue: poDate)
+        
+        if poDate == removalValue {
+            poDateElement = XMLElement(name: "po_date", stringValue: "")
+            purchasing.addChild(poDateElement)
+        } else if vendor != "" {
+            purchasing.addChild(poDateElement)
+        }
+        
+        // Warranty Expires
+        var warrantyExpiresElement = XMLElement(name: "warranty_expires", stringValue: warrantyExpires)
+        
+        if warrantyExpires == removalValue {
+            warrantyExpiresElement = XMLElement(name: "warranty_expires", stringValue: "")
+            purchasing.addChild(warrantyExpiresElement)
+        } else if warrantyExpires != "" {
+            purchasing.addChild(warrantyExpiresElement)
+        }
+        
+        // Lease Expires
+        var leaseExpiresElement = XMLElement(name: "lease_expires", stringValue: leaseExpires)
+        
+        if leaseExpires == removalValue {
+            leaseExpiresElement = XMLElement(name: "lease_expires", stringValue: "")
+            purchasing.addChild(leaseExpiresElement)
+        } else if leaseExpires != "" {
+            purchasing.addChild(leaseExpiresElement)
+        }
+        
+        // ----------------------
+        // EXTENSION ATTRIBUTES
+        // ----------------------
+        
+        let extensionAttributes = XMLElement(name: "extension_attributes")
+        
         // Add all the XML Nodes to the root element
-        general.addChild(display_name)
-        general.addChild(device_name)
-        general.addChild(name)
-        general.addChild(asset_tag)
-        location.addChild(username)
-        location.addChild(realname)
-        location.addChild(real_name)
-        location.addChild(emailAddress)
-        location.addChild(position)
-        location.addChild(phone)
-        location.addChild(phoneNumber)
-        location.addChild(department)
-        location.addChild(building)
-        location.addChild(room)
-        purchasing.addChild(po_number)
-        purchasing.addChild(vendor)
-        purchasing.addChild(po_date)
-        purchasing.addChild(warranty_expires)
-        purchasing.addChild(lease_expires)
+//        general.addChild(display_name)
+//        general.addChild(device_name)
+//        general.addChild(name)
 
         root.addChild(general)
         root.addChild(location)
