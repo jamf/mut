@@ -46,58 +46,26 @@ public class xmlManager {
         let xml = XMLDocument(rootElement: root)
 
         // Username
-        var usernameElement = XMLElement(name: "name", stringValue: username)
+        let usernameElement = XMLElement(name: "name", stringValue: username)
+        populateElement(variableToCheck: username, elementName: "name", elementToAdd: usernameElement, whereToAdd: root)
         
-        if username == removalValue {
-            usernameElement = XMLElement(name: "name", stringValue: "")
-            root.addChild(usernameElement)
-        } else if username != "" {
-            root.addChild(usernameElement)
-        }
-
         // Full Name
-        var fullNameElement = XMLElement(name: "full_name", stringValue: full_name)
-        
-        if full_name == removalValue {
-            fullNameElement = XMLElement(name: "full_name", stringValue: "")
-            root.addChild(fullNameElement)
-        } else if full_name != "" {
-            root.addChild(fullNameElement)
-        }
+        let fullNameElement = XMLElement(name: "full_name", stringValue: full_name)
+        populateElement(variableToCheck: full_name, elementName: "full_name", elementToAdd: fullNameElement, whereToAdd: root)
 
         // Email Address
-        var emailElement = XMLElement(name: "email", stringValue: email_address)
-        var emailAddressElement = XMLElement(name: "email_address", stringValue: email_address)
-        
-        if email_address == removalValue {
-            emailElement = XMLElement(name: "email", stringValue: "")
-            emailAddressElement = XMLElement(name: "email_address", stringValue: "")
-            root.addChild(emailElement)
-            root.addChild(emailAddressElement)
-        } else if email_address != "" {
-            root.addChild(emailElement)
-            root.addChild(emailAddressElement)
-        }
+        let emailElement = XMLElement(name: "email", stringValue: email_address)
+        let emailAddressElement = XMLElement(name: "email_address", stringValue: email_address)
+        populateElement(variableToCheck: email_address, elementName: "email", elementToAdd: emailElement, whereToAdd: root)
+        populateElement(variableToCheck: email_address, elementName: "email_address", elementToAdd: emailAddressElement, whereToAdd: root)
 
         // Phone Number
-        var phoneNumberElement = XMLElement(name: "phone_number", stringValue: phone_number)
-        
-        if phone_number == removalValue {
-            phoneNumberElement = XMLElement(name: "phone_number", stringValue: "")
-            root.addChild(phoneNumberElement)
-        } else if phone_number != "" {
-            root.addChild(phoneNumberElement)
-        }
+        let phoneNumberElement = XMLElement(name: "phone_number", stringValue: phone_number)
+        populateElement(variableToCheck: phone_number, elementName: "phone_number", elementToAdd: phoneNumberElement, whereToAdd: root)
 
         // Position
-        var positionElement = XMLElement(name: "position", stringValue: position)
-        
-        if position == removalValue {
-            positionElement = XMLElement(name: "position", stringValue: "")
-            root.addChild(positionElement)
-        } else if position != "" {
-            root.addChild(positionElement)
-        }
+        let positionElement = XMLElement(name: "position", stringValue: position)
+        populateElement(variableToCheck: position, elementName: "position", elementToAdd: positionElement, whereToAdd: root)
 
         // LDAP Server
         var ldapServerElement = XMLElement(name: "ldap_server")
@@ -120,7 +88,7 @@ public class xmlManager {
             // Loop through the EA values, adding them to the EA node
             for i in 0...(ea_ids.count - 1 ) {
 
-                // Position
+                // Extension Attributes
                 if ea_values[i] == removalValue {
                     let currentExtensionAttributesElement = XMLElement(name: "extension_attribute")
                     currentExtensionAttributesElement.addChild(XMLElement(name: "id", stringValue: ea_ids[i]))
@@ -135,19 +103,18 @@ public class xmlManager {
             }
 
             // Add the EA subset to the root element
-
             root.addChild(extensionAttributesElement)
         }
 
         // Print the XML
-        print(xml.debugDescription) // Uncomment for debugging
+        //print(xml.debugDescription) // Uncomment for debugging
         return xml.xmlData
     }
 
 
     public func iosObject(displayName: String, assetTag: String, username: String, full_name: String, email_address: String, phone_number: String, position: String, department: String, building: String, room: String, poNumber: String, vendor: String, poDate: String, warrantyExpires: String, leaseExpires: String, ea_ids: [String], ea_values: [String]) -> Data {
 
-        // User Object update XML Creation:
+        // iOS Object update XML Creation:
 
         // Example of the XML that is generated by this function
         /*
@@ -192,6 +159,8 @@ public class xmlManager {
         let location = XMLElement(name: "location")
         let purchasing = XMLElement(name: "purchasing")
         
+        
+        
         // ----------------------
         // DEVICE NAME
         // ----------------------
@@ -212,174 +181,85 @@ public class xmlManager {
         // ----------------------
         
         // Asset Tag
-        var assetTagElement = XMLElement(name: "asset_tag", stringValue: assetTag)
-        
-        if assetTag == removalValue {
-            assetTagElement = XMLElement(name: "asset_tag", stringValue: "")
-            general.addChild(assetTagElement)
-        } else if assetTag != "" {
-            general.addChild(assetTagElement)
-        }
+        let assetTagElement = XMLElement(name: "asset_tag", stringValue: assetTag)
+        populateElement(variableToCheck: assetTag, elementName: "asset_tag", elementToAdd: assetTagElement, whereToAdd: general)
         
         // ----------------------
         // LOCATION ATTRIBUTES
         // ----------------------
         
         // Username
-        var usernameElement = XMLElement(name: "username", stringValue: username)
-        
-        if username == removalValue {
-            usernameElement = XMLElement(name: "username", stringValue: "")
-            location.addChild(usernameElement)
-        } else if username != "" {
-            location.addChild(usernameElement)
-        }
+        let usernameElement = XMLElement(name: "username", stringValue: username)
+        populateElement(variableToCheck: username, elementName: "username", elementToAdd: usernameElement, whereToAdd: location)
         
         // Real Name
-        var realnameElement = XMLElement(name: "realname", stringValue: full_name)
-        var real_nameElement = XMLElement(name: "real_name", stringValue: full_name)
-        
-        if full_name == removalValue {
-            realnameElement = XMLElement(name: "realname", stringValue: "")
-            location.addChild(realnameElement)
-            real_nameElement = XMLElement(name: "real_name", stringValue: "")
-            location.addChild(real_nameElement)
-        } else if full_name != "" {
-            location.addChild(realnameElement)
-            location.addChild(real_nameElement)
-        }
+        let realnameElement = XMLElement(name: "realname", stringValue: full_name)
+        let real_nameElement = XMLElement(name: "real_name", stringValue: full_name)
+        populateElement(variableToCheck: full_name, elementName: "realname", elementToAdd: realnameElement, whereToAdd: location)
+        populateElement(variableToCheck: full_name, elementName: "real_name", elementToAdd: real_nameElement, whereToAdd: location)
+
         
         // Email Address
-        var emailAddressElement = XMLElement(name: "email_address", stringValue: email_address)
-        
-        if email_address == removalValue {
-            emailAddressElement = XMLElement(name: "email_address", stringValue: "")
-            location.addChild(emailAddressElement)
-        } else if email_address != "" {
-            location.addChild(emailAddressElement)
-        }
+        let emailAddressElement = XMLElement(name: "email_address", stringValue: email_address)
+        populateElement(variableToCheck: email_address, elementName: "email_address", elementToAdd: emailAddressElement, whereToAdd: location)
         
         // Position
-        var positionElement = XMLElement(name: "position", stringValue: position)
-        
-        if position == removalValue {
-            positionElement = XMLElement(name: "position", stringValue: "")
-            location.addChild(positionElement)
-        } else if position != "" {
-            location.addChild(positionElement)
-        }
+        let positionElement = XMLElement(name: "position", stringValue: position)
+        populateElement(variableToCheck: position, elementName: "position", elementToAdd: positionElement, whereToAdd: location)
         
         // Phone Number
-        var phoneElement = XMLElement(name: "phone", stringValue: phone_number)
-        var phoneNumberElement = XMLElement(name: "phone_number", stringValue: phone_number)
-        
-        if phone_number == removalValue {
-            phoneElement = XMLElement(name: "phone", stringValue: "")
-            location.addChild(phoneElement)
-            phoneNumberElement = XMLElement(name: "phone_number", stringValue: "")
-            location.addChild(phoneNumberElement)
-        } else if phone_number != "" {
-            location.addChild(phoneElement)
-            location.addChild(phoneNumberElement)
-        }
+        let phoneElement = XMLElement(name: "phone", stringValue: phone_number)
+        let phoneNumberElement = XMLElement(name: "phone_number", stringValue: phone_number)
+        populateElement(variableToCheck: phone_number, elementName: "phone", elementToAdd: phoneElement, whereToAdd: location)
+        populateElement(variableToCheck: phone_number, elementName: "phone_number", elementToAdd: phoneNumberElement, whereToAdd: location)
         
         // Department
-        var departmentElement = XMLElement(name: "department", stringValue: department)
-        
-        if department == removalValue {
-            departmentElement = XMLElement(name: "department", stringValue: "")
-            location.addChild(departmentElement)
-        } else if department != "" {
-            location.addChild(departmentElement)
-        }
+        let departmentElement = XMLElement(name: "department", stringValue: department)
+        populateElement(variableToCheck: department, elementName: "department", elementToAdd: departmentElement, whereToAdd: location)
         
         // Building
-        var buildingElement = XMLElement(name: "building", stringValue: building)
-        
-        if building == removalValue {
-            buildingElement = XMLElement(name: "building", stringValue: "")
-            location.addChild(buildingElement)
-        } else if building != "" {
-            location.addChild(buildingElement)
-        }
+        let buildingElement = XMLElement(name: "building", stringValue: building)
+        populateElement(variableToCheck: building, elementName: "building", elementToAdd: buildingElement, whereToAdd: location)
         
         // Room
-        var roomElement = XMLElement(name: "room", stringValue: room)
-        
-        if room == removalValue {
-            roomElement = XMLElement(name: "position", stringValue: "")
-            location.addChild(roomElement)
-        } else if room != "" {
-            location.addChild(roomElement)
-        }
+        let roomElement = XMLElement(name: "room", stringValue: room)
+        populateElement(variableToCheck: room, elementName: "room", elementToAdd: roomElement, whereToAdd: location)
         
         // ----------------------
         // PURCHASING ATTRIBUTES
         // ----------------------
         
         // PO Number
-        var poNumberElement = XMLElement(name: "po_number", stringValue: poNumber)
-        
-        if poNumber == removalValue {
-            poNumberElement = XMLElement(name: "po_number", stringValue: "")
-            purchasing.addChild(poNumberElement)
-        } else if poNumber != "" {
-            purchasing.addChild(poNumberElement)
-        }
+        let poNumberElement = XMLElement(name: "po_number", stringValue: poNumber)
+        populateElement(variableToCheck: poNumber, elementName: "po_number", elementToAdd: poNumberElement, whereToAdd: purchasing)
         
         // Vendor
-        var vendorElement = XMLElement(name: "vendor", stringValue: vendor)
-        
-        if vendor == removalValue {
-            vendorElement = XMLElement(name: "vendor", stringValue: "")
-            purchasing.addChild(vendorElement)
-        } else if vendor != "" {
-            purchasing.addChild(vendorElement)
-        }
+        let vendorElement = XMLElement(name: "vendor", stringValue: vendor)
+        populateElement(variableToCheck: vendor, elementName: "vendor", elementToAdd: vendorElement, whereToAdd: purchasing)
         
         // PO Date
-        var poDateElement = XMLElement(name: "po_date", stringValue: poDate)
-        
-        if poDate == removalValue {
-            poDateElement = XMLElement(name: "po_date", stringValue: "")
-            purchasing.addChild(poDateElement)
-        } else if vendor != "" {
-            purchasing.addChild(poDateElement)
-        }
+        let poDateElement = XMLElement(name: "po_date", stringValue: poDate)
+        populateElement(variableToCheck: poDate, elementName: "po_date", elementToAdd: poDateElement, whereToAdd: purchasing)
         
         // Warranty Expires
-        var warrantyExpiresElement = XMLElement(name: "warranty_expires", stringValue: warrantyExpires)
-        
-        if warrantyExpires == removalValue {
-            warrantyExpiresElement = XMLElement(name: "warranty_expires", stringValue: "")
-            purchasing.addChild(warrantyExpiresElement)
-        } else if warrantyExpires != "" {
-            purchasing.addChild(warrantyExpiresElement)
-        }
+        let warrantyExpiresElement = XMLElement(name: "warranty_expires", stringValue: warrantyExpires)
+        populateElement(variableToCheck: warrantyExpires, elementName: "warranty_expires", elementToAdd: warrantyExpiresElement, whereToAdd: purchasing)
         
         // Lease Expires
-        var leaseExpiresElement = XMLElement(name: "lease_expires", stringValue: leaseExpires)
-        
-        if leaseExpires == removalValue {
-            leaseExpiresElement = XMLElement(name: "lease_expires", stringValue: "")
-            purchasing.addChild(leaseExpiresElement)
-        } else if leaseExpires != "" {
-            purchasing.addChild(leaseExpiresElement)
-        }
+        let leaseExpiresElement = XMLElement(name: "lease_expires", stringValue: leaseExpires)
+        populateElement(variableToCheck: leaseExpires, elementName: "lease_expires", elementToAdd: leaseExpiresElement, whereToAdd: purchasing)
         
         // ----------------------
         // EXTENSION ATTRIBUTES
         // ----------------------
-
-
-
+        
         let extensionAttributesElement = XMLElement(name: "extension_attributes")
 
         if ea_values.count > 0 {
             // Loop through the EA values, adding them to the EA node
             for i in 0...(ea_ids.count - 1 ) {
 
-                // Position
+                // Extension Attributes
                 if ea_values[i] == removalValue {
                     let currentExtensionAttributesElement = XMLElement(name: "extension_attribute")
                     currentExtensionAttributesElement.addChild(XMLElement(name: "id", stringValue: ea_ids[i]))
@@ -392,10 +272,6 @@ public class xmlManager {
                     extensionAttributesElement.addChild(currentExtensionAttributesElement)
                 }
             }
-
-            // Add the EA subset to the root element
-
-
         }
 
         root.addChild(general)
@@ -405,7 +281,188 @@ public class xmlManager {
 
 
         // Print the XML
-        print(xml.debugDescription) // Uncomment for debugging
+        //print(xml.debugDescription) // Uncomment for debugging
         return xml.xmlData
+    }
+    
+    public func macosObject(displayName: String, assetTag: String, barcode1: String, barcode2: String, username: String, full_name: String, email_address: String, phone_number: String, position: String, department: String, building: String, room: String, poNumber: String, vendor: String, poDate: String, warrantyExpires: String, leaseExpires: String, ea_ids: [String], ea_values: [String]) -> Data {
+        
+        // macOS Object update XML Creation:
+        
+        // Example of the XML that is generated by this function
+        /*
+         <computer>
+             <general>
+                 <name>Device Name</name>
+                 <barcode_1/>
+                 <barcode_2/>
+                 <asset_tag/>
+                 <site>
+                     <id/>
+                     <name/>
+                 </site>
+             </general>
+             <location>
+                 <username/>
+                 <realname/>
+                 <real_name/>
+                 <email_address/>
+                 <position/>
+                 <phone/>
+                 <phone_number/>
+                 <department/>
+                 <building/>
+                 <room/>
+             </location>
+             <purchasing>
+                 <po_number/>
+                 <vendor/>
+                 <po_date/>
+                 <warranty_expires/>
+                 <lease_expires/>
+             </purchasing>
+             <extension_attributes>
+                <extension_attribute>
+                    <id>1</id>
+                    <value>Value</value>
+                </extension_attribute
+            </extension_attributes>
+         </computer>
+         */
+        
+        // Variables needed for the rest of the XML Generation
+        let root = XMLElement(name: "computer")
+        let xml = XMLDocument(rootElement: root)
+        let general = XMLElement(name: "general")
+        let location = XMLElement(name: "location")
+        let purchasing = XMLElement(name: "purchasing")
+        
+        // ----------------------
+        // GENERAL ATTRIBUTES
+        // ----------------------
+        
+        // Asset Tag
+        let assetTagElement = XMLElement(name: "asset_tag", stringValue: assetTag)
+        populateElement(variableToCheck: assetTag, elementName: "asset_tag", elementToAdd: assetTagElement, whereToAdd: general)
+        
+        // Barcode 1
+        let barcode1Element = XMLElement(name: "barcode_1", stringValue: barcode1)
+        populateElement(variableToCheck: barcode1, elementName: "barcode_1", elementToAdd: barcode1Element, whereToAdd: general)
+        
+        // Barcode 2
+        let barcode2Element = XMLElement(name: "barcode_2", stringValue: barcode2)
+        populateElement(variableToCheck: barcode2, elementName: "barcode_2", elementToAdd: barcode2Element, whereToAdd: general)
+        
+        // ----------------------
+        // LOCATION ATTRIBUTES
+        // ----------------------
+        
+        // Username
+        let usernameElement = XMLElement(name: "username", stringValue: username)
+        populateElement(variableToCheck: username, elementName: "username", elementToAdd: usernameElement, whereToAdd: location)
+        
+        // Real Name
+        let realnameElement = XMLElement(name: "realname", stringValue: full_name)
+        let real_nameElement = XMLElement(name: "real_name", stringValue: full_name)
+        populateElement(variableToCheck: full_name, elementName: "realname", elementToAdd: realnameElement, whereToAdd: location)
+        populateElement(variableToCheck: full_name, elementName: "real_name", elementToAdd: real_nameElement, whereToAdd: location)
+        
+        
+        // Email Address
+        let emailAddressElement = XMLElement(name: "email_address", stringValue: email_address)
+        populateElement(variableToCheck: email_address, elementName: "email_address", elementToAdd: emailAddressElement, whereToAdd: location)
+        
+        // Position
+        let positionElement = XMLElement(name: "position", stringValue: position)
+        populateElement(variableToCheck: position, elementName: "position", elementToAdd: positionElement, whereToAdd: location)
+        
+        // Phone Number
+        let phoneElement = XMLElement(name: "phone", stringValue: phone_number)
+        let phoneNumberElement = XMLElement(name: "phone_number", stringValue: phone_number)
+        populateElement(variableToCheck: phone_number, elementName: "phone", elementToAdd: phoneElement, whereToAdd: location)
+        populateElement(variableToCheck: phone_number, elementName: "phone_number", elementToAdd: phoneNumberElement, whereToAdd: location)
+        
+        // Department
+        let departmentElement = XMLElement(name: "department", stringValue: department)
+        populateElement(variableToCheck: department, elementName: "department", elementToAdd: departmentElement, whereToAdd: location)
+        
+        // Building
+        let buildingElement = XMLElement(name: "building", stringValue: building)
+        populateElement(variableToCheck: building, elementName: "building", elementToAdd: buildingElement, whereToAdd: location)
+        
+        // Room
+        let roomElement = XMLElement(name: "room", stringValue: room)
+        populateElement(variableToCheck: room, elementName: "room", elementToAdd: roomElement, whereToAdd: location)
+        
+        // ----------------------
+        // PURCHASING ATTRIBUTES
+        // ----------------------
+        
+        // PO Number
+        let poNumberElement = XMLElement(name: "po_number", stringValue: poNumber)
+        populateElement(variableToCheck: poNumber, elementName: "po_number", elementToAdd: poNumberElement, whereToAdd: purchasing)
+        
+        // Vendor
+        let vendorElement = XMLElement(name: "vendor", stringValue: vendor)
+        populateElement(variableToCheck: vendor, elementName: "vendor", elementToAdd: vendorElement, whereToAdd: purchasing)
+        
+        // PO Date
+        let poDateElement = XMLElement(name: "po_date", stringValue: poDate)
+        populateElement(variableToCheck: poDate, elementName: "po_date", elementToAdd: poDateElement, whereToAdd: purchasing)
+        
+        // Warranty Expires
+        let warrantyExpiresElement = XMLElement(name: "warranty_expires", stringValue: warrantyExpires)
+        populateElement(variableToCheck: warrantyExpires, elementName: "warranty_expires", elementToAdd: warrantyExpiresElement, whereToAdd: purchasing)
+        
+        // Lease Expires
+        let leaseExpiresElement = XMLElement(name: "lease_expires", stringValue: leaseExpires)
+        populateElement(variableToCheck: leaseExpires, elementName: "lease_expires", elementToAdd: leaseExpiresElement, whereToAdd: purchasing)
+        
+        // ----------------------
+        // EXTENSION ATTRIBUTES
+        // ----------------------
+        
+        let extensionAttributesElement = XMLElement(name: "extension_attributes")
+        
+        if ea_values.count > 0 {
+            // Loop through the EA values, adding them to the EA node
+            for i in 0...(ea_ids.count - 1 ) {
+                
+                // Extension Attributes
+                if ea_values[i] == removalValue {
+                    let currentExtensionAttributesElement = XMLElement(name: "extension_attribute")
+                    currentExtensionAttributesElement.addChild(XMLElement(name: "id", stringValue: ea_ids[i]))
+                    currentExtensionAttributesElement.addChild(XMLElement(name: "value", stringValue: ""))
+                    extensionAttributesElement.addChild(currentExtensionAttributesElement)
+                } else if ea_values[i] != "" {
+                    let currentExtensionAttributesElement = XMLElement(name: "extension_attribute")
+                    currentExtensionAttributesElement.addChild(XMLElement(name: "id", stringValue: ea_ids[i]))
+                    currentExtensionAttributesElement.addChild(XMLElement(name: "value", stringValue: ea_values[i]))
+                    extensionAttributesElement.addChild(currentExtensionAttributesElement)
+                }
+            }
+        }
+        
+        root.addChild(general)
+        root.addChild(location)
+        root.addChild(purchasing)
+        root.addChild(extensionAttributesElement)
+        
+        
+        // Print the XML
+        //print(xml.debugDescription) // Uncomment for debugging
+        return xml.xmlData
+    }
+    
+    func populateElement(variableToCheck: String, elementName: String, elementToAdd: XMLElement, whereToAdd: XMLElement) {
+        // Populate the element as needed
+        var elementToAdd = XMLElement(name: elementName, stringValue: variableToCheck)
+        
+        if variableToCheck == removalValue {
+            elementToAdd = XMLElement(name: elementName, stringValue: "")
+            whereToAdd.addChild(elementToAdd)
+        } else if variableToCheck != "" {
+            whereToAdd.addChild(elementToAdd)
+        }
     }
 }
