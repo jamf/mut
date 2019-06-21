@@ -145,7 +145,7 @@ public class xmlManager {
     }
 
 
-    public func iosObject(displayName: String, assetTag: String, username: String, full_name: String, email_address: String, phone_number: String, position: String, department: String, building: String, room: String, poNumber: String, vendor: String, poDate: String, warrantyExpires: String, leaseExpires: String) -> Data {
+    public func iosObject(displayName: String, assetTag: String, username: String, full_name: String, email_address: String, phone_number: String, position: String, department: String, building: String, room: String, poNumber: String, vendor: String, poDate: String, warrantyExpires: String, leaseExpires: String, ea_ids: [String], ea_values: [String]) -> Data {
 
         // User Object update XML Creation:
 
@@ -192,11 +192,20 @@ public class xmlManager {
         let location = XMLElement(name: "location")
         let purchasing = XMLElement(name: "purchasing")
         
-        // Name updates (MDM Commands)
-        let display_name = XMLElement(name: "display_name", stringValue: displayName)
-        let device_name = XMLElement(name: "device_name", stringValue: displayName)
-        let name = XMLElement(name: "name", stringValue: displayName)
-        
+        // ----------------------
+        // DEVICE NAME
+        // ----------------------
+
+        let displayNameElement = XMLElement(name: "display_name", stringValue: displayName)
+        let deviceNameElement = XMLElement(name: "device_name", stringValue: displayName)
+        let nameElement = XMLElement(name: "name", stringValue: displayName)
+
+        if displayName != "" {
+            general.addChild(displayNameElement)
+            general.addChild(deviceNameElement)
+            general.addChild(nameElement)
+        }
+
 
         // ----------------------
         // GENERAL ATTRIBUTES
@@ -222,7 +231,7 @@ public class xmlManager {
         if username == removalValue {
             usernameElement = XMLElement(name: "username", stringValue: "")
             location.addChild(usernameElement)
-        } else if email_address != "" {
+        } else if username != "" {
             location.addChild(usernameElement)
         }
         
@@ -361,34 +370,42 @@ public class xmlManager {
         // ----------------------
         // EXTENSION ATTRIBUTES
         // ----------------------
-        
-        let extensionAttributes = XMLElement(name: "extension_attributes")
-        
-        // Add all the XML Nodes to the root element
-//        general.addChild(display_name)
-//        general.addChild(device_name)
-//        general.addChild(name)
+
+
+
+        let extensionAttributesElement = XMLElement(name: "extension_attributes")
+
+        if ea_values.count > 0 {
+            // Loop through the EA values, adding them to the EA node
+            for i in 0...(ea_ids.count - 1 ) {
+
+                // Position
+                if ea_values[i] == removalValue {
+                    let currentExtensionAttributesElement = XMLElement(name: "extension_attribute")
+                    currentExtensionAttributesElement.addChild(XMLElement(name: "id", stringValue: ea_ids[i]))
+                    currentExtensionAttributesElement.addChild(XMLElement(name: "value", stringValue: ""))
+                    extensionAttributesElement.addChild(currentExtensionAttributesElement)
+                } else if ea_values[i] != "" {
+                    let currentExtensionAttributesElement = XMLElement(name: "extension_attribute")
+                    currentExtensionAttributesElement.addChild(XMLElement(name: "id", stringValue: ea_ids[i]))
+                    currentExtensionAttributesElement.addChild(XMLElement(name: "value", stringValue: ea_values[i]))
+                    extensionAttributesElement.addChild(currentExtensionAttributesElement)
+                }
+            }
+
+            // Add the EA subset to the root element
+
+
+        }
 
         root.addChild(general)
         root.addChild(location)
         root.addChild(purchasing)
+        root.addChild(extensionAttributesElement)
 
-        // Loop through the EA values, adding them to the EA node
-        //        for i in 1...2 {
-        //            let currentEAID = eaIDs[i-1]
-        //            let currentEAValue = eaValues[i-1]
-        //            let currentExtensionAttributes = XMLElement(name: "extension_attribute")
-        //            currentExtensionAttributes.addChild(currentEAID)
-        //            currentExtensionAttributes.addChild(currentEAValue)
-        //            extensionAttributes.addChild(currentExtensionAttributes)
-        //        }
-
-        // Add the EA subset to the root element
-//        root.addChild(extensionAttributes)
 
         // Print the XML
         print(xml.debugDescription) // Uncomment for debugging
         return xml.xmlData
     }
-
 }

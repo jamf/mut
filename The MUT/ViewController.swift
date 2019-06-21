@@ -102,7 +102,8 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
 
     
     @IBAction func btnPreFlightAction(_ sender: Any) {
-        submitUpdates()
+        //submitUpdates()
+        testUpdates()
         
     }
     
@@ -150,6 +151,12 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
             let response = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: "users", identifierType: "name", identifier: currentRow[0], allowUntrusted: false, xmlToPut: xmlToPut)
             print(response)
         }
+    }
+
+    func testUpdates() {
+        let iOSXML = xmlMan.iosObject(displayName: "Mikes Mini", assetTag: "", username: "", full_name: "", email_address: "", phone_number: "", position: "", department: "", building: "", room: "", poNumber: "", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: [], ea_values: [])
+        let response = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: "mobiledevices", identifierType: "id", identifier: "81", allowUntrusted: false, xmlToPut: iOSXML)
+        print(response)
     }
     
 }
