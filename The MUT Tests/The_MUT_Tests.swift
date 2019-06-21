@@ -264,7 +264,7 @@ class macOSXMLTests: XCTestCase {
     }
     
     func testmacOSXML_Full() {
-        let macOSXML = xmlMan.iosObject(displayName: "Mikes Mini", assetTag: "JAMF1234", username: "mike.levenick", full_name: "Mike Levenick", email_address: "mike.levenick@jssmut.com", phone_number: "", position: "", department: "", building: "", room: "", poNumber: "", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: ["1","2"], ea_values: ["Value1","Value2"])
+        let macOSXML = xmlMan.macosObject(displayName: "Mikes Mini", assetTag: "JAMF1234", barcode1: "Barcode1", barcode2: "Barcode2", username: "mike.levenick", full_name: "Mike Levenick", email_address: "mike.levenick@jssmut.com", phone_number: "", position: "", department: "", building: "", room: "", poNumber: "", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: ["1","2"], ea_values: ["Value1","Value2"])
         let xmlString = String(decoding: macOSXML, as: UTF8.self)
         print(xmlString)
         //XCTAssertEqual(xmlString, "FIX ME")

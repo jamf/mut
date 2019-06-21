@@ -111,6 +111,10 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         NSLog("[INFO  : Saving CSV Templates to User's Download's Directory")
         CSVMan.ExportCSV()
     }
+    
+    @IBAction func submitRequests(_ sender: Any) {
+        
+    }
 
     func submitUpdates() {
         // Begin the parse
