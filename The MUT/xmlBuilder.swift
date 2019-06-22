@@ -15,7 +15,7 @@ public class xmlManager {
     let removalValue = "CLEAR!"
 
 
-    public func userObject(username: String, full_name: String, email_address: String, phone_number: String, position: String, ldap_server: String, ea_ids: [String], ea_values: [String]) -> Data {
+    public func userObject(username: String, full_name: String, email_address: String, phone_number: String, position: String, ldap_server: String, ea_ids: [String], ea_values: [String], site_ident: String) -> Data {
 
         // User Object update XML Creation:
 
@@ -37,7 +37,12 @@ public class xmlManager {
                      <value>Something</value>
                  </extension_attribute>
              </extension_attributes>
-             <sites/>
+             <sites>
+                 <site>
+                     <id>1</id>
+                     <name>Site 1</name>
+                 </site>
+             </sites>
          </user>
          */
 
@@ -68,11 +73,10 @@ public class xmlManager {
         populateElement(variableToCheck: position, elementName: "position", elementToAdd: positionElement, whereToAdd: root)
 
         // LDAP Server
-        var ldapServerElement = XMLElement(name: "ldap_server")
+        let ldapServerElement = XMLElement(name: "ldap_server")
         var ldapServerIDElement = XMLElement(name: "id", stringValue: ldap_server) // Set LDAP Server ID to -1 to unassign from all.
         
         if ldap_server == removalValue {
-            ldapServerElement = XMLElement(name: "ldap_server")
             ldapServerIDElement = XMLElement(name: "id", stringValue: "-1")
             ldapServerElement.addChild(ldapServerIDElement)
             root.addChild(ldapServerElement)
@@ -80,6 +84,27 @@ public class xmlManager {
             ldapServerElement.addChild(ldapServerIDElement)
             root.addChild(ldapServerElement)
         }
+
+        // Site
+        let sitesElement = XMLElement(name: "sites")
+        let siteElement = XMLElement(name: "site")
+        var siteIDElement = XMLElement(name: "id", stringValue: site_ident)
+        if site_ident == removalValue {
+            siteIDElement = XMLElement(name: "id", stringValue: "-1")
+            siteElement.addChild(siteIDElement)
+            sitesElement.addChild(siteElement)
+            root.addChild(sitesElement)
+        } else if site_ident != "" {
+            if site_ident.isInt {
+                siteIDElement = XMLElement(name: "id", stringValue: site_ident)
+            } else {
+                siteIDElement = XMLElement(name: "name", stringValue: site_ident)
+            }
+            siteElement.addChild(siteIDElement)
+            sitesElement.addChild(siteElement)
+            root.addChild(sitesElement)
+        }
+
 
         // Extension Attributes
         let extensionAttributesElement = XMLElement(name: "extension_attributes")
@@ -106,13 +131,14 @@ public class xmlManager {
             root.addChild(extensionAttributesElement)
         }
 
+
         // Print the XML
         //print(xml.debugDescription) // Uncomment for debugging
         return xml.xmlData
     }
 
 
-    public func iosObject(displayName: String, assetTag: String, username: String, full_name: String, email_address: String, phone_number: String, position: String, department: String, building: String, room: String, poNumber: String, vendor: String, poDate: String, warrantyExpires: String, leaseExpires: String, ea_ids: [String], ea_values: [String]) -> Data {
+    public func iosObject(displayName: String, assetTag: String, username: String, full_name: String, email_address: String, phone_number: String, position: String, department: String, building: String, room: String, poNumber: String, vendor: String, poDate: String, warrantyExpires: String, leaseExpires: String, ea_ids: [String], ea_values: [String], site_ident: String) -> Data {
 
         // iOS Object update XML Creation:
 
@@ -183,6 +209,23 @@ public class xmlManager {
         // Asset Tag
         let assetTagElement = XMLElement(name: "asset_tag", stringValue: assetTag)
         populateElement(variableToCheck: assetTag, elementName: "asset_tag", elementToAdd: assetTagElement, whereToAdd: general)
+
+        // Site
+        let siteElement = XMLElement(name: "site")
+        var siteIDElement = XMLElement(name: "id", stringValue: site_ident)
+        if site_ident == removalValue {
+            siteIDElement = XMLElement(name: "id", stringValue: "-1")
+            siteElement.addChild(siteIDElement)
+            general.addChild(siteElement)
+        } else if site_ident != "" {
+            if site_ident.isInt {
+                siteIDElement = XMLElement(name: "id", stringValue: site_ident)
+            } else {
+                siteIDElement = XMLElement(name: "name", stringValue: site_ident)
+            }
+            siteElement.addChild(siteIDElement)
+            general.addChild(siteElement)
+        }
         
         // ----------------------
         // LOCATION ATTRIBUTES
@@ -285,7 +328,7 @@ public class xmlManager {
         return xml.xmlData
     }
     
-    public func macosObject(displayName: String, assetTag: String, barcode1: String, barcode2: String, username: String, full_name: String, email_address: String, phone_number: String, position: String, department: String, building: String, room: String, poNumber: String, vendor: String, poDate: String, warrantyExpires: String, leaseExpires: String, ea_ids: [String], ea_values: [String]) -> Data {
+    public func macosObject(displayName: String, assetTag: String, barcode1: String, barcode2: String, username: String, full_name: String, email_address: String, phone_number: String, position: String, department: String, building: String, room: String, poNumber: String, vendor: String, poDate: String, warrantyExpires: String, leaseExpires: String, ea_ids: [String], ea_values: [String], site_ident: String) -> Data {
         
         // macOS Object update XML Creation:
         
@@ -352,6 +395,23 @@ public class xmlManager {
         // Barcode 2
         let barcode2Element = XMLElement(name: "barcode_2", stringValue: barcode2)
         populateElement(variableToCheck: barcode2, elementName: "barcode_2", elementToAdd: barcode2Element, whereToAdd: general)
+
+        // Site
+        let siteElement = XMLElement(name: "site")
+        var siteIDElement = XMLElement(name: "id", stringValue: site_ident)
+        if site_ident == removalValue {
+            siteIDElement = XMLElement(name: "id", stringValue: "-1")
+            siteElement.addChild(siteIDElement)
+            general.addChild(siteElement)
+        } else if site_ident != "" {
+            if site_ident.isInt {
+                siteIDElement = XMLElement(name: "id", stringValue: site_ident)
+            } else {
+                siteIDElement = XMLElement(name: "name", stringValue: site_ident)
+            }
+            siteElement.addChild(siteIDElement)
+            general.addChild(siteElement)
+        }
         
         // ----------------------
         // LOCATION ATTRIBUTES
