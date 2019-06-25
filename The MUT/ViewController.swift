@@ -43,6 +43,7 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     var globalURL: String!
     var globalExpiry: Int!
     var globalBase64: String!
+    var globalEndpoint: String!
 
     
     func userDidAuthenticate(base64Credentials: String, url: String, token: String, expiry: Int) {
@@ -102,8 +103,8 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
 
     
     @IBAction func btnPreFlightAction(_ sender: Any) {
-        //submitUpdates()
-        testUpdates()
+        submitUpdates()
+        //testUpdates()
         
     }
     
@@ -126,9 +127,11 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         var ea_values = [String]()
         let headerRow = csvArray[0]
         let numberOfColumns = headerRow.count
-
+        globalEndpoint = dataPrep.endpoint(headerA: headerRow[0])
+        print(globalEndpoint!)
+        
         // Get the expected columns based off update type and calculate number of EAs present
-        let expectedColumns = dataPrep.expectedColumns(endpoint: "users")
+        let expectedColumns = dataPrep.expectedColumns(endpoint: globalEndpoint!)
         let numberOfEAs = numberOfColumns - expectedColumns
         
         // If there are EAs, get a list of their EA IDs
@@ -137,30 +140,37 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         }
         
         // Begin looping through the CSV sheet
-        for row in 1...(csvArray.count - 1) {
-            ea_values = [] // Reset the EA_values so that we aren't just appending
-            
-            // Get the current row of the CSV for updating
-            let currentRow = csvArray[row]
-            
-            // Populate the ea_values array if there are EAs to update
-            if numberOfEAs > 0 {
-                ea_values = dataPrep.eaValues(expectedColumns: expectedColumns, numberOfColumns: numberOfColumns, currentRow: currentRow)
+        
+        print(csvArray.count)
+        if csvArray.count > 1 {
+            for row in 1...(csvArray.count - 1) {
+                ea_values = [] // Reset the EA_values so that we aren't just appending
+                
+                // Get the current row of the CSV for updating
+                let currentRow = csvArray[row]
+                
+                // Populate the ea_values array if there are EAs to update
+                if numberOfEAs > 0 {
+                    ea_values = dataPrep.eaValues(expectedColumns: expectedColumns, numberOfColumns: numberOfColumns, currentRow: currentRow)
+                }
+                
+                // Generate the XML to submit
+                let xmlToPut = xmlMan.userObject(username: currentRow[0], full_name: currentRow[1], email_address: currentRow[2], phone_number: currentRow[3], position: currentRow[4], ldap_server: currentRow[5], ea_ids: ea_ids, ea_values: ea_values, site_ident: "1")
+                
+                // Submit the XML to the Jamf Pro API
+                //let response = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: "users", identifierType: "name", identifier: currentRow[0], allowUntrusted: false, xmlToPut: xmlToPut)
+                //print(response)
             }
-            
-            // Generate the XML to submit
-            let xmlToPut = xmlMan.userObject(username: currentRow[0], full_name: currentRow[1], email_address: currentRow[2], phone_number: currentRow[3], position: currentRow[4], ldap_server: currentRow[5], ea_ids: ea_ids, ea_values: ea_values)
-            
-            // Submit the XML to the Jamf Pro API
-            let response = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: "users", identifierType: "name", identifier: currentRow[0], allowUntrusted: false, xmlToPut: xmlToPut)
-            print(response)
+        } else {
+            // Not enough rows in the CSV to run
         }
     }
 
     func testUpdates() {
-        let iOSXML = xmlMan.iosObject(displayName: "Mikes Mini", assetTag: "", username: "", full_name: "", email_address: "", phone_number: "", position: "", department: "", building: "", room: "", poNumber: "", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: [], ea_values: [])
+        let iOSXML = xmlMan.iosObject(displayName: "Mikes Mini", assetTag: "", username: "", full_name: "", email_address: "", phone_number: "", position: "", department: "", building: "", room: "", poNumber: "", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: [], ea_values: [], site_ident: "1")
         let response = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: "mobiledevices", identifierType: "id", identifier: "81", allowUntrusted: false, xmlToPut: iOSXML)
         print(response)
+        
     }
     
 }
