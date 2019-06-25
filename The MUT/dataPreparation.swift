@@ -64,6 +64,19 @@ public class dataPreparation {
         }
     }
     
+    public func endpoint(headerA: String) -> String {
+        switch headerA {
+        case "Username":
+            return "users"
+        case "Computer Serial":
+            return "computers"
+        case "Mobile Device Serial":
+            return "mobiledevices"
+        default:
+            return "Endpoint_Error"
+        }
+    }
+    
     public func eaIDs(expectedColumns: Int, numberOfColumns: Int, headerRow: [String]) -> [String] {
         var ea_ids = [String]()
         for i in expectedColumns...(numberOfColumns - 1) {
