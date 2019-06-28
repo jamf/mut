@@ -52,6 +52,7 @@ public class APIFunctions: NSObject, URLSessionDelegate{
                     globalResponse = response?.description ?? "nil"
                     NSLog("[ERROR ]: Failed GET completed by The MUT.app")
                     NSLog("[ERROR ]: " + response.debugDescription)
+                    NSLog("[ERROR ]: " + String(decoding: data!, as: UTF8.self))
                 }
                 //print("EncodedURL: \(passedUrl.absoluteString)")
                 // print(String (data: data!, encoding: .utf8)) // Uncomment for debugging

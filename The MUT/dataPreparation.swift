@@ -54,13 +54,26 @@ public class dataPreparation {
     public func expectedColumns(endpoint: String) -> Int {
         switch endpoint {
         case "users":
-            return 6
+            return 7
         case "computers":
-            return 17
+            return 19
         case "mobiledevices":
-            return 15
+            return 17
         default:
             return 0
+        }
+    }
+    
+    public func endpoint(headerA: String) -> String {
+        switch headerA {
+        case "Username":
+            return "users"
+        case "Computer Serial":
+            return "computers"
+        case "Mobile Device Serial":
+            return "mobiledevices"
+        default:
+            return "Endpoint_Error"
         }
     }
     

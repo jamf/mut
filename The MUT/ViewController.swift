@@ -43,7 +43,8 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     var globalURL: String!
     var globalExpiry: Int!
     var globalBase64: String!
-
+    var globalEndpoint: String!
+    var xmlToPut: Data!
     
     func userDidAuthenticate(base64Credentials: String, url: String, token: String, expiry: Int) {
         globalExpiry = expiry
@@ -103,12 +104,17 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     
     @IBAction func btnPreFlightAction(_ sender: Any) {
         submitUpdates()
+        //testUpdates()
         
     }
     
     @IBAction func btnExportCSV(_ sender: Any) {
         NSLog("[INFO  : Saving CSV Templates to User's Download's Directory")
         CSVMan.ExportCSV()
+    }
+    
+    @IBAction func submitRequests(_ sender: Any) {
+        
     }
 
     func submitUpdates() {
@@ -121,9 +127,11 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         var ea_values = [String]()
         let headerRow = csvArray[0]
         let numberOfColumns = headerRow.count
-
+        globalEndpoint = dataPrep.endpoint(headerA: headerRow[0])
+        print(globalEndpoint!)
+        
         // Get the expected columns based off update type and calculate number of EAs present
-        let expectedColumns = dataPrep.expectedColumns(endpoint: "users")
+        let expectedColumns = dataPrep.expectedColumns(endpoint: globalEndpoint!)
         let numberOfEAs = numberOfColumns - expectedColumns
         
         // If there are EAs, get a list of their EA IDs
@@ -132,24 +140,46 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         }
         
         // Begin looping through the CSV sheet
-        for row in 1...(csvArray.count - 1) {
-            ea_values = [] // Reset the EA_values so that we aren't just appending
-            
-            // Get the current row of the CSV for updating
-            let currentRow = csvArray[row]
-            
-            // Populate the ea_values array if there are EAs to update
-            if numberOfEAs > 0 {
-                ea_values = dataPrep.eaValues(expectedColumns: expectedColumns, numberOfColumns: numberOfColumns, currentRow: currentRow)
+        
+        print(csvArray.count)
+        if csvArray.count > 1 {
+            for row in 1...(csvArray.count - 1) {
+                ea_values = [] // Reset the EA_values so that we aren't just appending
+                
+                // Get the current row of the CSV for updating
+                let currentRow = csvArray[row]
+                
+                // Populate the ea_values array if there are EAs to update
+                if numberOfEAs > 0 {
+                    ea_values = dataPrep.eaValues(expectedColumns: expectedColumns, numberOfColumns: numberOfColumns, currentRow: currentRow)
+                }
+                
+                if globalEndpoint! == "users" {
+                    // Generate the XML to submit
+                    xmlToPut = xmlMan.userObject(username: currentRow[0], full_name: currentRow[1], email_address: currentRow[2], phone_number: currentRow[3], position: currentRow[4], ldap_server: currentRow[5], ea_ids: ea_ids, ea_values: ea_values, site_ident: "1")
+                } else if globalEndpoint! == "computers" {
+                    xmlToPut = xmlMan.macosObject(displayName: currentRow[1], assetTag: currentRow[2], barcode1: currentRow[3], barcode2: currentRow[4], username: currentRow[5], full_name: currentRow[6], email_address: currentRow[7], phone_number: currentRow[9], position: currentRow[8], department: currentRow[10], building: currentRow[11], room: currentRow[12], poNumber: currentRow[13], vendor: currentRow[14], poDate: currentRow[15], warrantyExpires: currentRow[16], leaseExpires: currentRow[17], ea_ids: ea_ids, ea_values: ea_values, site_ident: currentRow[18])
+                } else if globalEndpoint! == "mobiledevices" {
+                    xmlToPut = xmlMan.iosObject(displayName: currentRow[1], assetTag: currentRow[2], username: currentRow[3], full_name: currentRow[4], email_address: currentRow[5], phone_number: currentRow[7], position: currentRow[6], department: currentRow[8], building: currentRow[9], room: currentRow[10], poNumber: currentRow[11], vendor: currentRow[12], poDate: currentRow[13], warrantyExpires: currentRow[14], leaseExpires: currentRow[15], ea_ids: ea_ids, ea_values: ea_values, site_ident: currentRow[16])
+                }
+                let xmlString = String(decoding: xmlToPut, as: UTF8.self)
+                print(xmlString)
+
+                
+                // Submit the XML to the Jamf Pro API
+                let response = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint!, identifierType: "serialnumber", identifier: currentRow[0], allowUntrusted: false, xmlToPut: xmlToPut)
+                print(response)
             }
-            
-            // Generate the XML to submit
-            let xmlToPut = xmlMan.userObject(username: currentRow[0], full_name: currentRow[1], email_address: currentRow[2], phone_number: currentRow[3], position: currentRow[4], ldap_server: currentRow[5], ea_ids: ea_ids, ea_values: ea_values)
-            
-            // Submit the XML to the Jamf Pro API
-            let response = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: "users", identifierType: "name", identifier: currentRow[0], allowUntrusted: false, xmlToPut: xmlToPut)
-            print(response)
+        } else {
+            // Not enough rows in the CSV to run
         }
+    }
+
+    func testUpdates() {
+        let iOSXML = xmlMan.iosObject(displayName: "Mikes Mini", assetTag: "", username: "", full_name: "", email_address: "", phone_number: "", position: "", department: "", building: "", room: "", poNumber: "", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: [], ea_values: [], site_ident: "1")
+        let response = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: "mobiledevices", identifierType: "id", identifier: "81", allowUntrusted: false, xmlToPut: iOSXML)
+        print(response)
+        
     }
     
 }
