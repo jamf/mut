@@ -491,9 +491,6 @@ DQ
                                                     </items>
                                                 </menu>
                                             </popUpButtonCell>
-                                            <connections>
-                                                <action selector="popDeviceAction:" target="Wso-JF-mtF" id="WDS-sR-dRz"/>
-                                            </connections>
                                         </popUpButton>
                                         <popUpButton fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JbY-gP-QYS">
                                             <rect key="frame" x="298" y="524" width="132" height="23"/>
@@ -512,9 +509,6 @@ DQ
                                                     </items>
                                                 </menu>
                                             </popUpButtonCell>
-                                            <connections>
-                                                <action selector="popAttributeAction:" target="Wso-JF-mtF" id="4eN-iF-M9y"/>
-                                            </connections>
                                         </popUpButton>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6zd-dF-5QE">
                                             <rect key="frame" x="386" y="490" width="44" height="22"/>
@@ -637,7 +631,6 @@ DQ
                         <outlet property="MainViewController" destination="xfl-iX-lsl" id="7M1-6i-wAx"/>
                         <outlet property="barProgress" destination="Ik2-B7-R24" id="Tsy-Yo-e0L"/>
                         <outlet property="boxLog" destination="PZ8-na-NII" id="Ci1-bp-4Ya"/>
-                        <outlet property="btnCancelOutlet" destination="m6p-k2-jN9" id="0Uk-mJ-7pP"/>
                         <outlet property="btnPreFlightOutlet" destination="AOy-KK-CFH" id="5x2-a5-dto"/>
                         <outlet property="btnSubmitOutlet" destination="yi8-lJ-HaJ" id="yKL-La-qw5"/>
                         <outlet property="lblCurrent" destination="JFU-8B-dxp" id="pj1-jR-ctj"/>

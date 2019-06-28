@@ -38,6 +38,16 @@
                ReferencedContainer = "container:MUT.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F7E81A3122BD580A005DE1B6"
+               BuildableName = "UserXMLTests.xctest"
+               BlueprintName = "UserXMLTests"
+               ReferencedContainer = "container:MUT.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

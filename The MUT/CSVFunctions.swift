@@ -22,11 +22,11 @@ public class CSVManipulation {
         exportComputerCSV()
         exportMobileDeviceCSV()
     }
-    let userCSV = "Username,Full Name,Email Address,Phone Number,Position,LDAP Server ID\n"
+    let userCSV = "Username,Full Name,Email Address,Phone Number,Position,LDAP Server ID,Site (ID or Name)\n"
     
-    let mobileDeviceCSV = "Display Name,Asset Tag,Username,Real Name,Email Address,Position,Phone Number,Department,Building,Room,PO Number,Vendor,PO Date,Warranty Expires,Lease Expires\n"
+    let mobileDeviceCSV = "Mobile Device Serial,Display Name,Asset Tag,Username,Real Name,Email Address,Position,Phone Number,Department,Building,Room,PO Number,Vendor,PO Date,Warranty Expires,Lease Expires,Site (ID or Name)\n"
    
-    let computerCSV = "Display Name,Asset Tag,Barcode 1,Barcode 2,Username,Real Name,Email Address,Position,Phone Number,Department,Building,Room,PO Number,Vendor,PO Date,Warranty Expires,Lease Expires\n"
+    let computerCSV = "Computer Serial,Display Name,Asset Tag,Barcode 1,Barcode 2,Username,Real Name,Email Address,Position,Phone Number,Department,Building,Room,PO Number,Vendor,PO Date,Warranty Expires,Lease Expires,Site (ID or Name)\n"
     
     let CSVReadme = "Read this to learn how to use the MUT with Templates!"
     //sort out PO info ordering in CSV. Note Added to Trello
