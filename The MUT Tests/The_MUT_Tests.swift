@@ -52,7 +52,8 @@ class genericDataValidation: XCTestCase {
         print(myURL)
 
         let response = apifunc.getPrestageScope(passedUrl: myURL, token: "eyJhbGciOiJIUzI1NiJ9.eyJhdXRoZW50aWNhdGVkLWFwcCI6IkdFTkVSSUMiLCJhdXRoZW50aWNhdGlvbi10eXBlIjoiSlNTIiwiZ3JvdXBzIjpbXSwic3ViamVjdC10eXBlIjoiSlNTX1VTRVJfSUQiLCJ0b2tlbi11dWlkIjoiODQ4NGZjZWUtMmNmMS00NjYzLWE5NDEtZThlYmJhZWE5MDQ2IiwibGRhcC1zZXJ2ZXItaWQiOi0xLCJzdWIiOiIzIiwiZXhwIjoxNTYxODM2NzAwfQ.ns1ZDt-qLZNrNbHC7oOoyXqeFknVv4eK_7qajFVcc-A", endpoint: "computer-prestages", allowUntrusted: true)
-        print(response.description)
+        let myDataString = String(decoding: response, as: UTF8.self)
+        print(myDataString)
     }
     
 }

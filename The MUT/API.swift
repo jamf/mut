@@ -73,13 +73,12 @@ public class APIFunctions: NSObject, URLSessionDelegate{
         return globalResponse
     }
 
-    public func getPrestageScope(passedUrl: URL, token: String, endpoint: String, allowUntrusted: Bool) -> String {
+    public func getPrestageScope(passedUrl: URL, token: String, endpoint: String, allowUntrusted: Bool) -> Data {
 
         NSLog("[INFO  ]: Getting current prestage scope from \(passedUrl.absoluteString)")
         allowUntrustedFlag = allowUntrusted
         let myOpQueue = OperationQueue()
-        var globalResponse = ""
-        // The semaphore is what allows us to force the code to wait for this request to complete
+        var globalResponse = "nil".data(using: String.Encoding.utf8, allowLossyConversion: false)!        // The semaphore is what allows us to force the code to wait for this request to complete
         // Without the semaphore, MUT will queue up a request for every single line of the CSV simultaneously
         let semaphore = DispatchSemaphore(value: 0)
         let request = NSMutableURLRequest(url: passedUrl)
@@ -98,12 +97,12 @@ public class APIFunctions: NSObject, URLSessionDelegate{
             if let httpResponse = response as? HTTPURLResponse {
                 if httpResponse.statusCode >= 199 && httpResponse.statusCode <= 299 {
                     // Good response from API
-                    globalResponse = response?.description ?? "nil"
+                    globalResponse = data!
                     NSLog("[INFO  ]: Successful GET completed by The MUT.app")
                     NSLog("[INFO  ]: " + response.debugDescription)
                 } else {
                     // Bad Response from API
-                    globalResponse = response?.description ?? "nil"
+                    globalResponse = data!
                     NSLog("[ERROR ]: Failed GET completed by The MUT.app")
                     NSLog("[ERROR ]: " + response.debugDescription)
                     NSLog("[ERROR ]: " + String(decoding: data!, as: UTF8.self))
@@ -115,7 +114,7 @@ public class APIFunctions: NSObject, URLSessionDelegate{
 
             if error != nil {
                 let errorString = "[FATAL ]: " + error!.localizedDescription
-                globalResponse = errorString
+                globalResponse = data!
                 NSLog("[FATAL ]: " + error!.localizedDescription)
                 //print("EncodedURL in error: \(passedUrl.absoluteString)")
                 semaphore.signal() // Signal completion to the semaphore
