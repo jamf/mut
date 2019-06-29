@@ -152,7 +152,6 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         drawTables()
     }
     func drawTables() {
-        let csvArray = readCSV(pathToCSV: self.globalPathToCSV.path!)
         //        print("")
         //        print("Running Build Dict")
         //        print("")
