@@ -73,19 +73,16 @@ public class APIFunctions: NSObject, URLSessionDelegate{
         return globalResponse
     }
 
-    public func getPrestageScope(passedUrl: String, token: String, endpoint: String, allowUntrusted: Bool) -> String {
+    public func getPrestageScope(passedUrl: URL, token: String, endpoint: String, allowUntrusted: Bool) -> String {
 
-        let baseURL = dataPrep.generateURL(baseURL: passedUrl, endpoint: endpoint, identifierType: "", identifier: "", jpapi: true, jpapiVersion: "v1")
-        print(baseURL)
-        let encodedURL = NSURL(string: "\(baseURL)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "https://null")! as URL
-        NSLog("[INFO  ]: Getting current prestage scope from \(encodedURL.absoluteString)")
+        NSLog("[INFO  ]: Getting current prestage scope from \(passedUrl.absoluteString)")
         allowUntrustedFlag = allowUntrusted
         let myOpQueue = OperationQueue()
         var globalResponse = ""
         // The semaphore is what allows us to force the code to wait for this request to complete
         // Without the semaphore, MUT will queue up a request for every single line of the CSV simultaneously
         let semaphore = DispatchSemaphore(value: 0)
-        let request = NSMutableURLRequest(url: encodedURL)
+        let request = NSMutableURLRequest(url: passedUrl)
 
         // Determine the request type. If we pass this in with a variable, we could use this function for PUT as well.
         request.httpMethod = "GET"
