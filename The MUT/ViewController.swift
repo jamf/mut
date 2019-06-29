@@ -144,7 +144,6 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
 
     var csvArray = [[String]]()
     func readCSV(pathToCSV: String) -> [[String]]{
-        
         //print("begin readCSV...")
         let stream = InputStream(fileAtPath: pathToCSV)!
         csvArray = [[String]]()
@@ -153,7 +152,6 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
             print("\(row)")
             csvArray = (csvArray + [row])
         }
-        
         //print("Printed csvArray: \(csvArray)")
         return csvArray
     }
@@ -163,16 +161,15 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     @IBAction func btnPreFlightAction(_ sender: Any) {
         //submitUpdates()
         //testUpdates()
-        let headerID = "Testing123"
-        //print("Begin specificLine...")
+        drawTables()
+    }
+    
+    
+    func drawTables() {
         let csvArray = readCSV(pathToCSV: self.globalPathToCSV.path!)
-        // print("")
-        print("")
-        print("Running Build Dict")
-        print("")
-        
-        //TESTING COMBINING THEM INTO 1 DICT
-        
+        //        print("")
+        //        print("Running Build Dict")
+        //        print("")
         
         csvData = buildDict(rowToRead: 1, ofArray: csvArray)
         csvIdentifierData = buildID(ofArray: csvArray, countArray: csvData)
@@ -183,8 +180,9 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         currentData = csvIdentifierData
         tblIdentifier.reloadData()
         
-        
     }
+    
+    
     
     @IBAction func btnExportCSV(_ sender: Any) {
         NSLog("[INFO  : Saving CSV Templates to User's Download's Directory")
@@ -290,8 +288,6 @@ extension ViewController: NSTableViewDataSource {
             if csvIdentifierData.count > row {
                 cell.textField?.stringValue = csvID["csvIdentifier"] ?? "NO VALUE"
             }
-            
-            //print("Tried to add to csvIdentifier")
         }
         
         return cell
@@ -308,22 +304,29 @@ extension ViewController: NSTableViewDataSource {
 }
 
 func buildDict(rowToRead: Int, ofArray: [[String]]) -> [[String : String]] {
-    //
     //print("Beginning buildDict using array: \(ofArray)")
     //NOTE: If we allow not using header rows, this will need to be hard coded.
     //Otherwise, we can read in the header row. This would be easier if using EAs
     let headerRow = ofArray[0]
-    //var val = 0
-    //how many rows are there
+    
+    //how many attributes are there
     let columns = headerRow.count
+    //start at the first attribute
     var column = 0
+    //How many records are in the csv (rows)
     let entries = ofArray.count
+    //Start at first record, skipping header row
     var entry = 1
     var currentEntry = [""]
+    //Will append to the returnArray throughout the loops
     var returnArray: [[ String : String ]] = []
+    
     //print("Number of columns in headerRow: \(columns)")
     
+    //Unsure if this line is needed
     column = 0
+    
+    //set row to whatever is input for row to read. Can be hard coded, or we can increment it
     currentEntry = ofArray[rowToRead]
     while column < columns {
         //print("Current Entry... \(currentEntry[column])")
