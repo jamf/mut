@@ -38,6 +38,24 @@ public class dataPreparation {
         }
         return encodedURL
     }
+
+    public func generateGetURL(baseURL: String, endpoint: String, prestageID: String, jpapiVersion: String) -> URL {
+        var instancedURL = baseURL
+        if !baseURL.contains(".") {
+            instancedURL = "https://" + baseURL + ".jamfcloud.com/"
+        }
+        var versionEndpoint = ""
+
+        var encodedURL = NSURL(string: "https://null".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)! as URL
+
+        versionEndpoint = "\(jpapiVersion)/"
+
+
+        let concatURL = instancedURL + "/uapi" + versionEndpoint + endpoint
+        let cleanURL = concatURL.replacingOccurrences(of: "//uapi", with: "/uapi")
+        encodedURL = NSURL(string: "\(cleanURL)")! as URL
+        return encodedURL
+    }
     
     // ******************************************
     // Functions to encode/decode data can be found here
