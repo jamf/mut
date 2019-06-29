@@ -51,7 +51,7 @@ public class dataPreparation {
         versionEndpoint = "\(jpapiVersion)/"
 
 
-        let concatURL = instancedURL + "/uapi" + versionEndpoint + endpoint
+        let concatURL = instancedURL + "/uapi" + "/" + versionEndpoint + endpoint + "/" + prestageID + "/scope"
         let cleanURL = concatURL.replacingOccurrences(of: "//uapi", with: "/uapi")
         encodedURL = NSURL(string: "\(cleanURL)")! as URL
         return encodedURL
