@@ -106,12 +106,12 @@ public class CSVManipulation {
         }
     }
 
-    func readCSV(pathToCSV: String) -> [[String]]{
+    func readCSV(pathToCSV: String, delimiter: UnicodeScalar) -> [[String]]{
         let stream = InputStream(fileAtPath: pathToCSV)!
 
         // Initialize the array
         var csvArray = [[String]]()
-        let csv = try! CSVReader(stream: stream)
+        let csv = try! CSVReader(stream: stream, delimiter: delimiter)
 
         // For each row in the CSV, append it to the end of the array
         while let row = csv.next() {

@@ -72,6 +72,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     var globalBase64: String!
     var globalEndpoint: String!
     var xmlToPut: Data!
+    var globalDelimiter: UnicodeScalar!
     
     func userDidAuthenticate(base64Credentials: String, url: String, token: String, expiry: Int) {
         globalExpiry = expiry
@@ -143,29 +144,30 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     }
 
     var csvArray = [[String]]()
-    func readCSV(pathToCSV: String) -> [[String]]{
-        
-        //print("begin readCSV...")
-        let stream = InputStream(fileAtPath: pathToCSV)!
-        csvArray = [[String]]()
-        let csv = try! CSVReader(stream: stream)
-        while let row = csv.next() {
-            print("\(row)")
-            csvArray = (csvArray + [row])
-        }
-        
-        //print("Printed csvArray: \(csvArray)")
-        return csvArray
-    }
-    
+//    func readCSV(pathToCSV: String) -> [[String]]{
+//
+//        //print("begin readCSV...")
+//        let stream = InputStream(fileAtPath: pathToCSV)!
+//        csvArray = [[String]]()
+//        let csv = try! CSVReader(stream: stream)
+//        while let row = csv.next() {
+//            print("\(row)")
+//            csvArray = (csvArray + [row])
+//        }
+//
+//        //print("Printed csvArray: \(csvArray)")
+//        return csvArray
+//    }
+
     
     
     @IBAction func btnPreFlightAction(_ sender: Any) {
+        globalDelimiter = ";"
         //submitUpdates()
         //testUpdates()
         let headerID = "Testing123"
         //print("Begin specificLine...")
-        let csvArray = readCSV(pathToCSV: self.globalPathToCSV.path!)
+        let csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path!, delimiter: globalDelimiter!)
         // print("")
         print("")
         print("Running Build Dict")
@@ -198,7 +200,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     func submitUpdates() {
         // Begin the parse
         NSLog("[INFO  : Beginning parsing the CSV file into the array stream.")
-        let csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path ?? "/dev/null")
+        let csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path ?? "/dev/null", delimiter: globalDelimiter!)
         
         // Set variables needed for the run
         var ea_ids = [String]()
