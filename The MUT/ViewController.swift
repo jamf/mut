@@ -10,7 +10,7 @@ import Cocoa
 import CSV
 import Foundation
 
-class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
+class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate, DataSentDelegate {
     
     // Declare outlets for Buttons to change color and hide/show
     @IBOutlet weak var btnSubmitOutlet: NSButton!
@@ -22,6 +22,33 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     // Outlet for Logging text window and scroll view
     @IBOutlet var txtMain: NSTextView!
     @IBOutlet weak var txtMainWrapper: NSScrollView!
+    
+    //tableMain
+    @IBOutlet weak var tableMain: NSTableView!
+    //Identifier Table
+    @IBOutlet weak var tblIdentifier: NSTableView!
+    //@IBOutlet weak var identifierHeader: NSTableHeaderView!
+    //@IBOutlet weak var identifierText: NSTextField!
+    
+    
+    @IBAction func btnIdentifier(_ sender: Any) {
+        currentData = csvData
+        let selectedIndex = tblIdentifier.clickedRow + 1
+        print("Selected Index is... \(selectedIndex)")
+        let maxIndex = csvArray.count
+        if selectedIndex == 0 {
+            print("selectedIndex is 0, not redrawing...")
+        } else if
+            selectedIndex < maxIndex {
+            csvData = buildDict(rowToRead: selectedIndex, ofArray: csvArray)
+            tableMain.reloadData()
+        } else {
+            print("Index was out of range, not redrawing...")
+        }
+        
+        
+    }
+    
     
     // Progress bar and labels for runtime
     @IBOutlet weak var barProgress: NSProgressIndicator!
@@ -58,6 +85,20 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
     let xmlMan = xmlManager()
     let CSVMan = CSVManipulation()
     let APIFunc = APIFunctions()
+    
+    var currentData : [[String: String]] = []
+    
+    var csvData : [[ String : String ]] = []
+    var csvIdentifierData = [
+        [
+            "csvIdentifier" : "Benjadmin"
+        ],
+        [
+            "csvIdentifier" : "Billyjo"
+        ]
+    ]
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -101,10 +142,47 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         }
     }
 
+    var csvArray = [[String]]()
+    func readCSV(pathToCSV: String) -> [[String]]{
+        
+        //print("begin readCSV...")
+        let stream = InputStream(fileAtPath: pathToCSV)!
+        csvArray = [[String]]()
+        let csv = try! CSVReader(stream: stream)
+        while let row = csv.next() {
+            print("\(row)")
+            csvArray = (csvArray + [row])
+        }
+        
+        //print("Printed csvArray: \(csvArray)")
+        return csvArray
+    }
+    
+    
     
     @IBAction func btnPreFlightAction(_ sender: Any) {
-        submitUpdates()
+        //submitUpdates()
         //testUpdates()
+        let headerID = "Testing123"
+        //print("Begin specificLine...")
+        let csvArray = readCSV(pathToCSV: self.globalPathToCSV.path!)
+        // print("")
+        print("")
+        print("Running Build Dict")
+        print("")
+        
+        //TESTING COMBINING THEM INTO 1 DICT
+        
+        
+        csvData = buildDict(rowToRead: 1, ofArray: csvArray)
+        csvIdentifierData = buildID(ofArray: csvArray, countArray: csvData)
+        
+        currentData = csvData
+        tableMain.reloadData()
+        
+        currentData = csvIdentifierData
+        tblIdentifier.reloadData()
+        
         
     }
     
@@ -175,11 +253,115 @@ class ViewController: NSViewController, URLSessionDelegate, DataSentDelegate {
         }
     }
 
-    func testUpdates() {
-        let iOSXML = xmlMan.iosObject(displayName: "Mikes Mini", assetTag: "", username: "", full_name: "", email_address: "", phone_number: "", position: "", department: "", building: "", room: "", poNumber: "", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: [], ea_values: [], site_ident: "1")
-        let response = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: "mobiledevices", identifierType: "id", identifier: "81", allowUntrusted: false, xmlToPut: iOSXML)
-        print(response)
-        
+   
+    
+}
+
+
+
+extension ViewController: NSTableViewDataSource {
+    //this one is definitely in use
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        return (currentData.count)
     }
+    
+    
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        var csvID: [String: String] = [:]
+        let user = csvData[row]
+        if csvIdentifierData.count > row {
+            csvID = csvIdentifierData[row]
+        }
+        //        print("")
+        //        print("csvData looks like: \(csvData[row])")
+        //        print("")
+        //        print("csvIdentifierData looks like: \(csvIdentifierData[row])")
+        //        print("")
+        //        print("Row is... \(row)")
+        //        print("Printing csvData at Start of tableView... \(csvArray[0])")
+        
+        guard let cell = tableView.makeView(withIdentifier: tableColumn!.identifier, owner: self) as? NSTableCellView else { return nil }
+        
+        if (tableColumn?.identifier)!.rawValue == "tableAttribute" {
+            cell.textField?.stringValue = user["tableAttribute"] ?? "NO VALUE"
+        } else if (tableColumn?.identifier)!.rawValue == "tableValue" {
+            cell.textField?.stringValue = user["tableValue"] ?? "NO VALUE"
+        } else if (tableColumn?.identifier)!.rawValue == "csvIdentifier" {
+            if csvIdentifierData.count > row {
+                cell.textField?.stringValue = csvID["csvIdentifier"] ?? "NO VALUE"
+            }
+            
+            //print("Tried to add to csvIdentifier")
+        }
+        
+        return cell
+    }
+    
+    
+    func readUser() {
+        let user = csvData[0]
+        print(user)
+        print("Attribute is... \(user["tableAttribute"] ?? "nil")")
+        print("Value is... \(user["tableValue"] ?? "nil")")
+    }
+    
+}
+
+func buildDict(rowToRead: Int, ofArray: [[String]]) -> [[String : String]] {
+    //
+    //print("Beginning buildDict using array: \(ofArray)")
+    //NOTE: If we allow not using header rows, this will need to be hard coded.
+    //Otherwise, we can read in the header row. This would be easier if using EAs
+    let headerRow = ofArray[0]
+    //var val = 0
+    //how many rows are there
+    let columns = headerRow.count
+    var column = 0
+    let entries = ofArray.count
+    var entry = 1
+    var currentEntry = [""]
+    var returnArray: [[ String : String ]] = []
+    //print("Number of columns in headerRow: \(columns)")
+    
+    column = 0
+    currentEntry = ofArray[rowToRead]
+    while column < columns {
+        //print("Current Entry... \(currentEntry[column])")
+        var builderTwo: [String : String] = [:]
+        if currentEntry[column] == "" {
+            builderTwo = ["tableAttribute" : headerRow[column], "tableValue" : "_UNCHANGED_"]
+        } else {
+            builderTwo = ["tableAttribute" : headerRow[column], "tableValue" : currentEntry[column]]
+        }
+        returnArray.append(builderTwo)
+        column += 1
+    }
+    entry += 1
+    
+    //print("Return Array... \(returnArray)")
+    
+    return returnArray
+}
+
+func buildID (ofArray: [[String]], countArray: [[String: String]]) -> [[String: String]] {
+    print("Beginning buildID...")
+    var dictID: [[String: String]] = []
+    var rows = ofArray.count
+    //Hard Code maximum displayed identifiers for preview.
+    //Since we skip to row 1 (row 0 is header), setting to 6 will give us 5 rows.
+    // Right now 6 entries is the greatest it can do for users, as that's how many fields are displayed in the other table.
+    if rows > 7 {
+        rows = 7
+    }
+    var row = 1
+    //start at second entry in CSV to skip Username/SerialNumber
+    var currentRow: [String] = []
+    while row < rows {
+        currentRow = ofArray[row]
+        dictID.append(["csvIdentifier" : currentRow[0]])
+        row += 1
+    }
+    
+    return dictID
     
 }
