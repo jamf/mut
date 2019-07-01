@@ -23,6 +23,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     @IBOutlet var txtMain: NSTextView!
     @IBOutlet weak var txtMainWrapper: NSScrollView!
     
+    //MARK: TableView Outlets and actions
     //tableMain
     @IBOutlet weak var tableMain: NSTableView!
     //Identifier Table
@@ -30,7 +31,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     //@IBOutlet weak var identifierHeader: NSTableHeaderView!
     //@IBOutlet weak var identifierText: NSTextField!
     
-    
+    //btnIdentifier reloads tableMain based on the index of the selected row in Identifier table
     @IBAction func btnIdentifier(_ sender: Any) {
         currentData = csvData
         let selectedIndex = tblIdentifier.clickedRow + 1
@@ -45,8 +46,6 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         } else {
             print("Index was out of range, not redrawing...")
         }
-        
-        
     }
     
     
@@ -87,18 +86,12 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     let CSVMan = CSVManipulation()
     let APIFunc = APIFunctions()
     
+    
+    //Variables used by tableViews
     var currentData : [[String: String]] = []
-    
     var csvData : [[ String : String ]] = []
-    var csvIdentifierData = [
-        [
-            "csvIdentifier" : "Benjadmin"
-        ],
-        [
-            "csvIdentifier" : "Billyjo"
-        ]
-    ]
-    
+    var csvIdentifierData: [[String: String]] = []
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -146,7 +139,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     var csvArray = [[String]]()
     
     @IBAction func btnPreFlightAction(_ sender: Any) {
-        globalDelimiter = ";"
+        globalDelimiter = ","
         //submitUpdates()
         //testUpdates()
         drawTables()
@@ -156,20 +149,18 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         //        print("Running Build Dict")
         //        print("")
 
-        let headerID = "Testing123"
-        //print("Begin specificLine...")
-        let csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path!, delimiter: globalDelimiter!)
-        // print("")
+        //get the CSV from the "Browse" button and parse it into an array
+        csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path!, delimiter: globalDelimiter!)
         print("")
         print("Running Build Dict")
         print("")
-        
-        //TESTING COMBINING THEM INTO 1 DICT
-
-        
+        //csvData becomes the main table's data. Prints the second row of the CSV, skipping the header.
         csvData = buildDict(rowToRead: 1, ofArray: csvArray)
+        //csvIdentifierData contains the data for the Identifier column.
         csvIdentifierData = buildID(ofArray: csvArray, countArray: csvData)
         
+        /* Must set currentData to the data for the table we're reloading,
+         as currentData is used by the numberOfRows function */
         currentData = csvData
         tableMain.reloadData()
         
@@ -251,78 +242,80 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
 }
 
 
-
+//This entire extension handles the NSTableViews
 extension ViewController: NSTableViewDataSource {
-    //this one is definitely in use
+    
+    //Counts number of rows in each dictionary before drawing cells
+    //Unknown how the tableview function uses this value, as we never tell it to explicitly
+    //It provides the upper limit to what "row" can be in the tableView function
     func numberOfRows(in tableView: NSTableView) -> Int {
         return (currentData.count)
     }
     
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        var csvID: [String: String] = [:]
-        let user = csvData[row]
-        if csvIdentifierData.count > row {
-            csvID = csvIdentifierData[row]
+        //Initialize variables
+        var identifierDict: [String: String] = [:]
+        var attributeRow: [String: String] = [:]
+
+        //avoid index out of range if there are more rows in the original CSV than there are columns
+        if row < csvData.count {
+            attributeRow = csvData[row]
         }
-        //        print("")
-        //        print("csvData looks like: \(csvData[row])")
-        //        print("")
-        //        print("csvIdentifierData looks like: \(csvIdentifierData[row])")
-        //        print("")
-        //        print("Row is... \(row)")
-        //        print("Printing csvData at Start of tableView... \(csvArray[0])")
         
+        //avoid index out of range if there are more columns in the CSV than there are rows
+        if csvIdentifierData.count > row {
+            identifierDict = csvIdentifierData[row]
+        }
+     
+        
+        //The following code matches values from the dictionaries with columns and cells from the tableviews
+        //Then returns the cell
         guard let cell = tableView.makeView(withIdentifier: tableColumn!.identifier, owner: self) as? NSTableCellView else { return nil }
-        
+        //3 columns, so 3 conditions. Right now the last condition is wrapped inside it's own conditional.
+        //This may not be necessary
         if (tableColumn?.identifier)!.rawValue == "tableAttribute" {
-            cell.textField?.stringValue = user["tableAttribute"] ?? "NO VALUE"
+            cell.textField?.stringValue = attributeRow["tableAttribute"] ?? "NO VALUE"
         } else if (tableColumn?.identifier)!.rawValue == "tableValue" {
-            cell.textField?.stringValue = user["tableValue"] ?? "NO VALUE"
+            cell.textField?.stringValue = attributeRow["tableValue"] ?? "NO VALUE"
         } else if (tableColumn?.identifier)!.rawValue == "csvIdentifier" {
             if csvIdentifierData.count > row {
-                cell.textField?.stringValue = csvID["csvIdentifier"] ?? "NO VALUE"
+                cell.textField?.stringValue = identifierDict["csvIdentifier"] ?? "NO VALUE"
             }
         }
         
         return cell
     }
     
-    
-    func readUser() {
-        let user = csvData[0]
-        print(user)
-        print("Attribute is... \(user["tableAttribute"] ?? "nil")")
-        print("Value is... \(user["tableValue"] ?? "nil")")
-    }
-    
 }
 
+
+//Builds a dictionary of all attributes being modified, pairing key-values for every attribute
 func buildDict(rowToRead: Int, ofArray: [[String]]) -> [[String : String]] {
     //print("Beginning buildDict using array: \(ofArray)")
-    //NOTE: If we allow not using header rows, this will need to be hard coded.
-    //Otherwise, we can read in the header row. This would be easier if using EAs
+    
+    //reads in the header row for the keys. Would handle any header row.
     let headerRow = ofArray[0]
     
     //how many attributes are there
     let columns = headerRow.count
     //start at the first attribute
     var column = 0
-    //How many records are in the csv (rows)
-    let entries = ofArray.count
+
     //Start at first record, skipping header row
-    var entry = 1
+    
     var currentEntry = [""]
     //Will append to the returnArray throughout the loops
     var returnArray: [[ String : String ]] = []
     
     //print("Number of columns in headerRow: \(columns)")
     
-    //Unsure if this line is needed
+    //start at first column
     column = 0
     
     //set row to whatever is input for row to read. Can be hard coded, or we can increment it
     currentEntry = ofArray[rowToRead]
+    //go through each column, pairing headerRow for attribute with the value from the row.
     while column < columns {
         //print("Current Entry... \(currentEntry[column])")
         var builderTwo: [String : String] = [:]
@@ -334,10 +327,13 @@ func buildDict(rowToRead: Int, ofArray: [[String]]) -> [[String : String]] {
         returnArray.append(builderTwo)
         column += 1
     }
-    entry += 1
     
-    //print("Return Array... \(returnArray)")
+    //print("buildDict's return array... \(returnArray)")
     
+    /* returnArray will be for ONE row from original CSV, row specified by the rowToRead variable
+     Format will be a series of entries like this:
+     ["tableAttribute": "Username", "tableValue": "myName"], ["tableAttribute": "Full Name", "tableValue": "Myfull Name"], etc for however many columns are in the header row
+    */
     return returnArray
 }
 
@@ -347,12 +343,12 @@ func buildID (ofArray: [[String]], countArray: [[String: String]]) -> [[String: 
     var rows = ofArray.count
     //Hard Code maximum displayed identifiers for preview.
     //Since we skip to row 1 (row 0 is header), setting to 6 will give us 5 rows.
-    // Right now 6 entries is the greatest it can do for users, as that's how many fields are displayed in the other table.
-    if rows > 7 {
-        rows = 7
-    }
+    //Unsure if this still works
+//    if rows > 7 {
+//        rows = 7
+//    }
     var row = 1
-    //start at second entry in CSV to skip Username/SerialNumber
+    //start at second entry in CSV to skip headers
     var currentRow: [String] = []
     while row < rows {
         currentRow = ofArray[row]
@@ -360,6 +356,10 @@ func buildID (ofArray: [[String]], countArray: [[String: String]]) -> [[String: 
         row += 1
     }
     
+    //print("dictID is... \(dictID)")
+    /* returns a dictionary pairing "csvIdentifier" with the username/serial number from original csv.
+     Looks like:
+     [["csvIdentifier": "Benji"], ["csvIdentifier": "Billy"]]
+     */
     return dictID
-    
 }
