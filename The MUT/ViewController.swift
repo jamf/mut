@@ -9,6 +9,7 @@
 import Cocoa
 import CSV
 import Foundation
+import SwiftyJSON
 
 class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate, DataSentDelegate {
     
@@ -140,9 +141,9 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     
     @IBAction func btnPreFlightAction(_ sender: Any) {
         globalDelimiter = ","
-        submitUpdates()
-        //testUpdates()
-        drawTables()
+        //submitUpdates()
+        testUpdates()
+        //drawTables()
     }
     func drawTables() {
         //        print("")
@@ -241,6 +242,30 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         } else {
             // Not enough rows in the CSV to run
         }
+    }
+    
+    func testUpdates() {
+        let myURL = dataPrep.generateGetURL(baseURL: globalURL, endpoint: "computer-prestages", prestageID: "1", jpapiVersion: "v1")
+        print(myURL)
+        
+        let response = APIFunc.getPrestageScope(passedUrl: myURL, token: globalToken, endpoint: "computer-prestages", allowUntrusted: true)
+        let myDataString = String(decoding: response, as: UTF8.self)
+        do {
+            let newJson = try JSON(data: response)
+            let newVersionLock = newJson["versionLock"].intValue
+            print(newVersionLock)
+            let newSerials = newJson["assignments"][0]["serialNumber"].stringValue
+            print(newSerials)
+            
+            let newSerialArray = newJson["assignments"].arrayValue.map {$0["serialNumber"].stringValue}
+            print(newSerialArray)
+            
+            // print(expiry!) // Uncomment for debugging
+        } catch let error as NSError {
+            NSLog("[ERROR ]: Failed to load: \(error.localizedDescription)")
+        }
+    
+        print(myDataString)
     }
 
    
