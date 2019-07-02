@@ -62,6 +62,15 @@ class genericDataValidation: XCTestCase {
         print("")
         print(myDataString)
     }
+
+    func testPostURL() {
+        let baseURL = DataPrep.generateURL(baseURL: "https://test.jssmut.com", endpoint: "mobiledevicecommands", identifierType: "command", identifier: "device_name", jpapi: false, jpapiVersion: "")
+        print(baseURL)
+    }
+
+    func testEnforceXML() {
+        let enforceXML = xmlMan.enforceName(deviceName: "Mikes iPad", serial_number: "C12345")
+    }
     
     
     func parseJSONString() {

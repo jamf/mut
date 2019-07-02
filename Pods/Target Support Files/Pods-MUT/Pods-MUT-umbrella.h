@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_The_MUTTestsVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_The_MUTTestsVersionString[];
+FOUNDATION_EXPORT double Pods_MUTVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_MUTVersionString[];
 
