@@ -48,12 +48,38 @@ class genericDataValidation: XCTestCase {
     }
 
     func testDataGet() {
+        print("")
+        print("beginning testDataGet...")
+        print("")
         let myURL = DataPrep.generateGetURL(baseURL: "https://test.jssmut.com", endpoint: "computer-prestages", prestageID: "1", jpapiVersion: "v1")
         print(myURL)
 
-        let response = apifunc.getPrestageScope(passedUrl: myURL, token: "eyJhbGciOiJIUzI1NiJ9.eyJhdXRoZW50aWNhdGVkLWFwcCI6IkdFTkVSSUMiLCJhdXRoZW50aWNhdGlvbi10eXBlIjoiSlNTIiwiZ3JvdXBzIjpbXSwic3ViamVjdC10eXBlIjoiSlNTX1VTRVJfSUQiLCJ0b2tlbi11dWlkIjoiODQ4NGZjZWUtMmNmMS00NjYzLWE5NDEtZThlYmJhZWE5MDQ2IiwibGRhcC1zZXJ2ZXItaWQiOi0xLCJzdWIiOiIzIiwiZXhwIjoxNTYxODM2NzAwfQ.ns1ZDt-qLZNrNbHC7oOoyXqeFknVv4eK_7qajFVcc-A", endpoint: "computer-prestages", allowUntrusted: true)
+        let response = apifunc.getPrestageScope(passedUrl: myURL, token: "eyJhbGciOiJIUzI1NiJ9.eyJhdXRoZW50aWNhdGVkLWFwcCI6IkdFTkVSSUMiLCJhdXRoZW50aWNhdGlvbi10eXBlIjoiSlNTIiwiZ3JvdXBzIjpbXSwic3ViamVjdC10eXBlIjoiSlNTX1VTRVJfSUQiLCJ0b2tlbi11dWlkIjoiMWJkZTY3NzQtMjIxNy00N2NlLThjZjItOTE0YjQ4OTk1NGFhIiwibGRhcC1zZXJ2ZXItaWQiOi0xLCJzdWIiOiIyIiwiZXhwIjoxNTYxOTUwNjU0fQ.KekIFdTUtQGU-dt4OuLFMcQ1KZWmWJNSuGT5Zv359WU", endpoint: "computer-prestages", allowUntrusted: true)
         let myDataString = String(decoding: response, as: UTF8.self)
+        
+        print("")
+        print("printing myDataString...")
+        print("")
         print(myDataString)
+    }
+    
+    
+    func parseJSONString() {
+        let dataString = """
+        {
+            "prestageId" : 1,
+            "assignments" : [ {
+            "serialNumber" : "C02VX0UDHV2R",
+            "assignmentEpoch" : 1561829858206,
+            "userAssigned" : "mike"
+            } ],
+            "versionLock" : 3
+        }
+        """
+        
+        let splitString = dataString.components(separatedBy: ",")
+        print("splitString first value is: \(splitString[0])")
+        
     }
     
 }
