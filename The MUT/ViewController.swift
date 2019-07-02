@@ -77,6 +77,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     func userDidAuthenticate(base64Credentials: String, url: String, token: String, expiry: Int) {
         globalExpiry = expiry
         globalToken = token
+        print("Token is: \(token)")
         globalURL = url
         globalBase64 = base64Credentials
     }
@@ -93,6 +94,23 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     var csvData : [[ String : String ]] = []
     var csvIdentifierData: [[String: String]] = []
 
+    
+    
+    
+    
+    
+    //MARK: GUI Experimentation
+    
+ 
+    @IBOutlet weak var lblRecordType: NSTextField!
+    
+    
+   
+    
+    
+    
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -142,9 +160,42 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     @IBAction func btnPreFlightAction(_ sender: Any) {
         globalDelimiter = ","
         //submitUpdates()
-        testUpdates()
-        //drawTables()
+
+        //testUpdates()
+        drawTables()
+        //lblRecordType.objectValue = "Testing Labels"
+        setRecordType()
+
     }
+    
+    
+    func setRecordType() {
+        let headerRow = csvArray[0]
+        print("RecType... HeaderRow... \(headerRow)")
+        let record = headerRow[0]
+        print("recType... record... \(record)")
+        
+        print("Record is: \(record )")
+        
+        print("headerRow 0 : headerRow 3... \(headerRow[0]) : \(headerRow[3])")
+        
+        if headerRow[0] == "Username" {
+            lblRecordType.objectValue = "Users"
+            
+        } else if
+            headerRow[2] == "Username" {
+            
+           lblRecordType.objectValue = "Mobile Devices"
+        } else if
+            headerRow[2] == "Barcode 1" {
+            lblRecordType.objectValue = "Computers"
+        }
+        
+    
+    }
+    
+    
+    
     func drawTables() {
         //        print("")
         //        print("Running Build Dict")
