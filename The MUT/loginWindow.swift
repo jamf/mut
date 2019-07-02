@@ -8,6 +8,7 @@
 
 import Cocoa
 import Foundation
+import SwiftyJSON
 
 // Delegate required to send data forward to the main view controller
 protocol DataSentDelegate {
@@ -128,14 +129,13 @@ class loginWindow: NSViewController, URLSessionDelegate {
                 if String(decoding: tokenData, as: UTF8.self).contains("token") {
                     // Good credentials here, as told by there being a token
                     self.verified = true
-                    let passedURL = dataPrep.generateURL(baseURL: txtURLOutlet.stringValue, endpoint: "", identifierType: "", identifier: "", jpapi: false, jpapiVersion: "")
+                    //let passedURL = dataPrep.generateURL(baseURL: txtURLOutlet.stringValue, endpoint: "", identifierType: "", identifier: "", jpapi: false, jpapiVersion: "")
+                    
                     do {
-                        // Parse the JSON resturned to get the token and expiry
-                        let tokenJson = try JSONSerialization.jsonObject(with: tokenData, options: []) as! [String: AnyObject]
-                        token = tokenJson["token"] as? String
-                        expiry = tokenJson["expires"] as? Int
-                        // print(token!) // Uncomment for debugging
-                        // print(expiry!) // Uncomment for debugging
+                        // Parse the JSON to return token and Expiry
+                        let newJson = try JSON(data: tokenData)
+                        token = newJson["token"].stringValue
+                        expiry = newJson["expires"].intValue
                     } catch let error as NSError {
                         NSLog("[ERROR ]: Failed to load: \(error.localizedDescription)")
                     }
