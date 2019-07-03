@@ -12,7 +12,10 @@ import Foundation
 import SwiftyJSON
 
 class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate, DataSentDelegate {
-    
+
+    // Outlet of tab view to determine which tab is active
+    @IBOutlet weak var tabViewOutlet: NSTabView!
+
     // Declare outlets for Buttons to change color and hide/show
     @IBOutlet weak var btnSubmitOutlet: NSButton!
     @IBOutlet weak var btnPreFlightOutlet: NSButton!
@@ -73,6 +76,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     var globalEndpoint: String!
     var xmlToPut: Data!
     var globalDelimiter: UnicodeScalar!
+    var csvArray = [[String]]()
     
     func userDidAuthenticate(base64Credentials: String, url: String, token: String, expiry: Int) {
         globalExpiry = expiry
@@ -80,6 +84,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         print("Token is: \(token)")
         globalURL = url
         globalBase64 = base64Credentials
+        preferredContentSize = NSSize(width: 550, height: 700)
     }
     
     let dataPrep = dataPreparation()
@@ -87,6 +92,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     let xmlMan = xmlManager()
     let CSVMan = CSVManipulation()
     let APIFunc = APIFunctions()
+    let popMan = popPrompt()
     
     
     //Variables used by tableViews
@@ -151,21 +157,49 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
             if result.rawValue == NSFileHandlingPanelOKButton {
                 self.globalPathToCSV = openPanel.url! as NSURL
                 self.txtCSV.stringValue = self.globalPathToCSV.path!
+                self.btnPreFlightOutlet.isHidden = false
             }
         }
+
     }
 
-    var csvArray = [[String]]()
+
     
     @IBAction func btnPreFlightAction(_ sender: Any) {
+        // Setting the delimiter to comma for now--this will be dynamic in the future.
         globalDelimiter = ","
-        //submitUpdates()
 
-        //testUpdates()
-        drawTables()
-        //lblRecordType.objectValue = "Testing Labels"
-        setRecordType()
+        // Nuke the CSV array on every preflight so we don't get stuck with old data
+        csvArray.removeAll()
 
+
+        // If the user has actually selected a CSV template, then move on
+        if txtCSV.stringValue != "" {
+            //get the CSV from the "Browse" button and parse it into an array
+            csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path!, delimiter: globalDelimiter!)
+
+            if csvArray.count == 0 {
+                // If there are no rows in the CSV
+                _ = popMan.generalWarning(question: "Empty CSV Found", text: "It seems the CSV file you uploaded is malformed, or does not contain any data.\n\nPlease try a different CSV.")
+            } else if csvArray.count == 1 {
+                // If there is only 1 row in the CSV (header only)
+                _ = popMan.generalWarning(question: "No Data Found", text: "It seems the CSV file you uploaded does not contain any data outside of the header row.\n\nPlease select a CSV with updates for MUT to process.")
+            } else {
+                // If there is more than 1 row in the CSV
+                if csvArray[0].count <= 5 {
+                    // If the CSV appears to not have good columns -- eg: wrong delimiter
+                    _ = popMan.generalWarning(question: "Malformed CSV Found", text: "It seems there are not enough columns in your CSV file. Please try a different CSV file.\n\nIf you are using a delimiter other than comma, such as semi-colon, please select 'Change Delimiter' from Settings on the Menu bar.")
+                } else {
+                    // We end up here if all the pre-flight checks have been passed
+                    readyToRun()
+                    drawTables()
+                    //lblRecordType.objectValue = "Testing Labels"
+                    setRecordType()
+                }
+            }
+        } else {
+            _ = popMan.generalWarning(question: "No CSV Found", text: "Please use the Browse button to find a CSV file on your system with updates that you would like MUT to process.")
+        }
     }
     
     
@@ -190,8 +224,6 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
             headerRow[2] == "Barcode 1" {
             lblRecordType.objectValue = "Computers"
         }
-        
-    
     }
     
     
@@ -201,8 +233,6 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         //        print("Running Build Dict")
         //        print("")
 
-        //get the CSV from the "Browse" button and parse it into an array
-        csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path!, delimiter: globalDelimiter!)
         print("")
         print("Running Build Dict")
         print("")
@@ -225,10 +255,12 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     @IBAction func btnExportCSV(_ sender: Any) {
         NSLog("[INFO  : Saving CSV Templates to User's Download's Directory")
         CSVMan.ExportCSV()
+        _ = popMan.generalWarning(question: "Good Work!", text: "A new directory has been created in your Downlods directory called 'MUT Templates'.\n\nInside that directory, you will find all of the CSV templates you need in order to use MUT v5, along with a ReadMe file on how to fill the templates out.")
     }
     
     @IBAction func submitRequests(_ sender: Any) {
-        
+        print(tabViewOutlet.selectedTabViewItem?.identifier)
+        submitUpdates()
     }
 
     func submitUpdates() {
@@ -319,7 +351,14 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         print(myDataString)
     }
 
-   
+    func readyToRun() {
+        btnSubmitOutlet.isHidden = false
+        btnSubmitOutlet.becomeFirstResponder()
+    }
+
+    func notReadyToRun() {
+        btnSubmitOutlet.isHidden = true
+    }
     
 }
 
