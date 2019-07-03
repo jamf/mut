@@ -78,7 +78,7 @@ class loginWindow: NSViewController, URLSessionDelegate {
     override func viewDidAppear() {
         super.viewDidAppear()
         // Forces the window to be the size we want, not resizable
-        preferredContentSize = NSSize(width: 450, height: 600)
+        preferredContentSize = NSSize(width: 550, height: 550)
         // If we have a URL and a User stored focus the password field
         if loginDefaults.value(forKey: "InstanceURL") != nil  && loginDefaults.value(forKey: "UserName") != nil {
             self.txtPassOutlet.becomeFirstResponder()
