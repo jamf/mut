@@ -192,8 +192,8 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     
     
     func drawTables() {
-        let tabToGoTo = tabViewOutlet.selectedTabViewItem?.identifier as! String
-        if tabToGoTo == "objects" {
+        let currentTab = tabViewOutlet.selectedTabViewItem?.identifier as! String
+        if currentTab == "objects" {
             
             // Old tab stuff goes here
             
@@ -210,7 +210,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
             currentData = csvIdentifierData
             tblIdentifier.reloadData()
             
-        } else if tabToGoTo == "scope" {
+        } else if currentTab == "scope" {
             // New tab stuff goes here
         }
         
@@ -218,9 +218,9 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     
 
     @IBAction func btnExportCSV(_ sender: Any) {
-        NSLog("[INFO  : Saving CSV Templates to User's Download's Directory")
+        NSLog("[INFO  : Saving CSV Templates to User's Downloads Directory")
         CSVMan.ExportCSV()
-        _ = popMan.generalWarning(question: "Good Work!", text: "A new directory has been created in your Downlods directory called 'MUT Templates'.\n\nInside that directory, you will find all of the CSV templates you need in order to use MUT v5, along with a ReadMe file on how to fill the templates out.")
+        _ = popMan.generalWarning(question: "Good Work!", text: "A new directory has been created in your Downloads directory called 'MUT Templates'.\n\nInside that directory, you will find all of the CSV templates you need in order to use MUT v5, along with a ReadMe file on how to fill the templates out.")
     }
     
     @IBAction func submitRequests(_ sender: Any) {
