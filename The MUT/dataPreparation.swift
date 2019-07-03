@@ -82,16 +82,21 @@ public class dataPreparation {
         }
     }
     
-    public func endpoint(headerA: String) -> String {
-        switch headerA {
-        case "Username":
-            return "users"
-        case "Computer Serial":
-            return "computers"
-        case "Mobile Device Serial":
-            return "mobiledevices"
-        default:
-            return "Endpoint_Error"
+    public func endpoint(csvArray: [[String]]) -> String {
+        let headerRow = csvArray[0]
+        if headerRow.count == 1 {
+            return "scope"
+        } else {
+            switch headerRow[0] {
+            case "Username":
+                return "users"
+            case "Computer Serial":
+                return "computers"
+            case "Mobile Device Serial":
+                return "mobiledevices"
+            default:
+                return "Endpoint_Error"
+            }
         }
     }
     
@@ -114,6 +119,58 @@ public class dataPreparation {
         }
         return ea_values
     }
+    
+    public func buildID (ofArray: [[String]], countArray: [[String: String]]) -> [[String: String]] {
+        print("Beginning buildID...")
+        var dictID: [[String: String]] = []
+        var rows = ofArray.count
+        var row = 1
+        //start at second entry in CSV to skip headers
+        var currentRow: [String] = []
+        while row < rows {
+            currentRow = ofArray[row]
+            dictID.append(["csvIdentifier" : currentRow[0]])
+            row += 1
+        }
+        return dictID
+    }
+    
+    //Builds a dictionary of all attributes being modified, pairing key-values for every attribute
+    public func buildDict(rowToRead: Int, ofArray: [[String]]) -> [[String : String]] {
+        //print("Beginning buildDict using array: \(ofArray)")
+        
+        //reads in the header row for the keys. Would handle any header row.
+        let headerRow = ofArray[0]
+        
+        //how many attributes are there
+        let columns = headerRow.count
+        //start at the first attribute
+        var column = 0
+        
+        //Start at first record, skipping header row
+        var currentEntry = [""]
+        //Will append to the returnArray throughout the loops
+        var returnArray: [[ String : String ]] = []
+        //print("Number of columns in headerRow: \(columns)")
+        //start at first column
+        column = 0
+        //set row to whatever is input for row to read. Can be hard coded, or we can increment it
+        currentEntry = ofArray[rowToRead]
+        //go through each column, pairing headerRow for attribute with the value from the row.
+        while column < columns {
+            //print("Current Entry... \(currentEntry[column])")
+            var builderTwo: [String : String] = [:]
+            if currentEntry[column] == "" {
+                builderTwo = ["tableAttribute" : headerRow[column], "tableValue" : "_UNCHANGED_"]
+            } else {
+                builderTwo = ["tableAttribute" : headerRow[column], "tableValue" : currentEntry[column]]
+            }
+            returnArray.append(builderTwo)
+            column += 1
+        }
+        return returnArray
+    }
+    
 }
 
 // This allows us to calculate whether or not EA IDs are actually ints
