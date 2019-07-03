@@ -23,36 +23,16 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     // Declare outlet for entire controller
     @IBOutlet var MainViewController: NSView!
     
-    // Outlet for Logging text window and scroll view
-    @IBOutlet var txtMain: NSTextView!
-    @IBOutlet weak var txtMainWrapper: NSScrollView!
-    
     //MARK: TableView Outlets and actions
     //tableMain
     @IBOutlet weak var tableMain: NSTableView!
     //Identifier Table
     @IBOutlet weak var tblIdentifier: NSTableView!
+    @IBOutlet weak var lblRecordType: NSTextField!
+    
     //@IBOutlet weak var identifierHeader: NSTableHeaderView!
     //@IBOutlet weak var identifierText: NSTextField!
-    
-    //btnIdentifier reloads tableMain based on the index of the selected row in Identifier table
-    @IBAction func btnIdentifier(_ sender: Any) {
-        currentData = csvData
-        let selectedIndex = tblIdentifier.clickedRow + 1
-        print("Selected Index is... \(selectedIndex)")
-        let maxIndex = csvArray.count
-        if selectedIndex == 0 {
-            print("selectedIndex is 0, not redrawing...")
-        } else if
-            selectedIndex < maxIndex {
-            csvData = buildDict(rowToRead: selectedIndex, ofArray: csvArray)
-            tableMain.reloadData()
-        } else {
-            print("Index was out of range, not redrawing...")
-        }
-    }
-    
-    
+
     // Progress bar and labels for runtime
     @IBOutlet weak var barProgress: NSProgressIndicator!
     @IBOutlet weak var lblCurrent: NSTextField!
@@ -60,13 +40,12 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     @IBOutlet weak var lblEndLine: NSTextField!
     @IBOutlet weak var lblLine: NSTextField!
     
-    // DropDowns for Attributes etc
-    @IBOutlet weak var popAttributeOutlet: NSPopUpButton!
-    @IBOutlet weak var popDeviceOutlet: NSPopUpButton!
-    @IBOutlet weak var txtEAID: NSTextField!
-    @IBOutlet weak var txtCSV: NSTextField!
+    @IBOutlet weak var lblStatus: NSTextField!
     
-    @IBOutlet weak var boxLog: NSBox!
+    // DropDowns for Attributes etc
+    @IBOutlet weak var txtCSV: NSTextField!
+    @IBOutlet weak var popRecordTypeOutlet: NSPopUpButton!
+    @IBOutlet weak var popActionTypeOutlet: NSPopUpButton!
     
     var globalPathToCSV: NSURL!
     var globalToken: String!
@@ -84,7 +63,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         print("Token is: \(token)")
         globalURL = url
         globalBase64 = base64Credentials
-        preferredContentSize = NSSize(width: 550, height: 700)
+        preferredContentSize = NSSize(width: 550, height: 443)
     }
     
     let dataPrep = dataPreparation()
@@ -100,23 +79,6 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     var csvData : [[ String : String ]] = []
     var csvIdentifierData: [[String: String]] = []
 
-    
-    
-    
-    
-    
-    //MARK: GUI Experimentation
-    
- 
-    @IBOutlet weak var lblRecordType: NSTextField!
-    
-    
-   
-    
-    
-    
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -139,14 +101,31 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     override func viewWillAppear() {
         //resize the view
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 450, height: 600)
+        preferredContentSize = NSSize(width: 550, height: 443)
         performSegue(withIdentifier: "segueLogin", sender: self)
-
+        globalDelimiter = ","
+    }
+    
+    
+    //btnIdentifier reloads tableMain based on the index of the selected row in Identifier table
+    @IBAction func btnIdentifier(_ sender: Any) {
+        currentData = csvData
+        let selectedIndex = tblIdentifier.clickedRow + 1
+        print("Selected Index is... \(selectedIndex)")
+        let maxIndex = csvArray.count
+        if selectedIndex == 0 {
+            print("selectedIndex is 0, not redrawing...")
+        } else if
+            selectedIndex < maxIndex {
+            csvData = dataPrep.buildDict(rowToRead: selectedIndex, ofArray: csvArray)
+            tableMain.reloadData()
+        } else {
+            print("Index was out of range, not redrawing...")
+        }
     }
     
     
     @IBAction func btnBrowse(_ sender: Any) {
-        //notReadyToRun() // OLD CODE
         let openPanel = NSOpenPanel()
         openPanel.allowsMultipleSelection = false
         openPanel.canChooseDirectories = false
@@ -157,14 +136,12 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
             if result.rawValue == NSFileHandlingPanelOKButton {
                 self.globalPathToCSV = openPanel.url! as NSURL
                 self.txtCSV.stringValue = self.globalPathToCSV.path!
-                self.btnPreFlightOutlet.isHidden = false
+                self.verifyCSV()
+                
             }
         }
-
     }
 
-
-    
     @IBAction func btnPreFlightAction(_ sender: Any) {
         // Setting the delimiter to comma for now--this will be dynamic in the future.
         globalDelimiter = ","
@@ -172,82 +149,70 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         // Nuke the CSV array on every preflight so we don't get stuck with old data
         csvArray.removeAll()
 
-
-        // If the user has actually selected a CSV template, then move on
-        if txtCSV.stringValue != "" {
-            //get the CSV from the "Browse" button and parse it into an array
-            csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path!, delimiter: globalDelimiter!)
-
-            if csvArray.count == 0 {
-                // If there are no rows in the CSV
-                _ = popMan.generalWarning(question: "Empty CSV Found", text: "It seems the CSV file you uploaded is malformed, or does not contain any data.\n\nPlease try a different CSV.")
-            } else if csvArray.count == 1 {
-                // If there is only 1 row in the CSV (header only)
-                _ = popMan.generalWarning(question: "No Data Found", text: "It seems the CSV file you uploaded does not contain any data outside of the header row.\n\nPlease select a CSV with updates for MUT to process.")
-            } else {
-                // If there is more than 1 row in the CSV
-                if csvArray[0].count <= 5 {
-                    // If the CSV appears to not have good columns -- eg: wrong delimiter
-                    _ = popMan.generalWarning(question: "Malformed CSV Found", text: "It seems there are not enough columns in your CSV file. Please try a different CSV file.\n\nIf you are using a delimiter other than comma, such as semi-colon, please select 'Change Delimiter' from Settings on the Menu bar.")
-                } else {
-                    // We end up here if all the pre-flight checks have been passed
-                    readyToRun()
-                    drawTables()
-                    //lblRecordType.objectValue = "Testing Labels"
-                    setRecordType()
-                }
-            }
-        } else {
-            _ = popMan.generalWarning(question: "No CSV Found", text: "Please use the Browse button to find a CSV file on your system with updates that you would like MUT to process.")
+        // Perform the actual pre-flight checks
+        let tabToGoTo = tabViewOutlet.selectedTabViewItem?.identifier as! String
+        if tabToGoTo == "objects" {
+            attributePreFlightChecks()
+        } else if tabToGoTo == "scope" {
+            scopePreFlightChecks()
         }
+
+
     }
     
     
     func setRecordType() {
-        let headerRow = csvArray[0]
-        print("RecType... HeaderRow... \(headerRow)")
-        let record = headerRow[0]
-        print("recType... record... \(record)")
-        
-        print("Record is: \(record )")
-        
-        print("headerRow 0 : headerRow 3... \(headerRow[0]) : \(headerRow[3])")
-        
-        if headerRow[0] == "Username" {
-            lblRecordType.objectValue = "Users"
+        let generalEndpoint = dataPrep.endpoint(csvArray: csvArray)
+        if generalEndpoint == "scope" {
+            // do stuff based on dropdowns
+            if popRecordTypeOutlet.titleOfSelectedItem! == "Computer Prestage" {
+                globalEndpoint = "computer-prestages"
+            } else if popRecordTypeOutlet.titleOfSelectedItem! == "Mobile Device Prestage" {
+                globalEndpoint = "mobile-device-prestages"
+            } else if popRecordTypeOutlet.titleOfSelectedItem! == "Computer Static Group" {
+                globalEndpoint = "computergroups"
+            } else if popRecordTypeOutlet.titleOfSelectedItem! == "Mobile Device Static Group" {
+                globalEndpoint = "mobiledevicegroups"
+            } else if popRecordTypeOutlet.titleOfSelectedItem! == "User Object Static Group" {
+                globalEndpoint = "usergroups"
+            }
             
-        } else if
-            headerRow[2] == "Username" {
-            
-           lblRecordType.objectValue = "Mobile Devices"
-        } else if
-            headerRow[2] == "Barcode 1" {
-            lblRecordType.objectValue = "Computers"
+        } else {
+            if generalEndpoint == "users" {
+                lblRecordType.stringValue = "Users"
+            } else if generalEndpoint == "computers" {
+                lblRecordType.stringValue = "Computers"
+            } else if generalEndpoint == "mobiledevices" {
+                lblRecordType.stringValue = "Mobile Devices"
+            }
+            globalEndpoint = generalEndpoint
         }
     }
     
     
     
     func drawTables() {
-        //        print("")
-        //        print("Running Build Dict")
-        //        print("")
-
-        print("")
-        print("Running Build Dict")
-        print("")
-        //csvData becomes the main table's data. Prints the second row of the CSV, skipping the header.
-        csvData = buildDict(rowToRead: 1, ofArray: csvArray)
-        //csvIdentifierData contains the data for the Identifier column.
-        csvIdentifierData = buildID(ofArray: csvArray, countArray: csvData)
-        
-        /* Must set currentData to the data for the table we're reloading,
-         as currentData is used by the numberOfRows function */
-        currentData = csvData
-        tableMain.reloadData()
-        
-        currentData = csvIdentifierData
-        tblIdentifier.reloadData()
+        let tabToGoTo = tabViewOutlet.selectedTabViewItem?.identifier as! String
+        if tabToGoTo == "objects" {
+            
+            // Old tab stuff goes here
+            
+            //csvData becomes the main table's data. Prints the second row of the CSV, skipping the header.
+            csvData = dataPrep.buildDict(rowToRead: 1, ofArray: csvArray)
+            //csvIdentifierData contains the data for the Identifier column.
+            csvIdentifierData = dataPrep.buildID(ofArray: csvArray, countArray: csvData)
+            
+            /* Must set currentData to the data for the table we're reloading,
+             as currentData is used by the numberOfRows function */
+            currentData = csvData
+            tableMain.reloadData()
+            
+            currentData = csvIdentifierData
+            tblIdentifier.reloadData()
+            
+        } else if tabToGoTo == "scope" {
+            // New tab stuff goes here
+        }
         
     }
     
@@ -263,6 +228,12 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         submitUpdates()
     }
 
+    @IBAction func btnTest(_ sender: Any) {
+        tabViewOutlet.selectTabViewItem(at: 0)
+        
+    }
+    
+    
     func submitUpdates() {
         // Begin the parse
         NSLog("[INFO  : Beginning parsing the CSV file into the array stream.")
@@ -273,7 +244,9 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         var ea_values = [String]()
         let headerRow = csvArray[0]
         let numberOfColumns = headerRow.count
-        globalEndpoint = dataPrep.endpoint(headerA: headerRow[0])
+        
+        // This line will need to get re-written when we have dropdowns working for prestage stuff
+        globalEndpoint = dataPrep.endpoint(csvArray: csvArray)
         print(globalEndpoint!)
         
         // Get the expected columns based off update type and calculate number of EAs present
@@ -327,7 +300,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         }
     }
     
-    func testUpdates() {
+    func getCurrentPrestage() {
         let myURL = dataPrep.generateGetURL(baseURL: globalURL, endpoint: "computer-prestages", prestageID: "1", jpapiVersion: "v1")
         print(myURL)
         
@@ -350,6 +323,101 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     
         print(myDataString)
     }
+    
+    func scopePreFlightChecks() {
+        // If the user has actually selected a CSV template, then move on
+        if txtCSV.stringValue != "" {
+            //get the CSV from the "Browse" button and parse it into an array
+            csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path!, delimiter: globalDelimiter!)
+            if csvArray.count == 0 {
+                // If there are no rows in the CSV
+                print(csvArray)
+                _ = popMan.generalWarning(question: "Empty CSV Found", text: "It seems the CSV file you uploaded is malformed, or does not contain any data.\n\nPlease try a different CSV.")
+            } else if csvArray.count == 1 {
+                // If there is only 1 row in the CSV (header only)
+                _ = popMan.generalWarning(question: "No Data Found", text: "It seems the CSV file you uploaded does not contain any data outside of the header row.\n\nPlease select a CSV with updates for MUT to process.")
+            } else {
+                // If there is more than 1 column in the CSV
+                if csvArray[0].count > 1 {
+                    // If the CSV appears to not have good columns -- eg: wrong delimiter
+                    _ = popMan.generalWarning(question: "Malformed CSV Found", text: "It seems there are too many columns in your CSV. Please try a different CSV file.\n\nIf you are using a delimiter other than comma, such as semi-colon, please select 'Change Delimiter' from Settings on the Menu bar.")
+                } else {
+                    // We end up here if all the pre-flight checks have been passed
+                    readyToRun()
+                    drawTables()
+                    //lblRecordType.objectValue = "Testing Labels"
+                    setRecordType()
+                }
+            }
+        }
+    }
+    
+    func attributePreFlightChecks() {
+        // If the user has actually selected a CSV template, then move on
+        if txtCSV.stringValue != "" {
+            //get the CSV from the "Browse" button and parse it into an array
+            csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path!, delimiter: globalDelimiter!)
+            
+            if csvArray.count == 0 {
+                // If there are no rows in the CSV
+                _ = popMan.generalWarning(question: "Empty CSV Found", text: "It seems the CSV file you uploaded is malformed, or does not contain any data.\n\nPlease try a different CSV.")
+            } else if csvArray.count == 1 {
+                // If there is only 1 row in the CSV (header only)
+                _ = popMan.generalWarning(question: "No Data Found", text: "It seems the CSV file you uploaded does not contain any data outside of the header row.\n\nPlease select a CSV with updates for MUT to process.")
+            } else {
+                // If there are less 6 columns in the CSV
+                if csvArray[0].count <= 5 {
+                    // If the CSV appears to not have good columns -- eg: wrong delimiter
+                    _ = popMan.generalWarning(question: "Malformed CSV Found", text: "It seems there are not enough columns in your CSV file. Please try a different CSV file.\n\nIf you are using a delimiter other than comma, such as semi-colon, please select 'Change Delimiter' from Settings on the Menu bar.")
+                } else {
+                    // We end up here if all the pre-flight checks have been passed
+                    readyToRun()
+                    drawTables()
+                    //lblRecordType.objectValue = "Testing Labels"
+                    setRecordType()
+                }
+            }
+        } else {
+            _ = popMan.generalWarning(question: "No CSV Found", text: "Please use the Browse button to find a CSV file on your system with updates that you would like MUT to process.")
+        }
+    }
+    
+    func verifyCSV() {
+        // Nuke the CSV array on every preflight so we don't get stuck with old data
+        csvArray.removeAll()
+        
+        if txtCSV.stringValue != "" {
+            //get the CSV from the "Browse" button and parse it into an array
+            csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path!, delimiter: globalDelimiter!)
+            
+            globalEndpoint = dataPrep.endpoint(csvArray: csvArray)
+            
+            if globalEndpoint == "Endpoint_Error" {
+                _ = popMan.generalWarning(question: "CSV Error", text: "MUT is not able to read your CSV very well. Please try a different CSV.")
+            } else if globalEndpoint == "scope" {
+                tabViewOutlet.selectTabViewItem(at: 2)
+                preferredContentSize = NSSize(width: 550, height: 600)
+                lblStatus.isHidden = false
+                lblStatus.stringValue = "It appears you are looking to update a prestage or static group."
+            } else {
+                tabViewOutlet.selectTabViewItem(at: 1)
+                preferredContentSize = NSSize(width: 550, height: 600)
+                lblStatus.isHidden = false
+                lblStatus.stringValue = "It appears you are looking to update attributes for a record."
+            }
+            
+        } else {
+            _ = popMan.generalWarning(question: "No CSV Found", text: "Please use the Browse button to find a CSV file on your system with updates that you would like MUT to process.")
+        }
+    }
+    
+    func selectCorrectTab(endpoint: String) {
+        if (endpoint == "computers" || endpoint == "users" || endpoint == "mobiledevices") {
+            tabViewOutlet.selectTabViewItem(at: 0)
+        } else if (endpoint.contains("prestages") || endpoint.contains("groups")){
+            tabViewOutlet.selectTabViewItem(at: 1)
+        }
+    }
 
     func readyToRun() {
         btnSubmitOutlet.isHidden = false
@@ -359,7 +427,6 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     func notReadyToRun() {
         btnSubmitOutlet.isHidden = true
     }
-    
 }
 
 
@@ -372,7 +439,6 @@ extension ViewController: NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
         return (currentData.count)
     }
-    
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         //Initialize variables
@@ -404,83 +470,7 @@ extension ViewController: NSTableViewDataSource {
                 cell.textField?.stringValue = identifierDict["csvIdentifier"] ?? "NO VALUE"
             }
         }
-        
         return cell
     }
-    
-}
 
-
-//Builds a dictionary of all attributes being modified, pairing key-values for every attribute
-func buildDict(rowToRead: Int, ofArray: [[String]]) -> [[String : String]] {
-    //print("Beginning buildDict using array: \(ofArray)")
-    
-    //reads in the header row for the keys. Would handle any header row.
-    let headerRow = ofArray[0]
-    
-    //how many attributes are there
-    let columns = headerRow.count
-    //start at the first attribute
-    var column = 0
-
-    //Start at first record, skipping header row
-    
-    var currentEntry = [""]
-    //Will append to the returnArray throughout the loops
-    var returnArray: [[ String : String ]] = []
-    
-    //print("Number of columns in headerRow: \(columns)")
-    
-    //start at first column
-    column = 0
-    
-    //set row to whatever is input for row to read. Can be hard coded, or we can increment it
-    currentEntry = ofArray[rowToRead]
-    //go through each column, pairing headerRow for attribute with the value from the row.
-    while column < columns {
-        //print("Current Entry... \(currentEntry[column])")
-        var builderTwo: [String : String] = [:]
-        if currentEntry[column] == "" {
-            builderTwo = ["tableAttribute" : headerRow[column], "tableValue" : "_UNCHANGED_"]
-        } else {
-            builderTwo = ["tableAttribute" : headerRow[column], "tableValue" : currentEntry[column]]
-        }
-        returnArray.append(builderTwo)
-        column += 1
-    }
-    
-    //print("buildDict's return array... \(returnArray)")
-    
-    /* returnArray will be for ONE row from original CSV, row specified by the rowToRead variable
-     Format will be a series of entries like this:
-     ["tableAttribute": "Username", "tableValue": "myName"], ["tableAttribute": "Full Name", "tableValue": "Myfull Name"], etc for however many columns are in the header row
-    */
-    return returnArray
-}
-
-func buildID (ofArray: [[String]], countArray: [[String: String]]) -> [[String: String]] {
-    print("Beginning buildID...")
-    var dictID: [[String: String]] = []
-    var rows = ofArray.count
-    //Hard Code maximum displayed identifiers for preview.
-    //Since we skip to row 1 (row 0 is header), setting to 6 will give us 5 rows.
-    //Unsure if this still works
-//    if rows > 7 {
-//        rows = 7
-//    }
-    var row = 1
-    //start at second entry in CSV to skip headers
-    var currentRow: [String] = []
-    while row < rows {
-        currentRow = ofArray[row]
-        dictID.append(["csvIdentifier" : currentRow[0]])
-        row += 1
-    }
-    
-    //print("dictID is... \(dictID)")
-    /* returns a dictionary pairing "csvIdentifier" with the username/serial number from original csv.
-     Looks like:
-     [["csvIdentifier": "Benji"], ["csvIdentifier": "Billy"]]
-     */
-    return dictID
 }
