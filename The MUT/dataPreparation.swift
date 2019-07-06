@@ -84,7 +84,7 @@ public class dataPreparation {
     
     public func endpoint(csvArray: [[String]]) -> String {
         let headerRow = csvArray[0]
-        if headerRow.count == 1 {
+        if headerRow.count <= 2 {
             return "scope"
         } else {
             switch headerRow[0] {
@@ -120,10 +120,10 @@ public class dataPreparation {
         return ea_values
     }
     
-    public func buildID (ofArray: [[String]], countArray: [[String: String]]) -> [[String: String]] {
+    public func buildID (ofArray: [[String]]) -> [[String: String]] {
         print("Beginning buildID...")
         var dictID: [[String: String]] = []
-        var rows = ofArray.count
+        let rows = ofArray.count
         var row = 1
         //start at second entry in CSV to skip headers
         var currentRow: [String] = []
@@ -134,6 +134,22 @@ public class dataPreparation {
         }
         return dictID
     }
+
+    public func buildScopes (ofArray: [[String]]) -> [[String: String]] {
+        print("Beginning buildScopes...")
+        var dictID: [[String: String]] = []
+        let rows = ofArray.count
+        var row = 1
+        //start at second entry in CSV to skip headers
+        var currentRow: [String] = []
+        while row < rows {
+            currentRow = ofArray[row]
+            dictID.append(["scopeID" : currentRow[0]])
+            row += 1
+        }
+        return dictID
+    }
+    
     
     //Builds a dictionary of all attributes being modified, pairing key-values for every attribute
     public func buildDict(rowToRead: Int, ofArray: [[String]]) -> [[String : String]] {
