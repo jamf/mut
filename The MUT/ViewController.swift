@@ -30,6 +30,12 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     @IBOutlet weak var tblIdentifier: NSTableView!
     @IBOutlet weak var lblRecordType: NSTextField!
     
+    //Scopes Table
+    @IBOutlet weak var tblScopes: NSTableView!
+    @IBOutlet weak var lblScopeType: NSTextField!
+    
+    
+    
     //@IBOutlet weak var identifierHeader: NSTableHeaderView!
     //@IBOutlet weak var identifierText: NSTextField!
 
@@ -78,6 +84,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     var currentData : [[String: String]] = []
     var csvData : [[ String : String ]] = []
     var csvIdentifierData: [[String: String]] = []
+    var scopeData: [[String: String]] = []
 
     
     override func viewDidLoad() {
@@ -167,14 +174,19 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
             // do stuff based on dropdowns
             if popRecordTypeOutlet.titleOfSelectedItem! == "Computer Prestage" {
                 globalEndpoint = "computer-prestages"
+                lblScopeType.stringValue = "Serial Number"
             } else if popRecordTypeOutlet.titleOfSelectedItem! == "Mobile Device Prestage" {
                 globalEndpoint = "mobile-device-prestages"
+                lblScopeType.stringValue = "Serial Number"
             } else if popRecordTypeOutlet.titleOfSelectedItem! == "Computer Static Group" {
                 globalEndpoint = "computergroups"
+                lblScopeType.stringValue = "Serial Number"
             } else if popRecordTypeOutlet.titleOfSelectedItem! == "Mobile Device Static Group" {
                 globalEndpoint = "mobiledevicegroups"
+                lblScopeType.stringValue = "Serial Number"
             } else if popRecordTypeOutlet.titleOfSelectedItem! == "User Object Static Group" {
                 globalEndpoint = "usergroups"
+                lblScopeType.stringValue = "Username"
             }
             
         } else {
@@ -200,7 +212,8 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
             //csvData becomes the main table's data. Prints the second row of the CSV, skipping the header.
             csvData = dataPrep.buildDict(rowToRead: 1, ofArray: csvArray)
             //csvIdentifierData contains the data for the Identifier column.
-            csvIdentifierData = dataPrep.buildID(ofArray: csvArray, countArray: csvData)
+            //csvIdentifierData = dataPrep.buildID(ofArray: csvArray, countArray: csvData)
+            csvIdentifierData = dataPrep.buildID(ofArray: csvArray)
             
             /* Must set currentData to the data for the table we're reloading,
              as currentData is used by the numberOfRows function */
@@ -212,6 +225,12 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
             
         } else if currentTab == "scope" {
             // New tab stuff goes here
+            print("drawTables Function, tab scope...")
+            scopeData = dataPrep.buildScopes(ofArray: csvArray)
+            print("csvData: \(scopeData)")
+            currentData = scopeData
+            print("currentData should be the same as csvData: \(currentData)")
+            tblScopes.reloadData()
         }
         
     }
@@ -344,6 +363,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                 } else {
                     // We end up here if all the pre-flight checks have been passed
                     readyToRun()
+                    print("About to try to drawTables.......")
                     drawTables()
                     //lblRecordType.objectValue = "Testing Labels"
                     setRecordType()
@@ -444,7 +464,7 @@ extension ViewController: NSTableViewDataSource {
         //Initialize variables
         var identifierDict: [String: String] = [:]
         var attributeRow: [String: String] = [:]
-
+        var scopeID: [String: String] = [:]
         //avoid index out of range if there are more rows in the original CSV than there are columns
         if row < csvData.count {
             attributeRow = csvData[row]
@@ -454,13 +474,28 @@ extension ViewController: NSTableViewDataSource {
         if csvIdentifierData.count > row {
             identifierDict = csvIdentifierData[row]
         }
-     
+        
+        scopeID = scopeData[row]
+        print("scopeData : \(scopeData)")
+        print("scopeID : \(scopeID)")
+        
+    
+        
         
         //The following code matches values from the dictionaries with columns and cells from the tableviews
         //Then returns the cell
         guard let cell = tableView.makeView(withIdentifier: tableColumn!.identifier, owner: self) as? NSTableCellView else { return nil }
         //3 columns, so 3 conditions. Right now the last condition is wrapped inside it's own conditional.
         //This may not be necessary
+        
+/* How this next part works:
+ 
+         - if the tableColumn's identifier is "STRING", then it sets the cell equal to the value in dictionary[key]
+         - returns that cell and increments row by 1, starts again.
+         - this is repeated until row = rows
+         - rows is set by function above this one, numberOfRows
+ */
+        
         if (tableColumn?.identifier)!.rawValue == "tableAttribute" {
             cell.textField?.stringValue = attributeRow["tableAttribute"] ?? "NO VALUE"
         } else if (tableColumn?.identifier)!.rawValue == "tableValue" {
@@ -469,7 +504,12 @@ extension ViewController: NSTableViewDataSource {
             if csvIdentifierData.count > row {
                 cell.textField?.stringValue = identifierDict["csvIdentifier"] ?? "NO VALUE"
             }
+        } else if (tableColumn?.identifier)!.rawValue == "colScopes" {
+    
+            cell.textField?.stringValue = scopeID["scopeID"] ?? "NO VALUE"
         }
+        //This cell will return while row < rows
+        //print("returning cell...")
         return cell
     }
 
