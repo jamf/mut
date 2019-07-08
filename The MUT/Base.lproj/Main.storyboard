@@ -437,7 +437,7 @@ DQ
                                 <font key="font" metaFont="system"/>
                                 <tabViewItems>
                                     <tabViewItem label="Intro" identifier="intro" id="euP-eV-Ddk" userLabel="Intro">
-                                        <view key="view" ambiguous="YES" id="gbY-L9-mIb">
+                                        <view key="view" id="gbY-L9-mIb">
                                             <rect key="frame" x="0.0" y="0.0" width="510" height="376"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
@@ -508,7 +508,7 @@ DQ
                                         </view>
                                     </tabViewItem>
                                     <tabViewItem label="Object Attributes" identifier="objects" id="R5z-j7-yeh">
-                                        <view key="view" id="Nio-E0-nf4">
+                                        <view key="view" ambiguous="YES" id="Nio-E0-nf4">
                                             <rect key="frame" x="0.0" y="0.0" width="510" height="376"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
@@ -851,6 +851,7 @@ DQ
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <color key="contentTintColor" name="systemBlueColor" catalog="System" colorSpace="catalog"/>
                                 <connections>
                                     <action selector="submitRequests:" target="Wso-JF-mtF" id="bRr-sb-Kdi"/>
                                 </connections>
