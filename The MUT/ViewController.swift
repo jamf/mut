@@ -120,7 +120,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     @IBAction func btnIdentifier(_ sender: Any) {
         currentData = csvData
         let selectedIndex = tblIdentifier.clickedRow + 1
-        print("Selected Index is... \(selectedIndex)")
+        //print("Selected Index is... \(selectedIndex)")
         let maxIndex = csvArray.count
         if selectedIndex == 0 {
             print("selectedIndex is 0, not redrawing...")
@@ -480,7 +480,7 @@ extension ViewController: NSTableViewDataSource {
         if csvIdentifierData.count > row {
             identifierDict = csvIdentifierData[row]
         }
-        print("globalTab for tableView is... \(globalTab)")
+        //print("globalTab for tableView is... \(globalTab)")
         if globalTab == "scope" {
             //print("scopeData : \(scopeData)")
             //print("scopeID : \(scopeID)")
