@@ -59,6 +59,8 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     var globalExpiry: Int!
     var globalBase64: String!
     var globalEndpoint: String!
+    //Added globalTab to contain all the scope tab endpoints for table drawing
+    var globalTab: String!
     var xmlToPut: Data!
     var globalDelimiter: UnicodeScalar!
     var csvArray = [[String]]()
@@ -175,21 +177,27 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
             if popRecordTypeOutlet.titleOfSelectedItem! == "Computer Prestage" {
                 globalEndpoint = "computer-prestages"
                 lblScopeType.stringValue = "Serial Number"
+                globalTab = "scope"
             } else if popRecordTypeOutlet.titleOfSelectedItem! == "Mobile Device Prestage" {
                 globalEndpoint = "mobile-device-prestages"
                 lblScopeType.stringValue = "Serial Number"
+                globalTab = "scope"
             } else if popRecordTypeOutlet.titleOfSelectedItem! == "Computer Static Group" {
                 globalEndpoint = "computergroups"
                 lblScopeType.stringValue = "Serial Number"
+                globalTab = "scope"
             } else if popRecordTypeOutlet.titleOfSelectedItem! == "Mobile Device Static Group" {
                 globalEndpoint = "mobiledevicegroups"
                 lblScopeType.stringValue = "Serial Number"
+                globalTab = "scope"
             } else if popRecordTypeOutlet.titleOfSelectedItem! == "User Object Static Group" {
                 globalEndpoint = "usergroups"
                 lblScopeType.stringValue = "Username"
+                globalTab = "scope"
             }
             
         } else {
+            globalTab = "inventory"
             if generalEndpoint == "users" {
                 lblRecordType.stringValue = "Users"
             } else if generalEndpoint == "computers" {
@@ -225,11 +233,11 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
             
         } else if currentTab == "scope" {
             // New tab stuff goes here
-            print("drawTables Function, tab scope...")
+            //print("drawTables Function, tab scope...")
             scopeData = dataPrep.buildScopes(ofArray: csvArray)
-            print("csvData: \(scopeData)")
+            //print("csvData: \(scopeData)")
             currentData = scopeData
-            print("currentData should be the same as csvData: \(currentData)")
+            //print("currentData should be the same as csvData: \(currentData)")
             tblScopes.reloadData()
         }
         
@@ -363,9 +371,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                 } else {
                     // We end up here if all the pre-flight checks have been passed
                     readyToRun()
-                    print("About to try to drawTables.......")
                     drawTables()
-                    //lblRecordType.objectValue = "Testing Labels"
                     setRecordType()
                 }
             }
@@ -474,13 +480,13 @@ extension ViewController: NSTableViewDataSource {
         if csvIdentifierData.count > row {
             identifierDict = csvIdentifierData[row]
         }
-        
-        scopeID = scopeData[row]
-        print("scopeData : \(scopeData)")
-        print("scopeID : \(scopeID)")
-        
-    
-        
+        print("globalTab for tableView is... \(globalTab)")
+        if globalTab == "scope" {
+            //print("scopeData : \(scopeData)")
+            //print("scopeID : \(scopeID)")
+            scopeID = scopeData[row]
+        }
+
         
         //The following code matches values from the dictionaries with columns and cells from the tableviews
         //Then returns the cell
@@ -500,9 +506,20 @@ extension ViewController: NSTableViewDataSource {
             cell.textField?.stringValue = attributeRow["tableAttribute"] ?? "NO VALUE"
         } else if (tableColumn?.identifier)!.rawValue == "tableValue" {
             cell.textField?.stringValue = attributeRow["tableValue"] ?? "NO VALUE"
+            if attributeRow["tableValue"] == "UNCHANGED!" {
+                cell.textField?.textColor = NSColor.blue
+            }
+            else if attributeRow["tableValue"] == "CLEAR!" {
+                cell.textField?.textColor = NSColor.red
+                //cell.textField?.font = NSFont.boldSystemFont(ofSize: 13.0)
+            }
+            else {
+                cell.textField?.textColor = NSColor.controlTextColor
+            }
         } else if (tableColumn?.identifier)!.rawValue == "csvIdentifier" {
             if csvIdentifierData.count > row {
                 cell.textField?.stringValue = identifierDict["csvIdentifier"] ?? "NO VALUE"
+                
             }
         } else if (tableColumn?.identifier)!.rawValue == "colScopes" {
     
