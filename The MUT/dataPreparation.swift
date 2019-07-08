@@ -120,6 +120,7 @@ public class dataPreparation {
         return ea_values
     }
     
+    //Builds the dictionary for the identifier table on Attributes view
     public func buildID (ofArray: [[String]]) -> [[String: String]] {
         print("Beginning buildID...")
         var dictID: [[String: String]] = []
@@ -135,8 +136,9 @@ public class dataPreparation {
         return dictID
     }
 
+    //buildScopes is just a duplicate of buildID that puts in "scopeID" as the key instead. Used on Prestages and Groups view
     public func buildScopes (ofArray: [[String]]) -> [[String: String]] {
-        print("Beginning buildScopes...")
+        //print("Beginning buildScopes...")
         var dictID: [[String: String]] = []
         let rows = ofArray.count
         var row = 1
@@ -151,7 +153,8 @@ public class dataPreparation {
     }
     
     
-    //Builds a dictionary of all attributes being modified, pairing key-values for every attribute
+    //Builds a dictionary of all attributes being modified, pairing key-values for every attribute.
+    //used for tableMain
     public func buildDict(rowToRead: Int, ofArray: [[String]]) -> [[String : String]] {
         //print("Beginning buildDict using array: \(ofArray)")
         
@@ -177,7 +180,7 @@ public class dataPreparation {
             //print("Current Entry... \(currentEntry[column])")
             var builderTwo: [String : String] = [:]
             if currentEntry[column] == "" {
-                builderTwo = ["tableAttribute" : headerRow[column], "tableValue" : "_UNCHANGED_"]
+                builderTwo = ["tableAttribute" : headerRow[column], "tableValue" : "UNCHANGED!"]
             } else {
                 builderTwo = ["tableAttribute" : headerRow[column], "tableValue" : currentEntry[column]]
             }
