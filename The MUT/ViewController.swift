@@ -507,10 +507,10 @@ extension ViewController: NSTableViewDataSource {
         } else if (tableColumn?.identifier)!.rawValue == "tableValue" {
             cell.textField?.stringValue = attributeRow["tableValue"] ?? "NO VALUE"
             if attributeRow["tableValue"] == "UNCHANGED!" {
-                cell.textField?.textColor = NSColor.blue
+                cell.textField?.textColor = NSColor.systemBlue
             }
             else if attributeRow["tableValue"] == "CLEAR!" {
-                cell.textField?.textColor = NSColor.red
+                cell.textField?.textColor = NSColor.systemRed
                 //cell.textField?.font = NSFont.boldSystemFont(ofSize: 13.0)
             }
             else {
