@@ -15,6 +15,7 @@
 		F7333BD61DB55EDF00F89C00 /* The_MUT.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F7333BD41DB55EDF00F89C00 /* The_MUT.xcdatamodeld */; };
 		F7333BD81DB55EDF00F89C00 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F7333BD71DB55EDF00F89C00 /* Assets.xcassets */; };
 		F7333BDB1DB55EDF00F89C00 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F7333BD91DB55EDF00F89C00 /* Main.storyboard */; };
+		F743057F22D515CC00FF229E /* jsonBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F743057E22D515CC00FF229E /* jsonBuilder.swift */; };
 		F7CEE52A229E3C420027CAE8 /* loginWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CEE529229E3C420027CAE8 /* loginWindow.swift */; };
 		F7CF61EA2298671E003A0CBB /* tokenManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CF61E92298671E003A0CBB /* tokenManagement.swift */; };
 		F7CF61EC22986736003A0CBB /* dataPreparation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CF61EB22986736003A0CBB /* dataPreparation.swift */; };
@@ -57,6 +58,7 @@
 		F7333BD71DB55EDF00F89C00 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F7333BDA1DB55EDF00F89C00 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F7333BDC1DB55EDF00F89C00 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F743057E22D515CC00FF229E /* jsonBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = jsonBuilder.swift; sourceTree = "<group>"; };
 		F7CEE529229E3C420027CAE8 /* loginWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginWindow.swift; sourceTree = "<group>"; };
 		F7CF61E92298671E003A0CBB /* tokenManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tokenManagement.swift; sourceTree = "<group>"; };
 		F7CF61EB22986736003A0CBB /* dataPreparation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dataPreparation.swift; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 				F7CF61E92298671E003A0CBB /* tokenManagement.swift */,
 				8525069E22B4322700505757 /* API.swift */,
 				F7CF61EB22986736003A0CBB /* dataPreparation.swift */,
+				F743057E22D515CC00FF229E /* jsonBuilder.swift */,
 				F7333BD71DB55EDF00F89C00 /* Assets.xcassets */,
 				F7333BD91DB55EDF00F89C00 /* Main.storyboard */,
 				F7CEE529229E3C420027CAE8 /* loginWindow.swift */,
@@ -332,6 +335,7 @@
 				F7CF61EA2298671E003A0CBB /* tokenManagement.swift in Sources */,
 				F7333BD11DB55EDF00F89C00 /* AppDelegate.swift in Sources */,
 				85C4D46922AAEF6A00512000 /* CSVFunctions.swift in Sources */,
+				F743057F22D515CC00FF229E /* jsonBuilder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
