@@ -184,6 +184,63 @@ public class APIFunctions: NSObject, URLSessionDelegate{
         semaphore.wait() // Wait for the semaphore before moving on to the return value
         return globalResponse
     }
+    
+    public func updatePrestage(passedUrl: String, endpoint: String, prestageID: String, jpapiVersion: String, token: String, jsonToSubmit: Data, httpMethod: String, allowUntrusted: Bool) -> Data {
+        let baseURL = dataPrep.generatePrestageURL(baseURL: passedUrl, endpoint: endpoint, prestageID: prestageID, jpapiVersion: jpapiVersion)
+        
+        let encodedURL = NSURL(string: "\(baseURL)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "https://null")! as URL
+        
+        NSLog("[INFO  ]: Updating the current prestage scope at \(encodedURL.absoluteString)")
+        allowUntrustedFlag = allowUntrusted
+        let myOpQueue = OperationQueue()
+        var globalResponse = "nil".data(using: String.Encoding.utf8, allowLossyConversion: false)!        // The semaphore is what allows us to force the code to wait for this request to complete
+        // Without the semaphore, MUT will queue up a request for every single line of the CSV simultaneously
+        let semaphore = DispatchSemaphore(value: 0)
+        let request = NSMutableURLRequest(url: encodedURL)
+        
+        // Determine the request type. If we pass this in with a variable, we could use this function for PUT as well.
+        request.httpMethod = httpMethod
+        request.httpBody = jsonToSubmit
+        // Set configuration settings for the request, such as headers
+        let configuration = URLSessionConfiguration.default
+        configuration.httpAdditionalHeaders = ["Authorization" : "Bearer \(token)", "Content-type" : "application/json"]
+        let session = Foundation.URLSession(configuration: configuration, delegate: self, delegateQueue: myOpQueue)
+        
+        // Completion handler. This is what ensures that the response is good/bad
+        // and also what handles the semaphore
+        let task = session.dataTask(with: request as URLRequest, completionHandler: {
+            (data, response, error) -> Void in
+            if let httpResponse = response as? HTTPURLResponse {
+                if httpResponse.statusCode >= 199 && httpResponse.statusCode <= 299 {
+                    // Good response from API
+                    globalResponse = data!
+                    NSLog("[INFO  ]: Successful submission completed by The MUT.app")
+                    NSLog("[INFO  ]: " + response.debugDescription)
+                } else {
+                    // Bad Response from API
+                    globalResponse = data!
+                    NSLog("[ERROR ]: Failed submission by The MUT.app")
+                    NSLog("[ERROR ]: " + response.debugDescription)
+                    NSLog("[ERROR ]: " + String(decoding: data!, as: UTF8.self))
+                }
+                //print("EncodedURL: \(passedUrl.absoluteString)")
+                // print(String (data: data!, encoding: .utf8)) // Uncomment for debugging
+                semaphore.signal() // Signal completion to the semaphore
+            }
+            
+            if error != nil {
+                let errorString = "[FATAL ]: " + error!.localizedDescription
+                globalResponse = data!
+                NSLog("[FATAL ]: " + error!.localizedDescription)
+                //print("EncodedURL in error: \(passedUrl.absoluteString)")
+                semaphore.signal() // Signal completion to the semaphore
+                
+            }
+        })
+        task.resume() // Kick off the actual GET here
+        semaphore.wait() // Wait for the semaphore before moving on to the return value
+        return globalResponse
+    }
 
     public func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping(  URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         if allowUntrustedFlag {
