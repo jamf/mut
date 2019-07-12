@@ -122,7 +122,7 @@ public class dataPreparation {
     
     //Builds the dictionary for the identifier table on Attributes view
     public func buildID (ofArray: [[String]]) -> [[String: String]] {
-        print("Beginning buildID...")
+        //print("Beginning buildID...")
         var dictID: [[String: String]] = []
         let rows = ofArray.count
         var row = 1
@@ -180,7 +180,9 @@ public class dataPreparation {
             //print("Current Entry... \(currentEntry[column])")
             var builderTwo: [String : String] = [:]
             if currentEntry[column] == "" {
-                builderTwo = ["tableAttribute" : headerRow[column], "tableValue" : "UNCHANGED!"]
+                builderTwo = ["tableAttribute" : headerRow[column], "tableValue" : "(unchanged)"]
+            } else if currentEntry[column] == "CLEAR!" {
+                builderTwo = ["tableAttribute" : headerRow[column], "tableValue" : "WILL BE CLEARED"]
             } else {
                 builderTwo = ["tableAttribute" : headerRow[column], "tableValue" : currentEntry[column]]
             }
