@@ -52,6 +52,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     @IBOutlet weak var txtCSV: NSTextField!
     @IBOutlet weak var popRecordTypeOutlet: NSPopUpButton!
     @IBOutlet weak var popActionTypeOutlet: NSPopUpButton!
+    @IBOutlet weak var txtPrestageID: NSTextField!
     
     var globalPathToCSV: NSURL!
     var globalToken: String!
@@ -62,6 +63,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     //Added globalTab to contain all the scope tab endpoints for table drawing
     var globalTab: String!
     var xmlToPut: Data!
+    var jsonToSubmit: Data!
     var globalDelimiter: UnicodeScalar!
     var csvArray = [[String]]()
     
@@ -80,6 +82,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     let CSVMan = CSVManipulation()
     let APIFunc = APIFunctions()
     let popMan = popPrompt()
+    let jsonMan = jsonManager()
     
     
     //Variables used by tableViews
@@ -251,8 +254,15 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     }
     
     @IBAction func submitRequests(_ sender: Any) {
-        print(tabViewOutlet.selectedTabViewItem?.identifier)
-        submitUpdates()
+        // This line will need to get re-written when we have dropdowns working for prestage stuff
+        globalEndpoint = dataPrep.endpoint(csvArray: csvArray)
+        if globalEndpoint != "scope" {
+            submitAttributeUpdates()
+        } else {
+            
+            submitScopeUpdates()
+        }
+        
     }
 
     @IBAction func btnTest(_ sender: Any) {
@@ -260,8 +270,38 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         
     }
     
+    @IBAction func btnPrestageTest(_ sender: Any) {
+        print(popActionTypeOutlet.selectedItem!.identifier!.rawValue)
+        print(popRecordTypeOutlet.selectedItem!.identifier!.rawValue)
+    }
     
-    func submitUpdates() {
+    func submitScopeUpdates() {
+        NSLog("[INFO  : Beginning parsing the CSV file into the array stream.")
+        let versionLock = getCurrentPrestageVersionLock(endpoint: popRecordTypeOutlet.selectedItem!.identifier!.rawValue, prestageID: txtPrestageID.stringValue)
+        let csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path ?? "/dev/null", delimiter: globalDelimiter!)
+        //let headerRow = csvArray[0]
+        //let numberOfColumns = headerRow.count
+        var serialArray: [String]!
+        serialArray = []
+        if csvArray.count > 1 {
+            for row in 1...(csvArray.count - 1) {
+                
+                // Get the current row of the CSV for updating
+                let currentRow = csvArray[row]
+                serialArray.append(currentRow[0])
+
+            }
+            jsonToSubmit = jsonMan.buildJson(versionLock: versionLock, serialNumbers: serialArray)
+            // Submit the XML to the Jamf Pro API
+            let response = APIFunc.updatePrestage(passedUrl: globalURL, endpoint: popRecordTypeOutlet.selectedItem!.identifier!.rawValue, prestageID: txtPrestageID.stringValue, jpapiVersion: "v1", token: globalToken, jsonToSubmit: jsonToSubmit, httpMethod: popActionTypeOutlet.selectedItem!.identifier!.rawValue, allowUntrusted: false)
+            print(response)
+        } else {
+            // Not enough rows in the CSV to run
+        }
+    }
+    
+    
+    func submitAttributeUpdates() {
         // Begin the parse
         NSLog("[INFO  : Beginning parsing the CSV file into the array stream.")
         let csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path ?? "/dev/null", delimiter: globalDelimiter!)
@@ -272,12 +312,9 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         let headerRow = csvArray[0]
         let numberOfColumns = headerRow.count
         
-        // This line will need to get re-written when we have dropdowns working for prestage stuff
-        globalEndpoint = dataPrep.endpoint(csvArray: csvArray)
-        print(globalEndpoint!)
-        
         // Get the expected columns based off update type and calculate number of EAs present
         let expectedColumns = dataPrep.expectedColumns(endpoint: globalEndpoint!)
+        
         let numberOfEAs = numberOfColumns - expectedColumns
         
         // If there are EAs, get a list of their EA IDs
@@ -287,7 +324,6 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         
         // Begin looping through the CSV sheet
         
-        print(csvArray.count)
         if csvArray.count > 1 {
             for row in 1...(csvArray.count - 1) {
                 ea_values = [] // Reset the EA_values so that we aren't just appending
@@ -314,6 +350,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                         print(postResponse)
                     }
                 }
+                
                 let xmlString = String(decoding: xmlToPut, as: UTF8.self)
                 print(xmlString)
 
@@ -327,12 +364,13 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         }
     }
     
-    func getCurrentPrestage() {
-        let myURL = dataPrep.generateGetURL(baseURL: globalURL, endpoint: "computer-prestages", prestageID: "1", jpapiVersion: "v1")
+    func getCurrentPrestageVersionLock(endpoint: String, prestageID: String) -> Int {
+        let myURL = dataPrep.generatePrestageURL(baseURL: globalURL, endpoint: endpoint, prestageID: prestageID, jpapiVersion: "v1")
         print(myURL)
         
-        let response = APIFunc.getPrestageScope(passedUrl: myURL, token: globalToken, endpoint: "computer-prestages", allowUntrusted: true)
+        let response = APIFunc.getPrestageScope(passedUrl: myURL, token: globalToken, endpoint: endpoint, allowUntrusted: false)
         let myDataString = String(decoding: response, as: UTF8.self)
+        print(myDataString)
         do {
             let newJson = try JSON(data: response)
             let newVersionLock = newJson["versionLock"].intValue
@@ -344,11 +382,12 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
             print(newSerialArray)
             
             // print(expiry!) // Uncomment for debugging
+            
+            return newVersionLock
         } catch let error as NSError {
             NSLog("[ERROR ]: Failed to load: \(error.localizedDescription)")
+            return -1
         }
-    
-        print(myDataString)
     }
     
     func scopePreFlightChecks() {

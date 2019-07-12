@@ -39,7 +39,7 @@ public class dataPreparation {
         return encodedURL
     }
 
-    public func generateGetURL(baseURL: String, endpoint: String, prestageID: String, jpapiVersion: String) -> URL {
+    public func generatePrestageURL(baseURL: String, endpoint: String, prestageID: String, jpapiVersion: String) -> URL {
         var instancedURL = baseURL
         if !baseURL.contains(".") {
             instancedURL = "https://" + baseURL + ".jamfcloud.com/"
@@ -77,6 +77,8 @@ public class dataPreparation {
             return 19
         case "mobiledevices":
             return 17
+        case "scope":
+            return 1
         default:
             return 0
         }
