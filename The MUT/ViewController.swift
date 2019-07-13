@@ -83,6 +83,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     let APIFunc = APIFunctions()
     let popMan = popPrompt()
     let jsonMan = jsonManager()
+    let logMan = logManager()
     
     
     //Variables used by tableViews
@@ -116,6 +117,9 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         preferredContentSize = NSSize(width: 550, height: 443)
         performSegue(withIdentifier: "segueLogin", sender: self)
         globalDelimiter = ","
+        logMan.infoWrite(logString: "This is an info message.")
+        logMan.errorWrite(logString: "This is an error message.")
+        logMan.fatalWrite(logString: "This is a FATAL message.")
     }
     
     
