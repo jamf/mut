@@ -252,7 +252,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     
 
     @IBAction func btnExportCSV(_ sender: Any) {
-        NSLog("[INFO  : Saving CSV Templates to User's Downloads Directory")
+        logMan.infoWrite(logString: "Saving CSV Templates to User's Downloads Directory.")
         CSVMan.ExportCSV()
         _ = popMan.generalWarning(question: "Good Work!", text: "A new directory has been created in your Downloads directory called 'MUT Templates'.\n\nInside that directory, you will find all of the CSV templates you need in order to use MUT v5, along with a ReadMe file on how to fill the templates out.")
     }
@@ -280,7 +280,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     }
     
     func submitScopeUpdates() {
-        NSLog("[INFO  : Beginning parsing the CSV file into the array stream.")
+        logMan.infoWrite(logString: "Beginning CSV Parse - Scope update.")
         let versionLock = getCurrentPrestageVersionLock(endpoint: popRecordTypeOutlet.selectedItem!.identifier!.rawValue, prestageID: txtPrestageID.stringValue)
         let csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path ?? "/dev/null", delimiter: globalDelimiter!)
         //let headerRow = csvArray[0]
@@ -306,8 +306,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     
     
     func submitAttributeUpdates() {
-        // Begin the parse
-        NSLog("[INFO  : Beginning parsing the CSV file into the array stream.")
+        logMan.infoWrite(logString: "Beginning CSV Parse - Attributes update.")
         let csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path ?? "/dev/null", delimiter: globalDelimiter!)
         
         // Set variables needed for the run
@@ -389,7 +388,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
             
             return newVersionLock
         } catch let error as NSError {
-            NSLog("[ERROR ]: Failed to load: \(error.localizedDescription)")
+            logMan.errorWrite(logString: "Failed to load: \(error.localizedDescription)")
             return -1
         }
     }
