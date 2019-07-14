@@ -14,9 +14,9 @@ public class logManager {
     
     func createDirectory(){
         if fileManager.fileExists(atPath: downloadsURL!.path) {
-            NSLog("[INFO  ]: Template Directory already exists. Skipping creation.")
+            //NSLog("[INFO  ]: Template Directory already exists. Skipping creation.")
         } else {
-            NSLog("[INFO  ]: Template Directory does not exist. Creating.")
+            //NSLog("[INFO  ]: Template Directory does not exist. Creating.")
             do {
                 try FileManager.default.createDirectory(at: downloadsURL!, withIntermediateDirectories: true, attributes: nil)
             } catch {
@@ -36,8 +36,22 @@ public class logManager {
         createDirectory()
         let currentTime = generateCurrentTimeStamp()
         let logURL = downloadsURL?.appendingPathComponent("MUT.log")
-        let dateLogString = currentTime + " [INFO ]: " + logString
-        NSLog("[INFO  ]: Writing to MUT log file: '\(logString)'.")
+        let dateLogString = currentTime + " [INFO  ]: " + logString
+        //NSLog("[INFO  ]: Writing to MUT log file: '\(logString)'.")
+        do {
+            try dateLogString.appendLineToURL(fileURL: logURL!)
+        }
+        catch {
+            NSLog("[ERROR ]: An error occured while writing to the Log. \(error).")
+        }
+    }
+
+    func warnWrite(logString: String) {
+        createDirectory()
+        let currentTime = generateCurrentTimeStamp()
+        let logURL = downloadsURL?.appendingPathComponent("MUT.log")
+        let dateLogString = currentTime + " [WARN  ]: " + logString
+        //NSLog("[INFO  ]: Writing to MUT log file: '\(logString)'.")
         do {
             try dateLogString.appendLineToURL(fileURL: logURL!)
         }
@@ -50,8 +64,8 @@ public class logManager {
         createDirectory()
         let currentTime = generateCurrentTimeStamp()
         let logURL = downloadsURL?.appendingPathComponent("MUT.log")
-        let dateLogString = currentTime + " [ERROR]: " + logString
-        NSLog("[INFO  ]: Writing to MUT log file: '\(logString)'.")
+        let dateLogString = currentTime + " [ERROR ]: " + logString
+        //NSLog("[INFO  ]: Writing to MUT log file: '\(logString)'.")
         do {
             try dateLogString.appendLineToURL(fileURL: logURL!)
         }
@@ -64,8 +78,8 @@ public class logManager {
         createDirectory()
         let currentTime = generateCurrentTimeStamp()
         let logURL = downloadsURL?.appendingPathComponent("MUT.log")
-        let dateLogString = currentTime + " [FATAL]: " + logString
-        NSLog("[INFO  ]: Writing to MUT log file: '\(logString)'.")
+        let dateLogString = currentTime + " [FATAL ]: " + logString
+        //NSLog("[INFO  ]: Writing to MUT log file: '\(logString)'.")
         do {
             try dateLogString.appendLineToURL(fileURL: logURL!)
         }
