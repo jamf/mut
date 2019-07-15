@@ -421,7 +421,7 @@ DQ
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AOy-KK-CFH">
-                                <rect key="frame" x="41.5" y="111" width="468" height="23"/>
+                                <rect key="frame" x="42" y="111" width="468" height="23"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="roundTextured" title="Pre-Flight and Preview Changes" bezelStyle="texturedRounded" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="kiO-gu-l2m">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -720,11 +720,14 @@ DQ
                                                 <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xz7-SZ-BI5">
                                                     <rect key="frame" x="265" y="274" width="225" height="25"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                    <popUpButtonCell key="cell" type="push" title="Computer Prestage" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="TDA-bU-cyx" id="hQP-tE-cfh" userLabel="Record Type">
+                                                    <popUpButtonCell key="cell" type="push" title="- Select record to update -" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="pSf-M9-1wD" id="hQP-tE-cfh" userLabel="Record Type">
                                                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                         <font key="font" metaFont="menu"/>
                                                         <menu key="menu" id="ym2-ih-j6V">
                                                             <items>
+                                                                <menuItem title="- Select record to update -" hidden="YES" allowsKeyEquivalentWhenHidden="YES" id="pSf-M9-1wD">
+                                                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                                                </menuItem>
                                                                 <menuItem title="Computer Prestage" state="on" identifier="computer-prestages" id="TDA-bU-cyx" userLabel="Computer Prestages:"/>
                                                                 <menuItem title="Mobile Device Prestage" identifier="mobile-device-prestages" id="bo4-dL-dg4"/>
                                                                 <menuItem title="Computer Static Group" identifier="computergroups" id="ppq-58-mna"/>
@@ -733,23 +736,21 @@ DQ
                                                             </items>
                                                         </menu>
                                                     </popUpButtonCell>
+                                                    <connections>
+                                                        <action selector="popRecordTypeAction:" target="Wso-JF-mtF" id="NCM-19-Yc4"/>
+                                                    </connections>
                                                 </popUpButton>
                                                 <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QY7-eJ-0gc">
                                                     <rect key="frame" x="265" y="229" width="225" height="25"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                    <popUpButtonCell key="cell" type="push" title="Add to Prestage" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="10y-FD-VTG" id="Kip-8r-JeR" userLabel="Action to take">
+                                                    <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" enabled="NO" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="Kip-8r-JeR" userLabel="Action to take">
                                                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                         <font key="font" metaFont="menu"/>
-                                                        <menu key="menu" id="duW-1d-X18">
-                                                            <items>
-                                                                <menuItem title="Add to Prestage" state="on" identifier="POST" id="10y-FD-VTG"/>
-                                                                <menuItem title="Remove from Prestage" identifier="DELETE" id="AwR-aA-lqU" userLabel="Remove from Prestage">
-                                                                    <modifierMask key="keyEquivalentModifierMask"/>
-                                                                </menuItem>
-                                                                <menuItem title="Replace Existing Prestage" identifier="PUT" id="hWN-in-uoQ"/>
-                                                            </items>
-                                                        </menu>
+                                                        <menu key="menu" id="duW-1d-X18"/>
                                                     </popUpButtonCell>
+                                                    <connections>
+                                                        <action selector="popActionTypeAction:" target="Wso-JF-mtF" id="PPI-uV-AIa"/>
+                                                    </connections>
                                                 </popUpButton>
                                                 <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OVx-uc-Fz8">
                                                     <rect key="frame" x="9" y="26" width="135" height="325"/>
@@ -831,11 +832,14 @@ DQ
                                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BtT-eg-WkW">
                                                     <rect key="frame" x="267" y="187" width="96" height="22"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Prestage ID" drawsBackground="YES" id="Cnn-TM-7K9">
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="Cnn-TM-7K9">
                                                         <font key="font" metaFont="system"/>
                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
+                                                    <connections>
+                                                        <action selector="txtPrestageIdAction:" target="Wso-JF-mtF" id="2Hs-iY-mVG"/>
+                                                    </connections>
                                                 </textField>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="D8r-L7-e83">
                                                     <rect key="frame" x="262" y="131" width="66" height="32"/>
@@ -854,7 +858,7 @@ DQ
                                 </tabViewItems>
                             </tabView>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uAk-K8-6I4">
-                                <rect key="frame" x="389.5" y="189" width="120" height="23"/>
+                                <rect key="frame" x="390" y="189" width="120" height="23"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="roundTextured" title="Browse" bezelStyle="texturedRounded" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="dgF-V5-PBJ">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -868,7 +872,7 @@ DQ
                                 </connections>
                             </button>
                             <button hidden="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yi8-lJ-HaJ">
-                                <rect key="frame" x="41.5" y="72" width="468" height="23"/>
+                                <rect key="frame" x="42" y="72" width="468" height="23"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="roundTextured" title="Submit Updates" bezelStyle="texturedRounded" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="I9Y-YU-cLK">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -880,7 +884,7 @@ DQ
                                 </connections>
                             </button>
                             <button hidden="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m6p-k2-jN9">
-                                <rect key="frame" x="41.5" y="47" width="468" height="23"/>
+                                <rect key="frame" x="42" y="47" width="468" height="23"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="roundTextured" title="Cancel" bezelStyle="texturedRounded" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="D5L-eG-oNG">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
