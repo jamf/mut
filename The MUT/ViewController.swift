@@ -67,15 +67,6 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     var globalDelimiter: UnicodeScalar!
     var csvArray = [[String]]()
     
-    func userDidAuthenticate(base64Credentials: String, url: String, token: String, expiry: Int) {
-        globalExpiry = expiry
-        globalToken = token
-        print("Token is: \(token)")
-        globalURL = url
-        globalBase64 = base64Credentials
-        preferredContentSize = NSSize(width: 550, height: 443)
-    }
-    
     let dataPrep = dataPreparation()
     let tokenMan = tokenManagement()
     let xmlMan = xmlManager()
@@ -91,7 +82,20 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     var csvData : [[ String : String ]] = []
     var csvIdentifierData: [[String: String]] = []
     var scopeData: [[String: String]] = []
+    
+    // Arrays to populate dropdown menus
+    
+    let prestageActionArray = ["Add to Prestage","Remove from Prestage","Replace Existing Prestage"]
+    let groupActionArray = ["Add to Static Group","Remove from Static Group","Replace Existing Static Group"]
 
+    func userDidAuthenticate(base64Credentials: String, url: String, token: String, expiry: Int) {
+        globalExpiry = expiry
+        globalToken = token
+        print("Token is: \(token)")
+        globalURL = url
+        globalBase64 = base64Credentials
+        preferredContentSize = NSSize(width: 550, height: 443)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -495,6 +499,31 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     func notReadyToRun() {
         btnSubmitOutlet.isHidden = true
     }
+    
+    @IBAction func popRecordTypeAction(_ sender: Any) {
+        notReadyToRun()
+        popActionTypeOutlet.isEnabled = true
+        txtPrestageID.isEnabled = true
+        if (popRecordTypeOutlet.titleOfSelectedItem?.contains("Prestage"))! {
+            popActionTypeOutlet.removeAllItems()
+            popActionTypeOutlet.addItems(withTitles: prestageActionArray)
+            txtPrestageID.placeholderString = "Prestage ID"
+        } else {
+            popActionTypeOutlet.removeAllItems()
+            popActionTypeOutlet.addItems(withTitles: groupActionArray)
+            txtPrestageID.placeholderString = "Group ID"
+        }
+        
+    }
+    
+    @IBAction func popActionTypeAction(_ sender: Any) {
+        notReadyToRun()
+    }
+    
+    @IBAction func txtPrestageIdAction(_ sender: Any) {
+        notReadyToRun()
+    }
+    
 }
 
 
