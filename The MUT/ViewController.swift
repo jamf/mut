@@ -91,7 +91,6 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     func userDidAuthenticate(base64Credentials: String, url: String, token: String, expiry: Int) {
         globalExpiry = expiry
         globalToken = token
-        print("Token is: \(token)")
         globalURL = url
         globalBase64 = base64Credentials
         preferredContentSize = NSSize(width: 550, height: 443)

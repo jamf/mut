@@ -28,7 +28,6 @@ public class logManager {
     func generateCurrentTimeStamp () -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
-        print(formatter.string(from: Date()) as NSString)
         return (formatter.string(from: Date()) as NSString) as String
     }
     
