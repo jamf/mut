@@ -46,30 +46,21 @@ public class APIFunctions: NSObject, URLSessionDelegate{
                 if httpResponse.statusCode >= 199 && httpResponse.statusCode <= 299 {
                     // Good response from API
                     globalResponse = response?.description ?? "nil"
-                    //NSLog("[INFO  ]: Successful PUT completed by The MUT.app")
-                    //NSLog("[INFO  ]: " + response.debugDescription)
                     self.logMan.infoWrite(logString: "Successful PUT completed. \(httpResponse.statusCode).")
                     self.logMan.infoWrite(logString: String(decoding: data!, as: UTF8.self))
                 } else {
                     // Bad Response from API
                     globalResponse = response?.description ?? "nil"
-                    //NSLog("[ERROR ]: Failed PUT by The MUT.app")
-                    //NSLog("[ERROR ]: " + response.debugDescription)
-                    //NSLog("[ERROR ]: " + String(decoding: data!, as: UTF8.self))
                     self.logMan.errorWrite(logString: "Failed PUT. \(httpResponse.statusCode).")
                     self.logMan.errorWrite(logString: String(decoding: data!, as: UTF8.self)) // ADVANCED DEBUGGING
                 }
-                //print("EncodedURL: \(passedUrl.absoluteString)")
-                // print(String (data: data!, encoding: .utf8)) // Uncomment for debugging
                 semaphore.signal() // Signal completion to the semaphore
             }
             
             if error != nil {
                 let errorString = "[FATAL ]: " + error!.localizedDescription
                 globalResponse = errorString
-                NSLog("[FATAL ]: " + error!.localizedDescription)
                 self.logMan.fatalWrite(logString: error!.localizedDescription)
-                //print("EncodedURL in error: \(passedUrl.absoluteString)")
                 semaphore.signal() // Signal completion to the semaphore
                 
             }
@@ -109,8 +100,6 @@ public class APIFunctions: NSObject, URLSessionDelegate{
                 if httpResponse.statusCode >= 199 && httpResponse.statusCode <= 299 {
                     // Good response from API
                     globalResponse = response?.description ?? "nil"
-                    //NSLog("[INFO  ]: Successful POST completed by The MUT.app")
-                    //NSLog("[INFO  ]: " + response.debugDescription)
                     self.logMan.infoWrite(logString: "Successful POST completed. \(httpResponse.statusCode).")
                     self.logMan.infoWrite(logString: String(decoding: data!, as: UTF8.self))
                 } else {
@@ -125,7 +114,6 @@ public class APIFunctions: NSObject, URLSessionDelegate{
             if error != nil {
                 let errorString = "[FATAL ]: " + error!.localizedDescription
                 globalResponse = errorString
-                NSLog("[FATAL ]: " + error!.localizedDescription)
                 self.logMan.fatalWrite(logString: error!.localizedDescription)
                 semaphore.signal() // Signal completion to the semaphore
 
@@ -163,21 +151,18 @@ public class APIFunctions: NSObject, URLSessionDelegate{
                     // Good response from API
                     globalResponse = data!
                     self.logMan.infoWrite(logString: "Successful GET completed. \(httpResponse.statusCode).")
-                    self.logMan.infoWrite(logString: String(decoding: data!, as: UTF8.self))
+                    //self.logMan.infoWrite(logString: String(decoding: data!, as: UTF8.self))
                 } else {
                     // Bad Response from API
                     globalResponse = data!
                     self.logMan.errorWrite(logString: "Failed GET. \(httpResponse.statusCode).")
-                    //self.logMan.errorWrite(logString: String(decoding: data!, as: UTF8.self)) // ADVANCED DEBUGGING
+                    self.logMan.errorWrite(logString: String(decoding: data!, as: UTF8.self)) // ADVANCED DEBUGGING
                 }
-                //print("EncodedURL: \(passedUrl.absoluteString)")
-                // print(String (data: data!, encoding: .utf8)) // Uncomment for debugging
                 semaphore.signal() // Signal completion to the semaphore
             }
 
             if error != nil {
                 globalResponse = data!
-                NSLog("[FATAL ]: " + error!.localizedDescription)
                 self.logMan.fatalWrite(logString: error!.localizedDescription)
                 semaphore.signal() // Signal completion to the semaphore
 
@@ -192,8 +177,6 @@ public class APIFunctions: NSObject, URLSessionDelegate{
         let baseURL = dataPrep.generatePrestageURL(baseURL: passedUrl, endpoint: endpoint, prestageID: prestageID, jpapiVersion: jpapiVersion)
         
         let encodedURL = NSURL(string: "\(baseURL)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "https://null")! as URL
-        
-        //NSLog("[INFO  ]: Updating the current prestage scope at \(encodedURL.absoluteString)")
         logMan.infoWrite(logString: "Updating the current prestage scope at \(encodedURL.absoluteString)")
         allowUntrustedFlag = allowUntrusted
         let myOpQueue = OperationQueue()
@@ -219,7 +202,7 @@ public class APIFunctions: NSObject, URLSessionDelegate{
                     // Good response from API
                     globalResponse = data!
                     self.logMan.infoWrite(logString: "Successful scope update completed. \(httpResponse.statusCode).")
-                    self.logMan.infoWrite(logString: String(decoding: data!, as: UTF8.self))
+                    //self.logMan.infoWrite(logString: String(decoding: data!, as: UTF8.self))
                 } else {
                     // Bad Response from API
                     globalResponse = data!
@@ -231,7 +214,6 @@ public class APIFunctions: NSObject, URLSessionDelegate{
             
             if error != nil {
                 globalResponse = data!
-                NSLog("[FATAL ]: " + error!.localizedDescription)
                 self.logMan.fatalWrite(logString: error!.localizedDescription)
                 semaphore.signal() // Signal completion to the semaphore
                 
@@ -244,7 +226,6 @@ public class APIFunctions: NSObject, URLSessionDelegate{
 
     public func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping(  URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         if allowUntrustedFlag {
-            NSLog("[WARN  ]: The user has selected to allow untrusted SSL. MUT will not be performing SSL verification. This is potentially unsafe.")
             self.logMan.warnWrite(logString: "The user has selected to allow untrusted SSL. MUT will not be performing SSL verification. This is potentially unsafe.")
             completionHandler(.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
         } else {
