@@ -67,15 +67,6 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     var globalDelimiter: UnicodeScalar!
     var csvArray = [[String]]()
     
-    func userDidAuthenticate(base64Credentials: String, url: String, token: String, expiry: Int) {
-        globalExpiry = expiry
-        globalToken = token
-        print("Token is: \(token)")
-        globalURL = url
-        globalBase64 = base64Credentials
-        preferredContentSize = NSSize(width: 550, height: 443)
-    }
-    
     let dataPrep = dataPreparation()
     let tokenMan = tokenManagement()
     let xmlMan = xmlManager()
@@ -83,6 +74,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     let APIFunc = APIFunctions()
     let popMan = popPrompt()
     let jsonMan = jsonManager()
+    let logMan = logManager()
     
     
     //Variables used by tableViews
@@ -90,7 +82,25 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     var csvData : [[ String : String ]] = []
     var csvIdentifierData: [[String: String]] = []
     var scopeData: [[String: String]] = []
+    
+    // Arrays to populate dropdown menus
+    let prestageActionArray = ["Add to Prestage","Remove from Prestage","Replace Existing Prestage"]
+    let groupActionArray = ["Add to Static Group","Remove from Static Group","Replace Existing Static Group"]
 
+    // Information used to confirm the header row of the CSV files
+    let userCSV = ["Username","Full Name","Email Address","Phone Number","Position","LDAP Server ID","Site (ID or Name)"]
+    
+    let mobileDeviceCSV = ["Mobile Device Serial","Display Name","Asset Tag","Username","Real Name","Email Address","Position","Phone Number","Department","Building","Room","PO Number","Vendor","PO Date","Warranty Expires","Lease Expires","Site (ID or Name)"]
+
+    let computerCSV = ["Computer Serial","Display Name","Asset Tag","Barcode 1","Barcode 2","Username","Real Name","Email Address","Position","Phone Number","Department","Building","Room","PO Number","Vendor","PO Date","Warranty Expires","Lease Expires","Site (ID or Name)"]
+    
+    func userDidAuthenticate(base64Credentials: String, url: String, token: String, expiry: Int) {
+        globalExpiry = expiry
+        globalToken = token
+        globalURL = url
+        globalBase64 = base64Credentials
+        preferredContentSize = NSSize(width: 550, height: 443)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -126,18 +136,19 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         //print("Selected Index is... \(selectedIndex)")
         let maxIndex = csvArray.count
         if selectedIndex == 0 {
-            print("selectedIndex is 0, not redrawing...")
+            //print("selectedIndex is 0, not redrawing...")
         } else if
             selectedIndex < maxIndex {
             csvData = dataPrep.buildDict(rowToRead: selectedIndex, ofArray: csvArray)
             tableMain.reloadData()
         } else {
-            print("Index was out of range, not redrawing...")
+            //print("Index was out of range, not redrawing...")
         }
     }
     
     
     @IBAction func btnBrowse(_ sender: Any) {
+        notReadyToRun()
         let openPanel = NSOpenPanel()
         openPanel.allowsMultipleSelection = false
         openPanel.canChooseDirectories = false
@@ -150,6 +161,13 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                 self.txtCSV.stringValue = self.globalPathToCSV.path!
                 self.verifyCSV()
                 
+                self.csvArray.removeAll()
+                
+                // Perform the actual pre-flight checks
+                let tabToGoTo = self.tabViewOutlet.selectedTabViewItem?.identifier as! String
+                if tabToGoTo == "objects" {
+                    self.attributePreFlightChecks()
+                }
             }
         }
     }
@@ -248,62 +266,103 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     
 
     @IBAction func btnExportCSV(_ sender: Any) {
-        NSLog("[INFO  : Saving CSV Templates to User's Downloads Directory")
+        logMan.infoWrite(logString: "Saving CSV Templates to User's Downloads Directory.")
         CSVMan.ExportCSV()
-        _ = popMan.generalWarning(question: "Good Work!", text: "A new directory has been created in your Downloads directory called 'MUT Templates'.\n\nInside that directory, you will find all of the CSV templates you need in order to use MUT v5, along with a ReadMe file on how to fill the templates out.")
     }
     
     @IBAction func submitRequests(_ sender: Any) {
-        // This line will need to get re-written when we have dropdowns working for prestage stuff
-        globalEndpoint = dataPrep.endpoint(csvArray: csvArray)
-        if globalEndpoint != "scope" {
-            submitAttributeUpdates()
+        if ( globalEndpoint.contains("group") || globalEndpoint.contains("prestage") ) {
+            DispatchQueue.global(qos: .background).async {
+                self.submitScopeUpdates()
+            }
         } else {
             
-            submitScopeUpdates()
+            DispatchQueue.global(qos: .background).async {
+                self.submitAttributeUpdates()
+            }
+            
         }
         
-    }
-
-    @IBAction func btnTest(_ sender: Any) {
-        tabViewOutlet.selectTabViewItem(at: 0)
-        
-    }
-    
-    @IBAction func btnPrestageTest(_ sender: Any) {
-        print(popActionTypeOutlet.selectedItem!.identifier!.rawValue)
-        print(popRecordTypeOutlet.selectedItem!.identifier!.rawValue)
     }
     
     func submitScopeUpdates() {
-        NSLog("[INFO  : Beginning parsing the CSV file into the array stream.")
-        let versionLock = getCurrentPrestageVersionLock(endpoint: popRecordTypeOutlet.selectedItem!.identifier!.rawValue, prestageID: txtPrestageID.stringValue)
+        logMan.infoWrite(logString: "Beginning CSV Parse - Scope update.")
         let csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path ?? "/dev/null", delimiter: globalDelimiter!)
-        //let headerRow = csvArray[0]
-        //let numberOfColumns = headerRow.count
-        var serialArray: [String]!
-        serialArray = []
-        if csvArray.count > 1 {
-            for row in 1...(csvArray.count - 1) {
-                
-                // Get the current row of the CSV for updating
-                let currentRow = csvArray[row]
-                serialArray.append(currentRow[0])
-
+        if popRecordTypeOutlet.titleOfSelectedItem!.contains("Prestage") {
+            // Prestage updates here
+            let versionLock = getCurrentPrestageVersionLock(endpoint: popRecordTypeOutlet.selectedItem!.identifier!.rawValue, prestageID: txtPrestageID.stringValue)
+            var serialArray: [String]!
+            serialArray = []
+            if csvArray.count > 1 {
+                for row in 1...(csvArray.count - 1) {
+                    // Get the current row of the CSV for updating
+                    let currentRow = csvArray[row]
+                    serialArray.append(currentRow[0])
+                }
+                jsonToSubmit = jsonMan.buildJson(versionLock: versionLock, serialNumbers: serialArray)
+                // Submit the JSON to the Jamf Pro API
+                var httpMethod: String!
+                switch popActionTypeOutlet.titleOfSelectedItem! {
+                case "Add to Prestage":
+                    httpMethod = "POST"
+                case "Remove from Prestage":
+                    httpMethod = "DELETE"
+                case "Replace Existing Prestage":
+                    httpMethod = "PUT"
+                default:
+                    httpMethod = "POST"
+                }
+                let response = APIFunc.updatePrestage(passedUrl: globalURL, endpoint: popRecordTypeOutlet.selectedItem!.identifier!.rawValue, prestageID: txtPrestageID.stringValue, jpapiVersion: "v1", token: globalToken, jsonToSubmit: jsonToSubmit, httpMethod: httpMethod, allowUntrusted: false)
+            } else {
+                // Not enough rows in the CSV to run
             }
-            jsonToSubmit = jsonMan.buildJson(versionLock: versionLock, serialNumbers: serialArray)
-            // Submit the XML to the Jamf Pro API
-            let response = APIFunc.updatePrestage(passedUrl: globalURL, endpoint: popRecordTypeOutlet.selectedItem!.identifier!.rawValue, prestageID: txtPrestageID.stringValue, jpapiVersion: "v1", token: globalToken, jsonToSubmit: jsonToSubmit, httpMethod: popActionTypeOutlet.selectedItem!.identifier!.rawValue, allowUntrusted: false)
-            print(response)
         } else {
-            // Not enough rows in the CSV to run
+            // Static Group updates here
+            var serialArray: [String]!
+            var xmlToPUT: Data!
+            serialArray = []
+            var objectType: String!
+            var appendReplaceRemove: String!
+            if csvArray.count > 1 {
+                for row in 1...(csvArray.count - 1 ) {
+                    let currentRow = csvArray[row]
+                    serialArray.append(currentRow[0])
+                }
+
+                switch popActionTypeOutlet.titleOfSelectedItem! {
+                case "Add to Static Group":
+                    appendReplaceRemove = "append"
+                case "Remove from Static Group":
+                    appendReplaceRemove = "remove"
+                case "Replace Existing Static Group":
+                    appendReplaceRemove = "replace"
+                default:
+                    appendReplaceRemove = "append"
+                }
+
+                switch popRecordTypeOutlet.titleOfSelectedItem! {
+                case "Computer Static Group":
+                    objectType = "computers"
+                case "Mobile Device Static Group":
+                    objectType = "mobiledevices"
+                case "User Object Static Group":
+                    objectType = "users"
+                default:
+                    objectType = "computers"
+                }
+
+                xmlToPUT = xmlMan.staticGroup(appendReplaceRemove: appendReplaceRemove, objectType: objectType, identifiers: serialArray)
+
+                let response = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint, identifierType: "id", identifier: txtPrestageID.stringValue, allowUntrusted: false, xmlToPut: xmlToPUT)
+            }
         }
+
+
     }
     
     
     func submitAttributeUpdates() {
-        // Begin the parse
-        NSLog("[INFO  : Beginning parsing the CSV file into the array stream.")
+        logMan.infoWrite(logString: "Beginning CSV Parse - Attributes update.")
         let csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path ?? "/dev/null", delimiter: globalDelimiter!)
         
         // Set variables needed for the run
@@ -347,17 +406,12 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                         // Enforce the mobile device name if the display name field is not blank
                         let xmlToPost = xmlMan.enforceName(deviceName: currentRow[1], serial_number: currentRow[0])
                         let postResponse = APIFunc.enforceName(passedUrl: globalURL, credentials: globalBase64, allowUntrusted: false, xmlToPost: xmlToPost)
-                        print(postResponse)
                     }
                 }
                 
-                let xmlString = String(decoding: xmlToPut, as: UTF8.self)
-                print(xmlString)
-
-                
                 // Submit the XML to the Jamf Pro API
+                
                 let response = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint!, identifierType: "serialnumber", identifier: currentRow[0], allowUntrusted: false, xmlToPut: xmlToPut)
-                print(response)
             }
         } else {
             // Not enough rows in the CSV to run
@@ -366,55 +420,55 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     
     func getCurrentPrestageVersionLock(endpoint: String, prestageID: String) -> Int {
         let myURL = dataPrep.generatePrestageURL(baseURL: globalURL, endpoint: endpoint, prestageID: prestageID, jpapiVersion: "v1")
-        print(myURL)
         
         let response = APIFunc.getPrestageScope(passedUrl: myURL, token: globalToken, endpoint: endpoint, allowUntrusted: false)
-        let myDataString = String(decoding: response, as: UTF8.self)
-        print(myDataString)
         do {
             let newJson = try JSON(data: response)
             let newVersionLock = newJson["versionLock"].intValue
-            print(newVersionLock)
-            let newSerials = newJson["assignments"][0]["serialNumber"].stringValue
-            print(newSerials)
-            
-            let newSerialArray = newJson["assignments"].arrayValue.map {$0["serialNumber"].stringValue}
-            print(newSerialArray)
-            
-            // print(expiry!) // Uncomment for debugging
-            
+            // Commenting out the previous serials array, as they are no longer needed. Leaving the code in case that changes.
+            //let newSerials = newJson["assignments"][0]["serialNumber"].stringValue
+            //let newSerialArray = newJson["assignments"].arrayValue.map {$0["serialNumber"].stringValue}
             return newVersionLock
         } catch let error as NSError {
-            NSLog("[ERROR ]: Failed to load: \(error.localizedDescription)")
+            logMan.errorWrite(logString: "Failed to load: \(error.localizedDescription)")
             return -1
         }
     }
     
     func scopePreFlightChecks() {
-        // If the user has actually selected a CSV template, then move on
-        if txtCSV.stringValue != "" {
-            //get the CSV from the "Browse" button and parse it into an array
-            csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path!, delimiter: globalDelimiter!)
-            if csvArray.count == 0 {
-                // If there are no rows in the CSV
-                print(csvArray)
-                _ = popMan.generalWarning(question: "Empty CSV Found", text: "It seems the CSV file you uploaded is malformed, or does not contain any data.\n\nPlease try a different CSV.")
-            } else if csvArray.count == 1 {
-                // If there is only 1 row in the CSV (header only)
-                _ = popMan.generalWarning(question: "No Data Found", text: "It seems the CSV file you uploaded does not contain any data outside of the header row.\n\nPlease select a CSV with updates for MUT to process.")
+        
+        if popActionTypeOutlet.titleOfSelectedItem?.isEmpty ?? true {
+            _ = popMan.generalWarning(question: "No Action Selected", text: "It appears the dropdowns for record type and action are not populated.\n\nPlease select from the dropdowns what you would like to do, and try again.")
+        } else {
+            if !txtPrestageID.stringValue.isInt {
+                _ = popMan.generalWarning(question: "No Identifier Specified", text: "It appears the text box to specify the object ID is not a valid value.\n\nPlease enter a valid identifier in the box and try again.")
             } else {
-                // If there is more than 1 column in the CSV
-                if csvArray[0].count > 1 {
-                    // If the CSV appears to not have good columns -- eg: wrong delimiter
-                    _ = popMan.generalWarning(question: "Malformed CSV Found", text: "It seems there are too many columns in your CSV. Please try a different CSV file.\n\nIf you are using a delimiter other than comma, such as semi-colon, please select 'Change Delimiter' from Settings on the Menu bar.")
-                } else {
-                    // We end up here if all the pre-flight checks have been passed
-                    readyToRun()
-                    drawTables()
-                    setRecordType()
+                // If the user has actually selected a CSV template, then move on
+                if txtCSV.stringValue != "" {
+                    //get the CSV from the "Browse" button and parse it into an array
+                    csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path!, delimiter: globalDelimiter!)
+                    if csvArray.count == 0 {
+                        // If there are no rows in the CSV
+                        _ = popMan.generalWarning(question: "Empty CSV Found", text: "It seems the CSV file you uploaded is malformed, or does not contain any data.\n\nPlease try a different CSV.")
+                    } else if csvArray.count == 1 {
+                        // If there is only 1 row in the CSV (header only)
+                        _ = popMan.generalWarning(question: "No Data Found", text: "It seems the CSV file you uploaded does not contain any data outside of the header row.\n\nPlease select a CSV with updates for MUT to process.")
+                    } else {
+                        // If there is more than 1 column in the CSV
+                        if csvArray[0].count > 1 {
+                            // If the CSV appears to not have good columns -- eg: wrong delimiter
+                            _ = popMan.generalWarning(question: "Malformed CSV Found", text: "It seems there are too many columns in your CSV. Please try a different CSV file.\n\nIf you are using a delimiter other than comma, such as semi-colon, please select 'Change Delimiter' from Settings on the Menu bar.")
+                        } else {
+                            // We end up here if all the pre-flight checks have been passed
+                            drawTables()
+                            setRecordType()
+                            readyToRun()
+                        }
+                    }
                 }
             }
         }
+
     }
     
     func attributePreFlightChecks() {
@@ -436,10 +490,14 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                     _ = popMan.generalWarning(question: "Malformed CSV Found", text: "It seems there are not enough columns in your CSV file. Please try a different CSV file.\n\nIf you are using a delimiter other than comma, such as semi-colon, please select 'Change Delimiter' from Settings on the Menu bar.")
                 } else {
                     // We end up here if all the pre-flight checks have been passed
-                    readyToRun()
                     drawTables()
                     //lblRecordType.objectValue = "Testing Labels"
                     setRecordType()
+                    if verifyHeaders(endpoint: globalEndpoint, headers: csvArray[0]) {
+                        readyToRun()
+                    } else {
+                        _ = popMan.generalWarning(question: "Header Row Error", text: "It appears that the header row for your CSV does not match one of the provided templates.\n\nMUT requires that the template be kept exactly as-is, with the exception of adding Extension Attributes.\n\nPlease re-download the templates if you need to, add the data you would like to submit, and try again.")
+                    }
                 }
             }
         } else {
@@ -476,6 +534,19 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         }
     }
     
+    func verifyHeaders(endpoint: String, headers: [String]) -> Bool {
+        if endpoint == "computers" && headers.starts(with: computerCSV) {
+            return true
+        }
+        if endpoint == "users" && headers.starts(with: userCSV) {
+            return true
+        }
+        if endpoint == "mobiledevices" && headers.starts(with: mobileDeviceCSV) {
+            return true
+        }
+        return false
+    }
+    
     func selectCorrectTab(endpoint: String) {
         if (endpoint == "computers" || endpoint == "users" || endpoint == "mobiledevices") {
             tabViewOutlet.selectTabViewItem(at: 0)
@@ -492,6 +563,31 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     func notReadyToRun() {
         btnSubmitOutlet.isHidden = true
     }
+    
+    @IBAction func popRecordTypeAction(_ sender: Any) {
+        notReadyToRun()
+        popActionTypeOutlet.isEnabled = true
+        txtPrestageID.isEnabled = true
+        if (popRecordTypeOutlet.titleOfSelectedItem?.contains("Prestage"))! {
+            popActionTypeOutlet.removeAllItems()
+            popActionTypeOutlet.addItems(withTitles: prestageActionArray)
+            txtPrestageID.placeholderString = "Prestage ID"
+        } else {
+            popActionTypeOutlet.removeAllItems()
+            popActionTypeOutlet.addItems(withTitles: groupActionArray)
+            txtPrestageID.placeholderString = "Group ID"
+        }
+        
+    }
+    
+    @IBAction func popActionTypeAction(_ sender: Any) {
+        notReadyToRun()
+    }
+    
+    @IBAction func txtPrestageIdAction(_ sender: Any) {
+        notReadyToRun()
+    }
+    
 }
 
 

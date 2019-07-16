@@ -11,6 +11,20 @@ import XCTest
 
 
 
+//*********************************************
+//!BE AWARE!
+//
+//Many of the test cases in here are not actually testing for assertation.
+//They are simply outputting an example of what the function should be returning.
+//This is in large part because these functions are still changing constantly,
+//and we just want to see what they are outputting without needing to fix
+//the assertation on every change.
+//
+//Please manually review the output to ensure it is outputting properly,
+//and do not assume a passed test means the function is working properly.
+//*********************************************
+
+
 class genericDataValidation: XCTestCase {
     let DataPrep = dataPreparation()
     let xmlMan = xmlManager()
@@ -47,21 +61,7 @@ class genericDataValidation: XCTestCase {
         XCTAssertFalse(notInt.isInt)
     }
 
-    func testDataGet() {
-        print("")
-        print("beginning testDataGet...")
-        print("")
-        let myURL = DataPrep.generateGetURL(baseURL: "https://test.jssmut.com", endpoint: "computer-prestages", prestageID: "1", jpapiVersion: "v1")
-        print(myURL)
 
-        let response = apifunc.getPrestageScope(passedUrl: myURL, token: "eyJhbGciOiJIUzI1NiJ9.eyJhdXRoZW50aWNhdGVkLWFwcCI6IkdFTkVSSUMiLCJhdXRoZW50aWNhdGlvbi10eXBlIjoiSlNTIiwiZ3JvdXBzIjpbXSwic3ViamVjdC10eXBlIjoiSlNTX1VTRVJfSUQiLCJ0b2tlbi11dWlkIjoiMWJkZTY3NzQtMjIxNy00N2NlLThjZjItOTE0YjQ4OTk1NGFhIiwibGRhcC1zZXJ2ZXItaWQiOi0xLCJzdWIiOiIyIiwiZXhwIjoxNTYxOTUwNjU0fQ.KekIFdTUtQGU-dt4OuLFMcQ1KZWmWJNSuGT5Zv359WU", endpoint: "computer-prestages", allowUntrusted: true)
-        let myDataString = String(decoding: response, as: UTF8.self)
-        
-        print("")
-        print("printing myDataString...")
-        print("")
-        print(myDataString)
-    }
 
     func testPostURL() {
         let baseURL = DataPrep.generateURL(baseURL: "https://test.jssmut.com", endpoint: "mobiledevicecommands", identifierType: "command", identifier: "device_name", jpapi: false, jpapiVersion: "")
@@ -92,6 +92,105 @@ class genericDataValidation: XCTestCase {
     }
     
 }
+
+class staticGroupXMLTestsNonInt: XCTestCase {
+    let xmlMan = xmlManager()
+
+    func testComputerRemoval(){
+        let myXML = xmlMan.staticGroup(appendReplaceRemove: "remove", objectType: "computers", identifiers: ["C11111","C22222","C33333"])
+        print(String(decoding: myXML, as: UTF8.self))
+    }
+
+    func testComputerAdditions(){
+        let myXML = xmlMan.staticGroup(appendReplaceRemove: "append", objectType: "computers", identifiers: ["C11111","C22222","C33333"])
+        print(String(decoding: myXML, as: UTF8.self))
+    }
+
+    func testComputerReplace(){
+        let myXML = xmlMan.staticGroup(appendReplaceRemove: "replace", objectType: "computers", identifiers: ["C11111","C22222","C33333"])
+        print(String(decoding: myXML, as: UTF8.self))
+    }
+
+    func testMobileAdditions(){
+        let myXML = xmlMan.staticGroup(appendReplaceRemove: "append", objectType: "mobiledevices", identifiers: ["C11111","C22222","C33333"])
+        print(String(decoding: myXML, as: UTF8.self))
+    }
+
+    func testMobileRemoval(){
+        let myXML = xmlMan.staticGroup(appendReplaceRemove: "remove", objectType: "mobiledevices", identifiers: ["C11111","C22222","C33333"])
+        print(String(decoding: myXML, as: UTF8.self))
+    }
+
+    func testMobileReplace(){
+        let myXML = xmlMan.staticGroup(appendReplaceRemove: "replace", objectType: "mobiledevices", identifiers: ["C11111","C22222","C33333"])
+        print(String(decoding: myXML, as: UTF8.self))
+    }
+
+    func testUserAdditions(){
+        let myXML = xmlMan.staticGroup(appendReplaceRemove: "append", objectType: "users", identifiers: ["C11111","C22222","C33333"])
+        print(String(decoding: myXML, as: UTF8.self))
+    }
+
+    func testUserRemoval(){
+        let myXML = xmlMan.staticGroup(appendReplaceRemove: "remove", objectType: "users", identifiers: ["C11111","C22222","C33333"])
+        print(String(decoding: myXML, as: UTF8.self))
+    }
+
+    func testUserReplace(){
+        let myXML = xmlMan.staticGroup(appendReplaceRemove: "replace", objectType: "users", identifiers: ["C11111","C22222","C33333"])
+        print(String(decoding: myXML, as: UTF8.self))
+    }
+}
+
+class staticGroupXMLTestsInt: XCTestCase {
+    let xmlMan = xmlManager()
+
+    func testComputerRemoval(){
+        let myXML = xmlMan.staticGroup(appendReplaceRemove: "remove", objectType: "computers", identifiers: ["1","2","3"])
+        print(String(decoding: myXML, as: UTF8.self))
+    }
+
+    func testComputerAdditions(){
+        let myXML = xmlMan.staticGroup(appendReplaceRemove: "append", objectType: "computers", identifiers: ["1","2","3"])
+        print(String(decoding: myXML, as: UTF8.self))
+    }
+
+    func testComputerReplace(){
+        let myXML = xmlMan.staticGroup(appendReplaceRemove: "replace", objectType: "computers", identifiers: ["1","2","3"])
+        print(String(decoding: myXML, as: UTF8.self))
+    }
+
+    func testMobileAdditions(){
+        let myXML = xmlMan.staticGroup(appendReplaceRemove: "append", objectType: "mobiledevices", identifiers: ["1","2","3"])
+        print(String(decoding: myXML, as: UTF8.self))
+    }
+
+    func testMobileRemoval(){
+        let myXML = xmlMan.staticGroup(appendReplaceRemove: "remove", objectType: "mobiledevices", identifiers: ["1","2","3"])
+        print(String(decoding: myXML, as: UTF8.self))
+    }
+
+    func testMobileReplace(){
+        let myXML = xmlMan.staticGroup(appendReplaceRemove: "replace", objectType: "mobiledevices", identifiers: ["1","2","3"])
+        print(String(decoding: myXML, as: UTF8.self))
+    }
+
+    func testUserAdditions(){
+        let myXML = xmlMan.staticGroup(appendReplaceRemove: "append", objectType: "users", identifiers: ["1","2","3"])
+        print(String(decoding: myXML, as: UTF8.self))
+    }
+
+    func testUserRemoval(){
+        let myXML = xmlMan.staticGroup(appendReplaceRemove: "remove", objectType: "users", identifiers: ["1","2","3"])
+        print(String(decoding: myXML, as: UTF8.self))
+    }
+
+    func testUserReplace(){
+        let myXML = xmlMan.staticGroup(appendReplaceRemove: "replace", objectType: "users", identifiers: ["1","2","3"])
+        print(String(decoding: myXML, as: UTF8.self))
+    }
+}
+
 
 class userXMLTests: XCTestCase {
     let DataPrep = dataPreparation()

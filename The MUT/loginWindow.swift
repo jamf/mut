@@ -48,6 +48,7 @@ class loginWindow: NSViewController, URLSessionDelegate {
     // Constructor for our classes to be used
     let tokenMan = tokenManagement()
     let dataPrep = dataPreparation()
+    let logMan = logManager()
 
     // This runs when the view loads
     override func viewDidLoad() {
@@ -138,6 +139,7 @@ class loginWindow: NSViewController, URLSessionDelegate {
                         expiry = newJson["expires"].intValue
                     } catch let error as NSError {
                         NSLog("[ERROR ]: Failed to load: \(error.localizedDescription)")
+                        logMan.errorWrite(logString: "Failed to load: \(error.localizedDescription)")
                     }
                     
                     // Store username if button pressed
