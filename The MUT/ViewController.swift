@@ -268,16 +268,6 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         }
         
     }
-
-    @IBAction func btnTest(_ sender: Any) {
-        tabViewOutlet.selectTabViewItem(at: 0)
-        
-    }
-    
-    @IBAction func btnPrestageTest(_ sender: Any) {
-        print(popActionTypeOutlet.selectedItem!.identifier!.rawValue)
-        print(popRecordTypeOutlet.selectedItem!.identifier!.rawValue)
-    }
     
     func submitScopeUpdates() {
         logMan.infoWrite(logString: "Beginning CSV Parse - Scope update.")
@@ -295,7 +285,18 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                 }
                 jsonToSubmit = jsonMan.buildJson(versionLock: versionLock, serialNumbers: serialArray)
                 // Submit the JSON to the Jamf Pro API
-                let response = APIFunc.updatePrestage(passedUrl: globalURL, endpoint: popRecordTypeOutlet.selectedItem!.identifier!.rawValue, prestageID: txtPrestageID.stringValue, jpapiVersion: "v1", token: globalToken, jsonToSubmit: jsonToSubmit, httpMethod: popActionTypeOutlet.selectedItem!.identifier!.rawValue, allowUntrusted: false)
+                var httpMethod: String!
+                switch popActionTypeOutlet.titleOfSelectedItem! {
+                case "Add to Prestage":
+                    httpMethod = "POST"
+                case "Remove from Prestage":
+                    httpMethod = "DELETE"
+                case "Replace Existing Prestage":
+                    httpMethod = "PUT"
+                default:
+                    httpMethod = "POST"
+                }
+                let response = APIFunc.updatePrestage(passedUrl: globalURL, endpoint: popRecordTypeOutlet.selectedItem!.identifier!.rawValue, prestageID: txtPrestageID.stringValue, jpapiVersion: "v1", token: globalToken, jsonToSubmit: jsonToSubmit, httpMethod: httpMethod, allowUntrusted: false)
             } else {
                 // Not enough rows in the CSV to run
             }
