@@ -165,8 +165,12 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                 
                 // Perform the actual pre-flight checks
                 let tabToGoTo = self.tabViewOutlet.selectedTabViewItem?.identifier as! String
+                self.globalTab = tabToGoTo
                 if tabToGoTo == "objects" {
                     self.attributePreFlightChecks()
+                } else if tabToGoTo == "scope" {
+                    self.scopePreFlightChecks()
+
                 }
             }
         }
@@ -436,38 +440,48 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     }
     
     func scopePreFlightChecks() {
-        
-        if popActionTypeOutlet.titleOfSelectedItem?.isEmpty ?? true {
-            _ = popMan.generalWarning(question: "No Action Selected", text: "It appears the dropdowns for record type and action are not populated.\n\nPlease select from the dropdowns what you would like to do, and try again.")
-        } else {
-            if !txtPrestageID.stringValue.isInt {
-                _ = popMan.generalWarning(question: "No Identifier Specified", text: "It appears the text box to specify the object ID is not a valid value.\n\nPlease enter a valid identifier in the box and try again.")
+
+        // If the user has actually selected a CSV template, then move on
+        if txtCSV.stringValue != "" {
+            //get the CSV from the "Browse" button and parse it into an array
+            csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path!, delimiter: globalDelimiter!)
+            if csvArray.count == 0 {
+                // If there are no rows in the CSV
+                _ = popMan.generalWarning(question: "Empty CSV Found", text: "It seems the CSV file you uploaded is malformed, or does not contain any data.\n\nPlease try a different CSV.")
+            } else if csvArray.count == 1 {
+                // If there is only 1 row in the CSV (header only)
+                _ = popMan.generalWarning(question: "No Data Found", text: "It seems the CSV file you uploaded does not contain any data outside of the header row.\n\nPlease select a CSV with updates for MUT to process.")
             } else {
-                // If the user has actually selected a CSV template, then move on
-                if txtCSV.stringValue != "" {
-                    //get the CSV from the "Browse" button and parse it into an array
-                    csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path!, delimiter: globalDelimiter!)
-                    if csvArray.count == 0 {
-                        // If there are no rows in the CSV
-                        _ = popMan.generalWarning(question: "Empty CSV Found", text: "It seems the CSV file you uploaded is malformed, or does not contain any data.\n\nPlease try a different CSV.")
-                    } else if csvArray.count == 1 {
-                        // If there is only 1 row in the CSV (header only)
-                        _ = popMan.generalWarning(question: "No Data Found", text: "It seems the CSV file you uploaded does not contain any data outside of the header row.\n\nPlease select a CSV with updates for MUT to process.")
-                    } else {
-                        // If there is more than 1 column in the CSV
-                        if csvArray[0].count > 1 {
-                            // If the CSV appears to not have good columns -- eg: wrong delimiter
-                            _ = popMan.generalWarning(question: "Malformed CSV Found", text: "It seems there are too many columns in your CSV. Please try a different CSV file.\n\nIf you are using a delimiter other than comma, such as semi-colon, please select 'Change Delimiter' from Settings on the Menu bar.")
-                        } else {
-                            // We end up here if all the pre-flight checks have been passed
-                            drawTables()
-                            setRecordType()
-                            readyToRun()
-                        }
-                    }
+                // If there is more than 1 column in the CSV
+                if csvArray[0].count > 1 {
+                    // If the CSV appears to not have good columns -- eg: wrong delimiter
+                    _ = popMan.generalWarning(question: "Malformed CSV Found", text: "It seems there are too many columns in your CSV. Please try a different CSV file.\n\nIf you are using a delimiter other than comma, such as semi-colon, please select 'Change Delimiter' from Settings on the Menu bar.")
+                } else {
+                    // We end up here if all the pre-flight checks have been passed
+                    setRecordType()
+                    drawTables()
+                    readyToRun()
                 }
             }
         }
+//
+//        if popActionTypeOutlet.titleOfSelectedItem?.isEmpty ?? true {
+//            _ = popMan.generalWarning(question: "No Action Selected", text: "It appears the dropdowns for record type and action are not populated.\n\nPlease select from the dropdowns what you would like to do, and try again.")
+//        } else {
+//            if !txtPrestageID.stringValue.isInt {
+//                _ = popMan.generalWarning(question: "No Identifier Specified", text: "It appears the text box to specify the object ID is not a valid value.\n\nPlease enter a valid identifier in the box and try again.")
+//            } else {
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//            }
+//        }
 
     }
     
@@ -577,6 +591,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
             popActionTypeOutlet.addItems(withTitles: groupActionArray)
             txtPrestageID.placeholderString = "Group ID"
         }
+        setRecordType()
         
     }
     
