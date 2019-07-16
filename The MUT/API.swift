@@ -57,7 +57,7 @@ public class APIFunctions: NSObject, URLSessionDelegate{
                     //NSLog("[ERROR ]: " + response.debugDescription)
                     //NSLog("[ERROR ]: " + String(decoding: data!, as: UTF8.self))
                     self.logMan.errorWrite(logString: "Failed PUT. \(httpResponse.statusCode).")
-                    //self.logMan.errorWrite(logString: String(decoding: data!, as: UTF8.self)) // ADVANCED DEBUGGING
+                    self.logMan.errorWrite(logString: String(decoding: data!, as: UTF8.self)) // ADVANCED DEBUGGING
                 }
                 //print("EncodedURL: \(passedUrl.absoluteString)")
                 // print(String (data: data!, encoding: .utf8)) // Uncomment for debugging

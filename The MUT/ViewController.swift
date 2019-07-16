@@ -133,13 +133,13 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         //print("Selected Index is... \(selectedIndex)")
         let maxIndex = csvArray.count
         if selectedIndex == 0 {
-            print("selectedIndex is 0, not redrawing...")
+            //print("selectedIndex is 0, not redrawing...")
         } else if
             selectedIndex < maxIndex {
             csvData = dataPrep.buildDict(rowToRead: selectedIndex, ofArray: csvArray)
             tableMain.reloadData()
         } else {
-            print("Index was out of range, not redrawing...")
+            //print("Index was out of range, not redrawing...")
         }
     }
     
@@ -261,13 +261,10 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     }
     
     @IBAction func submitRequests(_ sender: Any) {
-        // This line will need to get re-written when we have dropdowns working for prestage stuff
-        globalEndpoint = dataPrep.endpoint(csvArray: csvArray)
-        if globalEndpoint != "scope" {
-            submitAttributeUpdates()
-        } else {
-            
+        if ( globalEndpoint.contains("group") || globalEndpoint.contains("prestage") ) {
             submitScopeUpdates()
+        } else {
+            submitAttributeUpdates()
         }
         
     }
@@ -284,27 +281,66 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     
     func submitScopeUpdates() {
         logMan.infoWrite(logString: "Beginning CSV Parse - Scope update.")
-        let versionLock = getCurrentPrestageVersionLock(endpoint: popRecordTypeOutlet.selectedItem!.identifier!.rawValue, prestageID: txtPrestageID.stringValue)
         let csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path ?? "/dev/null", delimiter: globalDelimiter!)
-        //let headerRow = csvArray[0]
-        //let numberOfColumns = headerRow.count
-        var serialArray: [String]!
-        serialArray = []
-        if csvArray.count > 1 {
-            for row in 1...(csvArray.count - 1) {
-                
-                // Get the current row of the CSV for updating
-                let currentRow = csvArray[row]
-                serialArray.append(currentRow[0])
-
+        if popRecordTypeOutlet.titleOfSelectedItem!.contains("Prestage") {
+            // Prestage updates here
+            let versionLock = getCurrentPrestageVersionLock(endpoint: popRecordTypeOutlet.selectedItem!.identifier!.rawValue, prestageID: txtPrestageID.stringValue)
+            var serialArray: [String]!
+            serialArray = []
+            if csvArray.count > 1 {
+                for row in 1...(csvArray.count - 1) {
+                    // Get the current row of the CSV for updating
+                    let currentRow = csvArray[row]
+                    serialArray.append(currentRow[0])
+                }
+                jsonToSubmit = jsonMan.buildJson(versionLock: versionLock, serialNumbers: serialArray)
+                // Submit the JSON to the Jamf Pro API
+                let response = APIFunc.updatePrestage(passedUrl: globalURL, endpoint: popRecordTypeOutlet.selectedItem!.identifier!.rawValue, prestageID: txtPrestageID.stringValue, jpapiVersion: "v1", token: globalToken, jsonToSubmit: jsonToSubmit, httpMethod: popActionTypeOutlet.selectedItem!.identifier!.rawValue, allowUntrusted: false)
+            } else {
+                // Not enough rows in the CSV to run
             }
-            jsonToSubmit = jsonMan.buildJson(versionLock: versionLock, serialNumbers: serialArray)
-            // Submit the XML to the Jamf Pro API
-            let response = APIFunc.updatePrestage(passedUrl: globalURL, endpoint: popRecordTypeOutlet.selectedItem!.identifier!.rawValue, prestageID: txtPrestageID.stringValue, jpapiVersion: "v1", token: globalToken, jsonToSubmit: jsonToSubmit, httpMethod: popActionTypeOutlet.selectedItem!.identifier!.rawValue, allowUntrusted: false)
-            print(response)
         } else {
-            // Not enough rows in the CSV to run
+            // Static Group updates here
+            var serialArray: [String]!
+            var xmlToPUT: Data!
+            serialArray = []
+            var objectType: String!
+            var appendReplaceRemove: String!
+            if csvArray.count > 1 {
+                for row in 1...(csvArray.count - 1 ) {
+                    let currentRow = csvArray[row]
+                    serialArray.append(currentRow[0])
+                }
+
+                switch popActionTypeOutlet.titleOfSelectedItem! {
+                case "Add to Static Group":
+                    appendReplaceRemove = "append"
+                case "Remove from Static Group":
+                    appendReplaceRemove = "remove"
+                case "Replace Existing Static Group":
+                    appendReplaceRemove = "replace"
+                default:
+                    appendReplaceRemove = "append"
+                }
+
+                switch popRecordTypeOutlet.titleOfSelectedItem! {
+                case "Computer Static Group":
+                    objectType = "computers"
+                case "Mobile Device Static Group":
+                    objectType = "mobiledevices"
+                case "User Object Static Group":
+                    objectType = "users"
+                default:
+                    objectType = "computers"
+                }
+
+                xmlToPUT = xmlMan.staticGroup(appendReplaceRemove: appendReplaceRemove, objectType: objectType, identifiers: serialArray)
+
+                let response = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint, identifierType: "id", identifier: txtPrestageID.stringValue, allowUntrusted: false, xmlToPut: xmlToPUT)
+            }
         }
+
+
     }
     
     
@@ -353,17 +389,11 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                         // Enforce the mobile device name if the display name field is not blank
                         let xmlToPost = xmlMan.enforceName(deviceName: currentRow[1], serial_number: currentRow[0])
                         let postResponse = APIFunc.enforceName(passedUrl: globalURL, credentials: globalBase64, allowUntrusted: false, xmlToPost: xmlToPost)
-                        print(postResponse)
                     }
                 }
                 
-                let xmlString = String(decoding: xmlToPut, as: UTF8.self)
-                print(xmlString)
-
-                
                 // Submit the XML to the Jamf Pro API
                 let response = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint!, identifierType: "serialnumber", identifier: currentRow[0], allowUntrusted: false, xmlToPut: xmlToPut)
-                print(response)
             }
         } else {
             // Not enough rows in the CSV to run
@@ -372,23 +402,14 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     
     func getCurrentPrestageVersionLock(endpoint: String, prestageID: String) -> Int {
         let myURL = dataPrep.generatePrestageURL(baseURL: globalURL, endpoint: endpoint, prestageID: prestageID, jpapiVersion: "v1")
-        print(myURL)
         
         let response = APIFunc.getPrestageScope(passedUrl: myURL, token: globalToken, endpoint: endpoint, allowUntrusted: false)
         let myDataString = String(decoding: response, as: UTF8.self)
-        print(myDataString)
         do {
             let newJson = try JSON(data: response)
             let newVersionLock = newJson["versionLock"].intValue
-            print(newVersionLock)
             let newSerials = newJson["assignments"][0]["serialNumber"].stringValue
-            print(newSerials)
-            
             let newSerialArray = newJson["assignments"].arrayValue.map {$0["serialNumber"].stringValue}
-            print(newSerialArray)
-            
-            // print(expiry!) // Uncomment for debugging
-            
             return newVersionLock
         } catch let error as NSError {
             logMan.errorWrite(logString: "Failed to load: \(error.localizedDescription)")
@@ -403,7 +424,6 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
             csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path!, delimiter: globalDelimiter!)
             if csvArray.count == 0 {
                 // If there are no rows in the CSV
-                print(csvArray)
                 _ = popMan.generalWarning(question: "Empty CSV Found", text: "It seems the CSV file you uploaded is malformed, or does not contain any data.\n\nPlease try a different CSV.")
             } else if csvArray.count == 1 {
                 // If there is only 1 row in the CSV (header only)
