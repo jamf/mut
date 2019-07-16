@@ -10,6 +10,8 @@ import Foundation
 
 public class dataPreparation {
     
+    let logMan = logManager()
+    
     // ******************************************
     // Functions to create URLs can be found here
     // ******************************************
@@ -108,7 +110,8 @@ public class dataPreparation {
             let clean_ea_id = headerRow[i].replacingOccurrences(of: "EA_", with: "")
             ea_ids = ea_ids + [clean_ea_id]
             if !clean_ea_id.isInt {
-                print("Problem with EA ID field \(i)")
+                logMan.errorWrite(logString: "Problem with EA ID field: \(headerRow[i]) in column \(i + 1).")
+                //print("Problem with EA ID field \(i)")
             }
         }
         return ea_ids
@@ -124,7 +127,7 @@ public class dataPreparation {
     
     //Builds the dictionary for the identifier table on Attributes view
     public func buildID (ofArray: [[String]]) -> [[String: String]] {
-        print("Beginning buildID...")
+        //print("Beginning buildID...")
         var dictID: [[String: String]] = []
         let rows = ofArray.count
         var row = 1
