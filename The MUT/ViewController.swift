@@ -120,9 +120,6 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         preferredContentSize = NSSize(width: 550, height: 443)
         performSegue(withIdentifier: "segueLogin", sender: self)
         globalDelimiter = ","
-        logMan.infoWrite(logString: "This is an info message.")
-        logMan.errorWrite(logString: "This is an error message.")
-        logMan.fatalWrite(logString: "This is a FATAL message.")
     }
     
     
@@ -262,9 +259,15 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     
     @IBAction func submitRequests(_ sender: Any) {
         if ( globalEndpoint.contains("group") || globalEndpoint.contains("prestage") ) {
-            submitScopeUpdates()
+            DispatchQueue.global(qos: .background).async {
+                self.submitScopeUpdates()
+            }
         } else {
-            submitAttributeUpdates()
+            
+            DispatchQueue.global(qos: .background).async {
+                self.submitAttributeUpdates()
+            }
+            
         }
         
     }
@@ -394,6 +397,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                 }
                 
                 // Submit the XML to the Jamf Pro API
+                
                 let response = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint!, identifierType: "serialnumber", identifier: currentRow[0], allowUntrusted: false, xmlToPut: xmlToPut)
             }
         } else {
