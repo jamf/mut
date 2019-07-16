@@ -84,10 +84,16 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     var scopeData: [[String: String]] = []
     
     // Arrays to populate dropdown menus
-    
     let prestageActionArray = ["Add to Prestage","Remove from Prestage","Replace Existing Prestage"]
     let groupActionArray = ["Add to Static Group","Remove from Static Group","Replace Existing Static Group"]
 
+    // Information used to confirm the header row of the CSV files
+    let userCSV = ["Username","Full Name","Email Address","Phone Number","Position","LDAP Server ID","Site (ID or Name)"]
+    
+    let mobileDeviceCSV = ["Mobile Device Serial","Display Name","Asset Tag","Username","Real Name","Email Address","Position","Phone Number","Department","Building","Room","PO Number","Vendor","PO Date","Warranty Expires","Lease Expires","Site (ID or Name)"]
+
+    let computerCSV = ["Computer Serial","Display Name","Asset Tag","Barcode 1","Barcode 2","Username","Real Name","Email Address","Position","Phone Number","Department","Building","Room","PO Number","Vendor","PO Date","Warranty Expires","Lease Expires","Site (ID or Name)"]
+    
     func userDidAuthenticate(base64Credentials: String, url: String, token: String, expiry: Int) {
         globalExpiry = expiry
         globalToken = token
@@ -454,9 +460,9 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                             _ = popMan.generalWarning(question: "Malformed CSV Found", text: "It seems there are too many columns in your CSV. Please try a different CSV file.\n\nIf you are using a delimiter other than comma, such as semi-colon, please select 'Change Delimiter' from Settings on the Menu bar.")
                         } else {
                             // We end up here if all the pre-flight checks have been passed
-                            readyToRun()
                             drawTables()
                             setRecordType()
+                            readyToRun()
                         }
                     }
                 }
@@ -484,10 +490,14 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                     _ = popMan.generalWarning(question: "Malformed CSV Found", text: "It seems there are not enough columns in your CSV file. Please try a different CSV file.\n\nIf you are using a delimiter other than comma, such as semi-colon, please select 'Change Delimiter' from Settings on the Menu bar.")
                 } else {
                     // We end up here if all the pre-flight checks have been passed
-                    readyToRun()
                     drawTables()
                     //lblRecordType.objectValue = "Testing Labels"
                     setRecordType()
+                    if verifyHeaders(endpoint: globalEndpoint, headers: csvArray[0]) {
+                        readyToRun()
+                    } else {
+                        _ = popMan.generalWarning(question: "Header Row Error", text: "It appears that the header row for your CSV does not match one of the provided templates.\n\nMUT requires that the template be kept exactly as-is, with the exception of adding Extension Attributes.\n\nPlease re-download the templates if you need to, add the data you would like to submit, and try again.")
+                    }
                 }
             }
         } else {
@@ -522,6 +532,19 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         } else {
             _ = popMan.generalWarning(question: "No CSV Found", text: "Please use the Browse button to find a CSV file on your system with updates that you would like MUT to process.")
         }
+    }
+    
+    func verifyHeaders(endpoint: String, headers: [String]) -> Bool {
+        if endpoint == "computers" && headers.starts(with: computerCSV) {
+            return true
+        }
+        if endpoint == "users" && headers.starts(with: userCSV) {
+            return true
+        }
+        if endpoint == "mobiledevices" && headers.starts(with: mobileDeviceCSV) {
+            return true
+        }
+        return false
     }
     
     func selectCorrectTab(endpoint: String) {
