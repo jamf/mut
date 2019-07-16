@@ -720,15 +720,15 @@ DQ
                                                 <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xz7-SZ-BI5">
                                                     <rect key="frame" x="265" y="274" width="225" height="25"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                    <popUpButtonCell key="cell" type="push" title="- Select record to update -" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="pSf-M9-1wD" id="hQP-tE-cfh" userLabel="Record Type">
+                                                    <popUpButtonCell key="cell" type="push" title="- Select record to update -" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="pSf-M9-1wD" id="hQP-tE-cfh" userLabel="Record Type">
                                                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                         <font key="font" metaFont="menu"/>
                                                         <menu key="menu" id="ym2-ih-j6V">
                                                             <items>
-                                                                <menuItem title="- Select record to update -" hidden="YES" allowsKeyEquivalentWhenHidden="YES" id="pSf-M9-1wD">
+                                                                <menuItem title="- Select record to update -" state="on" hidden="YES" allowsKeyEquivalentWhenHidden="YES" id="pSf-M9-1wD">
                                                                     <modifierMask key="keyEquivalentModifierMask"/>
                                                                 </menuItem>
-                                                                <menuItem title="Computer Prestage" state="on" identifier="computer-prestages" id="TDA-bU-cyx" userLabel="Computer Prestages:"/>
+                                                                <menuItem title="Computer Prestage" identifier="computer-prestages" id="TDA-bU-cyx" userLabel="Computer Prestages:"/>
                                                                 <menuItem title="Mobile Device Prestage" identifier="mobile-device-prestages" id="bo4-dL-dg4"/>
                                                                 <menuItem title="Computer Static Group" identifier="computergroups" id="ppq-58-mna"/>
                                                                 <menuItem title="Mobile Device Static Group" identifier="mobiledevicegroups" id="nwA-w9-70f"/>
