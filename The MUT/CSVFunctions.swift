@@ -11,7 +11,8 @@ import Cocoa
 import CSV
 
 public class CSVManipulation {
-    
+    let popMan = popPrompt()
+    let downloadsDirectory = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first
     let downloadsURL = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first?.appendingPathComponent("MUT Templates")
     let fileManager = FileManager.default
     let logMan = logManager()
@@ -22,6 +23,9 @@ public class CSVManipulation {
         exportUserCSV()
         exportComputerCSV()
         exportMobileDeviceCSV()
+        //_ = popMan.generalWarning(question: "Good Work!", text: "A new directory has been created in your Downloads directory called 'MUT Templates'.\n\nInside that directory, you will find all of the CSV templates you need in order to use MUT v5, along with a ReadMe file on how to fill the templates out.")
+        let pathToOpen = downloadsDirectory!.resolvingSymlinksInPath().standardizedFileURL.absoluteString.replacingOccurrences(of: "file://", with: "") + "MUT Templates/"
+        NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: pathToOpen)
     }
     let userCSV = "Username,Full Name,Email Address,Phone Number,Position,LDAP Server ID,Site (ID or Name)\n"
     

@@ -254,7 +254,6 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     @IBAction func btnExportCSV(_ sender: Any) {
         logMan.infoWrite(logString: "Saving CSV Templates to User's Downloads Directory.")
         CSVMan.ExportCSV()
-        _ = popMan.generalWarning(question: "Good Work!", text: "A new directory has been created in your Downloads directory called 'MUT Templates'.\n\nInside that directory, you will find all of the CSV templates you need in order to use MUT v5, along with a ReadMe file on how to fill the templates out.")
     }
     
     @IBAction func submitRequests(_ sender: Any) {
