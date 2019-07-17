@@ -286,7 +286,6 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                 self.submitScopeUpdates()
             }
         } else {
-
             DispatchQueue.global(qos: .background).async {
                 self.submitAttributeUpdates()
             }
@@ -394,7 +393,21 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         // Begin looping through the CSV sheet
         
         if csvArray.count > 1 {
+
+            // LOOP FOR PROGRESS BAR BEGINS HERE
             for row in 1...(csvArray.count - 1) {
+
+                DispatchQueue.main.async {
+                    // STUFF HERE WILL HAPPEN ON THE MAIN THREAD
+                    // DO ALL GUI UPDATES IN THIS CODE BLOCK
+
+                    // SET THE FIRST TEXT BOX TO "row"
+                    // DIVIDE ROW BY TOTAL ROW COUNT
+                    // SET BAR VALUE TO NEW DIVIDED VALUE
+                    
+
+                }
+
                 ea_values = [] // Reset the EA_values so that we aren't just appending
                 
                 // Get the current row of the CSV for updating
