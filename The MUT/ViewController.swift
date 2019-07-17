@@ -99,7 +99,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         globalToken = token
         globalURL = url
         globalBase64 = base64Credentials
-        preferredContentSize = NSSize(width: 550, height: 443)
+        preferredContentSize = NSSize(width: 550, height: 500)
     }
     
     override func viewDidLoad() {
@@ -181,17 +181,23 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         globalDelimiter = ","
 
         // Nuke the CSV array on every preflight so we don't get stuck with old data
-        csvArray.removeAll()
+        //csvArray.removeAll()
 
         // Perform the actual pre-flight checks
         let tabToGoTo = tabViewOutlet.selectedTabViewItem?.identifier as! String
         if tabToGoTo == "objects" {
             attributePreFlightChecks()
         } else if tabToGoTo == "scope" {
-            scopePreFlightChecks()
+            if popActionTypeOutlet.titleOfSelectedItem?.isEmpty ?? true {
+                _ = popMan.generalWarning(question: "No Action Selected", text: "It appears the dropdowns for record type and action are not populated.\n\nPlease select from the dropdowns what you would like to do, and try again.")
+            } else {
+                if !txtPrestageID.stringValue.isInt {
+                    _ = popMan.generalWarning(question: "No Identifier Specified", text: "It appears the text box to specify the object ID is not a valid value.\n\nPlease enter a valid identifier in the box and try again.")
+                } else {
+                    readyToRun()
+                }
+            }
         }
-
-
     }
     
     
@@ -280,7 +286,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                 self.submitScopeUpdates()
             }
         } else {
-            
+
             DispatchQueue.global(qos: .background).async {
                 self.submitAttributeUpdates()
             }
@@ -460,29 +466,9 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                     // We end up here if all the pre-flight checks have been passed
                     setRecordType()
                     drawTables()
-                    readyToRun()
                 }
             }
         }
-//
-//        if popActionTypeOutlet.titleOfSelectedItem?.isEmpty ?? true {
-//            _ = popMan.generalWarning(question: "No Action Selected", text: "It appears the dropdowns for record type and action are not populated.\n\nPlease select from the dropdowns what you would like to do, and try again.")
-//        } else {
-//            if !txtPrestageID.stringValue.isInt {
-//                _ = popMan.generalWarning(question: "No Identifier Specified", text: "It appears the text box to specify the object ID is not a valid value.\n\nPlease enter a valid identifier in the box and try again.")
-//            } else {
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//            }
-//        }
-
     }
     
     func attributePreFlightChecks() {
@@ -509,6 +495,25 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                     setRecordType()
                     if verifyHeaders(endpoint: globalEndpoint, headers: csvArray[0]) {
                         readyToRun()
+                        let numberOfColumns = csvArray[0].count
+
+                        // Get the expected columns based off update type and calculate number of EAs present
+                        let expectedColumns = dataPrep.expectedColumns(endpoint: globalEndpoint!)
+
+                        let numberOfEAs = numberOfColumns - expectedColumns
+
+                        // If there are EAs, get a list of their EA IDs
+                        if numberOfEAs > 0 {
+
+                            let ea_ids = dataPrep.eaIDs(expectedColumns: expectedColumns, numberOfColumns: numberOfColumns, headerRow: csvArray[0])
+                            for ea in ea_ids {
+                                if !ea.isInt {
+                                    notReadyToRun()
+                                    _ = popMan.generalWarning(question: "EA NOT INT", text: "a non int found")
+                                }
+                            }
+                        }
+
                     } else {
                         _ = popMan.generalWarning(question: "Header Row Error", text: "It appears that the header row for your CSV does not match one of the provided templates.\n\nMUT requires that the template be kept exactly as-is, with the exception of adding Extension Attributes.\n\nPlease re-download the templates if you need to, add the data you would like to submit, and try again.")
                     }
