@@ -138,7 +138,7 @@ public class xmlManager {
     }
 
 
-    public func iosObject(displayName: String, assetTag: String, username: String, full_name: String, email_address: String, phone_number: String, position: String, department: String, building: String, room: String, poNumber: String, vendor: String, poDate: String, warrantyExpires: String, leaseExpires: String, ea_ids: [String], ea_values: [String], site_ident: String) -> Data {
+    public func iosObject(displayName: String, assetTag: String, username: String, full_name: String, email_address: String, phone_number: String, position: String, department: String, building: String, room: String, poNumber: String, vendor: String, poDate: String, warrantyExpires: String, leaseExpires: String, ea_ids: [String], ea_values: [String], site_ident: String, airplayPassword: String) -> Data {
 
         // iOS Object update XML Creation:
 
@@ -155,6 +155,7 @@ public class xmlManager {
                      <id>-1</id>
                      <name>None</name>
                  </site>
+                 <airplay_password/>
              </general>
              <location>
                  <username/>
@@ -209,6 +210,9 @@ public class xmlManager {
         // Asset Tag
         let assetTagElement = XMLElement(name: "asset_tag", stringValue: assetTag)
         populateElement(variableToCheck: assetTag, elementName: "asset_tag", elementToAdd: assetTagElement, whereToAdd: general)
+        
+        let airplayPasswordElement = XMLElement(name: "airplay_password", stringValue: airplayPassword)
+        populateElement(variableToCheck: airplayPassword, elementName: "airplay_password", elementToAdd: airplayPasswordElement, whereToAdd: general)
 
         // Site
         let siteElement = XMLElement(name: "site")

@@ -67,6 +67,8 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     var globalDelimiter: UnicodeScalar!
     var csvArray = [[String]]()
     
+    var delimiter = ","
+    
     let dataPrep = dataPreparation()
     let tokenMan = tokenManagement()
     let xmlMan = xmlManager()
@@ -76,6 +78,8 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     let jsonMan = jsonManager()
     let logMan = logManager()
     
+    // Declare variable for defaults on main view
+    let mainViewDefaults = UserDefaults.standard
     
     //Variables used by tableViews
     var currentData : [[String: String]] = []
@@ -104,7 +108,15 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        // Set up delimiter
+        if mainViewDefaults.value(forKey: "Delimiter") != nil {
+            delimiter = mainViewDefaults.value(forKey: "Delimiter")! as! String
+            logMan.infoWrite(logString: "A stored delimiter was found. Using the stored delimiter of \(delimiter) .")
+        } else {
+            logMan.infoWrite(logString: "No stored delimiter found. Using default delimiter of , .")
+            delimiter = ","
+        }
     }
     
     override var representedObject: Any? {
@@ -125,7 +137,6 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         super.viewWillAppear()
         preferredContentSize = NSSize(width: 550, height: 443)
         performSegue(withIdentifier: "segueLogin", sender: self)
-        globalDelimiter = ","
     }
     
     
@@ -157,6 +168,14 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         openPanel.allowedFileTypes = ["csv"]
         openPanel.begin { (result) in
             if result.rawValue == NSFileHandlingPanelOKButton {
+                
+                // Set the global delim
+                if self.delimiter == "," {
+                    self.globalDelimiter = ","
+                } else if self.delimiter == ";" {
+                    self.globalDelimiter = ";"
+                }
+                
                 self.globalPathToCSV = openPanel.url! as NSURL
                 self.txtCSV.stringValue = self.globalPathToCSV.path!
                 self.verifyCSV()
@@ -177,9 +196,6 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     }
 
     @IBAction func btnPreFlightAction(_ sender: Any) {
-        // Setting the delimiter to comma for now--this will be dynamic in the future.
-        globalDelimiter = ","
-
         // Nuke the CSV array on every preflight so we don't get stuck with old data
         //csvArray.removeAll()
 
@@ -321,7 +337,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                 default:
                     httpMethod = "POST"
                 }
-                let response = APIFunc.updatePrestage(passedUrl: globalURL, endpoint: popRecordTypeOutlet.selectedItem!.identifier!.rawValue, prestageID: txtPrestageID.stringValue, jpapiVersion: "v1", token: globalToken, jsonToSubmit: jsonToSubmit, httpMethod: httpMethod, allowUntrusted: false)
+                _ = APIFunc.updatePrestage(passedUrl: globalURL, endpoint: popRecordTypeOutlet.selectedItem!.identifier!.rawValue, prestageID: txtPrestageID.stringValue, jpapiVersion: "v1", token: globalToken, jsonToSubmit: jsonToSubmit, httpMethod: httpMethod, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
             } else {
                 // Not enough rows in the CSV to run
             }
@@ -362,7 +378,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
 
                 xmlToPUT = xmlMan.staticGroup(appendReplaceRemove: appendReplaceRemove, objectType: objectType, identifiers: serialArray)
 
-                let response = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint, identifierType: "id", identifier: txtPrestageID.stringValue, allowUntrusted: false, xmlToPut: xmlToPUT)
+                _ = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint, identifierType: "id", identifier: txtPrestageID.stringValue, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPUT)
             }
         }
 
@@ -424,17 +440,17 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                 } else if globalEndpoint! == "computers" {
                     xmlToPut = xmlMan.macosObject(displayName: currentRow[1], assetTag: currentRow[2], barcode1: currentRow[3], barcode2: currentRow[4], username: currentRow[5], full_name: currentRow[6], email_address: currentRow[7], phone_number: currentRow[9], position: currentRow[8], department: currentRow[10], building: currentRow[11], room: currentRow[12], poNumber: currentRow[13], vendor: currentRow[14], poDate: currentRow[15], warrantyExpires: currentRow[16], leaseExpires: currentRow[17], ea_ids: ea_ids, ea_values: ea_values, site_ident: currentRow[18])
                 } else if globalEndpoint! == "mobiledevices" {
-                    xmlToPut = xmlMan.iosObject(displayName: currentRow[1], assetTag: currentRow[2], username: currentRow[3], full_name: currentRow[4], email_address: currentRow[5], phone_number: currentRow[7], position: currentRow[6], department: currentRow[8], building: currentRow[9], room: currentRow[10], poNumber: currentRow[11], vendor: currentRow[12], poDate: currentRow[13], warrantyExpires: currentRow[14], leaseExpires: currentRow[15], ea_ids: ea_ids, ea_values: ea_values, site_ident: currentRow[16])
+                    xmlToPut = xmlMan.iosObject(displayName: currentRow[1], assetTag: currentRow[2], username: currentRow[3], full_name: currentRow[4], email_address: currentRow[5], phone_number: currentRow[7], position: currentRow[6], department: currentRow[8], building: currentRow[9], room: currentRow[10], poNumber: currentRow[11], vendor: currentRow[12], poDate: currentRow[13], warrantyExpires: currentRow[14], leaseExpires: currentRow[15], ea_ids: ea_ids, ea_values: ea_values, site_ident: currentRow[16], airplayPassword: currentRow[17])
                     if currentRow[1] != "" {
                         // Enforce the mobile device name if the display name field is not blank
                         let xmlToPost = xmlMan.enforceName(deviceName: currentRow[1], serial_number: currentRow[0])
-                        let postResponse = APIFunc.enforceName(passedUrl: globalURL, credentials: globalBase64, allowUntrusted: false, xmlToPost: xmlToPost)
+                        _ = APIFunc.enforceName(passedUrl: globalURL, credentials: globalBase64, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPost: xmlToPost)
                     }
                 }
                 
                 // Submit the XML to the Jamf Pro API
                 
-                let response = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint!, identifierType: "serialnumber", identifier: currentRow[0], allowUntrusted: false, xmlToPut: xmlToPut)
+                _ = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint!, identifierType: "serialnumber", identifier: currentRow[0], allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPut)
             }
         } else {
             // Not enough rows in the CSV to run
@@ -444,7 +460,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     func getCurrentPrestageVersionLock(endpoint: String, prestageID: String) -> Int {
         let myURL = dataPrep.generatePrestageURL(baseURL: globalURL, endpoint: endpoint, prestageID: prestageID, jpapiVersion: "v1")
         
-        let response = APIFunc.getPrestageScope(passedUrl: myURL, token: globalToken, endpoint: endpoint, allowUntrusted: false)
+        let response = APIFunc.getPrestageScope(passedUrl: myURL, token: globalToken, endpoint: endpoint, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
         do {
             let newJson = try JSON(data: response)
             let newVersionLock = newJson["versionLock"].intValue
@@ -700,5 +716,31 @@ extension ViewController: NSTableViewDataSource {
         //print("returning cell...")
         return cell
     }
+    
+    // Clear Stored Values -- DO NOT DELETE
+    // Although it appears to not be linked, it is tied to a menu option
+    @IBAction func btnClearStored(_ sender: AnyObject) {
+        //Clear all stored values
+        if let bundle = Bundle.main.bundleIdentifier {
+            UserDefaults.standard.removePersistentDomain(forName: bundle)
+        }
+    }
+    
+    // Change Delimiter -- DO NOT DELETE
+    // Although it appears to not be linked, it is tied to a menu option
+    @IBAction func btnChangeDelim(_ sender: AnyObject) {
+        
+        let newDelim = popPrompt().selectDelim(question: "Change Delimiter", text: "What would you like your new delimiter to be?")
+        if newDelim == true {
+            logMan.infoWrite(logString: "The new delimiter is comma. This delimiter will be stored to defaults.")
+            delimiter = ","
+            mainViewDefaults.set(delimiter, forKey: "Delimiter")
+        } else {
+            logMan.infoWrite(logString: "The new delimiter is semi-colon. This delimiter will be stored to defaults.")
+            delimiter = ";"
+            mainViewDefaults.set(delimiter, forKey: "Delimiter")
+        }
+    }
 
+    
 }
