@@ -74,6 +74,17 @@ class loginWindow: NSViewController, URLSessionDelegate {
         } else {
             // Just in case you ever want to do something for no default stored
         }
+        
+        // Restore "Insecure SSL" checkbox settings if we have a default stored
+        if loginDefaults.value(forKey: "Insecure") != nil {
+            if loginDefaults.bool(forKey: "Insecure") {
+                chkBypass.state = NSControl.StateValue(rawValue: 1)
+            } else {
+                chkBypass.state = NSControl.StateValue(rawValue: 0)
+            }
+        } else {
+            // Just in case you ever want to do something for no default stored
+        }
     }
 
     override func viewDidAppear() {
@@ -92,7 +103,6 @@ class loginWindow: NSViewController, URLSessionDelegate {
         // Clean up whitespace at the beginning and end of the fields, in case of faulty copy/paste
         txtURLOutlet.stringValue = txtURLOutlet.stringValue.trimmingCharacters(in: CharacterSet.whitespaces)
         txtUserOutlet.stringValue = txtUserOutlet.stringValue.trimmingCharacters(in: CharacterSet.whitespaces)
-        //txtPassOutlet.stringValue = txtPassOutlet.stringValue.trimmingCharacters(in: CharacterSet.whitespaces) // Perhaps we don't want to trim passwords just in case?
 
         // Warn the user if they have failed to enter an instancename AND prem URL
         if txtURLOutlet.stringValue == "" {
@@ -119,7 +129,7 @@ class loginWindow: NSViewController, URLSessionDelegate {
             guiRunning()
             
             // Get our token data from the API class
-            let tokenData = tokenMan.getToken(url: txtURLOutlet.stringValue, user: txtUserOutlet.stringValue, password: txtPassOutlet.stringValue, allowUntrusted: false)
+            let tokenData = tokenMan.getToken(url: txtURLOutlet.stringValue, user: txtUserOutlet.stringValue, password: txtPassOutlet.stringValue, allowUntrusted: loginDefaults.bool(forKey: "Insecure"))
             //print(String(decoding: tokenData, as: UTF8.self)) // Uncomment for debugging
             // Reset the GUI and pop up a warning with the info if we get a fatal error
             if String(decoding: tokenData, as: UTF8.self).contains("FATAL") {
@@ -172,16 +182,16 @@ class loginWindow: NSViewController, URLSessionDelegate {
                         self.guiReset()
                         // Popup warning of invalid credentials
                         _ = popPrompt().invalidCredentials()
-                        if self.chkBypass.state.rawValue == 1 {
-                            if self.delegateAuth != nil {
-                                // Delegate stuff to pass info forward goes here
-                                let base64creds = self.dataPrep.base64Credentials(user: self.txtUserOutlet.stringValue, password: self.txtPassOutlet.stringValue)
-                                self.delegateAuth?.userDidAuthenticate(base64Credentials: base64creds, url: self.txtURLOutlet.stringValue, token: self.token, expiry: self.expiry)
-                                
-                                self.dismiss(self)
-                            }
-                            self.verified = true
-                        }
+//                        if self.chkBypass.state.rawValue == 1 {
+//                            if self.delegateAuth != nil {
+//                                // Delegate stuff to pass info forward goes here
+//                                let base64creds = self.dataPrep.base64Credentials(user: self.txtUserOutlet.stringValue, password: self.txtPassOutlet.stringValue)
+//                                self.delegateAuth?.userDidAuthenticate(base64Credentials: base64creds, url: self.txtURLOutlet.stringValue, token: self.token, expiry: self.expiry)
+//
+//                                self.dismiss(self)
+//                            }
+//                            self.verified = true
+//                        }
                     }
                 }
             }
@@ -196,6 +206,22 @@ class loginWindow: NSViewController, URLSessionDelegate {
     @IBAction func btnQuit(_ sender: Any) {
         self.dismiss(self)
         NSApplication.shared.terminate(self)
+    }
+    
+    @IBAction func chkBypassAction(_ sender: Any) {
+        if chkBypass.state == NSControl.StateValue(rawValue: 1) {
+            self.loginDefaults.set(true, forKey: "Insecure")
+        } else {
+            self.loginDefaults.set(false, forKey: "Insecure")
+        }
+    }
+    
+    @IBAction func chkRememberAction(_ sender: Any) {
+        if chkRememberMe.state == NSControl.StateValue(rawValue: 1) {
+            // Do nothing
+        } else {
+            
+        }
     }
     
     func guiRunning() {
