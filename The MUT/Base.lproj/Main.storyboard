@@ -199,11 +199,11 @@
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="UGZ-Cb-nSM">
-                                                        <rect key="frame" x="88" y="41" width="32" height="32"/>
+                                                        <rect key="frame" x="258" y="42" width="32" height="32"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     </progressIndicator>
                                                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lz3-V8-tVl">
-                                                        <rect key="frame" x="196" y="42" width="156" height="31"/>
+                                                        <rect key="frame" x="26" y="42" width="156" height="31"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="square" title="Quit" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ddA-u6-r8d">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -241,17 +241,20 @@ Gw
                                                         </buttonCell>
                                                     </button>
                                                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="12z-RX-JCY">
-                                                        <rect key="frame" x="32" y="13" width="22" height="23"/>
+                                                        <rect key="frame" x="27" y="13" width="22" height="23"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="left" inset="2" id="8LL-mM-5Ms">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                             <font key="font" size="16" name="HelveticaNeue-Light"/>
                                                         </buttonCell>
+                                                        <connections>
+                                                            <action selector="chkBypassAction:" target="joq-rD-vnU" id="IQU-SR-E9y"/>
+                                                        </connections>
                                                     </button>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VYX-ov-V7s">
-                                                        <rect key="frame" x="50" y="14" width="158" height="23"/>
+                                                        <rect key="frame" x="45" y="14" width="137" height="23"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Bypass Authentication" id="3zh-z8-SuA">
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Allow Insecure SSL" id="3zh-z8-SuA">
                                                             <font key="font" size="16" name="HelveticaNeue-Light"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -273,6 +276,9 @@ Gw
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                             <font key="font" size="16" name="HelveticaNeue-Light"/>
                                                         </buttonCell>
+                                                        <connections>
+                                                            <action selector="chkRememberAction:" target="joq-rD-vnU" id="csq-FD-sRC"/>
+                                                        </connections>
                                                     </button>
                                                     <secureTextField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gba-Xu-esz">
                                                         <rect key="frame" x="53" y="85" width="299" height="28"/>
@@ -286,20 +292,6 @@ Gw
                                                             </allowedInputSourceLocales>
                                                         </secureTextFieldCell>
                                                     </secureTextField>
-                                                    <button toolTip="Submit (⏎)" fixedFrame="YES" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WUb-Z1-3Ry">
-                                                        <rect key="frame" x="26" y="43" width="156" height="31"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <buttonCell key="cell" type="square" title="Log In" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="ca0-lj-pwo">
-                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                            <font key="font" size="16" name="HelveticaNeue-Light"/>
-                                                            <string key="keyEquivalent" base64-UTF8="YES">
-DQ
-</string>
-                                                        </buttonCell>
-                                                        <connections>
-                                                            <action selector="btnSubmit:" target="joq-rD-vnU" id="gcW-Aw-68k"/>
-                                                        </connections>
-                                                    </button>
                                                     <textField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eLh-eC-clr">
                                                         <rect key="frame" x="53" y="162" width="299" height="28"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -333,6 +325,20 @@ DQ
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <imageCell key="cell" enabled="NO" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="IconUnlocked" id="9oQ-fk-PlK"/>
                                                     </imageView>
+                                                    <button toolTip="Submit (⏎)" fixedFrame="YES" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WUb-Z1-3Ry">
+                                                        <rect key="frame" x="196" y="42" width="156" height="31"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <buttonCell key="cell" type="square" title="Log In" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="ca0-lj-pwo">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" size="16" name="HelveticaNeue-Light"/>
+                                                            <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="btnSubmit:" target="joq-rD-vnU" id="gcW-Aw-68k"/>
+                                                        </connections>
+                                                    </button>
                                                 </subviews>
                                             </view>
                                             <color key="borderColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -497,7 +503,7 @@ DQ
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <clipView key="contentView" ambiguous="YES" id="P6r-ep-SbT">
                                                         <rect key="frame" x="1" y="0.0" width="342" height="409"/>
-                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
                                                         <subviews>
                                                             <tableView identifier="mainTable" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="XBo-72-DlO" viewBased="YES" id="Ita-qW-fmJ">
                                                                 <rect key="frame" x="0.0" y="0.0" width="342" height="384"/>
@@ -598,7 +604,7 @@ DQ
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <clipView key="contentView" ambiguous="YES" id="Y99-VT-mIP">
                                                         <rect key="frame" x="1" y="0.0" width="166" height="409"/>
-                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
                                                         <subviews>
                                                             <tableView identifier="tbldentifier" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="pyl-va-GUH" viewBased="YES" id="y9L-7P-M3x">
                                                                 <rect key="frame" x="0.0" y="0.0" width="166" height="384"/>
@@ -914,7 +920,7 @@ DQ
                 </viewController>
                 <customObject id="2xO-s3-DkC" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1246" y="50"/>
+            <point key="canvasLocation" x="1246" y="130"/>
         </scene>
     </scenes>
     <resources>
