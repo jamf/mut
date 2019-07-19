@@ -3,7 +3,7 @@
 //  MUT
 //
 //  Created by Michael Levenick on 7/9/19.
-//  Copyright © 2019 Levenick Enterprises LLC. All rights reserved.
+//  Copyright © 2019 Levenick Enterprises, LLC. All rights reserved.
 //
 
 import Foundation
