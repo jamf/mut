@@ -103,7 +103,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         globalToken = token
         globalURL = url
         globalBase64 = base64Credentials
-        preferredContentSize = NSSize(width: 550, height: 500)
+        preferredContentSize = NSSize(width: 550, height: 490)
     }
     
     override func viewDidLoad() {
@@ -221,11 +221,11 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         let generalEndpoint = dataPrep.endpoint(csvArray: csvArray)
         if generalEndpoint == "scope" {
             // do stuff based on dropdowns
-            if popRecordTypeOutlet.titleOfSelectedItem! == "Computer Prestage" {
+            if popRecordTypeOutlet.titleOfSelectedItem!.contains("Computer Prestage") {
                 globalEndpoint = "computer-prestages"
                 lblScopeType.stringValue = "Serial Number"
                 globalTab = "scope"
-            } else if popRecordTypeOutlet.titleOfSelectedItem! == "Mobile Device Prestage" {
+            } else if popRecordTypeOutlet.titleOfSelectedItem!.contains("Mobile Device Prestage")  {
                 globalEndpoint = "mobile-device-prestages"
                 lblScopeType.stringValue = "Serial Number"
                 globalTab = "scope"
@@ -567,14 +567,14 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                 _ = popMan.generalWarning(question: "CSV Error", text: "MUT is not able to read your CSV very well. Please try a different CSV.")
             } else if globalEndpoint == "scope" {
                 tabViewOutlet.selectTabViewItem(at: 2)
-                preferredContentSize = NSSize(width: 550, height: 600)
+                preferredContentSize = NSSize(width: 550, height: 550)
                 lblStatus.isHidden = false
-                lblStatus.stringValue = "It appears you are looking to update a prestage or static group."
+                lblStatus.stringValue = "Populate the dropdowns above, and then run your preflight check."
             } else {
                 tabViewOutlet.selectTabViewItem(at: 1)
-                preferredContentSize = NSSize(width: 550, height: 600)
+                preferredContentSize = NSSize(width: 550, height: 550)
                 lblStatus.isHidden = false
-                lblStatus.stringValue = "It appears you are looking to update attributes for a record."
+                lblStatus.stringValue = "Review the changes shown above. If everything looks good, hit submit."
             }
             
         } else {
