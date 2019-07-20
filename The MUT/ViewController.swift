@@ -19,7 +19,8 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     // Declare outlets for Buttons to change color and hide/show
     @IBOutlet weak var btnSubmitOutlet: NSButton!
     @IBOutlet weak var btnPreFlightOutlet: NSButton!
-    
+    @IBOutlet weak var btnCancelOutlet: NSButton!
+
     // Declare outlet for entire controller
     @IBOutlet var MainViewController: NSView!
     
@@ -305,7 +306,6 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
             DispatchQueue.global(qos: .background).async {
                 self.submitAttributeUpdates()
             }
-            
         }
         
     }
@@ -405,7 +405,11 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         if numberOfEAs > 0 {
             ea_ids = dataPrep.eaIDs(expectedColumns: expectedColumns, numberOfColumns: numberOfColumns, headerRow: headerRow)
         }
-        
+
+        DispatchQueue.main.async {
+            self.guiAttributeRun()
+        }
+
         // Begin looping through the CSV sheet
         
         if csvArray.count > 1 {
@@ -414,14 +418,10 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
             for row in 1...(csvArray.count - 1) {
 
                 DispatchQueue.main.async {
-                    // STUFF HERE WILL HAPPEN ON THE MAIN THREAD
-                    // DO ALL GUI UPDATES IN THIS CODE BLOCK
-
-                    // SET THE FIRST TEXT BOX TO "row"
-                    // DIVIDE ROW BY TOTAL ROW COUNT
-                    // SET BAR VALUE TO NEW DIVIDED VALUE
-                    
-
+                    // progress bar updates during the run
+                    self.lblEndLine.stringValue = "\(csvArray.count - 1)"
+                    self.lblLine.stringValue = "\(row)"
+                    self.barProgress.doubleValue = Double((100 * row / (csvArray.count - 1 )))
                 }
 
                 ea_values = [] // Reset the EA_values so that we aren't just appending
@@ -452,6 +452,11 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                 
                 _ = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint!, identifierType: "serialnumber", identifier: currentRow[0], allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPut)
             }
+
+            DispatchQueue.main.async {
+                self.guiAttributeDone()
+            }
+
         } else {
             // Not enough rows in the CSV to run
         }
@@ -611,6 +616,28 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     func notReadyToRun() {
         btnSubmitOutlet.isHidden = true
     }
+
+    func guiAttributeRun() {
+        btnSubmitOutlet.isHidden = true
+        btnCancelOutlet.isHidden = false
+        preferredContentSize = NSSize(width: 550, height: 570)
+        lblCurrent.isHidden = false
+        lblLine.isHidden = false
+        lblEndLine.isHidden = false
+        lblOf.isHidden = false
+        barProgress.isHidden = false
+    }
+
+    func guiAttributeDone() {
+        btnSubmitOutlet.isHidden = false
+        btnCancelOutlet.isHidden = true
+        preferredContentSize = NSSize(width: 550, height: 550)
+        lblCurrent.isHidden = true
+        lblLine.isHidden = true
+        lblEndLine.isHidden = true
+        lblOf.isHidden = true
+        barProgress.isHidden = true
+    }
     
     @IBAction func popRecordTypeAction(_ sender: Any) {
         notReadyToRun()
@@ -636,7 +663,11 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     @IBAction func txtPrestageIdAction(_ sender: Any) {
         notReadyToRun()
     }
-    
+
+    @IBAction func btnCancelAction(_ sender: Any) {
+
+    }
+
 }
 
 
