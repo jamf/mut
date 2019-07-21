@@ -440,6 +440,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
             updateLoop: for row in 1...(csvArray.count - 1) {
                 // Get the current row of the CSV for updating
                 let currentRow = csvArray[row]
+                var identifierType: String!
 
                 if cancelRun {
                     logMan.warnWrite(logString: "Update run cancelled by user on row \(row + 1) with identifier \(currentRow[0]).")
@@ -463,10 +464,25 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                 
                 if globalEndpoint! == "users" {
                     // Generate the XML to submit
+                    if currentRow[0].isInt {
+                        identifierType = "id"
+                    } else {
+                        identifierType = "name"
+                    }
                     xmlToPut = xmlMan.userObject(username: currentRow[0], full_name: currentRow[1], email_address: currentRow[2], phone_number: currentRow[3], position: currentRow[4], ldap_server: currentRow[5], ea_ids: ea_ids, ea_values: ea_values, site_ident: "1")
                 } else if globalEndpoint! == "computers" {
+                    if currentRow[0].isInt {
+                        identifierType = "id"
+                    } else {
+                        identifierType = "serialnumber"
+                    }
                     xmlToPut = xmlMan.macosObject(displayName: currentRow[1], assetTag: currentRow[2], barcode1: currentRow[3], barcode2: currentRow[4], username: currentRow[5], full_name: currentRow[6], email_address: currentRow[7], phone_number: currentRow[9], position: currentRow[8], department: currentRow[10], building: currentRow[11], room: currentRow[12], poNumber: currentRow[13], vendor: currentRow[14], poDate: currentRow[15], warrantyExpires: currentRow[16], leaseExpires: currentRow[17], ea_ids: ea_ids, ea_values: ea_values, site_ident: currentRow[18])
                 } else if globalEndpoint! == "mobiledevices" {
+                    if currentRow[0].isInt {
+                        identifierType = "id"
+                    } else {
+                        identifierType = "serialnumber"
+                    }
                     xmlToPut = xmlMan.iosObject(displayName: currentRow[1], assetTag: currentRow[2], username: currentRow[3], full_name: currentRow[4], email_address: currentRow[5], phone_number: currentRow[7], position: currentRow[6], department: currentRow[8], building: currentRow[9], room: currentRow[10], poNumber: currentRow[11], vendor: currentRow[12], poDate: currentRow[13], warrantyExpires: currentRow[14], leaseExpires: currentRow[15], ea_ids: ea_ids, ea_values: ea_values, site_ident: currentRow[16], airplayPassword: currentRow[17])
                     if currentRow[1] != "" {
                         // Enforce the mobile device name if the display name field is not blank
@@ -477,7 +493,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                 
                 // Submit the XML to the Jamf Pro API
                 
-                _ = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint!, identifierType: "serialnumber", identifier: currentRow[0], allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPut)
+                _ = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint!, identifierType: identifierType, identifier: currentRow[0], allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPut)
             }
 
             DispatchQueue.main.async {
