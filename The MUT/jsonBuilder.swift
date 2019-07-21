@@ -17,7 +17,6 @@ public class jsonManager {
         // Array & Dictionary
         var jsonToReturn: Data? = "".data(using: .utf8)
         let json: JSON =  ["serialNumbers": serialNumbers, "versionLock": versionLock]
-        print(json.description)
         do {
             // Parse the JSON to return token and Expiry
             jsonToReturn = try json.rawData()
