@@ -3,7 +3,7 @@
 //  The MUT v5
 //
 //  Created by Michael Levenick on 5/24/19.
-//  Copyright © 2019 Michael Levenick. All rights reserved.
+//  Copyright © 2019 Levenick Enterprises, LLC. All rights reserved.
 //
 
 import Foundation
@@ -90,8 +90,10 @@ public class tokenManagement: NSObject, URLSessionDelegate {
         let secondsToExpire = (expiry - currentEpoch)/1000
         // print("Expires in \(secondsToExpire) seconds") // Uncomment for debugging
         if secondsToExpire <= 30 {
+            logMan.infoWrite(logString: "Token only has \(secondsToExpire) seconds left to live. Suggest getting a new token.")
             return true
         } else {
+            logMan.infoWrite(logString: "Token has \(secondsToExpire) seconds left to live. Proceeding with current token.")
             return false
         }
     }

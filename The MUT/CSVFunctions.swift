@@ -3,7 +3,7 @@
 //  The MUT
 //
 //  Created by Benjamin Whitis on 6/7/19.
-//  Copyright © 2019 Levenick Enterprises LLC. All rights reserved.
+//  Copyright © 2019 Levenick Enterprises, LLC. All rights reserved.
 //
 
 import Foundation
