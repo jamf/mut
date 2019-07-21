@@ -23,7 +23,9 @@ class loginWindow: NSViewController, URLSessionDelegate {
     @IBOutlet weak var txtURLOutlet: NSTextField!
     @IBOutlet weak var txtUserOutlet: NSTextField!
     @IBOutlet weak var txtPassOutlet: NSSecureTextField!
+
     @IBOutlet weak var spinProgress: NSProgressIndicator!
+
     @IBOutlet weak var btnSubmitOutlet: NSButton!
     @IBOutlet weak var chkRememberMe: NSButton!
     @IBOutlet weak var chkBypass: NSButton!
@@ -127,74 +129,76 @@ class loginWindow: NSViewController, URLSessionDelegate {
             
             // Change the UI to a running state
             guiRunning()
-            
-            // Get our token data from the API class
-            let tokenData = tokenMan.getToken(url: txtURLOutlet.stringValue, user: txtUserOutlet.stringValue, password: txtPassOutlet.stringValue, allowUntrusted: loginDefaults.bool(forKey: "Insecure"))
-            //print(String(decoding: tokenData, as: UTF8.self)) // Uncomment for debugging
-            // Reset the GUI and pop up a warning with the info if we get a fatal error
-            if String(decoding: tokenData, as: UTF8.self).contains("FATAL") {
-                _ = popPrompt().fatalWarning(error: String(decoding: tokenData, as: UTF8.self))
-                guiReset()
-            } else {
-                // No error found leads you here:
-                if String(decoding: tokenData, as: UTF8.self).contains("token") {
-                    // Good credentials here, as told by there being a token
-                    self.verified = true
-                    //let passedURL = dataPrep.generateURL(baseURL: txtURLOutlet.stringValue, endpoint: "", identifierType: "", identifier: "", jpapi: false, jpapiVersion: "")
-                    
-                    do {
-                        // Parse the JSON to return token and Expiry
-                        let newJson = try JSON(data: tokenData)
-                        token = newJson["token"].stringValue
-                        expiry = newJson["expires"].intValue
-                    } catch let error as NSError {
-                        NSLog("[ERROR ]: Failed to load: \(error.localizedDescription)")
-                        logMan.errorWrite(logString: "Failed to load: \(error.localizedDescription)")
-                    }
-                    
-                    // Store username if button pressed
-                    if self.chkRememberMe.state.rawValue == 1 {
-                        self.loginDefaults.set(self.txtUserOutlet.stringValue, forKey: "UserName")
-                        self.loginDefaults.set(self.txtURLOutlet.stringValue, forKey: "InstanceURL")
-                        self.loginDefaults.set(true, forKey: "Remember")
-                        self.loginDefaults.synchronize()
-                        
-                    } else {
-                        self.loginDefaults.removeObject(forKey: "UserName")
-                        self.loginDefaults.removeObject(forKey: "InstanceURL")
-                        self.loginDefaults.set(false, forKey: "Remember")
-                        self.loginDefaults.synchronize()
-                    }
-                    self.spinProgress.stopAnimation(self)
-                    self.btnSubmitOutlet.isHidden = false
-                    
-                    if self.delegateAuth != nil {
 
-                        // Delegate stuff to pass info forward goes here
-                        let base64creds = dataPrep.base64Credentials(user: self.txtUserOutlet.stringValue, password: self.txtPassOutlet.stringValue)
-                        self.delegateAuth?.userDidAuthenticate(base64Credentials: base64creds, url: txtURLOutlet.stringValue, token: token, expiry: expiry)
-                    
-                        self.dismiss(self)
-                    }
-                } else {
-                    // Bad credentials here
-                    DispatchQueue.main.async {
+            let url = txtURLOutlet.stringValue
+            let user = txtUserOutlet.stringValue
+            let password = txtPassOutlet.stringValue
+            var tokenData: Data!
+
+            DispatchQueue.global(qos: .background).async {
+                // Get our token data from the API class
+                tokenData = self.tokenMan.getToken(url: url, user: user, password: password, allowUntrusted: self.loginDefaults.bool(forKey: "Insecure"))
+                DispatchQueue.main.async {
+                    //print(String(decoding: tokenData, as: UTF8.self)) // Uncomment for debugging
+                    // Reset the GUI and pop up a warning with the info if we get a fatal error
+                    if String(decoding: tokenData, as: UTF8.self).contains("FATAL") {
+                        _ = popPrompt().fatalWarning(error: String(decoding: tokenData, as: UTF8.self))
                         self.guiReset()
-                        // Popup warning of invalid credentials
-                        _ = popPrompt().invalidCredentials()
-//                        if self.chkBypass.state.rawValue == 1 {
-//                            if self.delegateAuth != nil {
-//                                // Delegate stuff to pass info forward goes here
-//                                let base64creds = self.dataPrep.base64Credentials(user: self.txtUserOutlet.stringValue, password: self.txtPassOutlet.stringValue)
-//                                self.delegateAuth?.userDidAuthenticate(base64Credentials: base64creds, url: self.txtURLOutlet.stringValue, token: self.token, expiry: self.expiry)
-//
-//                                self.dismiss(self)
-//                            }
-//                            self.verified = true
-//                        }
+                    } else {
+                        // No error found leads you here:
+                        if String(decoding: tokenData, as: UTF8.self).contains("token") {
+                            // Good credentials here, as told by there being a token
+                            self.verified = true
+                            //let passedURL = dataPrep.generateURL(baseURL: txtURLOutlet.stringValue, endpoint: "", identifierType: "", identifier: "", jpapi: false, jpapiVersion: "")
+
+                            do {
+                                // Parse the JSON to return token and Expiry
+                                let newJson = try JSON(data: tokenData)
+                                self.token = newJson["token"].stringValue
+                                self.expiry = newJson["expires"].intValue
+                            } catch let error as NSError {
+                                NSLog("[ERROR ]: Failed to load: \(error.localizedDescription)")
+                                self.logMan.errorWrite(logString: "Failed to load: \(error.localizedDescription)")
+                            }
+
+                            // Store username if button pressed
+                            if self.chkRememberMe.state.rawValue == 1 {
+                                self.loginDefaults.set(self.txtUserOutlet.stringValue, forKey: "UserName")
+                                self.loginDefaults.set(self.txtURLOutlet.stringValue, forKey: "InstanceURL")
+                                self.loginDefaults.set(true, forKey: "Remember")
+                                self.loginDefaults.synchronize()
+
+                            } else {
+                                self.loginDefaults.removeObject(forKey: "UserName")
+                                self.loginDefaults.removeObject(forKey: "InstanceURL")
+                                self.loginDefaults.set(false, forKey: "Remember")
+                                self.loginDefaults.synchronize()
+                            }
+                            self.spinProgress.stopAnimation(self)
+                            self.btnSubmitOutlet.isHidden = false
+
+                            if self.delegateAuth != nil {
+
+                                // Delegate stuff to pass info forward goes here
+                                let base64creds = self.dataPrep.base64Credentials(user: self.txtUserOutlet.stringValue, password: self.txtPassOutlet.stringValue)
+                                self.delegateAuth?.userDidAuthenticate(base64Credentials: base64creds, url: self.txtURLOutlet.stringValue, token: self.token, expiry: self.expiry)
+
+                                self.dismiss(self)
+                            }
+                        } else {
+                            // Bad credentials here
+                            DispatchQueue.main.async {
+                                self.guiReset()
+                                // Popup warning of invalid credentials
+                                _ = popPrompt().invalidCredentials()
+
+                            }
+                        }
                     }
                 }
             }
+
+
 
 
         } else {
