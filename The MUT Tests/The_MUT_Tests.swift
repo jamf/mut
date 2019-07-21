@@ -254,140 +254,140 @@ class userXMLTests: XCTestCase {
         print(xmlString)
     }
 }
-
-class iOSXMLTests: XCTestCase {
-    let DataPrep = dataPreparation()
-    let xmlMan = xmlManager()
-    
-    override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-        print("")
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        print("")
-    }
-    
-    func testiOSXML_EAS() {
-        let iOSXML = xmlMan.iosObject(displayName: "", assetTag: "", username: "", full_name: "", email_address: "", phone_number: "", position: "", department: "", building: "", room: "", poNumber: "", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: ["1","2"], ea_values: ["Value1","Value2"], site_ident: "")
-        let xmlString = String(decoding: iOSXML, as: UTF8.self)
-        print(xmlString)
-        //XCTAssertEqual(xmlString, "<mobile_device><general></general><location></location><purchasing></purchasing><extension_attributes></extension_attributes></mobile_device>")
-    }
-    
-    func testiOSXML_Full() {
-        let iOSXML = xmlMan.iosObject(displayName: "Mikes Mini", assetTag: "JAMF1234", username: "mike.levenick", full_name: "Mike Levenick", email_address: "mike.levenick@jssmut.com", phone_number: "", position: "", department: "", building: "", room: "", poNumber: "", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: ["1","2"], ea_values: ["Value1","Value2"], site_ident: "")
-        let xmlString = String(decoding: iOSXML, as: UTF8.self)
-        print(xmlString)
-        //XCTAssertEqual(xmlString, "FIX ME")
-    }
-    
-    func testiOSXML_DeviceName() {
-        let iOSXML = xmlMan.iosObject(displayName: "VALUE", assetTag: "", username: "", full_name: "", email_address: "", phone_number: "", position: "", department: "", building: "", room: "", poNumber: "", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: [], ea_values: [], site_ident: "")
-        let xmlString = String(decoding: iOSXML, as: UTF8.self)
-        print(xmlString)
-        //XCTAssertEqual(xmlString, "<mobile_device><general></general><location></location><purchasing></purchasing><extension_attributes></extension_attributes></mobile_device>")
-    }
-    
-    func testiOSXML_AssetTag() {
-        let iOSXML = xmlMan.iosObject(displayName: "", assetTag: "VALUE", username: "", full_name: "", email_address: "", phone_number: "", position: "", department: "", building: "", room: "", poNumber: "", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: [], ea_values: [], site_ident: "")
-        let xmlString = String(decoding: iOSXML, as: UTF8.self)
-        print(xmlString)
-        //XCTAssertEqual(xmlString, "<mobile_device><general></general><location></location><purchasing></purchasing><extension_attributes></extension_attributes></mobile_device>")
-    }
-    
-    func testiOSXML_Username() {
-        let iOSXML = xmlMan.iosObject(displayName: "", assetTag: "", username: "VALUE", full_name: "", email_address: "", phone_number: "", position: "", department: "", building: "", room: "", poNumber: "", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: [], ea_values: [], site_ident: "")
-        let xmlString = String(decoding: iOSXML, as: UTF8.self)
-        print(xmlString)
-        //XCTAssertEqual(xmlString, "<mobile_device><general></general><location></location><purchasing></purchasing><extension_attributes></extension_attributes></mobile_device>")
-    }
-    
-    func testiOSXML_FullName() {
-        let iOSXML = xmlMan.iosObject(displayName: "", assetTag: "", username: "", full_name: "VALUE", email_address: "", phone_number: "", position: "", department: "", building: "", room: "", poNumber: "", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: [], ea_values: [], site_ident: "")
-        let xmlString = String(decoding: iOSXML, as: UTF8.self)
-        print(xmlString)
-        //XCTAssertEqual(xmlString, "<mobile_device><general></general><location></location><purchasing></purchasing><extension_attributes></extension_attributes></mobile_device>")
-    }
-    
-    func testiOSXML_EmailAddress() {
-        let iOSXML = xmlMan.iosObject(displayName: "", assetTag: "", username: "", full_name: "", email_address: "VALUE", phone_number: "", position: "", department: "", building: "", room: "", poNumber: "", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: [], ea_values: [], site_ident: "")
-        let xmlString = String(decoding: iOSXML, as: UTF8.self)
-        print(xmlString)
-        //XCTAssertEqual(xmlString, "<mobile_device><general></general><location></location><purchasing></purchasing><extension_attributes></extension_attributes></mobile_device>")
-    }
-    
-    func testiOSXML_PhoneNumber() {
-        let iOSXML = xmlMan.iosObject(displayName: "", assetTag: "", username: "", full_name: "", email_address: "", phone_number: "VALUE", position: "", department: "", building: "", room: "", poNumber: "", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: [], ea_values: [], site_ident: "")
-        let xmlString = String(decoding: iOSXML, as: UTF8.self)
-        print(xmlString)
-        //XCTAssertEqual(xmlString, "<mobile_device><general></general><location></location><purchasing></purchasing><extension_attributes></extension_attributes></mobile_device>")
-    }
-    
-    func testiOSXML_Position() {
-        let iOSXML = xmlMan.iosObject(displayName: "", assetTag: "", username: "", full_name: "", email_address: "", phone_number: "", position: "VALUE", department: "", building: "", room: "", poNumber: "", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: [], ea_values: [], site_ident: "")
-        let xmlString = String(decoding: iOSXML, as: UTF8.self)
-        print(xmlString)
-        //XCTAssertEqual(xmlString, "<mobile_device><general></general><location></location><purchasing></purchasing><extension_attributes></extension_attributes></mobile_device>")
-    }
-    
-    func testiOSXML_Department() {
-        let iOSXML = xmlMan.iosObject(displayName: "", assetTag: "", username: "", full_name: "", email_address: "", phone_number: "", position: "", department: "VALUE", building: "", room: "", poNumber: "", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: [], ea_values: [], site_ident: "")
-        let xmlString = String(decoding: iOSXML, as: UTF8.self)
-        print(xmlString)
-        //XCTAssertEqual(xmlString, "<mobile_device><general></general><location></location><purchasing></purchasing><extension_attributes></extension_attributes></mobile_device>")
-    }
-    
-    func testiOSXML_Building() {
-        let iOSXML = xmlMan.iosObject(displayName: "", assetTag: "", username: "", full_name: "", email_address: "", phone_number: "", position: "", department: "", building: "VALUE", room: "", poNumber: "", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: [], ea_values: [], site_ident: "")
-        let xmlString = String(decoding: iOSXML, as: UTF8.self)
-        print(xmlString)
-        //XCTAssertEqual(xmlString, "<mobile_device><general></general><location></location><purchasing></purchasing><extension_attributes></extension_attributes></mobile_device>")
-    }
-    
-    func testiOSXML_Room() {
-        let iOSXML = xmlMan.iosObject(displayName: "", assetTag: "", username: "", full_name: "", email_address: "", phone_number: "", position: "", department: "", building: "", room: "VALUE", poNumber: "", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: [], ea_values: [], site_ident: "")
-        let xmlString = String(decoding: iOSXML, as: UTF8.self)
-        print(xmlString)
-        //XCTAssertEqual(xmlString, "<mobile_device><general></general><location></location><purchasing></purchasing><extension_attributes></extension_attributes></mobile_device>")
-    }
-    
-    func testiOSXML_PONumber() {
-        let iOSXML = xmlMan.iosObject(displayName: "", assetTag: "", username: "", full_name: "", email_address: "", phone_number: "", position: "", department: "", building: "", room: "", poNumber: "VALUE", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: [], ea_values: [], site_ident: "")
-        let xmlString = String(decoding: iOSXML, as: UTF8.self)
-        print(xmlString)
-        //XCTAssertEqual(xmlString, "<mobile_device><general></general><location></location><purchasing></purchasing><extension_attributes></extension_attributes></mobile_device>")
-    }
-    
-    func testiOSXML_Vendor() {
-        let iOSXML = xmlMan.iosObject(displayName: "", assetTag: "", username: "", full_name: "", email_address: "", phone_number: "", position: "", department: "", building: "", room: "", poNumber: "", vendor: "VALUE", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: [], ea_values: [], site_ident: "")
-        let xmlString = String(decoding: iOSXML, as: UTF8.self)
-        print(xmlString)
-        //XCTAssertEqual(xmlString, "<mobile_device><general></general><location></location><purchasing></purchasing><extension_attributes></extension_attributes></mobile_device>")
-    }
-    
-    func testiOSXML_PODate() {
-        let iOSXML = xmlMan.iosObject(displayName: "", assetTag: "", username: "", full_name: "", email_address: "", phone_number: "", position: "", department: "", building: "", room: "", poNumber: "", vendor: "", poDate: "VALUE", warrantyExpires: "", leaseExpires: "", ea_ids: [], ea_values: [], site_ident: "")
-        let xmlString = String(decoding: iOSXML, as: UTF8.self)
-        print(xmlString)
-        //XCTAssertEqual(xmlString, "<mobile_device><general></general><location></location><purchasing></purchasing><extension_attributes></extension_attributes></mobile_device>")
-    }
-    
-    func testiOSXML_WarrantyExpires() {
-        let iOSXML = xmlMan.iosObject(displayName: "", assetTag: "", username: "", full_name: "", email_address: "", phone_number: "", position: "", department: "", building: "", room: "", poNumber: "", vendor: "", poDate: "", warrantyExpires: "VALUE", leaseExpires: "", ea_ids: [], ea_values: [], site_ident: "")
-        let xmlString = String(decoding: iOSXML, as: UTF8.self)
-        print(xmlString)
-        //XCTAssertEqual(xmlString, "<mobile_device><general></general><location></location><purchasing></purchasing><extension_attributes></extension_attributes></mobile_device>")
-    }
-    
-    func testiOSXML_LeaseExpires() {
-        let iOSXML = xmlMan.iosObject(displayName: "", assetTag: "", username: "", full_name: "", email_address: "", phone_number: "", position: "", department: "", building: "", room: "", poNumber: "", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "VALUE", ea_ids: [], ea_values: [], site_ident: "")
-        let xmlString = String(decoding: iOSXML, as: UTF8.self)
-        print(xmlString)
-        //XCTAssertEqual(xmlString, "<mobile_device><general></general><location></location><purchasing></purchasing><extension_attributes></extension_attributes></mobile_device>")
-    }
-}
+//
+//class iOSXMLTests: XCTestCase {
+//    let DataPrep = dataPreparation()
+//    let xmlMan = xmlManager()
+//
+//    override func setUp() {
+//        // Put setup code here. This method is called before the invocation of each test method in the class.
+//        print("")
+//    }
+//
+//    override func tearDown() {
+//        // Put teardown code here. This method is called after the invocation of each test method in the class.
+//        print("")
+//    }
+//
+//    func testiOSXML_EAS() {
+//        let iOSXML = xmlMan.iosObject(displayName: "", assetTag: "", username: "", full_name: "", email_address: "", phone_number: "", position: "", department: "", building: "", room: "", poNumber: "", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: ["1","2"], ea_values: ["Value1","Value2"], site_ident: "")
+//        let xmlString = String(decoding: iOSXML, as: UTF8.self)
+//        print(xmlString)
+//        //XCTAssertEqual(xmlString, "<mobile_device><general></general><location></location><purchasing></purchasing><extension_attributes></extension_attributes></mobile_device>")
+//    }
+//
+//    func testiOSXML_Full() {
+//        let iOSXML = xmlMan.iosObject(displayName: "Mikes Mini", assetTag: "JAMF1234", username: "mike.levenick", full_name: "Mike Levenick", email_address: "mike.levenick@jssmut.com", phone_number: "", position: "", department: "", building: "", room: "", poNumber: "", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: ["1","2"], ea_values: ["Value1","Value2"], site_ident: "")
+//        let xmlString = String(decoding: iOSXML, as: UTF8.self)
+//        print(xmlString)
+//        //XCTAssertEqual(xmlString, "FIX ME")
+//    }
+//
+//    func testiOSXML_DeviceName() {
+//        let iOSXML = xmlMan.iosObject(displayName: "VALUE", assetTag: "", username: "", full_name: "", email_address: "", phone_number: "", position: "", department: "", building: "", room: "", poNumber: "", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: [], ea_values: [], site_ident: "")
+//        let xmlString = String(decoding: iOSXML, as: UTF8.self)
+//        print(xmlString)
+//        //XCTAssertEqual(xmlString, "<mobile_device><general></general><location></location><purchasing></purchasing><extension_attributes></extension_attributes></mobile_device>")
+//    }
+//
+//    func testiOSXML_AssetTag() {
+//        let iOSXML = xmlMan.iosObject(displayName: "", assetTag: "VALUE", username: "", full_name: "", email_address: "", phone_number: "", position: "", department: "", building: "", room: "", poNumber: "", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: [], ea_values: [], site_ident: "")
+//        let xmlString = String(decoding: iOSXML, as: UTF8.self)
+//        print(xmlString)
+//        //XCTAssertEqual(xmlString, "<mobile_device><general></general><location></location><purchasing></purchasing><extension_attributes></extension_attributes></mobile_device>")
+//    }
+//
+//    func testiOSXML_Username() {
+//        let iOSXML = xmlMan.iosObject(displayName: "", assetTag: "", username: "VALUE", full_name: "", email_address: "", phone_number: "", position: "", department: "", building: "", room: "", poNumber: "", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: [], ea_values: [], site_ident: "")
+//        let xmlString = String(decoding: iOSXML, as: UTF8.self)
+//        print(xmlString)
+//        //XCTAssertEqual(xmlString, "<mobile_device><general></general><location></location><purchasing></purchasing><extension_attributes></extension_attributes></mobile_device>")
+//    }
+//
+//    func testiOSXML_FullName() {
+//        let iOSXML = xmlMan.iosObject(displayName: "", assetTag: "", username: "", full_name: "VALUE", email_address: "", phone_number: "", position: "", department: "", building: "", room: "", poNumber: "", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: [], ea_values: [], site_ident: "")
+//        let xmlString = String(decoding: iOSXML, as: UTF8.self)
+//        print(xmlString)
+//        //XCTAssertEqual(xmlString, "<mobile_device><general></general><location></location><purchasing></purchasing><extension_attributes></extension_attributes></mobile_device>")
+//    }
+//
+//    func testiOSXML_EmailAddress() {
+//        let iOSXML = xmlMan.iosObject(displayName: "", assetTag: "", username: "", full_name: "", email_address: "VALUE", phone_number: "", position: "", department: "", building: "", room: "", poNumber: "", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: [], ea_values: [], site_ident: "")
+//        let xmlString = String(decoding: iOSXML, as: UTF8.self)
+//        print(xmlString)
+//        //XCTAssertEqual(xmlString, "<mobile_device><general></general><location></location><purchasing></purchasing><extension_attributes></extension_attributes></mobile_device>")
+//    }
+//
+//    func testiOSXML_PhoneNumber() {
+//        let iOSXML = xmlMan.iosObject(displayName: "", assetTag: "", username: "", full_name: "", email_address: "", phone_number: "VALUE", position: "", department: "", building: "", room: "", poNumber: "", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: [], ea_values: [], site_ident: "")
+//        let xmlString = String(decoding: iOSXML, as: UTF8.self)
+//        print(xmlString)
+//        //XCTAssertEqual(xmlString, "<mobile_device><general></general><location></location><purchasing></purchasing><extension_attributes></extension_attributes></mobile_device>")
+//    }
+//
+//    func testiOSXML_Position() {
+//        let iOSXML = xmlMan.iosObject(displayName: "", assetTag: "", username: "", full_name: "", email_address: "", phone_number: "", position: "VALUE", department: "", building: "", room: "", poNumber: "", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: [], ea_values: [], site_ident: "")
+//        let xmlString = String(decoding: iOSXML, as: UTF8.self)
+//        print(xmlString)
+//        //XCTAssertEqual(xmlString, "<mobile_device><general></general><location></location><purchasing></purchasing><extension_attributes></extension_attributes></mobile_device>")
+//    }
+//
+//    func testiOSXML_Department() {
+//        let iOSXML = xmlMan.iosObject(displayName: "", assetTag: "", username: "", full_name: "", email_address: "", phone_number: "", position: "", department: "VALUE", building: "", room: "", poNumber: "", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: [], ea_values: [], site_ident: "")
+//        let xmlString = String(decoding: iOSXML, as: UTF8.self)
+//        print(xmlString)
+//        //XCTAssertEqual(xmlString, "<mobile_device><general></general><location></location><purchasing></purchasing><extension_attributes></extension_attributes></mobile_device>")
+//    }
+//
+//    func testiOSXML_Building() {
+//        let iOSXML = xmlMan.iosObject(displayName: "", assetTag: "", username: "", full_name: "", email_address: "", phone_number: "", position: "", department: "", building: "VALUE", room: "", poNumber: "", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: [], ea_values: [], site_ident: "")
+//        let xmlString = String(decoding: iOSXML, as: UTF8.self)
+//        print(xmlString)
+//        //XCTAssertEqual(xmlString, "<mobile_device><general></general><location></location><purchasing></purchasing><extension_attributes></extension_attributes></mobile_device>")
+//    }
+//
+//    func testiOSXML_Room() {
+//        let iOSXML = xmlMan.iosObject(displayName: "", assetTag: "", username: "", full_name: "", email_address: "", phone_number: "", position: "", department: "", building: "", room: "VALUE", poNumber: "", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: [], ea_values: [], site_ident: "")
+//        let xmlString = String(decoding: iOSXML, as: UTF8.self)
+//        print(xmlString)
+//        //XCTAssertEqual(xmlString, "<mobile_device><general></general><location></location><purchasing></purchasing><extension_attributes></extension_attributes></mobile_device>")
+//    }
+//
+//    func testiOSXML_PONumber() {
+//        let iOSXML = xmlMan.iosObject(displayName: "", assetTag: "", username: "", full_name: "", email_address: "", phone_number: "", position: "", department: "", building: "", room: "", poNumber: "VALUE", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: [], ea_values: [], site_ident: "")
+//        let xmlString = String(decoding: iOSXML, as: UTF8.self)
+//        print(xmlString)
+//        //XCTAssertEqual(xmlString, "<mobile_device><general></general><location></location><purchasing></purchasing><extension_attributes></extension_attributes></mobile_device>")
+//    }
+//
+//    func testiOSXML_Vendor() {
+//        let iOSXML = xmlMan.iosObject(displayName: "", assetTag: "", username: "", full_name: "", email_address: "", phone_number: "", position: "", department: "", building: "", room: "", poNumber: "", vendor: "VALUE", poDate: "", warrantyExpires: "", leaseExpires: "", ea_ids: [], ea_values: [], site_ident: "")
+//        let xmlString = String(decoding: iOSXML, as: UTF8.self)
+//        print(xmlString)
+//        //XCTAssertEqual(xmlString, "<mobile_device><general></general><location></location><purchasing></purchasing><extension_attributes></extension_attributes></mobile_device>")
+//    }
+//
+//    func testiOSXML_PODate() {
+//        let iOSXML = xmlMan.iosObject(displayName: "", assetTag: "", username: "", full_name: "", email_address: "", phone_number: "", position: "", department: "", building: "", room: "", poNumber: "", vendor: "", poDate: "VALUE", warrantyExpires: "", leaseExpires: "", ea_ids: [], ea_values: [], site_ident: "")
+//        let xmlString = String(decoding: iOSXML, as: UTF8.self)
+//        print(xmlString)
+//        //XCTAssertEqual(xmlString, "<mobile_device><general></general><location></location><purchasing></purchasing><extension_attributes></extension_attributes></mobile_device>")
+//    }
+//
+//    func testiOSXML_WarrantyExpires() {
+//        let iOSXML = xmlMan.iosObject(displayName: "", assetTag: "", username: "", full_name: "", email_address: "", phone_number: "", position: "", department: "", building: "", room: "", poNumber: "", vendor: "", poDate: "", warrantyExpires: "VALUE", leaseExpires: "", ea_ids: [], ea_values: [], site_ident: "")
+//        let xmlString = String(decoding: iOSXML, as: UTF8.self)
+//        print(xmlString)
+//        //XCTAssertEqual(xmlString, "<mobile_device><general></general><location></location><purchasing></purchasing><extension_attributes></extension_attributes></mobile_device>")
+//    }
+//
+//    func testiOSXML_LeaseExpires() {
+//        let iOSXML = xmlMan.iosObject(displayName: "", assetTag: "", username: "", full_name: "", email_address: "", phone_number: "", position: "", department: "", building: "", room: "", poNumber: "", vendor: "", poDate: "", warrantyExpires: "", leaseExpires: "VALUE", ea_ids: [], ea_values: [], site_ident: "")
+//        let xmlString = String(decoding: iOSXML, as: UTF8.self)
+//        print(xmlString)
+//        //XCTAssertEqual(xmlString, "<mobile_device><general></general><location></location><purchasing></purchasing><extension_attributes></extension_attributes></mobile_device>")
+//    }
+//}
 
 class macOSXMLTests: XCTestCase {
     let DataPrep = dataPreparation()
