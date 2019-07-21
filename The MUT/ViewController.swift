@@ -69,6 +69,8 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     var csvArray = [[String]]()
     
     var delimiter = ","
+
+    var cancelRun = false
     
     let dataPrep = dataPreparation()
     let tokenMan = tokenManagement()
@@ -299,8 +301,48 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     
     @IBAction func submitRequests(_ sender: Any) {
         if ( globalEndpoint.contains("group") || globalEndpoint.contains("prestage") ) {
+            let recordTypeOutlet = popRecordTypeOutlet.titleOfSelectedItem!
+            let endpoint = popRecordTypeOutlet.selectedItem!.identifier!.rawValue
+            let prestageID = txtPrestageID.stringValue
+            var httpMethod: String!
+            var objectType: String!
+            var appendReplaceRemove: String!
+
+            switch popActionTypeOutlet.titleOfSelectedItem! {
+            case "Add to Prestage":
+                httpMethod = "POST"
+            case "Remove from Prestage":
+                httpMethod = "DELETE"
+            case "Replace Existing Prestage":
+                httpMethod = "PUT"
+            default:
+                httpMethod = "POST"
+            }
+
+            switch popActionTypeOutlet.titleOfSelectedItem! {
+            case "Add to Static Group":
+                appendReplaceRemove = "append"
+            case "Remove from Static Group":
+                appendReplaceRemove = "remove"
+            case "Replace Existing Static Group":
+                appendReplaceRemove = "replace"
+            default:
+                appendReplaceRemove = "append"
+            }
+
+            switch popRecordTypeOutlet.titleOfSelectedItem! {
+            case "Computer Static Group":
+                objectType = "computers"
+            case "Mobile Device Static Group":
+                objectType = "mobiledevices"
+            case "User Object Static Group":
+                objectType = "users"
+            default:
+                objectType = "computers"
+            }
+
             DispatchQueue.global(qos: .background).async {
-                self.submitScopeUpdates()
+                self.submitScopeUpdates(recordTypeOutlet: recordTypeOutlet, endpoint: endpoint, prestageID: prestageID, httpMethod: httpMethod, objectType: objectType, appendReplaceRemove: appendReplaceRemove)
             }
         } else {
             DispatchQueue.global(qos: .background).async {
@@ -310,12 +352,12 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         
     }
     
-    func submitScopeUpdates() {
+    func submitScopeUpdates(recordTypeOutlet: String, endpoint: String, prestageID: String, httpMethod: String, objectType: String, appendReplaceRemove: String) {
         logMan.infoWrite(logString: "Beginning CSV Parse - Scope update.")
         let csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path ?? "/dev/null", delimiter: globalDelimiter!)
-        if popRecordTypeOutlet.titleOfSelectedItem!.contains("Prestage") {
+        if recordTypeOutlet.contains("Prestage") {
             // Prestage updates here
-            let versionLock = getCurrentPrestageVersionLock(endpoint: popRecordTypeOutlet.selectedItem!.identifier!.rawValue, prestageID: txtPrestageID.stringValue)
+            let versionLock = getCurrentPrestageVersionLock(endpoint: endpoint, prestageID: prestageID)
             var serialArray: [String]!
             serialArray = []
             if csvArray.count > 1 {
@@ -326,18 +368,8 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                 }
                 jsonToSubmit = jsonMan.buildJson(versionLock: versionLock, serialNumbers: serialArray)
                 // Submit the JSON to the Jamf Pro API
-                var httpMethod: String!
-                switch popActionTypeOutlet.titleOfSelectedItem! {
-                case "Add to Prestage":
-                    httpMethod = "POST"
-                case "Remove from Prestage":
-                    httpMethod = "DELETE"
-                case "Replace Existing Prestage":
-                    httpMethod = "PUT"
-                default:
-                    httpMethod = "POST"
-                }
-                _ = APIFunc.updatePrestage(passedUrl: globalURL, endpoint: popRecordTypeOutlet.selectedItem!.identifier!.rawValue, prestageID: txtPrestageID.stringValue, jpapiVersion: "v1", token: globalToken, jsonToSubmit: jsonToSubmit, httpMethod: httpMethod, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
+
+                _ = APIFunc.updatePrestage(passedUrl: globalURL, endpoint: endpoint, prestageID: prestageID, jpapiVersion: "v1", token: globalToken, jsonToSubmit: jsonToSubmit, httpMethod: httpMethod, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
             } else {
                 // Not enough rows in the CSV to run
             }
@@ -346,39 +378,16 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
             var serialArray: [String]!
             var xmlToPUT: Data!
             serialArray = []
-            var objectType: String!
-            var appendReplaceRemove: String!
             if csvArray.count > 1 {
                 for row in 1...(csvArray.count - 1 ) {
                     let currentRow = csvArray[row]
                     serialArray.append(currentRow[0])
                 }
 
-                switch popActionTypeOutlet.titleOfSelectedItem! {
-                case "Add to Static Group":
-                    appendReplaceRemove = "append"
-                case "Remove from Static Group":
-                    appendReplaceRemove = "remove"
-                case "Replace Existing Static Group":
-                    appendReplaceRemove = "replace"
-                default:
-                    appendReplaceRemove = "append"
-                }
-
-                switch popRecordTypeOutlet.titleOfSelectedItem! {
-                case "Computer Static Group":
-                    objectType = "computers"
-                case "Mobile Device Static Group":
-                    objectType = "mobiledevices"
-                case "User Object Static Group":
-                    objectType = "users"
-                default:
-                    objectType = "computers"
-                }
 
                 xmlToPUT = xmlMan.staticGroup(appendReplaceRemove: appendReplaceRemove, objectType: objectType, identifiers: serialArray)
 
-                _ = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint, identifierType: "id", identifier: txtPrestageID.stringValue, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPUT)
+                _ = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint, identifierType: "id", identifier: prestageID, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPUT)
             }
         }
 
