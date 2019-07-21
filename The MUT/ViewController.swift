@@ -3,7 +3,7 @@
 //  The MUT v5
 //
 //  Created by Michael Levenick on 5/24/19.
-//  Copyright © 2019 Michael Levenick. All rights reserved.
+//  Copyright © 2019 Levenick Enterprises, LLC. All rights reserved.
 //
 
 import Cocoa
@@ -19,7 +19,8 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     // Declare outlets for Buttons to change color and hide/show
     @IBOutlet weak var btnSubmitOutlet: NSButton!
     @IBOutlet weak var btnPreFlightOutlet: NSButton!
-    
+    @IBOutlet weak var btnCancelOutlet: NSButton!
+
     // Declare outlet for entire controller
     @IBOutlet var MainViewController: NSView!
     
@@ -68,6 +69,8 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     var csvArray = [[String]]()
     
     var delimiter = ","
+
+    var cancelRun = false
     
     let dataPrep = dataPreparation()
     let tokenMan = tokenManagement()
@@ -103,7 +106,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         globalToken = token
         globalURL = url
         globalBase64 = base64Credentials
-        preferredContentSize = NSSize(width: 550, height: 500)
+        preferredContentSize = NSSize(width: 550, height: 490)
     }
     
     override func viewDidLoad() {
@@ -139,7 +142,6 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         performSegue(withIdentifier: "segueLogin", sender: self)
     }
     
-    
     //btnIdentifier reloads tableMain based on the index of the selected row in Identifier table
     @IBAction func btnIdentifier(_ sender: Any) {
         currentData = csvData
@@ -156,7 +158,6 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
             //print("Index was out of range, not redrawing...")
         }
     }
-    
     
     @IBAction func btnBrowse(_ sender: Any) {
         notReadyToRun()
@@ -211,21 +212,21 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                     _ = popMan.generalWarning(question: "No Identifier Specified", text: "It appears the text box to specify the object ID is not a valid value.\n\nPlease enter a valid identifier in the box and try again.")
                 } else {
                     readyToRun()
+                    lblStatus.stringValue = "Looks good! Press 'Submit Updates' when you are ready to go."
                 }
             }
         }
     }
-    
-    
+
     func setRecordType() {
         let generalEndpoint = dataPrep.endpoint(csvArray: csvArray)
         if generalEndpoint == "scope" {
             // do stuff based on dropdowns
-            if popRecordTypeOutlet.titleOfSelectedItem! == "Computer Prestage" {
+            if popRecordTypeOutlet.titleOfSelectedItem!.contains("Computer Prestage") {
                 globalEndpoint = "computer-prestages"
                 lblScopeType.stringValue = "Serial Number"
                 globalTab = "scope"
-            } else if popRecordTypeOutlet.titleOfSelectedItem! == "Mobile Device Prestage" {
+            } else if popRecordTypeOutlet.titleOfSelectedItem!.contains("Mobile Device Prestage")  {
                 globalEndpoint = "mobile-device-prestages"
                 lblScopeType.stringValue = "Serial Number"
                 globalTab = "scope"
@@ -255,8 +256,6 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
             globalEndpoint = generalEndpoint
         }
     }
-    
-    
     
     func drawTables() {
         let currentTab = tabViewOutlet.selectedTabViewItem?.identifier as! String
@@ -289,7 +288,6 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         }
         
     }
-    
 
     @IBAction func btnExportCSV(_ sender: Any) {
         logMan.infoWrite(logString: "Saving CSV Templates to User's Downloads Directory.")
@@ -298,24 +296,76 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     
     @IBAction func submitRequests(_ sender: Any) {
         if ( globalEndpoint.contains("group") || globalEndpoint.contains("prestage") ) {
+            // Check and get a new token if needed, and performing prestage updates
+            if globalEndpoint.contains("prestage") {
+                logMan.infoWrite(logString: "Prestage update detected. Checking token expiry.")
+                let needNewToken = tokenMan.checkExpiry(expiry: globalExpiry)
+                if needNewToken {
+                    _ = popMan.generalWarning(question: "Expired Token", text: "It appears that your token has expired. This can happen if the app sits open for too long.\n\nFor now, please quit and re-launch the app to generate a new token.\n\nAutomatic token renewal coming soon.")
+                }
+            }
+            let recordTypeOutlet = popRecordTypeOutlet.titleOfSelectedItem!
+            let endpoint = popRecordTypeOutlet.selectedItem!.identifier!.rawValue
+            let prestageID = txtPrestageID.stringValue
+            var httpMethod: String!
+            var objectType: String!
+            var appendReplaceRemove: String!
+
+            switch popActionTypeOutlet.titleOfSelectedItem! {
+            case "Add to Prestage":
+                httpMethod = "POST"
+            case "Remove from Prestage":
+                httpMethod = "DELETE"
+            case "Replace Existing Prestage":
+                httpMethod = "PUT"
+            default:
+                httpMethod = "POST"
+            }
+
+            switch popActionTypeOutlet.titleOfSelectedItem! {
+            case "Add to Static Group":
+                appendReplaceRemove = "append"
+            case "Remove from Static Group":
+                appendReplaceRemove = "remove"
+            case "Replace Existing Static Group":
+                appendReplaceRemove = "replace"
+            default:
+                appendReplaceRemove = "append"
+            }
+
+            switch popRecordTypeOutlet.titleOfSelectedItem! {
+            case "Computer Static Group":
+                objectType = "computers"
+            case "Mobile Device Static Group":
+                objectType = "mobiledevices"
+            case "User Object Static Group":
+                objectType = "users"
+            default:
+                objectType = "computers"
+            }
+
             DispatchQueue.global(qos: .background).async {
-                self.submitScopeUpdates()
+                self.submitScopeUpdates(recordTypeOutlet: recordTypeOutlet, endpoint: endpoint, prestageID: prestageID, httpMethod: httpMethod, objectType: objectType, appendReplaceRemove: appendReplaceRemove)
             }
         } else {
             DispatchQueue.global(qos: .background).async {
                 self.submitAttributeUpdates()
             }
-            
         }
-        
     }
     
-    func submitScopeUpdates() {
+    func submitScopeUpdates(recordTypeOutlet: String, endpoint: String, prestageID: String, httpMethod: String, objectType: String, appendReplaceRemove: String) {
+        var responseCode = 400
+
+        DispatchQueue.main.async {
+            self.guiAttributeRun()
+        }
+
         logMan.infoWrite(logString: "Beginning CSV Parse - Scope update.")
         let csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path ?? "/dev/null", delimiter: globalDelimiter!)
-        if popRecordTypeOutlet.titleOfSelectedItem!.contains("Prestage") {
+        if recordTypeOutlet.contains("Prestage") {
             // Prestage updates here
-            let versionLock = getCurrentPrestageVersionLock(endpoint: popRecordTypeOutlet.selectedItem!.identifier!.rawValue, prestageID: txtPrestageID.stringValue)
+            let versionLock = getCurrentPrestageVersionLock(endpoint: endpoint, prestageID: prestageID)
             var serialArray: [String]!
             serialArray = []
             if csvArray.count > 1 {
@@ -326,18 +376,8 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                 }
                 jsonToSubmit = jsonMan.buildJson(versionLock: versionLock, serialNumbers: serialArray)
                 // Submit the JSON to the Jamf Pro API
-                var httpMethod: String!
-                switch popActionTypeOutlet.titleOfSelectedItem! {
-                case "Add to Prestage":
-                    httpMethod = "POST"
-                case "Remove from Prestage":
-                    httpMethod = "DELETE"
-                case "Replace Existing Prestage":
-                    httpMethod = "PUT"
-                default:
-                    httpMethod = "POST"
-                }
-                _ = APIFunc.updatePrestage(passedUrl: globalURL, endpoint: popRecordTypeOutlet.selectedItem!.identifier!.rawValue, prestageID: txtPrestageID.stringValue, jpapiVersion: "v1", token: globalToken, jsonToSubmit: jsonToSubmit, httpMethod: httpMethod, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
+
+                responseCode = APIFunc.updatePrestage(passedUrl: globalURL, endpoint: endpoint, prestageID: prestageID, jpapiVersion: "v1", token: globalToken, jsonToSubmit: jsonToSubmit, httpMethod: httpMethod, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
             } else {
                 // Not enough rows in the CSV to run
             }
@@ -346,45 +386,27 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
             var serialArray: [String]!
             var xmlToPUT: Data!
             serialArray = []
-            var objectType: String!
-            var appendReplaceRemove: String!
             if csvArray.count > 1 {
                 for row in 1...(csvArray.count - 1 ) {
                     let currentRow = csvArray[row]
                     serialArray.append(currentRow[0])
                 }
 
-                switch popActionTypeOutlet.titleOfSelectedItem! {
-                case "Add to Static Group":
-                    appendReplaceRemove = "append"
-                case "Remove from Static Group":
-                    appendReplaceRemove = "remove"
-                case "Replace Existing Static Group":
-                    appendReplaceRemove = "replace"
-                default:
-                    appendReplaceRemove = "append"
-                }
-
-                switch popRecordTypeOutlet.titleOfSelectedItem! {
-                case "Computer Static Group":
-                    objectType = "computers"
-                case "Mobile Device Static Group":
-                    objectType = "mobiledevices"
-                case "User Object Static Group":
-                    objectType = "users"
-                default:
-                    objectType = "computers"
-                }
-
                 xmlToPUT = xmlMan.staticGroup(appendReplaceRemove: appendReplaceRemove, objectType: objectType, identifiers: serialArray)
 
-                _ = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint, identifierType: "id", identifier: txtPrestageID.stringValue, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPUT)
+                _ = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint, identifierType: "id", identifier: prestageID, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPUT)
             }
         }
 
-
+        DispatchQueue.main.async {
+            self.guiAttributeDone()
+            if responseCode == 200 {
+                self.lblStatus.stringValue = "Successful update run complete. Check the MUT.log for details"
+            } else {
+                self.lblStatus.stringValue = "Update run failed. Check the MUT.log for details."
+            }
+        }
     }
-    
     
     func submitAttributeUpdates() {
         logMan.infoWrite(logString: "Beginning CSV Parse - Attributes update.")
@@ -405,30 +427,36 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         if numberOfEAs > 0 {
             ea_ids = dataPrep.eaIDs(expectedColumns: expectedColumns, numberOfColumns: numberOfColumns, headerRow: headerRow)
         }
-        
+
+        DispatchQueue.main.async {
+            self.guiAttributeRun()
+        }
+
         // Begin looping through the CSV sheet
         
         if csvArray.count > 1 {
 
             // LOOP FOR PROGRESS BAR BEGINS HERE
-            for row in 1...(csvArray.count - 1) {
+            updateLoop: for row in 1...(csvArray.count - 1) {
+                // Get the current row of the CSV for updating
+                let currentRow = csvArray[row]
+                var identifierType: String!
+
+                if cancelRun {
+                    logMan.warnWrite(logString: "Update run cancelled by user on row \(row + 1) with identifier \(currentRow[0]).")
+                    cancelRun = false
+                    break updateLoop
+                }
 
                 DispatchQueue.main.async {
-                    // STUFF HERE WILL HAPPEN ON THE MAIN THREAD
-                    // DO ALL GUI UPDATES IN THIS CODE BLOCK
-
-                    // SET THE FIRST TEXT BOX TO "row"
-                    // DIVIDE ROW BY TOTAL ROW COUNT
-                    // SET BAR VALUE TO NEW DIVIDED VALUE
-                    
-
+                    // progress bar updates during the run
+                    self.lblEndLine.stringValue = "\(csvArray.count - 1)"
+                    self.lblLine.stringValue = "\(row)"
+                    self.barProgress.doubleValue = Double((100 * row / (csvArray.count - 1 )))
                 }
 
                 ea_values = [] // Reset the EA_values so that we aren't just appending
-                
-                // Get the current row of the CSV for updating
-                let currentRow = csvArray[row]
-                
+
                 // Populate the ea_values array if there are EAs to update
                 if numberOfEAs > 0 {
                     ea_values = dataPrep.eaValues(expectedColumns: expectedColumns, numberOfColumns: numberOfColumns, currentRow: currentRow)
@@ -436,10 +464,25 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                 
                 if globalEndpoint! == "users" {
                     // Generate the XML to submit
+                    if currentRow[0].isInt {
+                        identifierType = "id"
+                    } else {
+                        identifierType = "name"
+                    }
                     xmlToPut = xmlMan.userObject(username: currentRow[0], full_name: currentRow[1], email_address: currentRow[2], phone_number: currentRow[3], position: currentRow[4], ldap_server: currentRow[5], ea_ids: ea_ids, ea_values: ea_values, site_ident: "1")
                 } else if globalEndpoint! == "computers" {
+                    if currentRow[0].isInt {
+                        identifierType = "id"
+                    } else {
+                        identifierType = "serialnumber"
+                    }
                     xmlToPut = xmlMan.macosObject(displayName: currentRow[1], assetTag: currentRow[2], barcode1: currentRow[3], barcode2: currentRow[4], username: currentRow[5], full_name: currentRow[6], email_address: currentRow[7], phone_number: currentRow[9], position: currentRow[8], department: currentRow[10], building: currentRow[11], room: currentRow[12], poNumber: currentRow[13], vendor: currentRow[14], poDate: currentRow[15], warrantyExpires: currentRow[16], leaseExpires: currentRow[17], ea_ids: ea_ids, ea_values: ea_values, site_ident: currentRow[18])
                 } else if globalEndpoint! == "mobiledevices" {
+                    if currentRow[0].isInt {
+                        identifierType = "id"
+                    } else {
+                        identifierType = "serialnumber"
+                    }
                     xmlToPut = xmlMan.iosObject(displayName: currentRow[1], assetTag: currentRow[2], username: currentRow[3], full_name: currentRow[4], email_address: currentRow[5], phone_number: currentRow[7], position: currentRow[6], department: currentRow[8], building: currentRow[9], room: currentRow[10], poNumber: currentRow[11], vendor: currentRow[12], poDate: currentRow[13], warrantyExpires: currentRow[14], leaseExpires: currentRow[15], ea_ids: ea_ids, ea_values: ea_values, site_ident: currentRow[16], airplayPassword: currentRow[17])
                     if currentRow[1] != "" {
                         // Enforce the mobile device name if the display name field is not blank
@@ -450,8 +493,13 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                 
                 // Submit the XML to the Jamf Pro API
                 
-                _ = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint!, identifierType: "serialnumber", identifier: currentRow[0], allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPut)
+                _ = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint!, identifierType: identifierType, identifier: currentRow[0], allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPut)
             }
+
+            DispatchQueue.main.async {
+                self.guiAttributeDone()
+            }
+
         } else {
             // Not enough rows in the CSV to run
         }
@@ -567,14 +615,14 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                 _ = popMan.generalWarning(question: "CSV Error", text: "MUT is not able to read your CSV very well. Please try a different CSV.")
             } else if globalEndpoint == "scope" {
                 tabViewOutlet.selectTabViewItem(at: 2)
-                preferredContentSize = NSSize(width: 550, height: 600)
+                preferredContentSize = NSSize(width: 550, height: 550)
                 lblStatus.isHidden = false
-                lblStatus.stringValue = "It appears you are looking to update a prestage or static group."
+                lblStatus.stringValue = "Populate the dropdowns above, and then run your preflight check."
             } else {
                 tabViewOutlet.selectTabViewItem(at: 1)
-                preferredContentSize = NSSize(width: 550, height: 600)
+                preferredContentSize = NSSize(width: 550, height: 550)
                 lblStatus.isHidden = false
-                lblStatus.stringValue = "It appears you are looking to update attributes for a record."
+                lblStatus.stringValue = "Review the changes shown above. If everything looks good, hit submit."
             }
             
         } else {
@@ -611,6 +659,30 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     func notReadyToRun() {
         btnSubmitOutlet.isHidden = true
     }
+
+    func guiAttributeRun() {
+        btnSubmitOutlet.isHidden = true
+        btnCancelOutlet.isHidden = false
+        preferredContentSize = NSSize(width: 550, height: 570)
+        lblCurrent.isHidden = false
+        lblLine.isHidden = false
+        lblEndLine.isHidden = false
+        lblOf.isHidden = false
+        barProgress.isHidden = false
+        lblStatus.stringValue = "Running updates. See MUT.log for live status."
+    }
+
+    func guiAttributeDone() {
+        btnSubmitOutlet.isHidden = false
+        btnCancelOutlet.isHidden = true
+        preferredContentSize = NSSize(width: 550, height: 550)
+        lblCurrent.isHidden = true
+        lblLine.isHidden = true
+        lblEndLine.isHidden = true
+        lblOf.isHidden = true
+        barProgress.isHidden = true
+        lblStatus.stringValue = "Updates complete. See MUT.log for details."
+    }
     
     @IBAction func popRecordTypeAction(_ sender: Any) {
         notReadyToRun()
@@ -636,7 +708,11 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     @IBAction func txtPrestageIdAction(_ sender: Any) {
         notReadyToRun()
     }
-    
+
+    @IBAction func btnCancelAction(_ sender: Any) {
+        cancelRun = true
+    }
+
 }
 
 
