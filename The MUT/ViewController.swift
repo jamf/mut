@@ -142,7 +142,6 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         performSegue(withIdentifier: "segueLogin", sender: self)
     }
     
-    
     //btnIdentifier reloads tableMain based on the index of the selected row in Identifier table
     @IBAction func btnIdentifier(_ sender: Any) {
         currentData = csvData
@@ -159,7 +158,6 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
             //print("Index was out of range, not redrawing...")
         }
     }
-    
     
     @IBAction func btnBrowse(_ sender: Any) {
         notReadyToRun()
@@ -214,12 +212,12 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                     _ = popMan.generalWarning(question: "No Identifier Specified", text: "It appears the text box to specify the object ID is not a valid value.\n\nPlease enter a valid identifier in the box and try again.")
                 } else {
                     readyToRun()
+                    lblStatus.stringValue = "Looks good! Press 'Submit Updates' when you are ready to go."
                 }
             }
         }
     }
-    
-    
+
     func setRecordType() {
         let generalEndpoint = dataPrep.endpoint(csvArray: csvArray)
         if generalEndpoint == "scope" {
@@ -259,8 +257,6 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         }
     }
     
-    
-    
     func drawTables() {
         let currentTab = tabViewOutlet.selectedTabViewItem?.identifier as! String
         if currentTab == "objects" {
@@ -292,7 +288,6 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         }
         
     }
-    
 
     @IBAction func btnExportCSV(_ sender: Any) {
         logMan.infoWrite(logString: "Saving CSV Templates to User's Downloads Directory.")
@@ -349,10 +344,15 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                 self.submitAttributeUpdates()
             }
         }
-        
     }
     
     func submitScopeUpdates(recordTypeOutlet: String, endpoint: String, prestageID: String, httpMethod: String, objectType: String, appendReplaceRemove: String) {
+        var responseCode = 400
+
+        DispatchQueue.main.async {
+            self.guiAttributeRun()
+        }
+
         logMan.infoWrite(logString: "Beginning CSV Parse - Scope update.")
         let csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path ?? "/dev/null", delimiter: globalDelimiter!)
         if recordTypeOutlet.contains("Prestage") {
@@ -369,7 +369,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                 jsonToSubmit = jsonMan.buildJson(versionLock: versionLock, serialNumbers: serialArray)
                 // Submit the JSON to the Jamf Pro API
 
-                _ = APIFunc.updatePrestage(passedUrl: globalURL, endpoint: endpoint, prestageID: prestageID, jpapiVersion: "v1", token: globalToken, jsonToSubmit: jsonToSubmit, httpMethod: httpMethod, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
+                responseCode = APIFunc.updatePrestage(passedUrl: globalURL, endpoint: endpoint, prestageID: prestageID, jpapiVersion: "v1", token: globalToken, jsonToSubmit: jsonToSubmit, httpMethod: httpMethod, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
             } else {
                 // Not enough rows in the CSV to run
             }
@@ -384,16 +384,21 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                     serialArray.append(currentRow[0])
                 }
 
-
                 xmlToPUT = xmlMan.staticGroup(appendReplaceRemove: appendReplaceRemove, objectType: objectType, identifiers: serialArray)
 
                 _ = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint, identifierType: "id", identifier: prestageID, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPUT)
             }
         }
 
-
+        DispatchQueue.main.async {
+            self.guiAttributeDone()
+            if responseCode == 200 {
+                self.lblStatus.stringValue = "Successful update run complete. Check the MUT.log for details"
+            } else {
+                self.lblStatus.stringValue = "Update run failed. Check the MUT.log for details."
+            }
+        }
     }
-    
     
     func submitAttributeUpdates() {
         logMan.infoWrite(logString: "Beginning CSV Parse - Attributes update.")
@@ -424,7 +429,15 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         if csvArray.count > 1 {
 
             // LOOP FOR PROGRESS BAR BEGINS HERE
-            for row in 1...(csvArray.count - 1) {
+            updateLoop: for row in 1...(csvArray.count - 1) {
+                // Get the current row of the CSV for updating
+                let currentRow = csvArray[row]
+
+                if cancelRun {
+                    logMan.warnWrite(logString: "Update run cancelled by user on row \(row + 1) with identifier \(currentRow[0]).")
+                    cancelRun = false
+                    break updateLoop
+                }
 
                 DispatchQueue.main.async {
                     // progress bar updates during the run
@@ -434,10 +447,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                 }
 
                 ea_values = [] // Reset the EA_values so that we aren't just appending
-                
-                // Get the current row of the CSV for updating
-                let currentRow = csvArray[row]
-                
+
                 // Populate the ea_values array if there are EAs to update
                 if numberOfEAs > 0 {
                     ea_values = dataPrep.eaValues(expectedColumns: expectedColumns, numberOfColumns: numberOfColumns, currentRow: currentRow)
@@ -635,6 +645,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         lblEndLine.isHidden = false
         lblOf.isHidden = false
         barProgress.isHidden = false
+        lblStatus.stringValue = "Running updates. See MUT.log for live status."
     }
 
     func guiAttributeDone() {
@@ -646,6 +657,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         lblEndLine.isHidden = true
         lblOf.isHidden = true
         barProgress.isHidden = true
+        lblStatus.stringValue = "Updates complete. See MUT.log for details."
     }
     
     @IBAction func popRecordTypeAction(_ sender: Any) {
@@ -674,7 +686,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     }
 
     @IBAction func btnCancelAction(_ sender: Any) {
-
+        cancelRun = true
     }
 
 }

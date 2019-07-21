@@ -173,7 +173,10 @@ public class APIFunctions: NSObject, URLSessionDelegate{
         return globalResponse
     }
     
-    public func updatePrestage(passedUrl: String, endpoint: String, prestageID: String, jpapiVersion: String, token: String, jsonToSubmit: Data, httpMethod: String, allowUntrusted: Bool) -> Data {
+    public func updatePrestage(passedUrl: String, endpoint: String, prestageID: String, jpapiVersion: String, token: String, jsonToSubmit: Data, httpMethod: String, allowUntrusted: Bool) -> Int {
+
+        var returnCode = 400
+
         let baseURL = dataPrep.generatePrestageURL(baseURL: passedUrl, endpoint: endpoint, prestageID: prestageID, jpapiVersion: jpapiVersion)
         
         let encodedURL = NSURL(string: "\(baseURL)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "https://null")! as URL
@@ -198,6 +201,7 @@ public class APIFunctions: NSObject, URLSessionDelegate{
         let task = session.dataTask(with: request as URLRequest, completionHandler: {
             (data, response, error) -> Void in
             if let httpResponse = response as? HTTPURLResponse {
+                returnCode = httpResponse.statusCode
                 if httpResponse.statusCode >= 199 && httpResponse.statusCode <= 299 {
                     // Good response from API
                     globalResponse = data!
@@ -221,7 +225,7 @@ public class APIFunctions: NSObject, URLSessionDelegate{
         })
         task.resume() // Kick off the actual GET here
         semaphore.wait() // Wait for the semaphore before moving on to the return value
-        return globalResponse
+        return returnCode
     }
 
     public func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping(  URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
