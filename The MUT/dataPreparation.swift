@@ -185,7 +185,7 @@ public class dataPreparation {
             //print("Current Entry... \(currentEntry[column])")
             var builderTwo: [String : String] = [:]
             if currentEntry[column] == "" {
-                builderTwo = ["tableAttribute" : headerRow[column], "tableValue" : "UNCHANGED!"]
+                builderTwo = ["tableAttribute" : headerRow[column], "tableValue" : "(unchanged)"]
             } else {
                 builderTwo = ["tableAttribute" : headerRow[column], "tableValue" : currentEntry[column]]
             }

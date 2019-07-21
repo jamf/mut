@@ -750,7 +750,7 @@ extension ViewController: NSTableViewDataSource {
             cell.textField?.stringValue = attributeRow["tableAttribute"] ?? "NO VALUE"
         } else if (tableColumn?.identifier)!.rawValue == "tableValue" {
             cell.textField?.stringValue = attributeRow["tableValue"] ?? "NO VALUE"
-            if attributeRow["tableValue"] == "UNCHANGED!" {
+            if attributeRow["tableValue"] == "(unchanged)" {
                 cell.textField?.textColor = NSColor.systemBlue
             }
             else if attributeRow["tableValue"] == "CLEAR!" {
