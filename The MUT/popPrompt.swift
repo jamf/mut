@@ -3,12 +3,8 @@
 //  The MUT v5
 //
 //  Created by Michael Levenick on 5/24/19.
-//  Copyright © 2019 Michael Levenick. All rights reserved.
+//  Copyright © 2019 Levenick Enterprises, LLC. All rights reserved.
 //
-
-
-// THIS IS ALL OLD CODE!!!
-// THIS ENTIRE CLASS SHOULD BE REWRITTEN
 
 import Cocoa
 import Foundation
@@ -37,17 +33,6 @@ public class popPrompt {
         myPopup.addButton(withTitle: "Use Comma")
         myPopup.addButton(withTitle: "Use Semi-Colon")
         return myPopup.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn
-    }
-    
-    // Generate a specific prompt to ask for concurrent runs
-    public func selectConcurrent (question: String, text: String) -> Bool {
-        let myPopup: NSAlert = NSAlert()
-        myPopup.messageText = question
-        myPopup.informativeText = text
-        myPopup.alertStyle = NSAlert.Style.warning
-        myPopup.addButton(withTitle: "2 at a time")
-        myPopup.addButton(withTitle: "1 at a time")
-        return myPopup.runModal() == NSApplication.ModalResponse.alertSecondButtonReturn
     }
     
     // Browse for a CSV File
