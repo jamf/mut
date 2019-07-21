@@ -296,6 +296,14 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     
     @IBAction func submitRequests(_ sender: Any) {
         if ( globalEndpoint.contains("group") || globalEndpoint.contains("prestage") ) {
+            // Check and get a new token if needed, and performing prestage updates
+            if globalEndpoint.contains("prestage") {
+                logMan.infoWrite(logString: "Prestage update detected. Checking token expiry.")
+                let needNewToken = tokenMan.checkExpiry(expiry: globalExpiry)
+                if needNewToken {
+                    _ = popMan.generalWarning(question: "Expired Token", text: "It appears that your token has expired. This can happen if the app sits open for too long.\n\nFor now, please quit and re-launch the app to generate a new token.\n\nAutomatic token renewal coming soon.")
+                }
+            }
             let recordTypeOutlet = popRecordTypeOutlet.titleOfSelectedItem!
             let endpoint = popRecordTypeOutlet.selectedItem!.identifier!.rawValue
             let prestageID = txtPrestageID.stringValue
