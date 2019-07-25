@@ -27,7 +27,7 @@ public class CSVManipulation {
         let pathToOpen = downloadsDirectory!.resolvingSymlinksInPath().standardizedFileURL.absoluteString.replacingOccurrences(of: "file://", with: "") + "MUT Templates/"
         NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: pathToOpen)
     }
-    let userCSV = "Username,Full Name,Email Address,Phone Number,Position,LDAP Server ID,Site (ID or Name)\n"
+    let userCSV = "Current Username,New Username,Full Name,Email Address,Phone Number,Position,LDAP Server ID,Site (ID or Name)\n"
     
     let mobileDeviceCSV = "Mobile Device Serial,Display Name,Asset Tag,Username,Real Name,Email Address,Position,Phone Number,Department,Building,Room,PO Number,Vendor,PO Date,Warranty Expires,Lease Expires,Site (ID or Name),Airplay Password (tvOS Only)\n"
    
