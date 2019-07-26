@@ -23,15 +23,18 @@ public class CSVManipulation {
         exportUserCSV()
         exportComputerCSV()
         exportMobileDeviceCSV()
+        exportGroupCSV()
         //_ = popMan.generalWarning(question: "Good Work!", text: "A new directory has been created in your Downloads directory called 'MUT Templates'.\n\nInside that directory, you will find all of the CSV templates you need in order to use MUT v5, along with a ReadMe file on how to fill the templates out.")
         let pathToOpen = downloadsDirectory!.resolvingSymlinksInPath().standardizedFileURL.absoluteString.replacingOccurrences(of: "file://", with: "") + "MUT Templates/"
         NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: pathToOpen)
     }
-    let userCSV = "Username,Full Name,Email Address,Phone Number,Position,LDAP Server ID,Site (ID or Name)\n"
+    let userCSV = "Current Username,New Username,Full Name,Email Address,Phone Number,Position,LDAP Server ID,Site (ID or Name)\n"
     
     let mobileDeviceCSV = "Mobile Device Serial,Display Name,Asset Tag,Username,Real Name,Email Address,Position,Phone Number,Department,Building,Room,PO Number,Vendor,PO Date,Warranty Expires,Lease Expires,Site (ID or Name),Airplay Password (tvOS Only)\n"
    
     let computerCSV = "Computer Serial,Display Name,Asset Tag,Barcode 1,Barcode 2,Username,Real Name,Email Address,Position,Phone Number,Department,Building,Room,PO Number,Vendor,PO Date,Warranty Expires,Lease Expires,Site (ID or Name)\n"
+    
+    let groupCSV = "Serial Numbers or Usernames\n"
     
     let CSVReadme = "Read this to learn how to use the MUT with Templates!"
     //sort out PO info ordering in CSV. Note Added to Trello
@@ -122,6 +125,24 @@ public class CSVManipulation {
             catch {
                 //NSLog("[ERROR ]: An error occured while creating the Computer Template. \(error).")
                 logMan.errorWrite(logString: "An error occured while creating the Computer Template. \(error).")
+            }
+        }
+    }
+    
+    func exportGroupCSV() {
+        let groupURL = downloadsURL?.appendingPathComponent("GroupsAndPrestagesTemplate.csv")
+        if fileManager.fileExists(atPath: groupURL!.path) {
+            //NSLog("[INFO  ]: Computer Template already exists. Skipping creation.")
+            logMan.infoWrite(logString: "Group/Prestage Template already exists. Skipping creation.")
+        } else {
+            //NSLog("[INFO  ]: Computer Template does not exist. Creating.")
+            logMan.infoWrite(logString: "Group/Prestage Template does not exist. Creating.")
+            do {
+                try groupCSV.write(to: groupURL!, atomically: false, encoding: .utf8)
+            }
+            catch {
+                //NSLog("[ERROR ]: An error occured while creating the Computer Template. \(error).")
+                logMan.errorWrite(logString: "An error occured while creating the Group/Prestage Template. \(error).")
             }
         }
     }
