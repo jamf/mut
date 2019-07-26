@@ -157,7 +157,7 @@ public class dataPreparation {
         return dictID
     }
     
-    
+    //Comment
     //Builds a dictionary of all attributes being modified, pairing key-values for every attribute.
     //used for tableMain
     public func buildDict(rowToRead: Int, ofArray: [[String]]) -> [[String : String]] {
@@ -186,6 +186,8 @@ public class dataPreparation {
             var builderTwo: [String : String] = [:]
             if currentEntry[column] == "" {
                 builderTwo = ["tableAttribute" : headerRow[column], "tableValue" : "(unchanged)"]
+            } else if currentEntry[column] == "CLEAR!" {
+                builderTwo = ["tableAttribute" : headerRow[column], "tableValue" : "WILL BE CLEARED"]
             } else {
                 builderTwo = ["tableAttribute" : headerRow[column], "tableValue" : currentEntry[column]]
             }

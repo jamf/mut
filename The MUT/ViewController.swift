@@ -765,11 +765,14 @@ extension ViewController: NSTableViewDataSource {
         if (tableColumn?.identifier)!.rawValue == "tableAttribute" {
             cell.textField?.stringValue = attributeRow["tableAttribute"] ?? "NO VALUE"
         } else if (tableColumn?.identifier)!.rawValue == "tableValue" {
+            
+            //If the value is unchanged, set text to systemBlue
+            //IF value is CLEAR!, set text to systemRed
             cell.textField?.stringValue = attributeRow["tableValue"] ?? "NO VALUE"
             if attributeRow["tableValue"] == "(unchanged)" {
                 cell.textField?.textColor = NSColor.systemBlue
             }
-            else if attributeRow["tableValue"] == "CLEAR!" {
+            else if attributeRow["tableValue"] == "WILL BE CLEARED" {
                 cell.textField?.textColor = NSColor.systemRed
                 //cell.textField?.font = NSFont.boldSystemFont(ofSize: 13.0)
             }
