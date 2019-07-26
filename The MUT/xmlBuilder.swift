@@ -388,6 +388,10 @@ public class xmlManager {
         // GENERAL ATTRIBUTES
         // ----------------------
         
+        // Device Name
+        let deviceNameElement = XMLElement(name: "name", stringValue: displayName)
+        populateElement(variableToCheck: displayName, elementName: "name", elementToAdd: deviceNameElement, whereToAdd: general)
+        
         // Asset Tag
         let assetTagElement = XMLElement(name: "asset_tag", stringValue: assetTag)
         populateElement(variableToCheck: assetTag, elementName: "asset_tag", elementToAdd: assetTagElement, whereToAdd: general)
@@ -514,7 +518,7 @@ public class xmlManager {
         
         
         // Print the XML
-        //print(xml.debugDescription) // Uncomment for debugging
+        print(xml.debugDescription) // Uncomment for debugging
         return xml.xmlData
     }
 
