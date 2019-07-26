@@ -85,7 +85,7 @@ When "Download CSV Templates" is selected, the MUT will place a folder inside of
 2a) Updating a Single Attribute
 
 
-If a CSV If a CSV template contains empty fields, those fields are ignored by The MUT. If we want to use a CSV to update one attribute, we can simply leave the other columns blank. The MUT will skip over those columns when submitting the changes to Jamf Pro.
+If a CSV template contains empty fields, those fields are ignored by The MUT. To update just one attribute, leave the other columns blank. The MUT will skip over those columns when submitting the changes to Jamf Pro.
 
 When previewing this data after uploading, the MUT will display "(unchanged)" in blue text for all values that will be skipped when submitting.
 
@@ -168,6 +168,7 @@ This can be done by visiting the Prestage or Static Group in a web browser, and 
 Prestage: If the URL is https://yourJSS.jamfcloud.com/mobileDevicePrestage.html?id=3&o=r
 then the ID = 3.
 In the Prestage ID field we would enter: 3
+
 Static Group: If the URL is https://yourJSS.jamfcloud.com/staticMobileDeviceGroups.html?id=4&o=r
 Then the ID = 4.
 In the Static Group ID field we would enter: 4
