@@ -541,6 +541,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                 _ = popMan.generalWarning(question: "Empty CSV Found", text: "It seems the CSV file you uploaded is malformed, or does not contain any data.\n\nPlease try a different CSV.")
             } else if csvArray.count == 1 {
                 // If there is only 1 row in the CSV (header only)
+                drawTables()
                 _ = popMan.generalWarning(question: "No Data Found", text: "It seems the CSV file you uploaded does not contain any data outside of the header row.\n\nPlease select a CSV with updates for MUT to process.")
             } else {
                 // If there is more than 1 column in the CSV
@@ -622,15 +623,19 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
             if globalEndpoint == "Endpoint_Error" {
                 _ = popMan.generalWarning(question: "CSV Error", text: "MUT is not able to read your CSV very well. Please try a different CSV.")
             } else if globalEndpoint == "scope" {
-                tabViewOutlet.selectTabViewItem(at: 2)
-                preferredContentSize = NSSize(width: 550, height: 550)
-                lblStatus.isHidden = false
-                lblStatus.stringValue = "Populate the dropdowns above, and then run your preflight check."
+                if csvArray.count > 1 {
+                    tabViewOutlet.selectTabViewItem(at: 2)
+                    preferredContentSize = NSSize(width: 550, height: 550)
+                    lblStatus.isHidden = false
+                    lblStatus.stringValue = "Populate the dropdowns above, and then run your preflight check."
+                }
             } else {
-                tabViewOutlet.selectTabViewItem(at: 1)
-                preferredContentSize = NSSize(width: 550, height: 550)
-                lblStatus.isHidden = false
-                lblStatus.stringValue = "Review the changes shown above. If everything looks good, hit submit."
+                if csvArray.count > 1 {
+                    tabViewOutlet.selectTabViewItem(at: 1)
+                    preferredContentSize = NSSize(width: 550, height: 550)
+                    lblStatus.isHidden = false
+                    lblStatus.stringValue = "Review the changes shown above. If everything looks good, hit submit."
+                }
             }
             
         } else {
