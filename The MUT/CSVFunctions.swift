@@ -177,7 +177,7 @@ The Object view is displayed when any of the following CSV templates are selecte
     }
 
     func exportCSVReadme() {
-        let readmeURL = downloadsURL?.appendingPathComponent("CSVReadme.txt")
+        let readmeURL = downloadsURL?.appendingPathComponent("ReadMe.txt")
         if fileManager.fileExists(atPath: readmeURL!.path) {
             //NSLog("[INFO  ]: Readme file already exists. Skipping creation.")
             logMan.infoWrite(logString: "ReadMe file already exists. Skipping creation.")
