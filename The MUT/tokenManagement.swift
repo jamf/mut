@@ -88,7 +88,7 @@ public class tokenManagement: NSObject, URLSessionDelegate {
         // print(currentEpoch) // Uncomment for debugging
         // Find the difference between expiry time and current epoch
         let secondsToExpire = (expiry - currentEpoch)/1000
-        print("Expires in \(secondsToExpire) seconds") // Uncomment for debugging
+        //print("Expires in \(secondsToExpire) seconds") // Uncomment for debugging
         if secondsToExpire <= 30 {
             logMan.infoWrite(logString: "Token only has \(secondsToExpire) seconds left to live. Suggest getting a new token.")
             return true
