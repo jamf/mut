@@ -106,7 +106,11 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
         globalToken = token
         globalURL = url
         globalBase64 = base64Credentials
-        preferredContentSize = NSSize(width: 550, height: 490)
+        if txtCSV.stringValue == "" {
+            preferredContentSize = NSSize(width: 550, height: 490)
+        } else {
+            preferredContentSize = NSSize(width: 550, height: 550)
+        }
     }
     
     override func viewDidLoad() {
@@ -296,12 +300,14 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     
     @IBAction func submitRequests(_ sender: Any) {
         if ( globalEndpoint.contains("group") || globalEndpoint.contains("prestage") ) {
+            let needNewToken = tokenMan.checkExpiry(expiry: globalExpiry)
             // Check and get a new token if needed, and performing prestage updates
             if globalEndpoint.contains("prestage") {
-                logMan.infoWrite(logString: "Prestage update detected. Checking token expiry.")
-                let needNewToken = tokenMan.checkExpiry(expiry: globalExpiry)
                 if needNewToken {
-                    _ = popMan.generalWarning(question: "Expired Token", text: "It appears that your token has expired. This can happen if the app sits open for too long.\n\nFor now, please quit and re-launch the app to generate a new token.\n\nAutomatic token renewal coming soon.")
+                    _ = popMan.generalWarning(question: "Expired Token", text: "It appears that your token has expired. This can happen if the app sits open for too long.\n\nYou will now be taken back to the login window. Please log in again to generate a new token.")
+                    //lblStatus.stringValue = ""
+                    //tabViewOutlet.selectTabViewItem(at: 0)
+                    performSegue(withIdentifier: "segueLogin", sender: self)
                 }
             }
             let recordTypeOutlet = popRecordTypeOutlet.titleOfSelectedItem!
@@ -343,10 +349,12 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
             default:
                 objectType = "computers"
             }
-
-            DispatchQueue.global(qos: .background).async {
-                self.submitScopeUpdates(recordTypeOutlet: recordTypeOutlet, endpoint: endpoint, prestageID: prestageID, httpMethod: httpMethod, objectType: objectType, appendReplaceRemove: appendReplaceRemove)
+            if !needNewToken {
+                DispatchQueue.global(qos: .background).async {
+                    self.submitScopeUpdates(recordTypeOutlet: recordTypeOutlet, endpoint: endpoint, prestageID: prestageID, httpMethod: httpMethod, objectType: objectType, appendReplaceRemove: appendReplaceRemove)
+                }
             }
+
         } else {
             DispatchQueue.global(qos: .background).async {
                 self.submitAttributeUpdates()
