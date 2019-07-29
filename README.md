@@ -131,22 +131,74 @@ And MUT will display a screen such as the following when you run your pre-flight
 ![Clear attributes from computers](https://i.imgur.com/Kgw5jEY.png)
 
 ##### [Static Group Updates](#groups)
+MUT v5 is able to update the contents of a Static Group (computers, mobile devices, or users). It is able to either add objects to a group, remove objects from a group, or replace the entire current contents of that group. 
+
+In order to do this, your CSV file should contain nothing but a single column of identifiers for the objects to be added, removed, or replaced in the scope of that group. This identifier can be either Serial Number or ID for computers and mobile devices, or Username or ID for users.
+
+Your CSV file should look like this:
+
+| Serial Numbers or Usernames |
+| --- |
+| C1111111 |
+| C2222222 | 
+| C3333333 | 
+| C4444444 | 
+| C5555555 |
+
+When you upload this CSV to MUT, you will be taken to a slightly different screen which contains dropdowns. These dropdowns are how you will select what action to take place. It also contains a box, where you must put the ID of the static group to be modified. This ID can be found in the URL while viewing the group to be modified.
+
+For example, the Group ID for the following group is "3".
+
+![Group ID](https://i.imgur.com/5iAawXe.png)
+
+To add the devices in question to Computer Static Group 3, your MUT GUI would look like this:
+
+![Group 3 Update](https://i.imgur.com/STg89Yu.png)
 
 ##### [Prestage Scope Updates](#prestages)
+One of the new features of MUT v5 is the ability to modify the scope of prestages. This feature REQUIRES Jamf Pro v10.14+ in order to function properly.
+
+In order to do this, your CSV file should contain nothing but a single column of identifiers for the objects to be added, removed, or replaced in the scope of that prestage. This identifier can be either Serial Number or ID for computers and mobile devices.
+
+Your CSV file should look like this:
+
+| Serial Numbers or Usernames |
+| --- |
+| C1111111 |
+| C2222222 | 
+| C3333333 | 
+| C4444444 | 
+| C5555555 |
+
+When you upload this CSV to MUT, you will be taken to a slightly different screen which contains dropdowns. These dropdowns are how you will select what action to take place. It also contains a box, where you must put the ID of the prestage to be modified. This ID can be found in the URL while viewing the prestage to be modified.
+
+For example, the Prestage ID for the following group is "1".
+
+![Prestage ID](https://i.imgur.com/B87eWPT.png)
+
+To add the devices in question to Prestage 1, your MUT GUI would look like this:
+
+![Prestage 1 Update](https://i.imgur.com/4pXMvrc.png)
 
 ### [Preflight and Preview](#preflight)
+Veterans of MUT are likely used to needing to run a PreFlight Check prior to every update, and then reviewing the information prior to submitting.
 
-1.  Select the Device Type, Unique Identifier, and Attribute from the dropdowns
-2.  If you're updating an Extension Attribute, enter the Extension Attribute ID number in the box (you can find the EA ID in the URL while viewing the EA in Jamf)
-3.  Browse for your CSV File
-4.  Hit the "Pre-Flight Check" button
-5.  Review the information in the display paying particularly close attention to whether or not The MUT sees the correct number of lines in your CSV, and that your device type/attribute are correct. Once you make a run and the attributes get updated, there is no "undo" button
+PreFlight Checks in v5 for Object Attribute updates now happen as soon as you upload your CSV. If there is an issue with your CSV file, you will be alerted as soon as you attempt to upload it. MUT should also not let you run any updates if your CSV contains errors.
+
+Preflight Checks in v5 for group and prestage scope updates will happen partly when you upload the CSV, but you must run a separate PreFlight Check once you have populated the dropdowns and identifier boxes. The Submit Updates button will not appear until you have populated those fields, and then run the PreFlight Check.
 
 ### [Send your updates](#send-your-updates)
+Once you are confident in the updates to be submitted to your Jamf Pro server, you can hit the "Submit Updates" button.
 
-1.  Hit the "Submit" button to send the updates to Jamf
-2.  Messages will be displayed in either green or red, depending on the success of the run
-3.  In case of a failure, the HTTP code of the failure will display. The MUT may also try to provide some advice on why you received that error
+Updates to groups and prestages now happen all in one upload. There is no longer an API call per device being added or removed, so the strain on your server should be significantly less.
+
+Updates to Object Attributes will need to be run individually, and a progress bar should appear as soon as you hit Submit, which will give you insight into the updates being run.
+
+Very little status/result information is displayed in the main GUI of MUT v5. You will now find a MUT.log in ~/Downloads/MUT Templates/MUT.log. This new log file contains much more verbose information about the status of your updates, and should help with troubleshooting significantly.
+
+The log file looks a bit like this:
+
+![MUT.log](https://i.imgur.com/nJruxUe.png)
 
 ## [Top Tips](#top-tips)
 
