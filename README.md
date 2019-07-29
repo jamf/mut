@@ -56,15 +56,15 @@ Upon pressing the button, MUT will create a directory called "MUT Templates" ins
 ##### [Object Updates](#objects)
 In order to update information for an object (such as a computer or mobile device) in Jamf Pro, you will need to use the associated CSV template that MUT placed in ~/Downloads/MUT Templates/. For example, to update Computer objects, you will need to use the "ComputerTemplate.csv".
 
-MUT performs verification checks against the header row of this CSV file, and it is very important that you do not modify the header row (such as deleting columns, or re-arranging the columns) prior to uploading your CSV file. If you do, MUT will reject the file.
+MUT performs verification checks against the header row of this CSV file, and it is very important that you do not modify the header row (such as deleting columns, or rearranging the columns) prior to uploading your CSV file. If you do, MUT will reject the file.
 ###### [Single Attribute Updates](#single-attribute)
-One of the most common uses for MUT is to update single attributes, such as updating the username assigned to a set of devices, or populating the Asset Tag or Barcode for a device. 
+One of the most common uses for MUT is to update single attributes, such as updating the username assigned to a set of devices, or populating the Asset Tag or Barcode for a device.
 
-The most important thing to remember is that any cell left completely blank in your CSV will be ignored. Please note that a space is not the same as completely blank. There is a big difference between "" and " ". 
+The most important thing to remember is that any cell left completely blank in your CSV will be ignored. Please note that a space is not the same as completely blank. There is a big difference between "" and " ".
 
 If a field is going to be ignored in MUT, your preflight check will show the phrase "(unchanged)" in blue for that field.
 
-If you wanted to update the Username on a set of devices, the CSV file would look like this (with more columns after the elipses.):
+If you wanted to update the Username on a set of devices, the CSV file would look like this (with more columns after the ellipsis.):
 
 | Computer Serial | Display Name | Asset Tag | Barcode 1 | Barcode 2 | Username      | Real Name | ... |
 | --------------- | ------------ | --------- | --------- | --------- | ------------- | --------- | --- |
@@ -77,11 +77,11 @@ And MUT will display a screen such as the following when you run your pre-flight
 
 
 ###### [Multiple Attribute Updates](#multiple-attributes)
-Perhaps the MOST requested feature for MUT has been the ability to update multiple attributes at once. This feature is now available in MUT v5. 
+Perhaps the MOST requested feature for MUT has been the ability to update multiple attributes at once. This feature is now available in MUT v5.
 
-To update multiple attributes for an object at once, simply populate all of those fields in the CSV file. When you run your pre-flight check, you will be presented with all of the information that will be updating (and any blank fields will still display as "(unchanged)").  
+To update multiple attributes for an object at once, simply populate all of those fields in the CSV file. When you run your pre-flight check, you will be presented with all of the information that will be updating (and any blank fields will still display as "(unchanged)"). 
 
-If you wanted to update the Asset Tag, Barcodes, Username, as well as Real Name on a set of devices, the CSV file would look like this (with more columns after the elipses.):
+If you wanted to update the Asset Tag, Barcodes, Username, as well as Real Name on a set of devices, the CSV file would look like this (with more columns after the ellipsis.):
 
 | Computer Serial | Display Name | Asset Tag | Barcode 1  | Barcode 2  | Username      | Real Name     | ... |
 | --------------- | ------------ | --------- | ---------- | ---------- | ------------- | ------------- | --- |
@@ -93,9 +93,9 @@ And MUT will display a screen such as the following when you run your pre-flight
 ![Multiple attribute update](https://i.imgur.com/5eZcX0C.png)
 
 ###### [Updating Extension Attributes](#extension-attributes)
-MUT is also able to update Extension Attributes for a device or a user. In order to do this, you must first identify the Extension Attribute ID number. You can find this number in the URL while you are viewing an extension atribute in Jamf Pro's GUI under Settings (gear icon) > Computer Management > Extension Attributes > Click on the EA you want to update to bring it up.
+MUT is also able to update Extension Attributes for a device or a user. In order to do this, you must first identify the Extension Attribute ID number. You can find this number in the URL while you are viewing an extension attribute in Jamf Pro's GUI under Settings (gear icon) > Computer Management > Extension Attributes > Click on the EA you want to update to bring it up.
 
-For example, the EA ID of the displayed Extension Attribute here is "2". 
+For example, the EA ID of the displayed Extension Attribute here is "2".
 
 ![Extension Attribute ID 2](https://i.imgur.com/iO0Pyjs.png)
 
@@ -115,11 +115,11 @@ And MUT will display a screen such as the following when you run your pre-flight
 ![Extension Attribute Updates](https://i.imgur.com/o3oz0AH.png)
 
 ###### [Clearing Existing Attribute Values](#clearing-attributes)
-Another common workflow with MUT is to clear out existing attributes. This happens for example in situations where a group of devices are being re-distributed to new users, or retired, and need the username and related information cleared off of them.
+Another common workflow with MUT is to clear out existing attributes. This happens for example in situations where a group of devices are being redistributed to new users, or retired, and need the username and related information cleared off of them.
 
-Because MUT ignores blank fields in your CSV now, a specific string must be used to tell MUT to clear values. This string is currently "CLEAR!" (with exclaimation point, without quotes.) In the Preflight GUI, MUT will display the string "WILL BE CLEARED" in all red, to let you know that the field is being cleared.
+Because MUT ignores blank fields in your CSV now, a specific string must be used to tell MUT to clear values. This string is currently "CLEAR!" (with exclamation point, without quotes.) In the Preflight GUI, MUT will display the string "WILL BE CLEARED" in all red, to let you know that the field is being cleared.
 
-If you wanted to clear user information from a device, your CSV would look something like this (with more columns after the elipses.):
+If you wanted to clear user information from a device, your CSV would look something like this (with more columns after the ellipsis.):
 
 | Computer Serial | Display Name | Asset Tag | Barcode 1  | Barcode 2  | Username | Real Name | ... |
 | --------------- | ------------ | --------- | ---------- | ---------- | -------- | --------- | --- |
@@ -131,7 +131,7 @@ And MUT will display a screen such as the following when you run your pre-flight
 ![Clear attributes from computers](https://i.imgur.com/Kgw5jEY.png)
 
 ##### [Static Group Updates](#groups)
-MUT v5 is able to update the contents of a Static Group (computers, mobile devices, or users). It is able to either add objects to a group, remove objects from a group, or replace the entire current contents of that group. 
+MUT v5 is able to update the contents of a Static Group (computers, mobile devices, or users). It is able to either add objects to a group, remove objects from a group, or replace the entire current contents of that group.
 
 In order to do this, your CSV file should contain nothing but a single column of identifiers for the objects to be added, removed, or replaced in the scope of that group. This identifier can be either Serial Number or ID for computers and mobile devices, or Username or ID for users.
 
@@ -140,9 +140,9 @@ Your CSV file should look like this:
 | Serial Numbers or Usernames |
 | --- |
 | C1111111 |
-| C2222222 | 
-| C3333333 | 
-| C4444444 | 
+| C2222222 |
+| C3333333 |
+| C4444444 |
 | C5555555 |
 
 When you upload this CSV to MUT, you will be taken to a slightly different screen which contains dropdowns. These dropdowns are how you will select what action to take place. It also contains a box, where you must put the ID of the static group to be modified. This ID can be found in the URL while viewing the group to be modified.
@@ -165,9 +165,9 @@ Your CSV file should look like this:
 | Serial Numbers or Usernames |
 | --- |
 | C1111111 |
-| C2222222 | 
-| C3333333 | 
-| C4444444 | 
+| C2222222 |
+| C3333333 |
+| C4444444 |
 | C5555555 |
 
 When you upload this CSV to MUT, you will be taken to a slightly different screen which contains dropdowns. These dropdowns are how you will select what action to take place. It also contains a box, where you must put the ID of the prestage to be modified. This ID can be found in the URL while viewing the prestage to be modified.
@@ -202,5 +202,5 @@ The log file looks a bit like this:
 
 ## [Top Tips](#top-tips)
 
-*   There is an option in the top Menu Bar under "Settings" to change the character which separates items on your CSV file to either a comma (,) or a semi-colon (;). This is especially useful for international folks who delimit their CSV files by semi-colon by default, or for folks who wish to include commas in their attribute values.
+*   There is an option in the top Menu Bar under "Settings" to change the character which separates items on your CSV file to either a comma (,) or a semicolon (;). This is especially useful for international folks who delimit their CSV files by semicolon by default, or for folks who wish to include commas in their attribute values.
 *   There is an option in the top Menu Bar under "Settings" to clear any stored values that you may have by default, including Delimiter, Username, and your server URL.
