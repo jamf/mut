@@ -72,6 +72,7 @@ If you wanted to update the Username on a set of devices, the CSV file would loo
 | C2222222        |              |           |           |           | ben.whitis    |           |     |
 
 And MUT will display a screen such as the following when you run your pre-flight check:
+
 ![Single attribute update](https://i.imgur.com/57LgeXD.png)
 
 
@@ -88,12 +89,14 @@ If you wanted to update the Asset Tag, Barcodes, Username, as well as Real Name 
 | C2222222        |              | MUT-222   | 1234567890 | 1234567890 | ben.whitis    | Ben Whitis    |     |
 
 And MUT will display a screen such as the following when you run your pre-flight check:
+
 ![Multiple attribute update](https://i.imgur.com/5eZcX0C.png)
 
 ###### [Updating Extension Attributes](#extension-attributes)
 MUT is also able to update Extension Attributes for a device or a user. In order to do this, you must first identify the Extension Attribute ID number. You can find this number in the URL while you are viewing an extension atribute in Jamf Pro's GUI under Settings (gear icon) > Computer Management > Extension Attributes > Click on the EA you want to update to bring it up.
 
 For example, the EA ID of the displayed Extension Attribute here is "2". 
+
 ![Extension Attribute ID 2](https://i.imgur.com/iO0Pyjs.png)
 
 To update an Extension Attribute, simply add your own header for a new column **AFTER** all of the existing columns of your template, and put the string "EA_#" in the header, where # is the ID of the EA you would like to update.
@@ -107,7 +110,8 @@ Your CSV would look something like this (Some columns have been removed simply t
 | C1111111        |              | MUT-111   | 0123456789 |     |     |                   | New Value |
 | C2222222        |              | MUT-222   | 1234567890 |     |     |                   | New Value |
 
-And MUT will display a screen such as the following when you run your pre-flight check (note the new field added at teh bottom with EA_5):
+And MUT will display a screen such as the following when you run your pre-flight check (note the new field added at the bottom with EA_5):
+
 ![Extension Attribute Updates](https://i.imgur.com/o3oz0AH.png)
 
 ###### [Clearing Existing Attribute Values](#clearing-attributes)
@@ -123,6 +127,7 @@ If you wanted to clear user information from a device, your CSV would look somet
 | C2222222        |              | MUT-222   | 1234567890 | 1234567890 | CLEAR!   | CLEAR!    |     |
 
 And MUT will display a screen such as the following when you run your pre-flight check:
+
 ![Clear attributes from computers](https://i.imgur.com/Kgw5jEY.png)
 
 ##### [Static Group Updates](#groups)
