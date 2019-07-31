@@ -171,5 +171,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return .terminateNow
     }
 
+    @IBAction func btnOpenReadMe(_ sender: NSMenuItem) {
+        if let pdfURL = Bundle.main.url(forResource:"README", withExtension: "pdf"){
+            print(pdfURL.absoluteString)
+            if NSWorkspace.shared.open(pdfURL) {
+                print("pdf successfully opened")
+            }
+        }
+        
+    }
 }
 
