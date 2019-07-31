@@ -24,6 +24,7 @@ public class CSVManipulation {
         exportComputerCSV()
         exportMobileDeviceCSV()
         exportGroupCSV()
+        copyReadme()
         //_ = popMan.generalWarning(question: "Good Work!", text: "A new directory has been created in your Downloads directory called 'MUT Templates'.\n\nInside that directory, you will find all of the CSV templates you need in order to use MUT v5, along with a ReadMe file on how to fill the templates out.")
         let pathToOpen = downloadsDirectory!.resolvingSymlinksInPath().standardizedFileURL.absoluteString.replacingOccurrences(of: "file://", with: "") + "MUT Templates/"
         NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: pathToOpen)
@@ -192,7 +193,6 @@ The Object view is displayed when any of the following CSV templates are selecte
                 logMan.errorWrite(logString: "An error occured while creating the Readme. \(error).")
             }
         }
-
     }
     
     func exportUserCSV() {
@@ -266,6 +266,21 @@ The Object view is displayed when any of the following CSV templates are selecte
             }
         }
     }
+    
+    func copyReadme() {
+        let readmeURL = (downloadsURL?.appendingPathComponent("README.pdf"))!
+        guard let sourceURL = Bundle.main.url(forResource: "README", withExtension: "pdf")
+            else {
+                logMan.errorWrite(logString: "Error with getting the URL of the README file.")
+                return
+            }
+        let fileManager = FileManager.default
+        do {
+            try fileManager.copyItem(at: sourceURL, to: readmeURL)
+        } catch {
+            logMan.errorWrite(logString: "Error copying the readme file to the templates directory.")
+        }
+    }
 
     func readCSV(pathToCSV: String, delimiter: UnicodeScalar) -> [[String]]{
         let stream = InputStream(fileAtPath: pathToCSV)!
@@ -280,6 +295,8 @@ The Object view is displayed when any of the following CSV templates are selecte
         }
         return csvArray
     }
+    
+
 }
 
     

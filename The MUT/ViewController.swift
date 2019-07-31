@@ -380,7 +380,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                 for row in 1...(csvArray.count - 1) {
                     // Get the current row of the CSV for updating
                     let currentRow = csvArray[row]
-                    serialArray.append(currentRow[0])
+                    serialArray.append(currentRow[0].trimmingCharacters(in: CharacterSet.whitespaces))
                 }
                 jsonToSubmit = jsonMan.buildJson(versionLock: versionLock, serialNumbers: serialArray)
                 // Submit the JSON to the Jamf Pro API
@@ -671,6 +671,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
 
     func notReadyToRun() {
         btnSubmitOutlet.isHidden = true
+        lblStatus.stringValue = "Populate the dropdowns above, and then run your preflight check."
     }
 
     func guiAttributeRun() {

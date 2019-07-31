@@ -609,9 +609,9 @@ public class xmlManager {
                 let computerElement = XMLElement(name: "computer")
                 let identifier = identifiers[i]
                 if identifier.isInt {
-                    computerElement.addChild(XMLElement(name: "id", stringValue: identifier))
+                    computerElement.addChild(XMLElement(name: "id", stringValue: identifier.trimmingCharacters(in: CharacterSet.whitespaces)))
                 } else {
-                    computerElement.addChild(XMLElement(name: "serial_number", stringValue: identifier))
+                    computerElement.addChild(XMLElement(name: "serial_number", stringValue: identifier.trimmingCharacters(in: CharacterSet.whitespaces)))
                 }
                 computersElement.addChild(computerElement)
             }
@@ -642,9 +642,9 @@ public class xmlManager {
                 let deviceElement = XMLElement(name: "mobile_device")
                 let identifier = identifiers[i]
                 if identifier.isInt {
-                    deviceElement.addChild(XMLElement(name: "id", stringValue: identifier))
+                    deviceElement.addChild(XMLElement(name: "id", stringValue: identifier.trimmingCharacters(in: CharacterSet.whitespaces)))
                 } else {
-                    deviceElement.addChild(XMLElement(name: "serial_number", stringValue: identifier))
+                    deviceElement.addChild(XMLElement(name: "serial_number", stringValue: identifier.trimmingCharacters(in: CharacterSet.whitespaces)))
                 }
                 devicesElement.addChild(deviceElement)
             }
@@ -675,9 +675,9 @@ public class xmlManager {
                 let userElement = XMLElement(name: "user")
                 let identifier = identifiers[i]
                 if identifier.isInt {
-                    userElement.addChild(XMLElement(name: "id", stringValue: identifier))
+                    userElement.addChild(XMLElement(name: "id", stringValue: identifier.trimmingCharacters(in: CharacterSet.whitespaces)))
                 } else {
-                    userElement.addChild(XMLElement(name: "username", stringValue: identifier))
+                    userElement.addChild(XMLElement(name: "username", stringValue: identifier.trimmingCharacters(in: CharacterSet.whitespaces)))
                 }
                 usersElement.addChild(userElement)
             }
