@@ -195,6 +195,8 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                 } else if tabToGoTo == "scope" {
                     self.scopePreFlightChecks()
 
+                } else {
+                    self.initialPreFlightChecks()
                 }
             }
         }
@@ -604,6 +606,24 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                         _ = popMan.generalWarning(question: "Header Row Error", text: "It appears that the header row for your CSV does not match one of the provided templates.\n\nMUT requires that the template be kept exactly as-is, with the exception of adding Extension Attributes.\n\nPlease re-download the templates if you need to, add the data you would like to submit, and try again.")
                     }
                 }
+            }
+        } else {
+            _ = popMan.generalWarning(question: "No CSV Found", text: "Please use the Browse button to find a CSV file on your system with updates that you would like MUT to process.")
+        }
+    }
+    
+    func initialPreFlightChecks() {
+        // If the user has actually selected a CSV template, then move on
+        if txtCSV.stringValue != "" {
+            //get the CSV from the "Browse" button and parse it into an array
+            csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path!, delimiter: globalDelimiter!)
+            
+            if csvArray.count == 0 {
+                // If there are no rows in the CSV
+                _ = popMan.generalWarning(question: "Empty CSV Found", text: "It seems the CSV file you uploaded is malformed, or does not contain any data.\n\nPlease try a different CSV.")
+            } else if csvArray.count == 1 {
+                // If there is only 1 row in the CSV (header only)
+                _ = popMan.generalWarning(question: "No Data Found", text: "It seems the CSV file you uploaded does not contain any data outside of the header row.\n\nPlease select a CSV with updates for MUT to process.")
             }
         } else {
             _ = popMan.generalWarning(question: "No CSV Found", text: "Please use the Browse button to find a CSV file on your system with updates that you would like MUT to process.")
