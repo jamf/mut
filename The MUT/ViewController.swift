@@ -475,7 +475,11 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                 if globalEndpoint! == "users" {
                     // Generate the XML to submit
                     if currentRow[0].isInt {
-                        identifierType = "id"
+                        if mainViewDefaults.value(forKey: "UserInts") != nil {
+                            identifierType = "name"
+                        } else {
+                            identifierType = "id"
+                        }
                     } else {
                         identifierType = "name"
                     }

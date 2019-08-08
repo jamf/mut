@@ -20,7 +20,7 @@ public class APIFunctions: NSObject, URLSessionDelegate{
 
         let baseURL = dataPrep.generateURL(baseURL: passedUrl, endpoint: endpoint, identifierType: identifierType, identifier: identifier, jpapi: false, jpapiVersion: "")
 
-        let encodedURL = NSURL(string: "\(baseURL)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "https://null")! as URL
+        let encodedURL = NSURL(string: "\(baseURL)")! as URL
         logMan.infoWrite(logString: "Submitting a PUT to \(encodedURL.absoluteString)")
         allowUntrustedFlag = allowUntrusted
         let myOpQueue = OperationQueue()
