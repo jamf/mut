@@ -84,6 +84,12 @@
                                                 <action selector="btnClearStored:" target="Ady-hI-5gd" id="fEz-1P-TL9"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="My Usernames are Ints" id="qcH-JU-i0E">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="btnUsernameInt:" target="Voe-Tx-rLC" id="D53-SN-Fah"/>
+                                            </connections>
+                                        </menuItem>
                                     </items>
                                 </menu>
                             </menuItem>
@@ -148,7 +154,7 @@
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController storyboardIdentifier="MainStoryBoard" id="B8D-0N-5wS" sceneMemberID="viewController">
-                    <window key="window" identifier="MainWindow" title="The MUT v5.0.3" autorecalculatesKeyViewLoop="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
+                    <window key="window" identifier="MainWindow" title="The MUT v5.0.4" autorecalculatesKeyViewLoop="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
                         <windowCollectionBehavior key="collectionBehavior" fullScreenNone="YES"/>
                         <rect key="contentRect" x="100" y="100" width="568" height="667"/>

@@ -13,6 +13,7 @@ public class xmlManager {
     // Globally declaring the xml variable to allow the various functions to populate it
     var xml: XMLDocument?
     let removalValue = "CLEAR!"
+    let xmlDefaults = UserDefaults.standard
 
 
     public func userObject(username: String, full_name: String, email_address: String, phone_number: String, position: String, ldap_server: String, ea_ids: [String], ea_values: [String], site_ident: String) -> Data {
@@ -675,7 +676,11 @@ public class xmlManager {
                 let userElement = XMLElement(name: "user")
                 let identifier = identifiers[i]
                 if identifier.isInt {
-                    userElement.addChild(XMLElement(name: "id", stringValue: identifier.trimmingCharacters(in: CharacterSet.whitespaces)))
+                    if xmlDefaults.value(forKey: "UserInts") != nil {
+                        userElement.addChild(XMLElement(name: "username", stringValue: identifier.trimmingCharacters(in: CharacterSet.whitespaces)))
+                    } else {
+                        userElement.addChild(XMLElement(name: "id", stringValue: identifier.trimmingCharacters(in: CharacterSet.whitespaces)))
+                    }
                 } else {
                     userElement.addChild(XMLElement(name: "username", stringValue: identifier.trimmingCharacters(in: CharacterSet.whitespaces)))
                 }
