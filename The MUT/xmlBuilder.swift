@@ -72,6 +72,10 @@ public class xmlManager {
         // Position
         let positionElement = XMLElement(name: "position", stringValue: position)
         populateElement(variableToCheck: position, elementName: "position", elementToAdd: positionElement, whereToAdd: root)
+        
+        // Managed Apple ID
+        let managedAppleIDElement = XMLElement(name: "managed_apple_id", stringValue: managedAppleID)
+        populateElement(variableToCheck: managedAppleID, elementName: "managed_apple_id", elementToAdd: managedAppleIDElement, whereToAdd: root)
 
         // LDAP Server
         let ldapServerElement = XMLElement(name: "ldap_server")
@@ -128,9 +132,7 @@ public class xmlManager {
                 }
             }
             
-            // Managed Apple ID
-            let managedAppleIDElement = XMLElement(name: "managed_apple_id", stringValue: managedAppleID)
-            populateElement(variableToCheck: managedAppleID, elementName: "managed_apple_id", elementToAdd: managedAppleIDElement, whereToAdd: root)
+            
 
             // Add the EA subset to the root element
             root.addChild(extensionAttributesElement)
