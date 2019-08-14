@@ -134,7 +134,7 @@ public class xmlManager {
 
 
         // Print the XML
-        //print(xml.debugDescription) // Uncomment for debugging
+        print(xml.debugDescription) // Uncomment for debugging
         return xml.xmlData
     }
 
