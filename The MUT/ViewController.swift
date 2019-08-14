@@ -483,7 +483,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                     } else {
                         identifierType = "name"
                     }
-                    xmlToPut = xmlMan.userObject(username: currentRow[1], full_name: currentRow[2], email_address: currentRow[3], phone_number: currentRow[4], position: currentRow[5], ldap_server: currentRow[6], ea_ids: ea_ids, ea_values: ea_values, site_ident: "1")
+                    xmlToPut = xmlMan.userObject(username: currentRow[1], full_name: currentRow[2], email_address: currentRow[3], phone_number: currentRow[4], position: currentRow[5], ldap_server: currentRow[6], ea_ids: ea_ids, ea_values: ea_values, site_ident: currentRow[7])
                 } else if globalEndpoint! == "computers" {
                     if currentRow[0].isInt {
                         identifierType = "id"
