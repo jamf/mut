@@ -74,7 +74,7 @@ public class dataPreparation {
     public func expectedColumns(endpoint: String) -> Int {
         switch endpoint {
         case "users":
-            return 8
+            return 9
         case "computers":
             return 19
         case "mobiledevices":

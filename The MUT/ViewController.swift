@@ -95,7 +95,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     let groupActionArray = ["Add to Static Group","Remove from Static Group","Replace Existing Static Group"]
 
     // Information used to confirm the header row of the CSV files
-    let userCSV = ["Current Username","New Username","Full Name","Email Address","Phone Number","Position","LDAP Server ID","Site (ID or Name)"]
+    let userCSV = ["Current Username","New Username","Full Name","Email Address","Phone Number","Position","LDAP Server ID","Site (ID or Name)","Managed Apple ID (Requires Jamf Pro 10.15+)"]
     
     let mobileDeviceCSV = ["Mobile Device Serial","Display Name","Asset Tag","Username","Real Name","Email Address","Position","Phone Number","Department","Building","Room","PO Number","Vendor","PO Date","Warranty Expires","Lease Expires","Site (ID or Name)"]
 
@@ -483,7 +483,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                     } else {
                         identifierType = "name"
                     }
-                    xmlToPut = xmlMan.userObject(username: currentRow[1], full_name: currentRow[2], email_address: currentRow[3], phone_number: currentRow[4], position: currentRow[5], ldap_server: currentRow[6], ea_ids: ea_ids, ea_values: ea_values, site_ident: currentRow[7])
+                    xmlToPut = xmlMan.userObject(username: currentRow[1], full_name: currentRow[2], email_address: currentRow[3], phone_number: currentRow[4], position: currentRow[5], ldap_server: currentRow[6], ea_ids: ea_ids, ea_values: ea_values, site_ident: currentRow[7], managedAppleID: currentRow[8])
                 } else if globalEndpoint! == "computers" {
                     if currentRow[0].isInt {
                         identifierType = "id"

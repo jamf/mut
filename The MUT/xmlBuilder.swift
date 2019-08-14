@@ -16,7 +16,7 @@ public class xmlManager {
     let xmlDefaults = UserDefaults.standard
 
 
-    public func userObject(username: String, full_name: String, email_address: String, phone_number: String, position: String, ldap_server: String, ea_ids: [String], ea_values: [String], site_ident: String) -> Data {
+    public func userObject(username: String, full_name: String, email_address: String, phone_number: String, position: String, ldap_server: String, ea_ids: [String], ea_values: [String], site_ident: String, managedAppleID: String) -> Data {
 
         // User Object update XML Creation:
 
@@ -127,6 +127,10 @@ public class xmlManager {
                     extensionAttributesElement.addChild(currentExtensionAttributesElement)
                 }
             }
+            
+            // Managed Apple ID
+            let managedAppleIDElement = XMLElement(name: "managed_apple_id", stringValue: managedAppleID)
+            populateElement(variableToCheck: managedAppleID, elementName: "managed_apple_id", elementToAdd: managedAppleIDElement, whereToAdd: root)
 
             // Add the EA subset to the root element
             root.addChild(extensionAttributesElement)
