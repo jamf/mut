@@ -194,7 +194,6 @@ public class xmlManager {
         let purchasing = XMLElement(name: "purchasing")
         
         
-        
         // ----------------------
         // DEVICE NAME
         // ----------------------
@@ -326,16 +325,18 @@ public class xmlManager {
                     extensionAttributesElement.addChild(currentExtensionAttributesElement)
                 }
             }
+            root.addChild(extensionAttributesElement)
         }
 
+        
         root.addChild(general)
         root.addChild(location)
         root.addChild(purchasing)
-        root.addChild(extensionAttributesElement)
+
 
 
         // Print the XML
-        //print(xml.debugDescription) // Uncomment for debugging
+        print(xml.debugDescription) // Uncomment for debugging
         return xml.xmlData
     }
     
@@ -516,12 +517,13 @@ public class xmlManager {
                     extensionAttributesElement.addChild(currentExtensionAttributesElement)
                 }
             }
+            root.addChild(extensionAttributesElement)
         }
         
         root.addChild(general)
         root.addChild(location)
         root.addChild(purchasing)
-        root.addChild(extensionAttributesElement)
+
         
         
         // Print the XML
@@ -710,6 +712,7 @@ public class xmlManager {
         } else if variableToCheck != "" {
             whereToAdd.addChild(elementToAdd)
         }
+        
     }
 
 
