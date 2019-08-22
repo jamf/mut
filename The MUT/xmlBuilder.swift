@@ -131,8 +131,6 @@ public class xmlManager {
                     extensionAttributesElement.addChild(currentExtensionAttributesElement)
                 }
             }
-            
-            
 
             // Add the EA subset to the root element
             root.addChild(extensionAttributesElement)
@@ -145,7 +143,7 @@ public class xmlManager {
     }
 
 
-    public func iosObject(displayName: String, assetTag: String, username: String, full_name: String, email_address: String, phone_number: String, position: String, department: String, building: String, room: String, poNumber: String, vendor: String, poDate: String, warrantyExpires: String, leaseExpires: String, ea_ids: [String], ea_values: [String], site_ident: String, airplayPassword: String) -> Data {
+    public func iosObject(displayName: String, assetTag: String, username: String, full_name: String, email_address: String, phone_number: String, position: String, department: String, building: String, room: String, poNumber: String, vendor: String, purchasePrice: String, poDate: String, warrantyExpires: String, leaseExpires: String, ea_ids: [String], ea_values: [String], site_ident: String, airplayPassword: String) -> Data {
 
         // iOS Object update XML Creation:
 
@@ -185,6 +183,21 @@ public class xmlManager {
              </purchasing>
          </mobile_device>
          */
+        
+        let generalStuff = displayName + assetTag + airplayPassword + site_ident
+        let locationStuff = username + full_name + email_address + phone_number + position + department + building + room
+        let purchasingStuff = poNumber + vendor + poDate + warrantyExpires + leaseExpires + purchasePrice
+        
+        if locationStuff == "" {
+            print("Location Blank")
+        }
+        
+        print("General Stuff")
+        print(generalStuff)
+        print("Location Stuff")
+        print(locationStuff)
+        print("Purchasing Stuff")
+        print(purchasingStuff)
 
         // Variables needed for the rest of the XML Generation
         let root = XMLElement(name: "mobile_device")
@@ -290,6 +303,10 @@ public class xmlManager {
         let vendorElement = XMLElement(name: "vendor", stringValue: vendor)
         populateElement(variableToCheck: vendor, elementName: "vendor", elementToAdd: vendorElement, whereToAdd: purchasing)
         
+        // Purchase Price
+        let purchasePriceElement = XMLElement(name: "purchase_price", stringValue: purchasePrice)
+        populateElement(variableToCheck: purchasePrice, elementName: "purchase_price", elementToAdd: purchasePriceElement, whereToAdd: purchasing)
+        
         // PO Date
         let poDateElement = XMLElement(name: "po_date", stringValue: poDate)
         populateElement(variableToCheck: poDate, elementName: "po_date", elementToAdd: poDateElement, whereToAdd: purchasing)
@@ -327,20 +344,23 @@ public class xmlManager {
             }
             root.addChild(extensionAttributesElement)
         }
-
         
-        root.addChild(general)
-        root.addChild(location)
-        root.addChild(purchasing)
-
-
+        if generalStuff != "" {
+            root.addChild(general)
+        }
+        if locationStuff != "" {
+            root.addChild(location)
+        }
+        if purchasingStuff != "" {
+            root.addChild(purchasing)
+        }
 
         // Print the XML
         print(xml.debugDescription) // Uncomment for debugging
         return xml.xmlData
     }
     
-    public func macosObject(displayName: String, assetTag: String, barcode1: String, barcode2: String, username: String, full_name: String, email_address: String, phone_number: String, position: String, department: String, building: String, room: String, poNumber: String, vendor: String, poDate: String, warrantyExpires: String, leaseExpires: String, ea_ids: [String], ea_values: [String], site_ident: String) -> Data {
+    public func macosObject(displayName: String, assetTag: String, barcode1: String, barcode2: String, username: String, full_name: String, email_address: String, phone_number: String, position: String, department: String, building: String, room: String, poNumber: String, vendor: String, purchasePrice: String, poDate: String, warrantyExpires: String, leaseExpires: String, ea_ids: [String], ea_values: [String], site_ident: String) -> Data {
         
         // macOS Object update XML Creation:
         

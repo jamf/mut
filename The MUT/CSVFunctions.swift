@@ -31,9 +31,9 @@ public class CSVManipulation {
     }
     let userCSV = "Current Username,New Username,Full Name,Email Address,Phone Number,Position,LDAP Server ID,Site (ID or Name),Managed Apple ID (Requires Jamf Pro 10.15+)\n"
     
-    let mobileDeviceCSV = "Mobile Device Serial,Display Name,Asset Tag,Username,Real Name,Email Address,Position,Phone Number,Department,Building,Room,PO Number,Vendor,PO Date,Warranty Expires,Lease Expires,Site (ID or Name),Airplay Password (tvOS Only)\n"
+    let mobileDeviceCSV = "Mobile Device Serial,Display Name,Asset Tag,Username,Real Name,Email Address,Position,Phone Number,Department,Building,Room,PO Number,Vendor,Purchase Price,PO Date,Warranty Expires,Lease Expires,Site (ID or Name),Airplay Password (tvOS Only)\n"
    
-    let computerCSV = "Computer Serial,Display Name,Asset Tag,Barcode 1,Barcode 2,Username,Real Name,Email Address,Position,Phone Number,Department,Building,Room,PO Number,Vendor,PO Date,Warranty Expires,Lease Expires,Site (ID or Name)\n"
+    let computerCSV = "Computer Serial,Display Name,Asset Tag,Barcode 1,Barcode 2,Username,Real Name,Email Address,Position,Phone Number,Department,Building,Room,PO Number,Vendor,Purchase Price,PO Date,Warranty Expires,Lease Expires,Site (ID or Name)\n"
     
     let groupCSV = "Serial Numbers or Usernames\n"
     

@@ -76,9 +76,9 @@ public class dataPreparation {
         case "users":
             return 9
         case "computers":
-            return 19
+            return 20
         case "mobiledevices":
-            return 18
+            return 19
         case "scope":
             return 1
         default:
