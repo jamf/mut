@@ -607,7 +607,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
                         }
 
                     } else {
-                        _ = popMan.generalWarning(question: "Header Row Error", text: "It appears that the header row for your CSV does not match one of the provided templates.\n\nMUT requires that the template be kept exactly as-is, with the exception of adding Extension Attributes.\n\nPlease re-download the templates if you need to, add the data you would like to submit, and try again.")
+                        _ = popMan.generalWarning(question: "Header Row Error", text: "It appears that the header row for your CSV does not match one of the provided templates. Possibly because new fields have been added to MUT.\n\nMUT requires that the template be kept exactly as-is, with the exception of adding Extension Attributes.\n\nPlease re-download the templates, add the data you would like to submit, and try again.")
                     }
                 }
             }
