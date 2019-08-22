@@ -187,17 +187,6 @@ public class xmlManager {
         let generalStuff = displayName + assetTag + airplayPassword + site_ident
         let locationStuff = username + full_name + email_address + phone_number + position + department + building + room
         let purchasingStuff = poNumber + vendor + poDate + warrantyExpires + leaseExpires + purchasePrice
-        
-        if locationStuff == "" {
-            print("Location Blank")
-        }
-        
-        print("General Stuff")
-        print(generalStuff)
-        print("Location Stuff")
-        print(locationStuff)
-        print("Purchasing Stuff")
-        print(purchasingStuff)
 
         // Variables needed for the rest of the XML Generation
         let root = XMLElement(name: "mobile_device")
@@ -405,6 +394,10 @@ public class xmlManager {
          </computer>
          */
         
+        let generalStuff = displayName + assetTag + barcode1 + barcode2 + site_ident
+        let locationStuff = username + full_name + email_address + phone_number + position + department + building + room
+        let purchasingStuff = poNumber + vendor + purchasePrice + poDate + warrantyExpires + leaseExpires
+        
         // Variables needed for the rest of the XML Generation
         let root = XMLElement(name: "computer")
         let xml = XMLDocument(rootElement: root)
@@ -502,6 +495,10 @@ public class xmlManager {
         let vendorElement = XMLElement(name: "vendor", stringValue: vendor)
         populateElement(variableToCheck: vendor, elementName: "vendor", elementToAdd: vendorElement, whereToAdd: purchasing)
         
+        // Purchase Price
+        let purchasePriceElement = XMLElement(name: "purchase_price", stringValue: purchasePrice)
+        populateElement(variableToCheck: purchasePrice, elementName: "purchase_price", elementToAdd: purchasePriceElement, whereToAdd: purchasing)
+        
         // PO Date
         let poDateElement = XMLElement(name: "po_date", stringValue: poDate)
         populateElement(variableToCheck: poDate, elementName: "po_date", elementToAdd: poDateElement, whereToAdd: purchasing)
@@ -540,11 +537,15 @@ public class xmlManager {
             root.addChild(extensionAttributesElement)
         }
         
-        root.addChild(general)
-        root.addChild(location)
-        root.addChild(purchasing)
-
-        
+        if generalStuff != "" {
+            root.addChild(general)
+        }
+        if locationStuff != "" {
+            root.addChild(location)
+        }
+        if purchasingStuff != "" {
+            root.addChild(purchasing)
+        }
         
         // Print the XML
         print(xml.debugDescription) // Uncomment for debugging
