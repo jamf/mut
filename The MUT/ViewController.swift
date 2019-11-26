@@ -76,7 +76,8 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
     let tokenMan = tokenManagement()
     let xmlMan = xmlManager()
     let CSVMan = CSVManipulation()
-    let APIFunc = APIFunctions()
+    // swap here to use APIFunctions or APIFunctions2
+    let APIFunc = APIFunctions2()
     let popMan = popPrompt()
     let jsonMan = jsonManager()
     let logMan = logManager()
