@@ -11,7 +11,7 @@ import CSV
 import Foundation
 import SwiftyJSON
 
-class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate, DataSentDelegate {
+class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
 
     // Outlet of tab view to determine which tab is active
     @IBOutlet weak var tabViewOutlet: NSTabView!
@@ -411,7 +411,7 @@ class ViewController: NSViewController, URLSessionDelegate, NSTableViewDelegate,
 
         DispatchQueue.main.async {
             self.guiAttributeDone()
-            if responseCode == 200 {
+            if responseCode >= 200 && responseCode <= 299 {
                 self.lblStatus.stringValue = "Successful update run complete. Check the MUT.log for details"
             } else {
                 self.lblStatus.stringValue = "Update run failed. Check the MUT.log for details."
