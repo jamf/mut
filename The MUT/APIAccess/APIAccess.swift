@@ -15,7 +15,7 @@ public class APIAccess {
     /**
      Add and run a datatask by a URLRequest with the SessionHandler singleton's URLSession
      */
-    func runCall(mySession: URLSession, myRequest : URLRequest,completion: @escaping QueryResult)
+    func runCall(mySession: URLSession, myRequest : URLRequest,completion: @escaping (Data?,URLResponse?,Error?) -> Void)
     {
         mySession.dataTask(with: myRequest)
         { (data: Data?, response: URLResponse?, error: Error?) in

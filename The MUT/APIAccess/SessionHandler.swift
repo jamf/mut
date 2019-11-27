@@ -26,7 +26,9 @@ public class SessionHandler
     private init()
     {
         print("initializing session")
-        self.mySession = URLSession(configuration: .default, delegate: myDelegate, delegateQueue: myDelQueue)
+        let config = URLSessionConfiguration.default
+        config.httpMaximumConnectionsPerHost = 1
+        self.mySession = URLSession(configuration: config, delegate: myDelegate, delegateQueue: myDelQueue)
     }
     /*
      Set trust for singleton. This will switch trust for queued tasks.

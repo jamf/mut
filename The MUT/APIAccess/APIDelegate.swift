@@ -13,6 +13,9 @@ import Foundation
 public class APIDelegate: NSObject, URLSessionDelegate
 {
     private var allowUntrusted: Bool = false
+    
+    let logMan = logManager()
+    
     func setTrust(_allowUntrusted: Bool)
     {
         self.allowUntrusted = _allowUntrusted
@@ -20,10 +23,10 @@ public class APIDelegate: NSObject, URLSessionDelegate
     
     public func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping(  URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         if allowUntrusted {
-            print("requiring authentication")
+            NSLog("[WARN  ]: The user has selected to allow untrusted SSL. MUT will not be performing SSL verification. This is potentially unsafe.")
+            logMan.warnWrite(logString: "The user has selected to allow untrusted SSL. MUT will not be performing SSL verification. This is potentially unsafe.")
             completionHandler(.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
         } else {
-            print("ignoring authentication")
             completionHandler(.performDefaultHandling, URLCredential(trust: challenge.protectionSpace.serverTrust!))
         }
     }
