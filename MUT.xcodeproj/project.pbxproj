@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7166CB71238CD161002B221A /* APIFunctions2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7166CB70238CD161002B221A /* APIFunctions2.swift */; };
 		71FEC542238CD07B00A7AAB5 /* APIAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FEC53B238CD07B00A7AAB5 /* APIAccess.swift */; };
 		71FEC543238CD07B00A7AAB5 /* APIDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FEC53C238CD07B00A7AAB5 /* APIDelegate.swift */; };
 		71FEC544238CD07B00A7AAB5 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FEC53D238CD07B00A7AAB5 /* HTTPMethod.swift */; };
 		71FEC545238CD07B00A7AAB5 /* HTTPStatusCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FEC53E238CD07B00A7AAB5 /* HTTPStatusCode.swift */; };
 		71FEC546238CD07B00A7AAB5 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FEC53F238CD07B00A7AAB5 /* StringExtension.swift */; };
 		71FEC547238CD07B00A7AAB5 /* SessionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FEC540238CD07B00A7AAB5 /* SessionHandler.swift */; };
-		71FEC548238CD07B00A7AAB5 /* QueryResultAlias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FEC541238CD07B00A7AAB5 /* QueryResultAlias.swift */; };
 		8525069F22B4322700505757 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8525069E22B4322700505757 /* API.swift */; };
 		85C4D46922AAEF6A00512000 /* CSVFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C4D46822AAEF6A00512000 /* CSVFunctions.swift */; };
 		F70A48EA22B7106B003145E0 /* The_MUT_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70A48E922B7106B003145E0 /* The_MUT_Tests.swift */; };
@@ -49,13 +49,13 @@
 		0EC2D98B803002D228093627 /* Pods-The MUTUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-The MUTUITests.release.xcconfig"; path = "Target Support Files/Pods-The MUTUITests/Pods-The MUTUITests.release.xcconfig"; sourceTree = "<group>"; };
 		5D24CA59F173F09D24CF81E6 /* Pods-The MUTUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-The MUTUITests.debug.xcconfig"; path = "Target Support Files/Pods-The MUTUITests/Pods-The MUTUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		653C5ABC4F2A053D8824333F /* Pods-The MUT.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-The MUT.release.xcconfig"; path = "Target Support Files/Pods-The MUT/Pods-The MUT.release.xcconfig"; sourceTree = "<group>"; };
+		7166CB70238CD161002B221A /* APIFunctions2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIFunctions2.swift; sourceTree = "<group>"; };
 		71FEC53B238CD07B00A7AAB5 /* APIAccess.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIAccess.swift; sourceTree = "<group>"; };
 		71FEC53C238CD07B00A7AAB5 /* APIDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIDelegate.swift; sourceTree = "<group>"; };
 		71FEC53D238CD07B00A7AAB5 /* HTTPMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		71FEC53E238CD07B00A7AAB5 /* HTTPStatusCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPStatusCode.swift; sourceTree = "<group>"; };
 		71FEC53F238CD07B00A7AAB5 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		71FEC540238CD07B00A7AAB5 /* SessionHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionHandler.swift; sourceTree = "<group>"; };
-		71FEC541238CD07B00A7AAB5 /* QueryResultAlias.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueryResultAlias.swift; sourceTree = "<group>"; };
 		7F024CD838B9592865655070 /* Pods-The MUTTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-The MUTTests.release.xcconfig"; path = "Target Support Files/Pods-The MUTTests/Pods-The MUTTests.release.xcconfig"; sourceTree = "<group>"; };
 		8525069E22B4322700505757 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		85C4D46822AAEF6A00512000 /* CSVFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVFunctions.swift; sourceTree = "<group>"; };
@@ -126,9 +126,9 @@
 				71FEC53C238CD07B00A7AAB5 /* APIDelegate.swift */,
 				71FEC53D238CD07B00A7AAB5 /* HTTPMethod.swift */,
 				71FEC53E238CD07B00A7AAB5 /* HTTPStatusCode.swift */,
-				71FEC541238CD07B00A7AAB5 /* QueryResultAlias.swift */,
 				71FEC540238CD07B00A7AAB5 /* SessionHandler.swift */,
 				71FEC53F238CD07B00A7AAB5 /* StringExtension.swift */,
+				7166CB70238CD161002B221A /* APIFunctions2.swift */,
 			);
 			path = APIAccess;
 			sourceTree = "<group>";
@@ -253,7 +253,6 @@
 					};
 					F7333BCC1DB55EDF00F89C00 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = X6CF4FM9JH;
 						LastSwiftMigration = 1010;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -376,10 +375,10 @@
 				F7CEE52A229E3C420027CAE8 /* loginWindow.swift in Sources */,
 				F7CF61EA2298671E003A0CBB /* tokenManagement.swift in Sources */,
 				F7333BD11DB55EDF00F89C00 /* AppDelegate.swift in Sources */,
+				7166CB71238CD161002B221A /* APIFunctions2.swift in Sources */,
 				85C4D46922AAEF6A00512000 /* CSVFunctions.swift in Sources */,
 				71FEC545238CD07B00A7AAB5 /* HTTPStatusCode.swift in Sources */,
 				F743057F22D515CC00FF229E /* jsonBuilder.swift in Sources */,
-				71FEC548238CD07B00A7AAB5 /* QueryResultAlias.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
