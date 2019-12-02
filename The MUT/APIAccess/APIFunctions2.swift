@@ -4,7 +4,7 @@
 //
 //  Created by Andrew Pirkl on 11/25/19
 //  Abstracted from APIFunctions by Benjamin Whitis on 6/14/19.
-//  Copyright © 2019 Levenick Enterprises, LLC. All rights reserved. - Apparently Levenick is a corporation
+//  Copyright © 2019 Levenick Enterprises, LLC. All rights reserved.
 //
 
 import Foundation
