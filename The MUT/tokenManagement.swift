@@ -8,17 +8,15 @@
 
 import Foundation
 
-public class tokenManagement: NSObject, URLSessionDelegate {
+public class tokenManagement: NSObject {
     
-    var allowUntrustedFlag: Bool!
     let logMan = logManager()
+    let sessionHandler = SessionHandler.SharedSessionHandler
+
     
     // This function can be used to generate a token. Pass in a URL and base64 encoded credentials.
     // The credentials are inserted into the header.
     public func getToken(url: String, user: String, password: String, allowUntrusted: Bool) -> Data {
-        
-        allowUntrustedFlag = allowUntrusted
-        let myOpQueue = OperationQueue()
         let dataPrep = dataPreparation()
         
         // Call the data manipulation class to base64 encode the credentials
@@ -43,10 +41,11 @@ public class tokenManagement: NSObject, URLSessionDelegate {
         // Determine the request type. If we pass this in with a variable, we could use this function for PUT as well.
         request.httpMethod = "POST"
         
-        // Set configuration settings for the request, such as headers
-        let configuration = URLSessionConfiguration.default
-        configuration.httpAdditionalHeaders = ["Authorization" : "Basic \(base64Credentials)"]
-        let session = Foundation.URLSession(configuration: configuration, delegate: self, delegateQueue: myOpQueue)
+        request.addValue("Basic \(base64Credentials)", forHTTPHeaderField: "Authorization" )
+        request.addValue("text/xml", forHTTPHeaderField: "Content-Type")
+        // set session to use
+        let session = sessionHandler.mySession
+        sessionHandler.setAllowUntrusted(allowUntrusted: allowUntrusted)
         
         // Completion handler. This is what ensures that the response is good/bad
         // and also what handles the semaphore
@@ -141,16 +140,6 @@ public class tokenManagement: NSObject, URLSessionDelegate {
         task.resume() // Kick off the actual GET here
         semaphore.wait() // Wait for the semaphore before moving on to the return value
         return token
-    }
-    
-    public func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping(  URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-        if allowUntrustedFlag {
-            NSLog("[WARN  ]: The user has selected to allow untrusted SSL. MUT will not be performing SSL verification. This is potentially unsafe.")
-            logMan.warnWrite(logString: "The user has selected to allow untrusted SSL. MUT will not be performing SSL verification. This is potentially unsafe.")
-            completionHandler(.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
-        } else {
-            completionHandler(.performDefaultHandling, URLCredential(trust: challenge.protectionSpace.serverTrust!))
-        }
     }
 }
 
