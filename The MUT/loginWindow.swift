@@ -15,7 +15,7 @@ protocol DataSentDelegate {
     func userDidAuthenticate(base64Credentials: String, url: String, token: String, expiry: Int)
 }
 
-class loginWindow: NSViewController, URLSessionDelegate {
+class loginWindow: NSViewController {
 
 
 
