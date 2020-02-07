@@ -20,7 +20,9 @@ public class APIFunctions2 {
     // set sessionHandler to SessionHandler singleton for easy access
     let sessionHandler = SessionHandler.SharedSessionHandler
     
-    public func putData(passedUrl: String, credentials: String, endpoint: String, identifierType: String, identifier: String, allowUntrusted: Bool, xmlToPut: Data) -> String {
+    public func putData(passedUrl: String, credentials: String, endpoint: String, identifierType: String, identifier: String, allowUntrusted: Bool, xmlToPut: Data) -> Int {
+        
+        var returnCode = 400
 
         let baseURL = dataPrep.generateURL(baseURL: passedUrl, endpoint: endpoint, identifierType: identifierType, identifier: identifier, jpapi: false, jpapiVersion: "")
 
@@ -48,6 +50,7 @@ public class APIFunctions2 {
         let task = session.dataTask(with: request as URLRequest, completionHandler: {
             (data, response, error) -> Void in
             if let httpResponse = response as? HTTPURLResponse {
+                returnCode = httpResponse.statusCode
                 if httpResponse.statusCode >= 199 && httpResponse.statusCode <= 299 {
                     // Good response from API
                     globalResponse = response?.description ?? "nil"
@@ -72,7 +75,7 @@ public class APIFunctions2 {
         })
         task.resume() // Kick off the actual GET here
         semaphore.wait() // Wait for the semaphore before moving on to the return value
-        return globalResponse
+        return returnCode
     }
 
     public func enforceName(passedUrl: String, credentials: String, allowUntrusted: Bool, xmlToPost: Data) -> String {
