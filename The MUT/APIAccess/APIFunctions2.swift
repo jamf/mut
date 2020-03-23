@@ -148,7 +148,7 @@ public class APIFunctions2 {
         request.httpMethod = "GET"
         // add headers to request for content-type and authorization since not using URLSession headers
         request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization" )
-        request.addValue("text/xml", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         // set session to use
         let session = sessionHandler.mySession
 
@@ -203,7 +203,7 @@ public class APIFunctions2 {
         request.httpBody = jsonToSubmit
         // add headers to request for content-type and authorization since not using URLSession headers
         request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization" )
-        request.addValue("text/xml", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         // set session to use
         let session = sessionHandler.mySession
         
