@@ -96,51 +96,6 @@ public class tokenManagement: NSObject {
             return false
         }
     }
-
-    // We may want to nix this function entirely for now, and simply use the generate token function when needed.
-    // Otherwise, it needs a lot of cleanup if we're going to use this one.
-    public func renewToken(url: String, user: String, password: String) -> Data {
-        let dataPrep = dataPreparation()
-        
-        let base64Credentials = dataPrep.base64Credentials(user: user, password: password)
-        let tokenURL = dataPrep.generateURL(baseURL: url, endpoint: "/auth/keepAlive", identifierType: "", identifier: "", jpapi: true, jpapiVersion: "nil")
-        // Declare a variable to be populated, and set up the HTTP Request with headers
-        var token = "nil".data(using: String.Encoding.utf8, allowLossyConversion: false)!
-        //let encodedURL = NSURL(string: "\(url)".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!)! as URL
-        let semaphore = DispatchSemaphore(value: 0)
-        let request = NSMutableURLRequest(url: tokenURL)
-        request.httpMethod = "POST"
-        let configuration = URLSessionConfiguration.default
-        configuration.httpAdditionalHeaders = ["Authorization" : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdXRoZW50aWNhdGVkLWFwcCI6IkdFTkVSSUMiLCJhdXRoZW50aWNhdGlvbi10eXBlIjoiSlNTIiwiZ3JvdXBzIjpbXSwic3ViamVjdC10eXBlIjoiSlNTX1VTRVJfSUQiLCJ0b2tlbi11dWlkIjoiMjY2YjI3MDUtZWYxNy00OGMzLTgzYjktOGM0ZmJjY2ViNzM4IiwibGRhcC1zZXJ2ZXItaWQiOi0xLCJzdWIiOiIyIiwiZXhwIjoxNTU4NzI5MjAwfQ.KMaIVqeiRlmdryuUNyYBy43R3B73JjnF7yOp0kbuZRM"]
-        let session = Foundation.URLSession(configuration: configuration)
-        
-        // Completion handler. This is what ensures that the response is good/bad
-        // and also what handles the semaphore
-        let task = session.dataTask(with: request as URLRequest, completionHandler: {
-            (data, response, error) -> Void in
-            if let httpResponse = response as? HTTPURLResponse {
-                if httpResponse.statusCode >= 199 && httpResponse.statusCode <= 299 {
-                    // Good response from API
-                    token = data!
-                    NSLog("[INFO  ]: Successful GET completed by The MUT.app")
-                    NSLog("[INFO  ]: " + response.debugDescription)
-                } else {
-                    // Bad Response from API
-                    token = data!
-                    NSLog("[ERROR ]: Failed GET completed by The MUT.app")
-                    NSLog("[ERROR ]: " + response.debugDescription)
-                }
-                semaphore.signal() // Signal completion to the semaphore
-            }
-            
-            if error != nil {
-                NSLog("[FATAL ]: " + error!.localizedDescription)
-            }
-        })
-        task.resume() // Kick off the actual GET here
-        semaphore.wait() // Wait for the semaphore before moving on to the return value
-        return token
-    }
 }
 
 
