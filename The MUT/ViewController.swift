@@ -353,6 +353,8 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                 objectType = "computers"
             }
             if !needNewToken {
+                print(httpMethod)
+                print(endpoint)
                 DispatchQueue.global(qos: .background).async {
                     self.submitScopeUpdates(recordTypeOutlet: recordTypeOutlet, endpoint: endpoint, prestageID: prestageID, httpMethod: httpMethod, objectType: objectType, appendReplaceRemove: appendReplaceRemove)
                 }
@@ -388,7 +390,14 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                 jsonToSubmit = jsonMan.buildJson(versionLock: versionLock, serialNumbers: serialArray)
                 // Submit the JSON to the Jamf Pro API
 
-                responseCode = APIFunc.updatePrestage(passedUrl: globalURL, endpoint: endpoint, prestageID: prestageID, jpapiVersion: "v1", token: globalToken, jsonToSubmit: jsonToSubmit, httpMethod: httpMethod, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
+                var jpapiVersion = "v1"
+                if endpoint == "computer-prestages" {
+                    jpapiVersion = "v2"
+                } else if endpoint == "mobile-device-prestages" {
+                    jpapiVersion = "v1"
+                }
+                
+                responseCode = APIFunc.updatePrestage(passedUrl: globalURL, endpoint: endpoint, prestageID: prestageID, jpapiVersion: jpapiVersion, token: globalToken, jsonToSubmit: jsonToSubmit, httpMethod: httpMethod, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
             } else {
                 // Not enough rows in the CSV to run
             }
@@ -521,7 +530,13 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
     }
     
     func getCurrentPrestageVersionLock(endpoint: String, prestageID: String) -> Int {
-        let myURL = dataPrep.generatePrestageURL(baseURL: globalURL, endpoint: endpoint, prestageID: prestageID, jpapiVersion: "v1")
+        var jpapiVersion = "v1"
+        if endpoint == "computer-prestages" {
+            jpapiVersion = "v2"
+        } else if endpoint == "mobile-device-prestages" {
+            jpapiVersion = "v1"
+        }
+        let myURL = dataPrep.generatePrestageURL(baseURL: globalURL, endpoint: endpoint, prestageID: prestageID, jpapiVersion: jpapiVersion, httpMethod: "")
         
         let response = APIFunc.getPrestageScope(passedUrl: myURL, token: globalToken, endpoint: endpoint, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
         do {

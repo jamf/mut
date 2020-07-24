@@ -41,7 +41,8 @@ public class dataPreparation {
         return encodedURL
     }
 
-    public func generatePrestageURL(baseURL: String, endpoint: String, prestageID: String, jpapiVersion: String) -> URL {
+    public func generatePrestageURL(baseURL: String, endpoint: String, prestageID: String, jpapiVersion: String, httpMethod: String) -> URL {
+
         var instancedURL = baseURL
         if !baseURL.contains(".") {
             instancedURL = "https://" + baseURL + ".jamfcloud.com/"
@@ -52,8 +53,10 @@ public class dataPreparation {
 
         versionEndpoint = "\(jpapiVersion)/"
 
-
-        let concatURL = instancedURL + "/uapi" + "/" + versionEndpoint + endpoint + "/" + prestageID + "/scope"
+        var concatURL = instancedURL + "/uapi" + "/" + versionEndpoint + endpoint + "/" + prestageID + "/scope"
+        if httpMethod == "DELETE" {
+            concatURL = concatURL + "/delete-multiple"
+        }
         let cleanURL = concatURL.replacingOccurrences(of: "//uapi", with: "/uapi")
         encodedURL = NSURL(string: "\(cleanURL)")! as URL
         return encodedURL

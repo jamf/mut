@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097.2"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -154,7 +154,7 @@
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController storyboardIdentifier="MainStoryBoard" id="B8D-0N-5wS" sceneMemberID="viewController">
-                    <window key="window" identifier="MainWindow" title="The MUT v5.1.1" autorecalculatesKeyViewLoop="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
+                    <window key="window" identifier="MainWindow" title="The MUT v5.2.0" autorecalculatesKeyViewLoop="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
                         <windowCollectionBehavior key="collectionBehavior" fullScreenNone="YES"/>
                         <rect key="contentRect" x="100" y="100" width="568" height="667"/>
@@ -185,7 +185,7 @@
                             <box fixedFrame="YES" boxType="custom" borderWidth="0.0" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="660-gZ-c0C">
                                 <rect key="frame" x="0.0" y="0.0" width="550" height="550"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                <view key="contentView" ambiguous="YES" id="cSf-Sj-yFJ">
+                                <view key="contentView" id="cSf-Sj-yFJ">
                                     <rect key="frame" x="0.0" y="0.0" width="550" height="550"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -206,7 +206,7 @@
                                         <box appearanceType="aqua" fixedFrame="YES" boxType="custom" borderType="line" borderWidth="0.0" cornerRadius="5" title="LoginBox" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="ZjO-Ur-FK9">
                                             <rect key="frame" x="82" y="35" width="378" height="216"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <view key="contentView" ambiguous="YES" id="QD9-Ms-C4h">
+                                            <view key="contentView" id="QD9-Ms-C4h">
                                                 <rect key="frame" x="0.0" y="0.0" width="378" height="216"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
@@ -435,7 +435,7 @@ DQ
                                 <font key="font" metaFont="system"/>
                                 <tabViewItems>
                                     <tabViewItem label="Intro" identifier="intro" id="euP-eV-Ddk" userLabel="Intro">
-                                        <view key="view" ambiguous="YES" id="gbY-L9-mIb">
+                                        <view key="view" id="gbY-L9-mIb">
                                             <rect key="frame" x="0.0" y="0.0" width="510" height="413"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
@@ -535,7 +535,6 @@ DQ
                                                                 <tableColumns>
                                                                     <tableColumn identifier="tableAttribute" width="136" minWidth="40" maxWidth="1000" id="OQv-H6-ipi">
                                                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                                            <font key="font" metaFont="message" size="11"/>
                                                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                             <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                                         </tableHeaderCell>
@@ -568,7 +567,6 @@ DQ
                                                                     </tableColumn>
                                                                     <tableColumn identifier="tableValue" width="200" minWidth="40" maxWidth="1000" id="KMF-t3-fHW">
                                                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                                            <font key="font" metaFont="message" size="11"/>
                                                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                             <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                                         </tableHeaderCell>
@@ -636,7 +634,6 @@ DQ
                                                                 <tableColumns>
                                                                     <tableColumn identifier="csvIdentifier" width="163" minWidth="40" maxWidth="1000" id="m4m-KJ-KO3">
                                                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                                            <font key="font" metaFont="message" size="11"/>
                                                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                             <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                                         </tableHeaderCell>
@@ -775,7 +772,6 @@ DQ
                                                                 <tableColumns>
                                                                     <tableColumn identifier="colScopes" width="179" minWidth="40" maxWidth="1000" id="Bgc-Uf-Svt">
                                                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                                                            <font key="font" metaFont="message" size="11"/>
                                                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                             <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                                         </tableHeaderCell>

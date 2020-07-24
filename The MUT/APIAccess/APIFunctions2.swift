@@ -183,11 +183,11 @@ public class APIFunctions2 {
         return globalResponse
     }
     
+    // HTTP method DELETE no longer supported for Computer prestage updates. must use /scope/delete-multiple URL
     public func updatePrestage(passedUrl: String, endpoint: String, prestageID: String, jpapiVersion: String, token: String, jsonToSubmit: Data, httpMethod: String, allowUntrusted: Bool) -> Int {
-
         var returnCode = 400
 
-        let baseURL = dataPrep.generatePrestageURL(baseURL: passedUrl, endpoint: endpoint, prestageID: prestageID, jpapiVersion: jpapiVersion)
+        let baseURL = dataPrep.generatePrestageURL(baseURL: passedUrl, endpoint: endpoint, prestageID: prestageID, jpapiVersion: jpapiVersion, httpMethod: httpMethod)
         
         let encodedURL = NSURL(string: "\(baseURL)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "https://null")! as URL
         logMan.infoWrite(logString: "Updating the current prestage scope at \(encodedURL.absoluteString)")
@@ -200,6 +200,12 @@ public class APIFunctions2 {
         
         // Determine the request type. If we pass this in with a variable, we could use this function for PUT as well.
         request.httpMethod = httpMethod
+        
+        // DELETE is no longer supported for computer-prestages
+        if endpoint == "computer-prestages" && httpMethod == "DELETE" {
+            request.httpMethod = "POST"
+        }
+        print(request.httpMethod)
         request.httpBody = jsonToSubmit
         // add headers to request for content-type and authorization since not using URLSession headers
         request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization" )
