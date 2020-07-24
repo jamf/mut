@@ -174,10 +174,10 @@ public class APIFunctions: NSObject, URLSessionDelegate{
     }
     
     public func updatePrestage(passedUrl: String, endpoint: String, prestageID: String, jpapiVersion: String, token: String, jsonToSubmit: Data, httpMethod: String, allowUntrusted: Bool) -> Int {
-
         var returnCode = 400
 
-        let baseURL = dataPrep.generatePrestageURL(baseURL: passedUrl, endpoint: endpoint, prestageID: prestageID, jpapiVersion: jpapiVersion)
+        let baseURL = dataPrep.generatePrestageURL(baseURL: passedUrl, endpoint: endpoint, prestageID: prestageID, jpapiVersion: jpapiVersion, httpMethod: httpMethod)
+
         
         let encodedURL = NSURL(string: "\(baseURL)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "https://null")! as URL
         logMan.infoWrite(logString: "Updating the current prestage scope at \(encodedURL.absoluteString)")
