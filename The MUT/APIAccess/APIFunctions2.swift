@@ -13,7 +13,7 @@ import Cocoa
 /**
  APIFunctions using SessionHandler for a global URLSession
  */
-public class APIFunctions2 {
+public class APIFunctions {
 
     let dataPrep = dataPreparation()
     let logMan = logManager()
@@ -205,7 +205,6 @@ public class APIFunctions2 {
         if endpoint == "computer-prestages" && httpMethod == "DELETE" {
             request.httpMethod = "POST"
         }
-        print(request.httpMethod)
         request.httpBody = jsonToSubmit
         // add headers to request for content-type and authorization since not using URLSession headers
         request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization" )

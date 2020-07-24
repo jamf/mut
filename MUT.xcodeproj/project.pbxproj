@@ -14,7 +14,6 @@
 		71FEC545238CD07B00A7AAB5 /* HTTPStatusCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FEC53E238CD07B00A7AAB5 /* HTTPStatusCode.swift */; };
 		71FEC546238CD07B00A7AAB5 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FEC53F238CD07B00A7AAB5 /* StringExtension.swift */; };
 		71FEC547238CD07B00A7AAB5 /* SessionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FEC540238CD07B00A7AAB5 /* SessionHandler.swift */; };
-		8525069F22B4322700505757 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8525069E22B4322700505757 /* API.swift */; };
 		85C4D46922AAEF6A00512000 /* CSVFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C4D46822AAEF6A00512000 /* CSVFunctions.swift */; };
 		F70A48EA22B7106B003145E0 /* The_MUT_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70A48E922B7106B003145E0 /* The_MUT_Tests.swift */; };
 		F7333BD11DB55EDF00F89C00 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7333BD01DB55EDF00F89C00 /* AppDelegate.swift */; };
@@ -57,7 +56,6 @@
 		71FEC53F238CD07B00A7AAB5 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		71FEC540238CD07B00A7AAB5 /* SessionHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionHandler.swift; sourceTree = "<group>"; };
 		7F024CD838B9592865655070 /* Pods-The MUTTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-The MUTTests.release.xcconfig"; path = "Target Support Files/Pods-The MUTTests/Pods-The MUTTests.release.xcconfig"; sourceTree = "<group>"; };
-		8525069E22B4322700505757 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		85C4D46822AAEF6A00512000 /* CSVFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVFunctions.swift; sourceTree = "<group>"; };
 		961A6C241D1FB20265321E05 /* Pods-MUT.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MUT.debug.xcconfig"; path = "Target Support Files/Pods-MUT/Pods-MUT.debug.xcconfig"; sourceTree = "<group>"; };
 		A3882D5F8FDADBDFD025DDAB /* Pods-MUT.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MUT.release.xcconfig"; path = "Target Support Files/Pods-MUT/Pods-MUT.release.xcconfig"; sourceTree = "<group>"; };
@@ -183,7 +181,6 @@
 				F762D7FB22D98BBC009702D4 /* LogManager.swift */,
 				85C4D46822AAEF6A00512000 /* CSVFunctions.swift */,
 				F7CF61E92298671E003A0CBB /* tokenManagement.swift */,
-				8525069E22B4322700505757 /* API.swift */,
 				F7CF61EB22986736003A0CBB /* dataPreparation.swift */,
 				F743057E22D515CC00FF229E /* jsonBuilder.swift */,
 				F7333BD71DB55EDF00F89C00 /* Assets.xcassets */,
@@ -366,7 +363,6 @@
 				F7333BD61DB55EDF00F89C00 /* The_MUT.xcdatamodeld in Sources */,
 				F7FF428B1EA645680044F126 /* xmlBuilder.swift in Sources */,
 				F7CF61EC22986736003A0CBB /* dataPreparation.swift in Sources */,
-				8525069F22B4322700505757 /* API.swift in Sources */,
 				71FEC542238CD07B00A7AAB5 /* APIAccess.swift in Sources */,
 				71FEC543238CD07B00A7AAB5 /* APIDelegate.swift in Sources */,
 				71FEC546238CD07B00A7AAB5 /* StringExtension.swift in Sources */,
