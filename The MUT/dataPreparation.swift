@@ -54,7 +54,7 @@ public class dataPreparation {
         versionEndpoint = "\(jpapiVersion)/"
 
         var concatURL = instancedURL + "/uapi" + "/" + versionEndpoint + endpoint + "/" + prestageID + "/scope"
-        if httpMethod == "DELETE" {
+        if httpMethod == "DELETE" && endpoint == "computer-prestages" {
             concatURL = concatURL + "/delete-multiple"
         }
         let cleanURL = concatURL.replacingOccurrences(of: "//uapi", with: "/uapi")

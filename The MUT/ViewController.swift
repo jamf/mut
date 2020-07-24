@@ -76,8 +76,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
     let tokenMan = tokenManagement()
     let xmlMan = xmlManager()
     let CSVMan = CSVManipulation()
-    // swap here to use APIFunctions or APIFunctions2
-    let APIFunc = APIFunctions2()
+    let APIFunc = APIFunctions()
     let popMan = popPrompt()
     let jsonMan = jsonManager()
     let logMan = logManager()
@@ -353,8 +352,6 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                 objectType = "computers"
             }
             if !needNewToken {
-                print(httpMethod)
-                print(endpoint)
                 DispatchQueue.global(qos: .background).async {
                     self.submitScopeUpdates(recordTypeOutlet: recordTypeOutlet, endpoint: endpoint, prestageID: prestageID, httpMethod: httpMethod, objectType: objectType, appendReplaceRemove: appendReplaceRemove)
                 }
