@@ -183,7 +183,7 @@ public class APIFunctions {
         return globalResponse
     }
     
-    // HTTP method DELETE no longer supported for Computer prestage updates. must use /scope/delete-multiple URL
+    // HTTP method DELETE no longer supported for prestage updates. must use /scope/delete-multiple URL
     public func updatePrestage(passedUrl: String, endpoint: String, prestageID: String, jpapiVersion: String, token: String, jsonToSubmit: Data, httpMethod: String, allowUntrusted: Bool) -> Int {
         var returnCode = 400
 
@@ -201,10 +201,11 @@ public class APIFunctions {
         // Determine the request type. If we pass this in with a variable, we could use this function for PUT as well.
         request.httpMethod = httpMethod
         
-        // DELETE is no longer supported for computer-prestages
-        if endpoint == "computer-prestages" && httpMethod == "DELETE" {
+        // DELETE is no longer supported for prestages
+        if (endpoint == "computer-prestages" || endpoint == "mobile-device-prestages" ) && httpMethod == "DELETE" {
             request.httpMethod = "POST"
         }
+        
         request.httpBody = jsonToSubmit
         // add headers to request for content-type and authorization since not using URLSession headers
         request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization" )
