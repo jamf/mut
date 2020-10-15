@@ -732,8 +732,8 @@ DQ
                                                                 <menuItem title="- Select record to update -" state="on" hidden="YES" allowsKeyEquivalentWhenHidden="YES" id="pSf-M9-1wD">
                                                                     <modifierMask key="keyEquivalentModifierMask"/>
                                                                 </menuItem>
-                                                                <menuItem title="Computer Prestage (Requires Jamf Pro 10.14+)" identifier="computer-prestages" id="TDA-bU-cyx" userLabel="Computer Prestages:"/>
-                                                                <menuItem title="Mobile Device Prestage (Requires Jamf Pro 10.14+)" identifier="mobile-device-prestages" id="bo4-dL-dg4"/>
+                                                                <menuItem title="Computer Prestage (Requires Jamf Pro 10.24+)" identifier="computer-prestages" id="TDA-bU-cyx" userLabel="Computer Prestages:"/>
+                                                                <menuItem title="Mobile Device Prestage (Requires Jamf Pro 10.24+)" identifier="mobile-device-prestages" id="bo4-dL-dg4"/>
                                                                 <menuItem title="Computer Static Group" identifier="computergroups" id="ppq-58-mna"/>
                                                                 <menuItem title="Mobile Device Static Group" identifier="mobiledevicegroups" id="nwA-w9-70f"/>
                                                                 <menuItem title="User Object Static Group" identifier="usergroups" id="9mz-9N-cpQ"/>
@@ -759,11 +759,11 @@ DQ
                                                 <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OVx-uc-Fz8">
                                                     <rect key="frame" x="0.0" y="0.0" width="184" height="410"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                    <clipView key="contentView" ambiguous="YES" id="e59-8m-TR5">
+                                                    <clipView key="contentView" id="e59-8m-TR5">
                                                         <rect key="frame" x="1" y="0.0" width="182" height="409"/>
-                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
-                                                            <tableView verticalHuggingPriority="750" ambiguous="YES" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="Emf-2q-3ch" viewBased="YES" id="ZfD-hw-09e">
+                                                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="Emf-2q-3ch" viewBased="YES" id="ZfD-hw-09e">
                                                                 <rect key="frame" x="0.0" y="0.0" width="182" height="384"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <size key="intercellSpacing" width="3" height="2"/>
