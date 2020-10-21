@@ -165,6 +165,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
     
     @IBAction func btnBrowse(_ sender: Any) {
         notReadyToRun()
+        
         let openPanel = NSOpenPanel()
         openPanel.allowsMultipleSelection = false
         openPanel.canChooseDirectories = false
@@ -296,8 +297,8 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
     }
 
     @IBAction func btnExportCSV(_ sender: Any) {
-        logMan.infoWrite(logString: "Saving CSV Templates to User's Downloads Directory.")
-        CSVMan.ExportCSV()
+        logMan.infoWrite(logString: "Presenting template save dialogue.")
+        CSVMan.copyZip()
     }
     
     @IBAction func submitRequests(_ sender: Any) {
@@ -868,6 +869,5 @@ extension ViewController: NSTableViewDataSource {
             mainViewDefaults.set(delimiter, forKey: "Delimiter")
         }
     }
-
     
 }

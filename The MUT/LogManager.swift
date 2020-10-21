@@ -7,18 +7,28 @@
 //
 
 import Foundation
+import Cocoa
+
 
 public class logManager {
-    let downloadsURL = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first?.appendingPathComponent("MUT Templates")
+
     let fileManager = FileManager.default
+    let libraryDirectory = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first
+    let libraryURL = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first?.appendingPathComponent("MUT")
+    
+    func openLog(){
+        let pathToOpen = libraryDirectory!.resolvingSymlinksInPath().standardizedFileURL.absoluteString.replacingOccurrences(of: "file://", with: "") + "MUT/MUT.log"
+        NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: pathToOpen)
+        print(pathToOpen)
+    }
     
     func createDirectory(){
-        if fileManager.fileExists(atPath: downloadsURL!.path) {
+        if fileManager.fileExists(atPath: libraryURL!.path) {
             //NSLog("[INFO  ]: Template Directory already exists. Skipping creation.")
         } else {
             //NSLog("[INFO  ]: Template Directory does not exist. Creating.")
             do {
-                try FileManager.default.createDirectory(at: downloadsURL!, withIntermediateDirectories: true, attributes: nil)
+                try FileManager.default.createDirectory(at: libraryURL!, withIntermediateDirectories: true, attributes: nil)
             } catch {
                 NSLog("[ERROR ]: An error occured while creating the Template Directory. \(error).")
             }
@@ -34,7 +44,7 @@ public class logManager {
     func infoWrite(logString: String) {
         createDirectory()
         let currentTime = generateCurrentTimeStamp()
-        let logURL = downloadsURL?.appendingPathComponent("MUT.log")
+        let logURL = libraryURL?.appendingPathComponent("MUT.log")
         let dateLogString = currentTime + " [INFO  ]: " + logString
         //NSLog("[INFO  ]: Writing to MUT log file: '\(logString)'.")
         do {
@@ -48,7 +58,7 @@ public class logManager {
     func warnWrite(logString: String) {
         createDirectory()
         let currentTime = generateCurrentTimeStamp()
-        let logURL = downloadsURL?.appendingPathComponent("MUT.log")
+        let logURL = libraryURL?.appendingPathComponent("MUT.log")
         let dateLogString = currentTime + " [WARN  ]: " + logString
         //NSLog("[INFO  ]: Writing to MUT log file: '\(logString)'.")
         do {
@@ -62,7 +72,7 @@ public class logManager {
     func errorWrite(logString: String) {
         createDirectory()
         let currentTime = generateCurrentTimeStamp()
-        let logURL = downloadsURL?.appendingPathComponent("MUT.log")
+        let logURL = libraryURL?.appendingPathComponent("MUT.log")
         let dateLogString = currentTime + " [ERROR ]: " + logString
         //NSLog("[INFO  ]: Writing to MUT log file: '\(logString)'.")
         do {
@@ -76,7 +86,7 @@ public class logManager {
     func fatalWrite(logString: String) {
         createDirectory()
         let currentTime = generateCurrentTimeStamp()
-        let logURL = downloadsURL?.appendingPathComponent("MUT.log")
+        let logURL = libraryURL?.appendingPathComponent("MUT.log")
         let dateLogString = currentTime + " [FATAL ]: " + logString
         //NSLog("[INFO  ]: Writing to MUT log file: '\(logString)'.")
         do {
