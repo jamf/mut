@@ -13,7 +13,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     let delegateDefaults = UserDefaults.standard
     let popUp = popPrompt()
-
+    let logMan = logManager()
+    
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
     }
@@ -173,10 +174,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @IBAction func btnOpenReadMe(_ sender: NSMenuItem) {
-        if let pdfURL = Bundle.main.url(forResource:"README", withExtension: "pdf"){
-            print(pdfURL.absoluteString)
-            if NSWorkspace.shared.open(pdfURL) {
-                print("pdf successfully opened")
+        
+        if let url = URL(string: "https://github.com/mike-levenick/mut/blob/master/README.md") {
+            if NSWorkspace.shared.open(url) {
+                logMan.infoWrite(logString: "Opening ReadMe.")
             }
         }
     }
