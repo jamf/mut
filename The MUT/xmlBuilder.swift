@@ -88,6 +88,7 @@ public class xmlManager {
         let extensionAttributesElement = XMLElement(name: "extension_attributes")
         
         if ea_values.count > 0 {
+            var hasEAs = 0
             // Loop through the EA values, adding them to the EA node
             for i in 0...(ea_ids.count - 1 ) {
 
@@ -97,16 +98,20 @@ public class xmlManager {
                     currentExtensionAttributesElement.addChild(XMLElement(name: "id", stringValue: ea_ids[i]))
                     currentExtensionAttributesElement.addChild(XMLElement(name: "value", stringValue: ""))
                     extensionAttributesElement.addChild(currentExtensionAttributesElement)
+                    hasEAs = hasEAs + 1
                 } else if ea_values[i] != "" {
                     let currentExtensionAttributesElement = XMLElement(name: "extension_attribute")
                     currentExtensionAttributesElement.addChild(XMLElement(name: "id", stringValue: ea_ids[i]))
                     currentExtensionAttributesElement.addChild(XMLElement(name: "value", stringValue: ea_values[i]))
                     extensionAttributesElement.addChild(currentExtensionAttributesElement)
+                    hasEAs = hasEAs + 1
                 }
             }
+            if hasEAs > 0 {
+                // Add the EA subset to the root element
+                root.addChild(extensionAttributesElement)
+            }
 
-            // Add the EA subset to the root element
-            root.addChild(extensionAttributesElement)
         }
 
 
@@ -251,6 +256,7 @@ public class xmlManager {
         let extensionAttributesElement = XMLElement(name: "extension_attributes")
 
         if ea_values.count > 0 {
+            var hasEAs = 0
             // Loop through the EA values, adding them to the EA node
             for i in 0...(ea_ids.count - 1 ) {
 
@@ -260,14 +266,19 @@ public class xmlManager {
                     currentExtensionAttributesElement.addChild(XMLElement(name: "id", stringValue: ea_ids[i]))
                     currentExtensionAttributesElement.addChild(XMLElement(name: "value", stringValue: ""))
                     extensionAttributesElement.addChild(currentExtensionAttributesElement)
+                    hasEAs = hasEAs + 1
                 } else if ea_values[i] != "" {
                     let currentExtensionAttributesElement = XMLElement(name: "extension_attribute")
                     currentExtensionAttributesElement.addChild(XMLElement(name: "id", stringValue: ea_ids[i]))
                     currentExtensionAttributesElement.addChild(XMLElement(name: "value", stringValue: ea_values[i]))
                     extensionAttributesElement.addChild(currentExtensionAttributesElement)
+                    hasEAs = hasEAs + 1
                 }
             }
-            root.addChild(extensionAttributesElement)
+            if hasEAs > 0 {
+                root.addChild(extensionAttributesElement)
+            }
+
         }
         
         if generalStuff != "" {
@@ -413,6 +424,7 @@ public class xmlManager {
         let extensionAttributesElement = XMLElement(name: "extension_attributes")
         
         if ea_values.count > 0 {
+            var hasEAs = 0
             // Loop through the EA values, adding them to the EA node
             for i in 0...(ea_ids.count - 1 ) {
                 
@@ -422,14 +434,19 @@ public class xmlManager {
                     currentExtensionAttributesElement.addChild(XMLElement(name: "id", stringValue: ea_ids[i]))
                     currentExtensionAttributesElement.addChild(XMLElement(name: "value", stringValue: ""))
                     extensionAttributesElement.addChild(currentExtensionAttributesElement)
+                    hasEAs = hasEAs + 1
                 } else if ea_values[i] != "" {
                     let currentExtensionAttributesElement = XMLElement(name: "extension_attribute")
                     currentExtensionAttributesElement.addChild(XMLElement(name: "id", stringValue: ea_ids[i]))
                     currentExtensionAttributesElement.addChild(XMLElement(name: "value", stringValue: ea_values[i]))
                     extensionAttributesElement.addChild(currentExtensionAttributesElement)
+                    hasEAs = hasEAs + 1
                 }
             }
-            root.addChild(extensionAttributesElement)
+            if hasEAs > 0 {
+                root.addChild(extensionAttributesElement)
+            }
+
         }
         
         if generalStuff != "" {
