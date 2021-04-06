@@ -97,7 +97,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
     // Information used to confirm the header row of the CSV files
     let userCSV = ["Current Username","New Username","Full Name","Email Address","Phone Number","Position","LDAP Server ID","Site (ID or Name)","Managed Apple ID (Requires Jamf Pro 10.15+)"]
     
-    let mobileDeviceCSV = ["Mobile Device Serial","Display Name","Asset Tag","Username","Real Name","Email Address","Position","Phone Number","Department","Building","Room","PO Number","Vendor","Purchase Price","PO Date","Warranty Expires","Lease Expires","Site (ID or Name)"]
+    let mobileDeviceCSV = ["Mobile Device Serial","Display Name","Asset Tag","Username","Real Name","Email Address","Position","Phone Number","Department","Building","Room","PO Number","Vendor","Purchase Price","PO Date","Warranty Expires","Lease Expires","AppleCare ID", "Site (ID or Name)","Airplay Password (tvOS Only)"]
 
     let computerCSV = ["Computer Serial","Display Name","Asset Tag","Barcode 1","Barcode 2","Username","Real Name","Email Address","Position","Phone Number","Department","Building","Room","PO Number","Vendor","Purchase Price","PO Date","Warranty Expires","Lease Expires","Site (ID or Name)"]
     
@@ -505,7 +505,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                     } else {
                         identifierType = "serialnumber"
                     }
-                    xmlToPut = xmlMan.iosObject(displayName: currentRow[1], assetTag: currentRow[2], username: currentRow[3], full_name: currentRow[4], email_address: currentRow[5], phone_number: currentRow[7], position: currentRow[6], department: currentRow[8], building: currentRow[9], room: currentRow[10], poNumber: currentRow[11], vendor: currentRow[12], purchasePrice: currentRow[13], poDate: currentRow[14], warrantyExpires: currentRow[15], leaseExpires: currentRow[16], ea_ids: ea_ids, ea_values: ea_values, site_ident: currentRow[17], airplayPassword: currentRow[18])
+                    xmlToPut = xmlMan.iosObject(displayName: currentRow[1], assetTag: currentRow[2], username: currentRow[3], full_name: currentRow[4], email_address: currentRow[5], phone_number: currentRow[7], position: currentRow[6], department: currentRow[8], building: currentRow[9], room: currentRow[10], poNumber: currentRow[11], vendor: currentRow[12], purchasePrice: currentRow[13], poDate: currentRow[14], warrantyExpires: currentRow[15], leaseExpires: currentRow[16], appleCareID: currentRow[17], ea_ids: ea_ids, ea_values: ea_values, site_ident: currentRow[18], airplayPassword: currentRow[19])
                     if currentRow[1] != "" {
                         // Enforce the mobile device name if the display name field is not blank
                         let xmlToPost = xmlMan.enforceName(deviceName: currentRow[1], serial_number: currentRow[0])
