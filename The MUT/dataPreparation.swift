@@ -79,7 +79,7 @@ public class dataPreparation {
         case "users":
             return 9
         case "computers":
-            return 20
+            return 21
         case "mobiledevices":
             return 20
         case "scope":

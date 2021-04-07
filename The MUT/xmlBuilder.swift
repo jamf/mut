@@ -300,13 +300,13 @@ public class xmlManager {
         return xml.xmlData
     }
     
-    public func macosObject(displayName: String, assetTag: String, barcode1: String, barcode2: String, username: String, full_name: String, email_address: String, phone_number: String, position: String, department: String, building: String, room: String, poNumber: String, vendor: String, purchasePrice: String, poDate: String, warrantyExpires: String, leaseExpires: String, ea_ids: [String], ea_values: [String], site_ident: String) -> Data {
+    public func macosObject(displayName: String, assetTag: String, barcode1: String, barcode2: String, username: String, full_name: String, email_address: String, phone_number: String, position: String, department: String, building: String, room: String, poNumber: String, vendor: String, purchasePrice: String, poDate: String, warrantyExpires: String, leaseExpires: String, appleCareID: String, ea_ids: [String], ea_values: [String], site_ident: String) -> Data {
         
         // macOS Object update XML Creation:
         
         let generalStuff = displayName + assetTag + barcode1 + barcode2 + site_ident
         let locationStuff = username + full_name + email_address + phone_number + position + department + building + room
-        let purchasingStuff = poNumber + vendor + purchasePrice + poDate + warrantyExpires + leaseExpires
+        let purchasingStuff = poNumber + vendor + purchasePrice + poDate + warrantyExpires + leaseExpires + appleCareID
         
         // Variables needed for the rest of the XML Generation
         let root = XMLElement(name: "computer")
@@ -420,6 +420,10 @@ public class xmlManager {
         // Lease Expires
         let leaseExpiresElement = XMLElement(name: "lease_expires", stringValue: leaseExpires)
         populateElement(variableToCheck: leaseExpires, elementName: "lease_expires", elementToAdd: leaseExpiresElement, whereToAdd: purchasing)
+        
+        // AppleCare ID
+        let appleCareIDElement = XMLElement(name: "applecare_id", stringValue: appleCareID)
+        populateElement(variableToCheck: appleCareID, elementName: "applecare_id", elementToAdd: appleCareIDElement, whereToAdd: purchasing)
         
         // ----------------------
         // EXTENSION ATTRIBUTES
