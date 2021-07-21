@@ -498,14 +498,14 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                     } else {
                         identifierType = "serialnumber"
                     }
-                    xmlToPut = xmlMan.macosObject(displayName: currentRow[1], assetTag: currentRow[2], barcode1: currentRow[3], barcode2: currentRow[4], username: currentRow[5], full_name: currentRow[6], email_address: currentRow[7], phone_number: currentRow[9], position: currentRow[8], department: currentRow[10], building: currentRow[11], room: currentRow[12], poNumber: currentRow[13], vendor: currentRow[14], purchasePrice: currentRow[15], poDate: currentRow[16], warrantyExpires: currentRow[17], leaseExpires: currentRow[18], appleCareID: currentRow[19], ea_ids: ea_ids, ea_values: ea_values, site_ident: currentRow[20])
+                    xmlToPut = xmlMan.macosObject(displayName: currentRow[1], assetTag: currentRow[2], barcode1: currentRow[3], barcode2: currentRow[4], username: currentRow[5], full_name: currentRow[6], email_address: currentRow[7], phone_number: currentRow[9], position: currentRow[8], department: currentRow[10], building: currentRow[11], room: currentRow[12], poNumber: currentRow[13], vendor: currentRow[14], purchasePrice: currentRow[15], poDate: currentRow[16], warrantyExpires: currentRow[17], leaseExpires: currentRow[18], appleCareID: currentRow[19], ea_ids: ea_ids, ea_values: ea_values, site_ident: currentRow[20], isLeased: currentRow[21])
                 } else if globalEndpoint! == "mobiledevices" {
                     if currentRow[0].isInt {
                         identifierType = "id"
                     } else {
                         identifierType = "serialnumber"
                     }
-                    xmlToPut = xmlMan.iosObject(displayName: currentRow[1], assetTag: currentRow[2], username: currentRow[3], full_name: currentRow[4], email_address: currentRow[5], phone_number: currentRow[7], position: currentRow[6], department: currentRow[8], building: currentRow[9], room: currentRow[10], poNumber: currentRow[11], vendor: currentRow[12], purchasePrice: currentRow[13], poDate: currentRow[14], warrantyExpires: currentRow[15], leaseExpires: currentRow[16], appleCareID: currentRow[17], ea_ids: ea_ids, ea_values: ea_values, site_ident: currentRow[18], airplayPassword: currentRow[19])
+                    xmlToPut = xmlMan.iosObject(displayName: currentRow[1], assetTag: currentRow[2], username: currentRow[3], full_name: currentRow[4], email_address: currentRow[5], phone_number: currentRow[7], position: currentRow[6], department: currentRow[8], building: currentRow[9], room: currentRow[10], poNumber: currentRow[11], vendor: currentRow[12], purchasePrice: currentRow[13], poDate: currentRow[14], warrantyExpires: currentRow[15], leaseExpires: currentRow[16], appleCareID: currentRow[17], ea_ids: ea_ids, ea_values: ea_values, site_ident: currentRow[18], airplayPassword: currentRow[19], isLeased: currentRow[20])
                     if currentRow[1] != "" {
                         // Enforce the mobile device name if the display name field is not blank
                         let xmlToPost = xmlMan.enforceName(deviceName: currentRow[1], serial_number: currentRow[0])
