@@ -40,6 +40,19 @@ public class dataPreparation {
         }
         return encodedURL
     }
+    
+    public func generateJpapiURL(baseURL: String, endpoint: String, endpointVersion: String, identifier: String) -> URL {
+        var instancedURL = baseURL
+        if !baseURL.contains(".") {
+            instancedURL = "https://" + baseURL + ".jamfcloud.com/"
+        }
+        var encodedURL = NSURL(string: "https://null".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)! as URL
+        let concatURL = instancedURL + "/api/" + endpointVersion + "/" + endpoint + "/" + identifier
+        let cleanURL = concatURL.replacingOccurrences(of: "//api", with: "/api")
+        encodedURL = NSURL(string: "\(cleanURL)")! as URL
+        
+        return encodedURL
+    }
 
     public func generatePrestageURL(baseURL: String, endpoint: String, prestageID: String, jpapiVersion: String, httpMethod: String) -> URL {
 
@@ -81,7 +94,7 @@ public class dataPreparation {
         case "computers":
             return 21
         case "mobiledevices":
-            return 20
+            return 21
         case "scope":
             return 1
         default:
