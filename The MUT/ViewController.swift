@@ -80,6 +80,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
     let popMan = popPrompt()
     let jsonMan = jsonManager()
     let logMan = logManager()
+    let mdXMLParser = MobileDeviceXMLParser()
     
     // Declare variable for defaults on main view
     let mainViewDefaults = UserDefaults.standard
@@ -97,7 +98,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
     // Information used to confirm the header row of the CSV files
     let userCSV = ["Current Username","New Username","Full Name","Email Address","Phone Number","Position","LDAP Server ID","Site (ID or Name)","Managed Apple ID (Requires Jamf Pro 10.15+)"]
     
-    let mobileDeviceCSV = ["Mobile Device Serial","Display Name","Asset Tag","Username","Real Name","Email Address","Position","Phone Number","Department","Building","Room","PO Number","Vendor","Purchase Price","PO Date","Warranty Expires","Lease Expires","AppleCare ID", "Site (ID or Name)","Airplay Password (tvOS Only)"]
+    let mobileDeviceCSV = ["Mobile Device Serial","Display Name","Enforce Name","Asset Tag","Username","Real Name","Email Address","Position","Phone Number","Department","Building","Room","PO Number","Vendor","Purchase Price","PO Date","Warranty Expires","Lease Expires","AppleCare ID", "Site (ID or Name)","Airplay Password (tvOS Only)"]
 
     let computerCSV = ["Computer Serial","Display Name","Asset Tag","Barcode 1","Barcode 2","Username","Real Name","Email Address","Position","Phone Number","Department","Building","Room","PO Number","Vendor","Purchase Price","PO Date","Warranty Expires","Lease Expires","AppleCare ID","Site (ID or Name)"]
     
@@ -385,10 +386,10 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                     let currentRow = csvArray[row]
                     serialArray.append(currentRow[0].trimmingCharacters(in: CharacterSet.whitespaces))
                 }
-                jsonToSubmit = jsonMan.buildJson(versionLock: versionLock, serialNumbers: serialArray)
+                jsonToSubmit = jsonMan.buildScopeUpdatesJson(versionLock: versionLock, serialNumbers: serialArray)
                 // Submit the JSON to the Jamf Pro API
 
-                var jpapiVersion = "v2"
+                let jpapiVersion = "v2"
 //                if endpoint == "computer-prestages" {
 //                    jpapiVersion = "v2"
 //                } else if endpoint == "mobile-device-prestages" {
@@ -412,7 +413,8 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
 
                 xmlToPUT = xmlMan.staticGroup(appendReplaceRemove: appendReplaceRemove, objectType: objectType, identifiers: serialArray)
 
-                responseCode = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint, identifierType: "id", identifier: prestageID, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPUT)
+                let response = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint, identifierType: "id", identifier: prestageID, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPUT)
+                responseCode = response.code
             }
         }
 
@@ -505,17 +507,26 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                     } else {
                         identifierType = "serialnumber"
                     }
-                    xmlToPut = xmlMan.iosObject(displayName: currentRow[1], assetTag: currentRow[2], username: currentRow[3], full_name: currentRow[4], email_address: currentRow[5], phone_number: currentRow[7], position: currentRow[6], department: currentRow[8], building: currentRow[9], room: currentRow[10], poNumber: currentRow[11], vendor: currentRow[12], purchasePrice: currentRow[13], poDate: currentRow[14], warrantyExpires: currentRow[15], leaseExpires: currentRow[16], appleCareID: currentRow[17], ea_ids: ea_ids, ea_values: ea_values, site_ident: currentRow[18], airplayPassword: currentRow[19])
-                    if currentRow[1] != "" {
-                        // Enforce the mobile device name if the display name field is not blank
-                        let xmlToPost = xmlMan.enforceName(deviceName: currentRow[1], serial_number: currentRow[0])
-                        _ = APIFunc.enforceName(passedUrl: globalURL, credentials: globalBase64, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPost: xmlToPost)
-                    }
+                    xmlToPut = xmlMan.iosObject(assetTag: currentRow[3], username: currentRow[4], full_name: currentRow[5], email_address: currentRow[6], phone_number: currentRow[8], position: currentRow[7], department: currentRow[9], building: currentRow[10], room: currentRow[11], poNumber: currentRow[12], vendor: currentRow[13], purchasePrice: currentRow[14], poDate: currentRow[15], warrantyExpires: currentRow[16], leaseExpires: currentRow[17], appleCareID: currentRow[18], ea_ids: ea_ids, ea_values: ea_values, site_ident: currentRow[19], airplayPassword: currentRow[20])
                 }
                 
                 // Submit the XML to the Jamf Pro API
-                
-                _ = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint!, identifierType: identifierType, identifier: currentRow[0], allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPut)
+                if(globalEndpoint! != "mobiledevices") {
+                    
+                    _ = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint!, identifierType: identifierType, identifier: currentRow[0], allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPut)
+                } else {
+                    
+                    let json = jsonMan.buildMobileDeviceUpdatesJson(data: currentRow)
+                    
+                    let response = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint!, identifierType: identifierType, identifier: currentRow[0], allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPut)
+                    
+                    if(response.code == 201) {
+                        // JPAPI requires ID in order to identify device
+                        let id = mdXMLParser.getMobileDeviceIdFromResponse(data: response.body!)
+                        
+                        _ = APIFunc.patchData(passedUrl: globalURL, token: globalToken, endpoint: "mobile-devices", endpointVersion: "v2", identifier: id, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), jsonData: json)
+                    }
+                }
             }
 
             DispatchQueue.main.async {
@@ -528,7 +539,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
     }
     
     func getCurrentPrestageVersionLock(endpoint: String, prestageID: String) -> Int {
-        var jpapiVersion = "v2"
+        let jpapiVersion = "v2"
 //        if endpoint == "computer-prestages" {
 //            jpapiVersion = "v2"
 //        } else if endpoint == "mobile-device-prestages" {
