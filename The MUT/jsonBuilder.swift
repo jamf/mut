@@ -46,7 +46,6 @@ public class jsonManager {
         var mobileDeviceUpdate = MobileDeviceUpdate()
         
         mobileDeviceUpdate.name = data[1].isEmpty ? nil : data[1]
-        // init for bool is case-sensitive
         mobileDeviceUpdate.enforceName = Bool(data[2].lowercased())
         
         return mobileDeviceUpdate
