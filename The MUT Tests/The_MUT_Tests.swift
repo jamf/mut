@@ -71,6 +71,11 @@ class genericDataValidation: XCTestCase {
         print(baseURL)
     }
     
+    func testJpapiURLNoIdentifier() {
+        let baseURL = DataPrep.generateJpapiURL(baseURL: "https://test.jssmut.com", endpoint: "mobile-devices", endpointVersion: "v2", identifier: "")
+        print(baseURL)
+    }
+    
     func parseJSONString() {
         let dataString = """
         {
@@ -408,9 +413,9 @@ class macOSXMLTests: XCTestCase {
 }
 
 class mobileDeviceJsonTests: XCTestCase {
-    let DataPrep = dataPreparation()
-    let xmlMan = xmlManager()
+    let dataPrep = dataPreparation()
     let apifunc = APIFunctions()
+    let jsonMan = jsonManager()
     
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -423,10 +428,9 @@ class mobileDeviceJsonTests: XCTestCase {
     
     func testMobileDeviceUpdateJson() throws {
         // given
-        let jsonMan = jsonManager()
         let jsonEncoder = JSONEncoder()
         let userInputData: [String] = ["1", "Device Name", "TRUE"]
-        let mobileDeviceUpdateData = MobileDeviceUpdate(name: "Device Name", enforceName: true)
+        let mobileDeviceUpdateData = MobileDeviceV2(name: "Device Name", enforceName: true)
         var expectedResultString = ""
         
         if let json = try? jsonEncoder.encode(mobileDeviceUpdateData) {
@@ -439,5 +443,44 @@ class mobileDeviceJsonTests: XCTestCase {
         
         // then
         XCTAssertEqual(expectedResultString, resultString)
+    }
+}
+
+class jamfProVersionTests: XCTestCase {
+    let dataPrep = dataPreparation()
+    let viewController = ViewController()
+    let apifunc = APIFunctions()
+    
+    override func setUp() {
+        // Put setup code here. This method is called before the invocation of each test method in the class.
+    }
+    
+    override func tearDown() {
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        print("")
+    }
+    
+    func testJamfProVersionCompareNotCompatible() {
+        // given
+        let jamfProVersion = "10.30.2"
+        let compatibleVersion = "10.31"
+        
+        // when
+        let result = viewController.isCompatibleJamfProVersion(compatibleVersion: compatibleVersion, currentVersion: jamfProVersion)
+        
+        // then
+        XCTAssertFalse(result)
+    }
+    
+    func testJamfProVersionCompareCompatible() {
+        // given
+        let jamfProVersion = "10.30.2"
+        let compatibleVersion = "10.30.0"
+        
+        // when
+        let result = viewController.isCompatibleJamfProVersion(compatibleVersion: compatibleVersion, currentVersion: jamfProVersion)
+        
+        // then
+        XCTAssertTrue(result)
     }
 }

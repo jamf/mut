@@ -451,7 +451,10 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
         DispatchQueue.main.async {
             self.guiAttributeRun()
         }
-
+        
+        let jamfProVersion = getJamfProVersion()
+        logMan.infoWrite(logString: "Jamf Pro Version: " + jamfProVersion)
+        
         // Begin looping through the CSV sheet
         
         if csvArray.count > 1 {
@@ -518,11 +521,11 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                     
                     let json = jsonMan.buildMobileDeviceUpdatesJson(data: currentRow)
                     
-                    let response = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint!, identifierType: identifierType, identifier: currentRow[0], allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPut)
+                    let putResponse = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint!, identifierType: identifierType, identifier: currentRow[0], allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPut)
                     
-                    if(response.code == 201) {
+                    if(putResponse.code == 201 && isCompatibleJamfProVersion(compatibleVersion: "10.33.0", currentVersion: jamfProVersion)) {
                         // JPAPI requires ID in order to identify device
-                        let id = mdXMLParser.getMobileDeviceIdFromResponse(data: response.body!)
+                        let id = mdXMLParser.getMobileDeviceIdFromResponse(data: putResponse.body!)
                         
                         _ = APIFunc.patchData(passedUrl: globalURL, token: globalToken, endpoint: "mobile-devices", endpointVersion: "v2", identifier: id, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), jsonData: json)
                     }
@@ -692,6 +695,28 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
         }
     }
     
+    // Get Jamf Pro version to verify compatibility with endpoints. Should eventually
+    // get moved to a Jamf Pro version manager service that could be used globally.
+    func getJamfProVersion() -> String {
+        let getResponse = APIFunc.getData(passedUrl: globalURL, token: globalToken, endpoint: "jamf-pro-version", endpointVersion: "v1", identifier: "", allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
+        let decoder = JSONDecoder()
+        var jamfProVersion = ""
+        if(getResponse.code == 200) {
+            do {
+                let jamfProVersionObject = try decoder.decode(JamfProVersionV1.self, from: getResponse.body!)
+                jamfProVersion = jamfProVersionObject.version!
+            } catch let error as NSError {
+                logMan.errorWrite(logString: "Failed to retrieve Jamf Pro version: \(error.localizedDescription)")
+            }
+        }
+        return jamfProVersion
+    }
+    
+    func isCompatibleJamfProVersion(compatibleVersion: String, currentVersion: String) -> Bool {
+        let result = compatibleVersion.versionCompare(currentVersion)
+        return (result == ComparisonResult.orderedSame || result == ComparisonResult.orderedAscending) ? true : false
+    }
+    
     func verifyHeaders(endpoint: String, headers: [String]) -> Bool {
         if endpoint == "computers" && headers.starts(with: computerCSV) {
             return true
@@ -778,8 +803,34 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
 
 }
 
+// Only used for comparing Jamf Pro versions. Should be moved with the other
+// functionality to a service.
+extension String {
+    func versionCompare(_ otherVersion: String) -> ComparisonResult {
+        let versionDelimiter = "."
 
-//This entire extension handles the NSTableViews
+        var versionComponents = self.components(separatedBy: versionDelimiter)
+        var otherVersionComponents = otherVersion.components(separatedBy: versionDelimiter)
+
+        let zeroDiff = versionComponents.count - otherVersionComponents.count
+
+        if zeroDiff == 0 {
+            // Same format, compare normally
+            return self.compare(otherVersion, options: .numeric)
+        } else {
+            let zeros = Array(repeating: "0", count: abs(zeroDiff))
+            if zeroDiff > 0 {
+                otherVersionComponents.append(contentsOf: zeros)
+            } else {
+                versionComponents.append(contentsOf: zeros)
+            }
+            return versionComponents.joined(separator: versionDelimiter)
+                .compare(otherVersionComponents.joined(separator: versionDelimiter), options: .numeric)
+        }
+    }
+}
+
+// This entire extension handles the NSTableViews
 extension ViewController: NSTableViewDataSource {
     
     //Counts number of rows in each dictionary before drawing cells

@@ -41,8 +41,8 @@ public class jsonManager {
         return encodeMobileDevice ?? "".data(using: .utf8)!
     }
     
-    func getMobileDeviceUpdateObject(data: [String]) -> MobileDeviceUpdate {
-        var mobileDeviceUpdate = MobileDeviceUpdate()
+    func getMobileDeviceUpdateObject(data: [String]) -> MobileDeviceV2 {
+        var mobileDeviceUpdate = MobileDeviceV2()
         
         mobileDeviceUpdate.name = data[1].isEmpty ? nil : data[1]
         mobileDeviceUpdate.enforceName = Bool(data[2].lowercased())

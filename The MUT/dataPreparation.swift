@@ -47,7 +47,10 @@ public class dataPreparation {
             instancedURL = "https://" + baseURL + ".jamfcloud.com/"
         }
         var encodedURL = NSURL(string: "https://null".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)! as URL
-        let concatURL = instancedURL + "/api/" + endpointVersion + "/" + endpoint + "/" + identifier
+        var concatURL = instancedURL + "/api/" + endpointVersion + "/" + endpoint
+        if(!identifier.isEmpty) {
+            concatURL.append("/" + identifier)
+        }
         let cleanURL = concatURL.replacingOccurrences(of: "//api", with: "/api")
         encodedURL = NSURL(string: "\(cleanURL)")! as URL
         
