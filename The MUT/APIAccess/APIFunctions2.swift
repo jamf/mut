@@ -125,6 +125,57 @@ public class APIFunctions {
         return responseCode
     }
     
+    public func getData(passedUrl: String, token: String, endpoint: String, endpointVersion: String, identifier: String, allowUntrusted: Bool) -> (code: Int, body: Data?) {
+        
+        var responseCode = 400
+        var responseBody: Data?
+        
+        let encodedURL = dataPrep.generateJpapiURL(baseURL: passedUrl, endpoint: endpoint, endpointVersion: endpointVersion, identifier: identifier)
+        
+        logMan.infoWrite(logString: "Submitting a GET to \(encodedURL.absoluteString)")
+        // Changed to use SessionHandler to configure trust
+        sessionHandler.setAllowUntrusted(allowUntrusted: allowUntrusted)
+        // The semaphore is what allows us to force the code to wait for this request to complete
+        // Without the semaphore, MUT will queue up a request for every single line of the CSV simultaneously
+        let semaphore = DispatchSemaphore(value: 0)
+        let request = NSMutableURLRequest(url: encodedURL)
+        request.httpMethod = "GET"
+        // add headers to request for content-type and authorization since not using URLSession headers
+        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization" )
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        // set session to use
+        let session = sessionHandler.mySession
+        // Completion handler. This is what ensures that the response is good/bad
+        // and also what handles the semaphore
+        let task = session.dataTask(with: request as URLRequest, completionHandler: {
+            (data, response, error) -> Void in
+            if let httpResponse = response as? HTTPURLResponse {
+                responseCode = httpResponse.statusCode
+                if httpResponse.statusCode >= 199 && httpResponse.statusCode <= 299 {
+                    // Good response from API
+                    self.logMan.infoWrite(logString: "Successful GET completed. \(httpResponse.statusCode).")
+                    // DEBUGGING
+                    //self.logMan.infoWrite(logString: String(decoding: data!, as: UTF8.self))
+                } else {
+                    // Bad Response from API
+                    self.logMan.errorWrite(logString: "Failed PATCH. \(httpResponse.statusCode).")
+                    self.logMan.errorWrite(logString: String(decoding: data!, as: UTF8.self))
+                }
+                responseBody = data
+                semaphore.signal() // Signal completion to the semaphore
+            }
+            
+            if error != nil {
+                self.logMan.fatalWrite(logString: error!.localizedDescription)
+                semaphore.signal() // Signal completion to the semaphore
+                
+            }
+        })
+        task.resume() // Kick off the actual PATCH here
+        semaphore.wait() // Wait for the semaphore before moving on to the return value
+        return (responseCode, responseBody)
+    }
+    
     public func getPrestageScope(passedUrl: URL, token: String, endpoint: String, allowUntrusted: Bool) -> Data {
         
         logMan.infoWrite(logString: "Getting current prestage scope from \(passedUrl.absoluteString)")

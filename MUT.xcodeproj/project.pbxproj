@@ -8,7 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		50D075C226DED17900252AC0 /* MobileDeviceXMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D075C126DED17900252AC0 /* MobileDeviceXMLParser.swift */; };
-		50D075C526DED19900252AC0 /* MobileDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D075C426DED19900252AC0 /* MobileDevice.swift */; };
+		50D075C526DED19900252AC0 /* MobileDeviceV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D075C426DED19900252AC0 /* MobileDeviceV2.swift */; };
+		50D075C726DFEAF200252AC0 /* JamfProVersionV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D075C626DFEAF200252AC0 /* JamfProVersionV1.swift */; };
 		7166CB71238CD161002B221A /* APIFunctions2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7166CB70238CD161002B221A /* APIFunctions2.swift */; };
 		71FEC542238CD07B00A7AAB5 /* APIAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FEC53B238CD07B00A7AAB5 /* APIAccess.swift */; };
 		71FEC543238CD07B00A7AAB5 /* APIDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FEC53C238CD07B00A7AAB5 /* APIDelegate.swift */; };
@@ -49,7 +50,8 @@
 		073ABF91EFD14ABB51B35FD3 /* Pods-The MUTTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-The MUTTests.debug.xcconfig"; path = "Target Support Files/Pods-The MUTTests/Pods-The MUTTests.debug.xcconfig"; sourceTree = "<group>"; };
 		0EC2D98B803002D228093627 /* Pods-The MUTUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-The MUTUITests.release.xcconfig"; path = "Target Support Files/Pods-The MUTUITests/Pods-The MUTUITests.release.xcconfig"; sourceTree = "<group>"; };
 		50D075C126DED17900252AC0 /* MobileDeviceXMLParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileDeviceXMLParser.swift; sourceTree = "<group>"; };
-		50D075C426DED19900252AC0 /* MobileDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileDevice.swift; sourceTree = "<group>"; };
+		50D075C426DED19900252AC0 /* MobileDeviceV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileDeviceV2.swift; sourceTree = "<group>"; };
+		50D075C626DFEAF200252AC0 /* JamfProVersionV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JamfProVersionV1.swift; sourceTree = "<group>"; };
 		5D24CA59F173F09D24CF81E6 /* Pods-The MUTUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-The MUTUITests.debug.xcconfig"; path = "Target Support Files/Pods-The MUTUITests/Pods-The MUTUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		653C5ABC4F2A053D8824333F /* Pods-The MUT.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-The MUT.release.xcconfig"; path = "Target Support Files/Pods-The MUT/Pods-The MUT.release.xcconfig"; sourceTree = "<group>"; };
 		7166CB70238CD161002B221A /* APIFunctions2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIFunctions2.swift; sourceTree = "<group>"; };
@@ -124,7 +126,8 @@
 		50D075C326DED18600252AC0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				50D075C426DED19900252AC0 /* MobileDevice.swift */,
+				50D075C426DED19900252AC0 /* MobileDeviceV2.swift */,
+				50D075C626DFEAF200252AC0 /* JamfProVersionV1.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -380,11 +383,12 @@
 				71FEC542238CD07B00A7AAB5 /* APIAccess.swift in Sources */,
 				71FEC543238CD07B00A7AAB5 /* APIDelegate.swift in Sources */,
 				71FEC546238CD07B00A7AAB5 /* StringExtension.swift in Sources */,
+				50D075C726DFEAF200252AC0 /* JamfProVersionV1.swift in Sources */,
 				71FEC544238CD07B00A7AAB5 /* HTTPMethod.swift in Sources */,
 				50D075C226DED17900252AC0 /* MobileDeviceXMLParser.swift in Sources */,
 				F7D670BE1EA54E51006010AA /* popPrompt.swift in Sources */,
 				F7CEE52A229E3C420027CAE8 /* loginWindow.swift in Sources */,
-				50D075C526DED19900252AC0 /* MobileDevice.swift in Sources */,
+				50D075C526DED19900252AC0 /* MobileDeviceV2.swift in Sources */,
 				F7CF61EA2298671E003A0CBB /* tokenManagement.swift in Sources */,
 				F7333BD11DB55EDF00F89C00 /* AppDelegate.swift in Sources */,
 				7166CB71238CD161002B221A /* APIFunctions2.swift in Sources */,

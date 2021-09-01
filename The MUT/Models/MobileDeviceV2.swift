@@ -8,9 +8,11 @@
 
 import Foundation
 
-// Respresents a Mobile Device object in JPAPI. All fields included here so that
-// they can be utilized in future version of MUT where JPAPI is fully implemented.
-struct MobileDeviceUpdate: Codable {
+// Respresents a Mobile Device object in JPAPI. Version (i.e. V2) of the object
+// matches the version of the endpoint, as the object may change with an API
+// version change. All fields included here so that they may be utilized in a
+// future version of MUT where the JPAPI is fully integrated.
+struct MobileDeviceV2: Codable {
     var name: String?
     var enforceName: Bool?
     var assetTag: String?
