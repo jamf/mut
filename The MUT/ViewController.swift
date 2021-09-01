@@ -515,15 +515,17 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                 
                 // Submit the XML to the Jamf Pro API
                 if(globalEndpoint! != "mobiledevices") {
-                    
                     _ = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint!, identifierType: identifierType, identifier: currentRow[0], allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPut)
                 } else {
+                    // Send the updates to the CAPI
+                    let putResponse = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint!, identifierType: identifierType, identifier: currentRow[0], allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPut)
                     
                     let json = jsonMan.buildMobileDeviceUpdatesJson(data: currentRow)
                     
-                    let putResponse = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint!, identifierType: identifierType, identifier: currentRow[0], allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPut)
-                    
-                    if(putResponse.code == 201 && isCompatibleJamfProVersion(compatibleVersion: "10.33.0", currentVersion: jamfProVersion)) {
+                    if(putResponse.code == 201
+                        && isCompatibleJamfProVersion(compatibleVersion: "10.33.0", currentVersion: jamfProVersion)
+                        && json != "{}".data(using: .utf8)) {
+                        
                         // JPAPI requires ID in order to identify device
                         let id = mdXMLParser.getMobileDeviceIdFromResponse(data: putResponse.body!)
                         
