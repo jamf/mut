@@ -29,7 +29,6 @@ public class jsonManager {
     
     public func buildMobileDeviceUpdatesJson(data: [String]) -> Data {
         let jsonEncoder = JSONEncoder()
-        jsonEncoder.outputFormatting = .prettyPrinted
         var encodeMobileDevice: Data? = "".data(using: .utf8)
         let mobileDeviceUpdate = getMobileDeviceUpdateObject(data: data)
         
