@@ -81,6 +81,7 @@ public class APIFunctions {
         let encodedURL = dataPrep.generateJpapiURL(baseURL: passedUrl, endpoint: endpoint, endpointVersion: endpointVersion, identifier: identifier)
         
         logMan.infoWrite(logString: "Submitting a PATCH to \(encodedURL.absoluteString)")
+        logMan.infoWrite(logString: String(decoding: jsonData, as: UTF8.self))
         // Changed to use SessionHandler to configure trust
         sessionHandler.setAllowUntrusted(allowUntrusted: allowUntrusted)
         // The semaphore is what allows us to force the code to wait for this request to complete
