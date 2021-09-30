@@ -98,9 +98,9 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
     // Information used to confirm the header row of the CSV files
     let userCSV = ["Current Username","New Username","Full Name","Email Address","Phone Number","Position","LDAP Server ID","Site (ID or Name)","Managed Apple ID (Requires Jamf Pro 10.15+)"]
     
-    let mobileDeviceCSV = ["Mobile Device Serial","Display Name","Enforce Name","Asset Tag","Username","Real Name","Email Address","Position","Phone Number","Department","Building","Room","PO Number","Vendor","Purchase Price","PO Date","Warranty Expires","Lease Expires","AppleCare ID", "Site (ID or Name)","Airplay Password (tvOS Only)"]
+    let mobileDeviceCSV = ["Mobile Device Serial","Display Name","Enforce Name","Asset Tag","Username","Real Name","Email Address","Position","Phone Number","Department","Building","Room","PO Number","Vendor","Purchase Price","PO Date","Warranty Expires","Is Leased","Lease Expires","AppleCare ID","Airplay Password (tvOS Only)","Site (ID or Name)"]
 
-    let computerCSV = ["Computer Serial","Display Name","Asset Tag","Barcode 1","Barcode 2","Username","Real Name","Email Address","Position","Phone Number","Department","Building","Room","PO Number","Vendor","Purchase Price","PO Date","Warranty Expires","Lease Expires","AppleCare ID","Site (ID or Name)"]
+    let computerCSV = ["Computer Serial","Display Name","Asset Tag","Barcode 1","Barcode 2","Username","Real Name","Email Address","Position","Phone Number","Department","Building","Room","PO Number","Vendor","Purchase Price","PO Date","Warranty Expires","Is Leased","Lease Expires","AppleCare ID","Site (ID or Name)"]
     
     func userDidAuthenticate(base64Credentials: String, url: String, token: String, expiry: Int) {
         globalExpiry = expiry
@@ -108,7 +108,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
         globalURL = url
         globalBase64 = base64Credentials
         if txtCSV.stringValue == "" {
-            preferredContentSize = NSSize(width: 550, height: 490)
+            preferredContentSize = NSSize(width: 550, height: 550)
         } else {
             preferredContentSize = NSSize(width: 550, height: 550)
         }
@@ -503,14 +503,15 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                     } else {
                         identifierType = "serialnumber"
                     }
-                    xmlToPut = xmlMan.macosObject(displayName: currentRow[1], assetTag: currentRow[2], barcode1: currentRow[3], barcode2: currentRow[4], username: currentRow[5], full_name: currentRow[6], email_address: currentRow[7], phone_number: currentRow[9], position: currentRow[8], department: currentRow[10], building: currentRow[11], room: currentRow[12], poNumber: currentRow[13], vendor: currentRow[14], purchasePrice: currentRow[15], poDate: currentRow[16], warrantyExpires: currentRow[17], leaseExpires: currentRow[18], appleCareID: currentRow[19], ea_ids: ea_ids, ea_values: ea_values, site_ident: currentRow[20], isLeased: currentRow[21])
+                    xmlToPut = xmlMan.macosObject(displayName: currentRow[1], assetTag: currentRow[2], barcode1: currentRow[3], barcode2: currentRow[4], username: currentRow[5], full_name: currentRow[6], email_address: currentRow[7], position: currentRow[8], phone_number: currentRow[9], department: currentRow[10], building: currentRow[11], room: currentRow[12], poNumber: currentRow[13], vendor: currentRow[14], purchasePrice: currentRow[15], poDate: currentRow[16], warrantyExpires: currentRow[17], isLeased: currentRow[18], leaseExpires: currentRow[19], appleCareID: currentRow[20], site_ident: currentRow[21], ea_ids: ea_ids, ea_values: ea_values)
+                    
                 } else if globalEndpoint! == "mobiledevices" {
                     if currentRow[0].isInt {
                         identifierType = "id"
                     } else {
                         identifierType = "serialnumber"
                     }
-                    xmlToPut = xmlMan.iosObject(assetTag: currentRow[3], username: currentRow[4], full_name: currentRow[5], email_address: currentRow[6], phone_number: currentRow[8], position: currentRow[7], department: currentRow[9], building: currentRow[10], room: currentRow[11], poNumber: currentRow[12], vendor: currentRow[13], purchasePrice: currentRow[14], poDate: currentRow[15], warrantyExpires: currentRow[16], leaseExpires: currentRow[17], appleCareID: currentRow[18], ea_ids: ea_ids, ea_values: ea_values, site_ident: currentRow[19], airplayPassword: currentRow[20], isLeased: currentRow[21])
+                    xmlToPut = xmlMan.iosObject(assetTag: currentRow[3], username: currentRow[4], full_name: currentRow[5], email_address: currentRow[6], phone_number: currentRow[8], position: currentRow[7], department: currentRow[9], building: currentRow[10], room: currentRow[11], poNumber: currentRow[12], vendor: currentRow[13], purchasePrice: currentRow[14], poDate: currentRow[15], warrantyExpires: currentRow[16], isLeased: currentRow[17], leaseExpires: currentRow[18], appleCareID: currentRow[19], airplayPassword: currentRow[20], site_ident: currentRow[21], ea_ids: ea_ids, ea_values: ea_values)
                 }
                 
                 // Submit the XML to the Jamf Pro API
@@ -679,14 +680,14 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
             } else if globalEndpoint == "scope" {
                 if csvArray.count > 1 {
                     tabViewOutlet.selectTabViewItem(at: 2)
-                    preferredContentSize = NSSize(width: 550, height: 550)
+                    preferredContentSize = NSSize(width: 550, height: 590)
                     lblStatus.isHidden = false
                     lblStatus.stringValue = "Populate the dropdowns above, and then run your preflight check."
                 }
             } else {
                 if csvArray.count > 1 {
                     tabViewOutlet.selectTabViewItem(at: 1)
-                    preferredContentSize = NSSize(width: 550, height: 550)
+                    preferredContentSize = NSSize(width: 550, height: 590)
                     lblStatus.isHidden = false
                     lblStatus.stringValue = "Review the changes shown above. If everything looks good, hit submit."
                 }
@@ -753,7 +754,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
     func guiAttributeRun() {
         btnSubmitOutlet.isHidden = true
         btnCancelOutlet.isHidden = false
-        preferredContentSize = NSSize(width: 550, height: 570)
+        preferredContentSize = NSSize(width: 550, height: 610)
         lblCurrent.isHidden = false
         lblLine.isHidden = false
         lblEndLine.isHidden = false
@@ -765,7 +766,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
     func guiAttributeDone() {
         btnSubmitOutlet.isHidden = false
         btnCancelOutlet.isHidden = true
-        preferredContentSize = NSSize(width: 550, height: 550)
+        preferredContentSize = NSSize(width: 550, height: 590)
         lblCurrent.isHidden = true
         lblLine.isHidden = true
         lblEndLine.isHidden = true
