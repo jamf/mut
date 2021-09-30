@@ -19,7 +19,7 @@ public class xmlManager {
     public func userObject(username: String, full_name: String, email_address: String, phone_number: String, position: String, ldap_server: String, ea_ids: [String], ea_values: [String], site_ident: String, managedAppleID: String) -> Data {
 
         // User Object update XML Creation:
-
+ 
         // Variables needed for the rest of the XML Generation
         let root = XMLElement(name: "user")
         let xml = XMLDocument(rootElement: root)
@@ -120,14 +120,14 @@ public class xmlManager {
         return xml.xmlData
     }
 
+    public func iosObject(assetTag: String, username: String, full_name: String, email_address: String, phone_number: String, position: String, department: String, building: String, room: String, poNumber: String, vendor: String, purchasePrice: String, poDate: String, warrantyExpires: String, leaseExpires: String, appleCareID: String, ea_ids: [String], ea_values: [String], site_ident: String, airplayPassword: String, isLeased: String) -> Data {
 
-    public func iosObject(assetTag: String, username: String, full_name: String, email_address: String, phone_number: String, position: String, department: String, building: String, room: String, poNumber: String, vendor: String, purchasePrice: String, poDate: String, warrantyExpires: String, leaseExpires: String, appleCareID: String, ea_ids: [String], ea_values: [String], site_ident: String, airplayPassword: String) -> Data {
 
         // iOS Object update XML Creation:
         
         let generalStuff = assetTag + airplayPassword + site_ident
         let locationStuff = username + full_name + email_address + phone_number + position + department + building + room
-        let purchasingStuff = poNumber + vendor + poDate + warrantyExpires + leaseExpires + purchasePrice + appleCareID
+        let purchasingStuff = poNumber + vendor + poDate + warrantyExpires + leaseExpires + purchasePrice + appleCareID + isLeased
 
         // Variables needed for the rest of the XML Generation
         let root = XMLElement(name: "mobile_device")
@@ -237,6 +237,10 @@ public class xmlManager {
         let appleCareIDElement = XMLElement(name: "applecare_id", stringValue: appleCareID)
         populateElement(variableToCheck: appleCareID, elementName: "applecare_id", elementToAdd: appleCareIDElement, whereToAdd: purchasing)
         
+        // isLeased
+        let isLeasedIDElement = XMLElement(name: "is_leased", stringValue: isLeased)
+        populateElement(variableToCheck: isLeased, elementName: "is_leased", elementToAdd: isLeasedIDElement, whereToAdd: purchasing)
+        
         // ----------------------
         // EXTENSION ATTRIBUTES
         // ----------------------
@@ -284,13 +288,13 @@ public class xmlManager {
         return xml.xmlData
     }
     
-    public func macosObject(displayName: String, assetTag: String, barcode1: String, barcode2: String, username: String, full_name: String, email_address: String, phone_number: String, position: String, department: String, building: String, room: String, poNumber: String, vendor: String, purchasePrice: String, poDate: String, warrantyExpires: String, leaseExpires: String, appleCareID: String, ea_ids: [String], ea_values: [String], site_ident: String) -> Data {
+    public func macosObject(displayName: String, assetTag: String, barcode1: String, barcode2: String, username: String, full_name: String, email_address: String, phone_number: String, position: String, department: String, building: String, room: String, poNumber: String, vendor: String, purchasePrice: String, poDate: String, warrantyExpires: String, leaseExpires: String, appleCareID: String, ea_ids: [String], ea_values: [String], site_ident: String, isLeased: String) -> Data {
         
         // macOS Object update XML Creation:
         
         let generalStuff = displayName + assetTag + barcode1 + barcode2 + site_ident
         let locationStuff = username + full_name + email_address + phone_number + position + department + building + room
-        let purchasingStuff = poNumber + vendor + purchasePrice + poDate + warrantyExpires + leaseExpires + appleCareID
+        let purchasingStuff = poNumber + vendor + purchasePrice + poDate + warrantyExpires + leaseExpires + appleCareID + isLeased
         
         // Variables needed for the rest of the XML Generation
         let root = XMLElement(name: "computer")
@@ -409,6 +413,9 @@ public class xmlManager {
         let appleCareIDElement = XMLElement(name: "applecare_id", stringValue: appleCareID)
         populateElement(variableToCheck: appleCareID, elementName: "applecare_id", elementToAdd: appleCareIDElement, whereToAdd: purchasing)
         
+        // isLeased
+        let isLeasedIDElement = XMLElement(name: "is_leased", stringValue: isLeased)
+        populateElement(variableToCheck: isLeased, elementName: "is_leased", elementToAdd: isLeasedIDElement, whereToAdd: purchasing)
         // ----------------------
         // EXTENSION ATTRIBUTES
         // ----------------------

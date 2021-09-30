@@ -503,14 +503,14 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                     } else {
                         identifierType = "serialnumber"
                     }
-                    xmlToPut = xmlMan.macosObject(displayName: currentRow[1], assetTag: currentRow[2], barcode1: currentRow[3], barcode2: currentRow[4], username: currentRow[5], full_name: currentRow[6], email_address: currentRow[7], phone_number: currentRow[9], position: currentRow[8], department: currentRow[10], building: currentRow[11], room: currentRow[12], poNumber: currentRow[13], vendor: currentRow[14], purchasePrice: currentRow[15], poDate: currentRow[16], warrantyExpires: currentRow[17], leaseExpires: currentRow[18], appleCareID: currentRow[19], ea_ids: ea_ids, ea_values: ea_values, site_ident: currentRow[20])
+                    xmlToPut = xmlMan.macosObject(displayName: currentRow[1], assetTag: currentRow[2], barcode1: currentRow[3], barcode2: currentRow[4], username: currentRow[5], full_name: currentRow[6], email_address: currentRow[7], phone_number: currentRow[9], position: currentRow[8], department: currentRow[10], building: currentRow[11], room: currentRow[12], poNumber: currentRow[13], vendor: currentRow[14], purchasePrice: currentRow[15], poDate: currentRow[16], warrantyExpires: currentRow[17], leaseExpires: currentRow[18], appleCareID: currentRow[19], ea_ids: ea_ids, ea_values: ea_values, site_ident: currentRow[20], isLeased: currentRow[21])
                 } else if globalEndpoint! == "mobiledevices" {
                     if currentRow[0].isInt {
                         identifierType = "id"
                     } else {
                         identifierType = "serialnumber"
                     }
-                    xmlToPut = xmlMan.iosObject(assetTag: currentRow[3], username: currentRow[4], full_name: currentRow[5], email_address: currentRow[6], phone_number: currentRow[8], position: currentRow[7], department: currentRow[9], building: currentRow[10], room: currentRow[11], poNumber: currentRow[12], vendor: currentRow[13], purchasePrice: currentRow[14], poDate: currentRow[15], warrantyExpires: currentRow[16], leaseExpires: currentRow[17], appleCareID: currentRow[18], ea_ids: ea_ids, ea_values: ea_values, site_ident: currentRow[19], airplayPassword: currentRow[20])
+                    xmlToPut = xmlMan.iosObject(assetTag: currentRow[3], username: currentRow[4], full_name: currentRow[5], email_address: currentRow[6], phone_number: currentRow[8], position: currentRow[7], department: currentRow[9], building: currentRow[10], room: currentRow[11], poNumber: currentRow[12], vendor: currentRow[13], purchasePrice: currentRow[14], poDate: currentRow[15], warrantyExpires: currentRow[16], leaseExpires: currentRow[17], appleCareID: currentRow[18], ea_ids: ea_ids, ea_values: ea_values, site_ident: currentRow[19], airplayPassword: currentRow[20], isLeased: currentRow[21])
                 }
                 
                 // Submit the XML to the Jamf Pro API
