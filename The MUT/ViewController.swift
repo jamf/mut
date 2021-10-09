@@ -108,7 +108,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
         globalURL = url
         globalBase64 = base64Credentials
         if txtCSV.stringValue == "" {
-            preferredContentSize = NSSize(width: 550, height: 550)
+            preferredContentSize = NSSize(width: 550, height: 490)
         } else {
             preferredContentSize = NSSize(width: 550, height: 550)
         }
@@ -680,14 +680,14 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
             } else if globalEndpoint == "scope" {
                 if csvArray.count > 1 {
                     tabViewOutlet.selectTabViewItem(at: 2)
-                    preferredContentSize = NSSize(width: 550, height: 590)
+                    preferredContentSize = NSSize(width: 550, height: 550)
                     lblStatus.isHidden = false
                     lblStatus.stringValue = "Populate the dropdowns above, and then run your preflight check."
                 }
             } else {
                 if csvArray.count > 1 {
                     tabViewOutlet.selectTabViewItem(at: 1)
-                    preferredContentSize = NSSize(width: 550, height: 590)
+                    preferredContentSize = NSSize(width: 550, height: 550)
                     lblStatus.isHidden = false
                     lblStatus.stringValue = "Review the changes shown above. If everything looks good, hit submit."
                 }
@@ -754,7 +754,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
     func guiAttributeRun() {
         btnSubmitOutlet.isHidden = true
         btnCancelOutlet.isHidden = false
-        preferredContentSize = NSSize(width: 550, height: 610)
+        preferredContentSize = NSSize(width: 550, height: 570)
         lblCurrent.isHidden = false
         lblLine.isHidden = false
         lblEndLine.isHidden = false
@@ -766,7 +766,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
     func guiAttributeDone() {
         btnSubmitOutlet.isHidden = false
         btnCancelOutlet.isHidden = true
-        preferredContentSize = NSSize(width: 550, height: 590)
+        preferredContentSize = NSSize(width: 550, height: 550)
         lblCurrent.isHidden = true
         lblLine.isHidden = true
         lblEndLine.isHidden = true
