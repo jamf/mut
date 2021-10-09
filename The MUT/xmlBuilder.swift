@@ -120,7 +120,7 @@ public class xmlManager {
         return xml.xmlData
     }
 
-    public func iosObject(assetTag: String, username: String, full_name: String, email_address: String, phone_number: String, position: String, department: String, building: String, room: String, poNumber: String, vendor: String, purchasePrice: String, poDate: String, warrantyExpires: String, leaseExpires: String, appleCareID: String, ea_ids: [String], ea_values: [String], site_ident: String, airplayPassword: String, isLeased: String) -> Data {
+    public func iosObject(assetTag: String, username: String, full_name: String, email_address: String, phone_number: String, position: String, department: String, building: String, room: String, poNumber: String, vendor: String, purchasePrice: String, poDate: String, warrantyExpires: String, isLeased: String, leaseExpires: String, appleCareID: String, airplayPassword: String, site_ident: String, ea_ids: [String], ea_values: [String]) -> Data {
 
 
         // iOS Object update XML Creation:
@@ -288,7 +288,7 @@ public class xmlManager {
         return xml.xmlData
     }
     
-    public func macosObject(displayName: String, assetTag: String, barcode1: String, barcode2: String, username: String, full_name: String, email_address: String, phone_number: String, position: String, department: String, building: String, room: String, poNumber: String, vendor: String, purchasePrice: String, poDate: String, warrantyExpires: String, leaseExpires: String, appleCareID: String, ea_ids: [String], ea_values: [String], site_ident: String, isLeased: String) -> Data {
+    public func macosObject(displayName: String, assetTag: String, barcode1: String, barcode2: String, username: String, full_name: String, email_address: String, position: String, phone_number: String, department: String, building: String, room: String, poNumber: String, vendor: String, purchasePrice: String, poDate: String, warrantyExpires: String, isLeased: String, leaseExpires: String, appleCareID: String, site_ident: String, ea_ids: [String], ea_values: [String]) -> Data {
         
         // macOS Object update XML Creation:
         
