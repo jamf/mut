@@ -44,7 +44,7 @@ public class popPrompt {
         openPanel.canChooseFiles = true
         openPanel.allowedFileTypes = ["csv"]
         openPanel.begin { (result) in
-            if result.rawValue == NSFileHandlingPanelOKButton {
+            if result == NSApplication.ModalResponse.OK {
                 //print(openPanel.URL!) //uncomment for debugging
                 let globalPathToCSV = openPanel.url! as NSURL?
                 //print(self.globalPathToCSV.path!) //uncomment for debugging
