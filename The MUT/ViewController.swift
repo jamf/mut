@@ -174,7 +174,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
         openPanel.canChooseFiles = true
         openPanel.allowedFileTypes = ["csv"]
         openPanel.begin { (result) in
-            if result.rawValue == NSFileHandlingPanelOKButton {
+            if result == NSApplication.ModalResponse.OK {
                 
                 // Set the global delim
                 if self.delimiter == "," {
