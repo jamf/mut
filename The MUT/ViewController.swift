@@ -387,15 +387,9 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                     serialArray.append(currentRow[0].trimmingCharacters(in: CharacterSet.whitespaces))
                 }
                 jsonToSubmit = jsonMan.buildScopeUpdatesJson(versionLock: versionLock, serialNumbers: serialArray)
-                // Submit the JSON to the Jamf Pro API
-
-                let jpapiVersion = "v2"
-//                if endpoint == "computer-prestages" {
-//                    jpapiVersion = "v2"
-//                } else if endpoint == "mobile-device-prestages" {
-//                    jpapiVersion = "v1"
-//                }
                 
+                // Submit the JSON to the Jamf Pro API
+                let jpapiVersion = "v2"
                 responseCode = APIFunc.updatePrestage(passedUrl: globalURL, endpoint: endpoint, prestageID: prestageID, jpapiVersion: jpapiVersion, token: globalToken, jsonToSubmit: jsonToSubmit, httpMethod: httpMethod, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
             } else {
                 // Not enough rows in the CSV to run
