@@ -54,6 +54,37 @@ public class popPrompt {
         return globalCSVString
     }
     
+    // Generate a generic warning message for invalid credentials etc
+    public func groupFailoverAsk() -> Int {
+        let myPopup: NSAlert = NSAlert()
+        myPopup.messageText = "Failed to update group"
+        myPopup.informativeText = """
+        MUT encountered a problem updating your group. Details can be found in the MUT.log
+        
+        Would you like to retry the group update in Classic Mode?
+        """
+        myPopup.alertStyle = NSAlert.Style.warning
+        myPopup.addButton(withTitle: "Yes")
+        myPopup.addButton(withTitle: "No")
+        myPopup.addButton(withTitle: "More Info")
+        return myPopup.runModal().rawValue
+    }
+    
+    public func prestageFailoverAsk() -> Int {
+        let myPopup: NSAlert = NSAlert()
+        myPopup.messageText = "Failed to update prestage"
+        myPopup.informativeText = """
+        MUT encountered a problem updating your prestage. Details can be found in the MUT.log
+        
+        Would you like to retry the prestage update in Classic Mode?
+        """
+        myPopup.alertStyle = NSAlert.Style.warning
+        myPopup.addButton(withTitle: "Yes")
+        myPopup.addButton(withTitle: "No")
+        myPopup.addButton(withTitle: "More details")
+        return myPopup.runModal().rawValue
+    }
+    
     public func invalidCredentials() -> Bool {
         let myPopup: NSAlert = NSAlert()
         myPopup.messageText = "Invalid Credentials"
