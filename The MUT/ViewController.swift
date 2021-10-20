@@ -799,6 +799,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
     // Get Jamf Pro version to verify compatibility with endpoints. Should eventually
     // get moved to a Jamf Pro version manager service that could be used globally.
     func getJamfProVersion() -> String {
+        logMan.infoWrite(logString: "Attempting to GET the Jamf Pro Version from the API.")
         let getResponse = APIFunc.getData(passedUrl: globalURL, token: globalToken, endpoint: "jamf-pro-version", endpointVersion: "v1", identifier: "", allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
         let decoder = JSONDecoder()
         var jamfProVersion = ""
