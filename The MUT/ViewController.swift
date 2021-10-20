@@ -612,6 +612,10 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                 if(globalEndpoint! != "mobiledevices") {
                     _ = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint!, identifierType: identifierType, identifier: currentRow[0], allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPut)
                 } else {
+                    // If Jamf Pro is not compatible with the Enforce Name, alert the end-user.
+                    if !isCompatibleJamfProVersion(compatibleVersion: "10.33.0", currentVersion: jamfProVersion) {
+                        logMan.errorWrite(logString: "Enforcing Mobile Device Names requires Jamf Pro 10.33 or higher. Please upgrade to the latest version of Jamf Pro in order to use this feature.")
+                    }
                     // Send the updates to the CAPI
                     let putResponse = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint!, identifierType: identifierType, identifier: currentRow[0], allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPut)
                     
