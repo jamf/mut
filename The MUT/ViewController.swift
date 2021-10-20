@@ -418,20 +418,23 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                 self.lblStatus.stringValue = "Successful update run complete. Check the MUT.log for details"
             } else {
                 self.lblStatus.stringValue = "Update run failed. Check the MUT.log for details."
-                let FailoverResult = self.popMan.groupFailoverAsk()
-                if FailoverResult == 1000 {
-                    
-                    //Submit the failover updates in the background
-                    DispatchQueue.global(qos: .background).async {
-                        self.submitScopeFailover(recordTypeOutlet: recordTypeOutlet, endpoint: endpoint, prestageID: prestageID, httpMethod: httpMethod, objectType: objectType, appendReplaceRemove: appendReplaceRemove)
-                    }
-                    
-                } else if FailoverResult == 1001 {
-                    //print("Not doing anything")
-                } else if FailoverResult == 1002 {
-                    if let url = URL(string: "https://github.com/mike-levenick/mut#log-in-and-verify-credentials") {
-                        if NSWorkspace.shared.open(url) {
-                            self.logMan.infoWrite(logString: "Opening ReadMe.")
+               
+                if (self.popActionTypeOutlet.titleOfSelectedItem!.contains("Replace")) {
+                    self.popMan.cannotClassic()
+                } else {
+                    let FailoverResult = self.popMan.groupFailoverAsk()
+                    if FailoverResult == 1000 {
+                            //Submit the failover updates in the background
+                            DispatchQueue.global(qos: .background).async {
+                                self.submitScopeFailover(recordTypeOutlet: recordTypeOutlet, endpoint: endpoint, prestageID: prestageID, httpMethod: httpMethod, objectType: objectType, appendReplaceRemove: appendReplaceRemove)
+                            }
+                    } else if FailoverResult == 1001 {
+                        //print("Not doing anything")
+                    } else if FailoverResult == 1002 {
+                        if let url = URL(string: "https://github.com/mike-levenick/mut#log-in-and-verify-credentials") {
+                            if NSWorkspace.shared.open(url) {
+                                self.logMan.infoWrite(logString: "Opening ReadMe.")
+                            }
                         }
                     }
                 }
