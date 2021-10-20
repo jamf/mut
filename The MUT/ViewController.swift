@@ -627,7 +627,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                         
                         // JPAPI requires ID in order to identify device
                         let id = mdXMLParser.getMobileDeviceIdFromResponse(data: putResponse.body!)
-                        logMan.infoWrite(logString: "Submitting a patch to the JPAPI to update the name of device \(currentRow[0]) to \(currentRow[1]) with enforcement set to \(currentRow[2]).")
+                        logMan.infoWrite(logString: "Submitting a request to to update the name of device \(currentRow[0]) to '\(currentRow[1])' with enforcement set to \(currentRow[2]).")
                         _ = APIFunc.patchData(passedUrl: globalURL, token: globalToken, endpoint: "mobile-devices", endpointVersion: "v2", identifier: id, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), jsonData: json)
                     }
                 }
