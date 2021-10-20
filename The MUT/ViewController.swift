@@ -418,7 +418,107 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                 self.lblStatus.stringValue = "Successful update run complete. Check the MUT.log for details"
             } else {
                 self.lblStatus.stringValue = "Update run failed. Check the MUT.log for details."
+                let FailoverResult = self.popMan.groupFailoverAsk()
+                if FailoverResult == 1000 {
+                    
+                    //Submit the failover updates in the background
+                    DispatchQueue.global(qos: .background).async {
+                        self.submitScopeFailover(recordTypeOutlet: recordTypeOutlet, endpoint: endpoint, prestageID: prestageID, httpMethod: httpMethod, objectType: objectType, appendReplaceRemove: appendReplaceRemove)
+                    }
+                    
+                } else if FailoverResult == 1001 {
+                    //print("Not doing anything")
+                } else if FailoverResult == 1002 {
+                    if let url = URL(string: "https://github.com/mike-levenick/mut#log-in-and-verify-credentials") {
+                        if NSWorkspace.shared.open(url) {
+                            self.logMan.infoWrite(logString: "Opening ReadMe.")
+                        }
+                    }
+                }
             }
+        }
+    }
+    
+    
+    func submitScopeFailover(recordTypeOutlet: String, endpoint: String, prestageID: String, httpMethod: String, objectType: String, appendReplaceRemove: String) {
+        var responseCode = 400
+
+        DispatchQueue.main.async {
+            self.guiAttributeRun()
+        }
+
+        logMan.infoWrite(logString: "Beginning failover run of individual uploads.")
+        let csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path ?? "/dev/null", delimiter: globalDelimiter!)
+        if recordTypeOutlet.contains("Prestage") {
+            // Prestage updates here
+            var serialArray: [String]!
+            
+            // If there is data in the CSV, begin our loop
+            if csvArray.count > 1 {
+                for row in 1...(csvArray.count - 1) {
+                    
+                    // Get the current row of the CSV for updating
+                    let currentRow = csvArray[row]
+                    
+                    // Nuke the array and re-populate with the next line.
+                    serialArray = []
+                    serialArray.append(currentRow[0].trimmingCharacters(in: CharacterSet.whitespaces))
+                    
+                    
+                    // GUI updates for progress bar
+                    DispatchQueue.main.async {
+                        // progress bar updates during the run
+                        self.lblEndLine.stringValue = "\(csvArray.count - 1)"
+                        self.lblLine.stringValue = "\(row)"
+                        self.barProgress.doubleValue = Double((100 * row / (csvArray.count - 1 )))
+                    }
+                    
+                    // Get a fresh version lock and build the json to submit
+                    let versionLock = getCurrentPrestageVersionLock(endpoint: endpoint, prestageID: prestageID)
+                    jsonToSubmit = jsonMan.buildScopeUpdatesJson(versionLock: versionLock, serialNumbers: serialArray)
+                    
+                    // Submit the update
+                    let jpapiVersion = "v2"
+                    responseCode = APIFunc.updatePrestage(passedUrl: globalURL, endpoint: endpoint, prestageID: prestageID, jpapiVersion: jpapiVersion, token: globalToken, jsonToSubmit: jsonToSubmit, httpMethod: httpMethod, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
+                    
+                }
+            } else {
+                // Not enough rows in the CSV to run
+            }
+        } else {
+            // Static Group updates here
+            var serialArray: [String]!
+            var xmlToPUT: Data!
+
+            if csvArray.count > 1 {
+                for row in 1...(csvArray.count - 1 ) {
+                    
+                    // Get the current row of the CSV
+                    let currentRow = csvArray[row]
+                    
+                    // Nuke the Serial Array and re-populate with the latest row
+                    serialArray = []
+                    serialArray.append(currentRow[0])
+                    
+                    // GUI Updates for progress bar
+                    DispatchQueue.main.async {
+                        // progress bar updates during the run
+                        self.lblEndLine.stringValue = "\(csvArray.count - 1)"
+                        self.lblLine.stringValue = "\(row)"
+                        self.barProgress.doubleValue = Double((100 * row / (csvArray.count - 1 )))
+                    }
+                    
+                    // Build the XML and submit it to Jamf Pro
+                    xmlToPUT = xmlMan.staticGroup(appendReplaceRemove: appendReplaceRemove, objectType: objectType, identifiers: serialArray)
+                    let response = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint, identifierType: "id", identifier: prestageID, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPUT)
+                    responseCode = response.code
+                }
+            }
+        }
+
+        DispatchQueue.main.async {
+            self.guiAttributeDone()
+            self.lblStatus.stringValue = "Classic mode update run complete. Check the MUT.log for details"
         }
     }
     
