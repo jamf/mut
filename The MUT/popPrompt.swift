@@ -54,14 +54,13 @@ public class popPrompt {
         return globalCSVString
     }
     
-    // Generate a generic warning message for invalid credentials etc
     public func groupFailoverAsk() -> Int {
         let myPopup: NSAlert = NSAlert()
-        myPopup.messageText = "Failed to update group"
+        myPopup.messageText = "Update Failed"
         myPopup.informativeText = """
-        MUT encountered a problem updating your group. Details can be found in the MUT.log
+        MUT encountered a problem submitting your update to Jamf Pro. Details can be found in the MUT.log
         
-        Would you like to retry the group update in Classic Mode?
+        Would you like to retry the update in Classic Mode?
         """
         myPopup.alertStyle = NSAlert.Style.warning
         myPopup.addButton(withTitle: "Yes")
@@ -70,19 +69,18 @@ public class popPrompt {
         return myPopup.runModal().rawValue
     }
     
-    public func prestageFailoverAsk() -> Int {
+    public func cannotClassic() {
         let myPopup: NSAlert = NSAlert()
-        myPopup.messageText = "Failed to update prestage"
+        myPopup.messageText = "Update Failed"
         myPopup.informativeText = """
-        MUT encountered a problem updating your prestage. Details can be found in the MUT.log
+        MUT encountered a problem submitting your update to Jamf Pro. Details can be found in the MUT.log
         
-        Would you like to retry the prestage update in Classic Mode?
+        Unfortunately, Classic Mode is not available for "Replace" updates.
         """
         myPopup.alertStyle = NSAlert.Style.warning
         myPopup.addButton(withTitle: "Yes")
         myPopup.addButton(withTitle: "No")
-        myPopup.addButton(withTitle: "More details")
-        return myPopup.runModal().rawValue
+        myPopup.addButton(withTitle: "More Info")
     }
     
     public func invalidCredentials() -> Bool {
