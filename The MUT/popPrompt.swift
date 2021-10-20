@@ -78,9 +78,9 @@ public class popPrompt {
         Unfortunately, Classic Mode is not available for "Replace" updates.
         """
         myPopup.alertStyle = NSAlert.Style.warning
-        myPopup.addButton(withTitle: "Yes")
-        myPopup.addButton(withTitle: "No")
+        myPopup.addButton(withTitle: "OK")
         myPopup.addButton(withTitle: "More Info")
+        myPopup.runModal()
     }
     
     public func invalidCredentials() -> Bool {
