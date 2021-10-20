@@ -19,7 +19,7 @@ public class logManager {
     func openLog(){
         let pathToOpen = libraryDirectory!.resolvingSymlinksInPath().standardizedFileURL.absoluteString.replacingOccurrences(of: "file://", with: "") + "MUT/MUT.log"
         NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: pathToOpen)
-        print(pathToOpen)
+        //print(pathToOpen)
     }
     
     func createDirectory(){
@@ -30,7 +30,7 @@ public class logManager {
             do {
                 try FileManager.default.createDirectory(at: libraryURL!, withIntermediateDirectories: true, attributes: nil)
             } catch {
-                NSLog("[ERROR ]: An error occured while creating the Template Directory. \(error).")
+                //NSLog("[ERROR ]: An error occured while creating the Template Directory. \(error).")
             }
         }
     }
@@ -51,7 +51,7 @@ public class logManager {
             try dateLogString.appendLineToURL(fileURL: logURL!)
         }
         catch {
-            NSLog("[ERROR ]: An error occured while writing to the Log. \(error).")
+            //NSLog("[ERROR ]: An error occured while writing to the Log. \(error).")
         }
     }
 
@@ -65,7 +65,7 @@ public class logManager {
             try dateLogString.appendLineToURL(fileURL: logURL!)
         }
         catch {
-            NSLog("[ERROR ]: An error occured while writing to the Log. \(error).")
+            //NSLog("[ERROR ]: An error occured while writing to the Log. \(error).")
         }
     }
     
@@ -79,7 +79,7 @@ public class logManager {
             try dateLogString.appendLineToURL(fileURL: logURL!)
         }
         catch {
-            NSLog("[ERROR ]: An error occured while writing to the Log. \(error).")
+            //NSLog("[ERROR ]: An error occured while writing to the Log. \(error).")
         }
     }
     
@@ -93,7 +93,7 @@ public class logManager {
             try dateLogString.appendLineToURL(fileURL: logURL!)
         }
         catch {
-            NSLog("[ERROR ]: An error occured while writing to the Log. \(error).")
+            //NSLog("[ERROR ]: An error occured while writing to the Log. \(error).")
         }
     }
 }
