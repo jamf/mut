@@ -2,7 +2,7 @@
 
 _The **unofficial**, all-in-one mass update tool designed to be the perfect companion to Jamf Admins_
 
-- [A note on v6:](#a-note-on-v6)
+- [A note on v6:](#a-note-on-mut-and-v6)
 - [Introduction:](#introduction)
 - [What it is:](#what-it-is)
 - [Steps for use:](#steps-for-use)
@@ -12,7 +12,7 @@ _The **unofficial**, all-in-one mass update tool designed to be the perfect comp
       - [Object Updates](#object-updates)
         - [Single Attribute Updates](#single-attribute-updates)
         - [Multiple Attribute Updates](#multiple-attribute-updates)
-        - [Enforcing Mobile Device Names](#enforcing-names)
+        - [Enforcing Mobile Device Names](#enforcing-mobile-device-names)
         - [Updating Extension Attributes](#updating-extension-attributes)
         - [Clearing Existing Attribute Values](#clearing-existing-attribute-values)
       - [Static Group Updates](#static-group-updates)
@@ -22,7 +22,7 @@ _The **unofficial**, all-in-one mass update tool designed to be the perfect comp
   - [Send your updates](#send-your-updates)
 - [Top Tips](#top-tips)
 
-## [A note on MUT and v6:](#a-note-on-v6)
+## [A note on MUT and v6:](#a-note-on-mut-and-v6)
 
 Welcome to MUT v6. If you're familiar with MUT v5, and MUT Classic, MUT v6 will probably feel very familiar to you. If this is your first time here, I recommend you read the ReadMe in its entirety. 
 
@@ -98,7 +98,7 @@ And MUT will display a screen such as the following when you run your pre-flight
 
 ![Multiple Attribute Updates](https://imgur.com/EWdFvjp.png "Multiple Attribute Updates")
 
-###### [Enforcing Mobile Device Names](#enforcing-names)
+###### [Enforcing Mobile Device Names](#enforcing-mobile-device-names)
 As of Jamf Pro 10.33, there is an endpoint which allows for the Enforce Name checkbox to be checked or unchecked via the Jamf Pro API.
 
 MUT v6 can leverage this endpoint, and can allow you to either enforce or unenforce the name of your Mobile Device. There is a new "Enforce Name" field in the Mobile Devices template, and this field accepts a boolean value of TRUE or FALSE. 
