@@ -420,7 +420,15 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                 self.lblStatus.stringValue = "Update run failed. Check the MUT.log for details."
                
                 if (self.popActionTypeOutlet.titleOfSelectedItem!.contains("Replace")) {
-                    self.popMan.cannotClassic()
+                    
+                    let FailoverResult = self.popMan.cannotClassic()
+                    if FailoverResult == 1001 {
+                        if let url = URL(string: "https://github.com/mike-levenick/mut#classic-mode-groupprestage-updates") {
+                            if NSWorkspace.shared.open(url) {
+                                self.logMan.infoWrite(logString: "Opening ReadMe.")
+                            }
+                        }
+                    }
                 } else {
                     let FailoverResult = self.popMan.groupFailoverAsk()
                     if FailoverResult == 1000 {
@@ -431,7 +439,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                     } else if FailoverResult == 1001 {
                         //print("Not doing anything")
                     } else if FailoverResult == 1002 {
-                        if let url = URL(string: "https://github.com/mike-levenick/mut#log-in-and-verify-credentials") {
+                        if let url = URL(string: "https://github.com/mike-levenick/mut#classic-mode-groupprestage-updates") {
                             if NSWorkspace.shared.open(url) {
                                 self.logMan.infoWrite(logString: "Opening ReadMe.")
                             }

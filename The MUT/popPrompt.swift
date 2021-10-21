@@ -69,7 +69,7 @@ public class popPrompt {
         return myPopup.runModal().rawValue
     }
     
-    public func cannotClassic() {
+    public func cannotClassic() -> Int {
         let myPopup: NSAlert = NSAlert()
         myPopup.messageText = "Update Failed"
         myPopup.informativeText = """
@@ -80,7 +80,7 @@ public class popPrompt {
         myPopup.alertStyle = NSAlert.Style.warning
         myPopup.addButton(withTitle: "OK")
         myPopup.addButton(withTitle: "More Info")
-        myPopup.runModal()
+        return myPopup.runModal().rawValue
     }
     
     public func invalidCredentials() -> Bool {
