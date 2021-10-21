@@ -29,22 +29,22 @@ public class APIAccess {
     public func parseCall(data: Data?, response: URLResponse?, error: Error?) -> Void
     {
         if let error = error {
-            print("got an error")
-            print(error)
+            //print("got an error")
+            //print(error)
             return
          }
         guard let response = response else {
-            print("empty response")
+            //print("empty response")
             return
          }
         guard let data = data else {
-            print("empty data")
+            //print("empty data")
             return
          }
         // check for response errors, and handle data
-        print("We got some data up in here")
+        //print("We got some data up in here")
         let responseData = String(data: data, encoding: String.Encoding.utf8)
-        print((String(describing: responseData)))
+        //print((String(describing: responseData)))
     }
     
     

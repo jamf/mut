@@ -174,7 +174,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
         openPanel.canChooseFiles = true
         openPanel.allowedFileTypes = ["csv"]
         openPanel.begin { (result) in
-            if result.rawValue == NSFileHandlingPanelOKButton {
+            if result == NSApplication.ModalResponse.OK {
                 
                 // Set the global delim
                 if self.delimiter == "," {
@@ -387,15 +387,9 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                     serialArray.append(currentRow[0].trimmingCharacters(in: CharacterSet.whitespaces))
                 }
                 jsonToSubmit = jsonMan.buildScopeUpdatesJson(versionLock: versionLock, serialNumbers: serialArray)
-                // Submit the JSON to the Jamf Pro API
-
-                let jpapiVersion = "v2"
-//                if endpoint == "computer-prestages" {
-//                    jpapiVersion = "v2"
-//                } else if endpoint == "mobile-device-prestages" {
-//                    jpapiVersion = "v1"
-//                }
                 
+                // Submit the JSON to the Jamf Pro API
+                let jpapiVersion = "v2"
                 responseCode = APIFunc.updatePrestage(passedUrl: globalURL, endpoint: endpoint, prestageID: prestageID, jpapiVersion: jpapiVersion, token: globalToken, jsonToSubmit: jsonToSubmit, httpMethod: httpMethod, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
             } else {
                 // Not enough rows in the CSV to run
@@ -424,7 +418,110 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                 self.lblStatus.stringValue = "Successful update run complete. Check the MUT.log for details"
             } else {
                 self.lblStatus.stringValue = "Update run failed. Check the MUT.log for details."
+               
+                if (self.popActionTypeOutlet.titleOfSelectedItem!.contains("Replace")) {
+                    self.popMan.cannotClassic()
+                } else {
+                    let FailoverResult = self.popMan.groupFailoverAsk()
+                    if FailoverResult == 1000 {
+                            //Submit the failover updates in the background
+                            DispatchQueue.global(qos: .background).async {
+                                self.submitScopeFailover(recordTypeOutlet: recordTypeOutlet, endpoint: endpoint, prestageID: prestageID, httpMethod: httpMethod, objectType: objectType, appendReplaceRemove: appendReplaceRemove)
+                            }
+                    } else if FailoverResult == 1001 {
+                        //print("Not doing anything")
+                    } else if FailoverResult == 1002 {
+                        if let url = URL(string: "https://github.com/mike-levenick/mut#log-in-and-verify-credentials") {
+                            if NSWorkspace.shared.open(url) {
+                                self.logMan.infoWrite(logString: "Opening ReadMe.")
+                            }
+                        }
+                    }
+                }
             }
+        }
+    }
+    
+    
+    func submitScopeFailover(recordTypeOutlet: String, endpoint: String, prestageID: String, httpMethod: String, objectType: String, appendReplaceRemove: String) {
+        var responseCode = 400
+
+        DispatchQueue.main.async {
+            self.guiAttributeRun()
+        }
+
+        logMan.infoWrite(logString: "Beginning failover run of individual uploads.")
+        let csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path ?? "/dev/null", delimiter: globalDelimiter!)
+        if recordTypeOutlet.contains("Prestage") {
+            // Prestage updates here
+            var serialArray: [String]!
+            
+            // If there is data in the CSV, begin our loop
+            if csvArray.count > 1 {
+                for row in 1...(csvArray.count - 1) {
+                    
+                    // Get the current row of the CSV for updating
+                    let currentRow = csvArray[row]
+                    
+                    // Nuke the array and re-populate with the next line.
+                    serialArray = []
+                    serialArray.append(currentRow[0].trimmingCharacters(in: CharacterSet.whitespaces))
+                    
+                    
+                    // GUI updates for progress bar
+                    DispatchQueue.main.async {
+                        // progress bar updates during the run
+                        self.lblEndLine.stringValue = "\(csvArray.count - 1)"
+                        self.lblLine.stringValue = "\(row)"
+                        self.barProgress.doubleValue = Double((100 * row / (csvArray.count - 1 )))
+                    }
+                    
+                    // Get a fresh version lock and build the json to submit
+                    let versionLock = getCurrentPrestageVersionLock(endpoint: endpoint, prestageID: prestageID)
+                    jsonToSubmit = jsonMan.buildScopeUpdatesJson(versionLock: versionLock, serialNumbers: serialArray)
+                    
+                    // Submit the update
+                    let jpapiVersion = "v2"
+                    responseCode = APIFunc.updatePrestage(passedUrl: globalURL, endpoint: endpoint, prestageID: prestageID, jpapiVersion: jpapiVersion, token: globalToken, jsonToSubmit: jsonToSubmit, httpMethod: httpMethod, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
+                    
+                }
+            } else {
+                // Not enough rows in the CSV to run
+            }
+        } else {
+            // Static Group updates here
+            var serialArray: [String]!
+            var xmlToPUT: Data!
+
+            if csvArray.count > 1 {
+                for row in 1...(csvArray.count - 1 ) {
+                    
+                    // Get the current row of the CSV
+                    let currentRow = csvArray[row]
+                    
+                    // Nuke the Serial Array and re-populate with the latest row
+                    serialArray = []
+                    serialArray.append(currentRow[0])
+                    
+                    // GUI Updates for progress bar
+                    DispatchQueue.main.async {
+                        // progress bar updates during the run
+                        self.lblEndLine.stringValue = "\(csvArray.count - 1)"
+                        self.lblLine.stringValue = "\(row)"
+                        self.barProgress.doubleValue = Double((100 * row / (csvArray.count - 1 )))
+                    }
+                    
+                    // Build the XML and submit it to Jamf Pro
+                    xmlToPUT = xmlMan.staticGroup(appendReplaceRemove: appendReplaceRemove, objectType: objectType, identifiers: serialArray)
+                    let response = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint, identifierType: "id", identifier: prestageID, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPUT)
+                    responseCode = response.code
+                }
+            }
+        }
+
+        DispatchQueue.main.async {
+            self.guiAttributeDone()
+            self.lblStatus.stringValue = "Classic mode update run complete. Check the MUT.log for details"
         }
     }
     
@@ -518,6 +615,10 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                 if(globalEndpoint! != "mobiledevices") {
                     _ = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint!, identifierType: identifierType, identifier: currentRow[0], allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPut)
                 } else {
+                    // If Jamf Pro is not compatible with the Enforce Name, alert the end-user.
+                    if !isCompatibleJamfProVersion(compatibleVersion: "10.33.0", currentVersion: jamfProVersion) {
+                        logMan.errorWrite(logString: "Enforcing Mobile Device Names requires Jamf Pro 10.33 or higher. Please upgrade to the latest version of Jamf Pro in order to use this feature.")
+                    }
                     // Send the updates to the CAPI
                     let putResponse = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint!, identifierType: identifierType, identifier: currentRow[0], allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPut)
                     
@@ -529,7 +630,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                         
                         // JPAPI requires ID in order to identify device
                         let id = mdXMLParser.getMobileDeviceIdFromResponse(data: putResponse.body!)
-                        
+                        logMan.infoWrite(logString: "Submitting a request to to update the name of device \(currentRow[0]) to '\(currentRow[1])' with enforcement set to \(currentRow[2]).")
                         _ = APIFunc.patchData(passedUrl: globalURL, token: globalToken, endpoint: "mobile-devices", endpointVersion: "v2", identifier: id, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), jsonData: json)
                     }
                 }
@@ -701,6 +802,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
     // Get Jamf Pro version to verify compatibility with endpoints. Should eventually
     // get moved to a Jamf Pro version manager service that could be used globally.
     func getJamfProVersion() -> String {
+        logMan.infoWrite(logString: "Attempting to GET the Jamf Pro Version from the API.")
         let getResponse = APIFunc.getData(passedUrl: globalURL, token: globalToken, endpoint: "jamf-pro-version", endpointVersion: "v1", identifier: "", allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
         let decoder = JSONDecoder()
         var jamfProVersion = ""

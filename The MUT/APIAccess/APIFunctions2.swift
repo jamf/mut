@@ -80,8 +80,8 @@ public class APIFunctions {
         var responseCode = 400
         let encodedURL = dataPrep.generateJpapiURL(baseURL: passedUrl, endpoint: endpoint, endpointVersion: endpointVersion, identifier: identifier)
         
-        logMan.infoWrite(logString: "Submitting a PATCH to \(encodedURL.absoluteString)")
-        logMan.infoWrite(logString: String(decoding: jsonData, as: UTF8.self))
+        //logMan.infoWrite(logString: "Submitting a PATCH to \(encodedURL.absoluteString)") // Re-enable these in debug mode when available.
+        //logMan.infoWrite(logString: String(decoding: jsonData, as: UTF8.self)) // Re-enable these in debug mode when available.
         // Changed to use SessionHandler to configure trust
         sessionHandler.setAllowUntrusted(allowUntrusted: allowUntrusted)
         // The semaphore is what allows us to force the code to wait for this request to complete
@@ -104,12 +104,12 @@ public class APIFunctions {
                 responseCode = httpResponse.statusCode
                 if httpResponse.statusCode >= 199 && httpResponse.statusCode <= 299 {
                     // Good response from API
-                    self.logMan.infoWrite(logString: "Successful PATCH update completed. \(httpResponse.statusCode).")
+                    self.logMan.infoWrite(logString: "Successful name enforcement request. \(httpResponse.statusCode).")
                     // DEBUGGING
                     //self.logMan.infoWrite(logString: String(decoding: data!, as: UTF8.self))
                 } else {
                     // Bad Response from API
-                    self.logMan.errorWrite(logString: "Failed PATCH. \(httpResponse.statusCode).")
+                    self.logMan.errorWrite(logString: "Failed name enforcement request. \(httpResponse.statusCode).")
                     self.logMan.errorWrite(logString: String(decoding: data!, as: UTF8.self))
                 }
                 semaphore.signal() // Signal completion to the semaphore
@@ -133,7 +133,7 @@ public class APIFunctions {
         
         let encodedURL = dataPrep.generateJpapiURL(baseURL: passedUrl, endpoint: endpoint, endpointVersion: endpointVersion, identifier: identifier)
         
-        logMan.infoWrite(logString: "Submitting a GET to \(encodedURL.absoluteString)")
+        //logMan.infoWrite(logString: "Submitting a GET to \(encodedURL.absoluteString)")
         // Changed to use SessionHandler to configure trust
         sessionHandler.setAllowUntrusted(allowUntrusted: allowUntrusted)
         // The semaphore is what allows us to force the code to wait for this request to complete
