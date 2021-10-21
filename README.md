@@ -176,7 +176,7 @@ But let's pretend our group number was 1337; to add the devices in question to C
 ![Static Group Update](https://imgur.com/BsDX0IH.png "Static Group Update")
 
 ##### [Prestage Scope Updates](#prestages)
-One of the new features of MUT v6 is the ability to modify the scope of prestages. This feature REQUIRES Jamf Pro v10.14+ in order to function properly.
+One of the new features of MUT v6 is the ability to modify the scope of prestages. This feature REQUIRES Jamf Pro v10.24+ in order to function properly.
 
 In order to do this, your CSV file should contain nothing but a single column of identifiers for the objects to be added, removed, or replaced in the scope of that prestage. This identifier can be either Serial Number or ID for computers and mobile devices.
 
