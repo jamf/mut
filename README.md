@@ -17,7 +17,7 @@ _The **unofficial**, all-in-one mass update tool designed to be the perfect comp
         - [Clearing Existing Attribute Values](#clearing-existing-attribute-values)
       - [Static Group Updates](#static-group-updates)
       - [Prestage Scope Updates](#prestage-scope-updates)
-      - [Classic Mode Group/Prestage Updates](#classic-mode)
+      - [Classic Mode Group/Prestage Updates](#classic-mode-groupprestage-updates)
   - [Preflight and Preview](#preflight-and-preview)
   - [Send your updates](#send-your-updates)
 - [Top Tips](#top-tips)
@@ -198,14 +198,14 @@ To add the devices in question to Prestage 1, your MUT GUI would look like this:
 
 ![Prestage 1 Update](https://imgur.com/6Q5RP1d.png "Prestage 1 Update")
 
-##### [Classic Mode Group/Prestage Updates](#classic-mode)
+##### [Classic Mode Group/Prestage Updates](#classic-mode-groupprestage-updates)
 The MUT v5 used a new method to update groups and prestages. This new method was far more efficient, but required the CSV to be perfect. Any lines with devices that were already in scope, or no longer in the environment would cause the entire update run to fail. Because of this, MUT Classic was made available, which updated group or prestage line-by-line, just as MUT v4 did.
 
 These line-by-line submissions are far less efficient, and take significantly longer, but if there is a bad line in the CSV, MUT will simply skip over it and move on.
 
 Now, in MUT v6, you get the best of both worlds. MUT v6 will initially attempt the new, more efficient update method, but on the off chance that it fails, you will be presented with the option to attempt a "Classic Mode" update.
 
-![Classic mode prompt](https://imgur.com/7YF7Mtr "Classic mode prompt")
+![Classic mode prompt](https://imgur.com/7YF7Mtr.png "Classic mode prompt")
 
 It is important to note that incorrect lines will still fail with this Classic Mode, but those lines will be reported in the MUT.log for later review, and any other lines will still go through successfully.
 
