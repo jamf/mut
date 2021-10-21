@@ -26,6 +26,8 @@ _The **unofficial**, all-in-one mass update tool designed to be the perfect comp
 
 Welcome to MUT v6. If you're familiar with MUT v5, and MUT Classic, MUT v6 will probably feel very familiar to you. If this is your first time here, I recommend you read the ReadMe in its entirety. 
 
+If you'd like a quick video tour of the new features of v6, check our the intro video here: https://www.youtube.com/watch?v=G1CWoWbr_TI
+
 **MUT is an incredibly powerful tool, and with great power comes great ability-to-break-things. Always, ALWAYS run a small test update on just a couple devices to make sure your updates are working as intended, and your scoping does not break due to the updates.**
 
 ## [Introduction:](#introduction)
