@@ -157,7 +157,7 @@ class loginWindow: NSViewController {
                                 self.token = newJson["token"].stringValue
                                 self.expiry = newJson["expires"].intValue
                             } catch let error as NSError {
-                                NSLog("[ERROR ]: Failed to load: \(error.localizedDescription)")
+                                //NSLog("[ERROR ]: Failed to load: \(error.localizedDescription)")
                                 self.logMan.errorWrite(logString: "Failed to load: \(error.localizedDescription)")
                             }
 

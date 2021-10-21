@@ -25,7 +25,7 @@ public class SessionHandler
     private let myDelegate = APIDelegate()
     private init()
     {
-        print("initializing session")
+        //print("initializing session")
         let config = URLSessionConfiguration.default
         config.httpMaximumConnectionsPerHost = 1
         self.mySession = URLSession(configuration: config, delegate: myDelegate, delegateQueue: myDelQueue)

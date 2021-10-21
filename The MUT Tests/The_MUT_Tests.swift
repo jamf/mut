@@ -406,7 +406,7 @@ class macOSXMLTests: XCTestCase {
     }
     
     func testmacOSXML_LDAP() {
-        let macOSXML = xmlMan.macosObject(displayName: "", assetTag: "", barcode1: "", barcode2: "", username: "", full_name: "", email_address: "", phone_number: "", position: "", department: "", building: "", room: "", poNumber: "", vendor: "", purchasePrice: "", poDate: "", warrantyExpires: "", leaseExpires: "", appleCareID: "", ea_ids: [], ea_values: [], site_ident: "")
+        let macOSXML = xmlMan.macosObject(displayName: "", assetTag: "", barcode1: "", barcode2: "", username: "", full_name: "", email_address: "", position: "", phone_number: "", department: "", building: "", room: "", poNumber: "", vendor: "", purchasePrice: "", poDate: "", warrantyExpires: "", isLeased: <#String#>, leaseExpires: "", appleCareID: "", site_ident: "", ea_ids: [], ea_values: [])
         let xmlString = String(decoding: macOSXML, as: UTF8.self)
         print(xmlString)
     }

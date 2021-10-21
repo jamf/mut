@@ -70,7 +70,7 @@ public class tokenManagement: NSObject {
             if error != nil {
                 let errorString = "[FATAL ]: " + error!.localizedDescription
                 token = errorString.data(using: .utf8)!
-                NSLog("[FATAL ]: " + error!.localizedDescription)
+                //NSLog("[FATAL ]: " + error!.localizedDescription)
                 self.logMan.fatalWrite(logString: error!.localizedDescription)
                 semaphore.signal() // Signal completion to the semaphore
             }
