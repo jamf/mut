@@ -92,6 +92,15 @@ public class popPrompt {
         return myPopup.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn
     }
     
+    public func failedToRenew() -> Bool {
+        let myPopup: NSAlert = NSAlert()
+        myPopup.messageText = "Failed to Renew TOken"
+        myPopup.informativeText = "It seems there was a problem renewing the token. We have no good way of recovering from this state. \n\nPlease close the app and try again."
+        myPopup.alertStyle = NSAlert.Style.warning
+        myPopup.addButton(withTitle: "OK")
+        return myPopup.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn
+    }
+    
     public func noServer() -> Bool {
         let myPopup: NSAlert = NSAlert()
         myPopup.messageText = "No Server Info"

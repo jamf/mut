@@ -156,6 +156,8 @@ class loginWindow: NSViewController {
                                 let newJson = try JSON(data: tokenData)
                                 self.token = newJson["token"].stringValue
                                 self.expiry = newJson["expires"].intValue
+                                let expiryString = self.dataPrep.convertFromEpoch(epochInt: self.expiry)
+                                print(expiryString)
                             } catch let error as NSError {
                                 //NSLog("[ERROR ]: Failed to load: \(error.localizedDescription)")
                                 self.logMan.errorWrite(logString: "Failed to load: \(error.localizedDescription)")
@@ -182,7 +184,6 @@ class loginWindow: NSViewController {
                                 // Delegate stuff to pass info forward goes here
                                 let base64creds = self.dataPrep.base64Credentials(user: self.txtUserOutlet.stringValue, password: self.txtPassOutlet.stringValue)
                                 self.delegateAuth?.userDidAuthenticate(base64Credentials: base64creds, url: self.txtURLOutlet.stringValue, token: self.token, expiry: self.expiry)
-
                                 self.dismiss(self)
                             }
                         } else {
