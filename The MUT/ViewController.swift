@@ -59,6 +59,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
     var globalToken: String!
     var globalURL: String!
     var globalExpiry: Int!
+    var globalExpiryString: String!
     var globalBase64: String!
     var globalEndpoint: String!
     //Added globalTab to contain all the scope tab endpoints for table drawing
@@ -113,6 +114,8 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
             preferredContentSize = NSSize(width: 550, height: 550)
         }
     }
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -885,6 +888,49 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
         lblStatus.stringValue = "Updates complete. See MUT.log for details."
     }
     
+    func tokenKeepAlive() {
+        let needNewToken = tokenMan.checkExpiry(expiry: globalExpiry)
+        if needNewToken {
+            let newTokenData = tokenMan.renewToken(version: "v1", url: globalURL, token: globalToken, expiry: globalExpiry, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
+            DispatchQueue.main.async {
+                //print(String(decoding: tokenData, as: UTF8.self)) // Uncomment for debugging
+                // Reset the GUI and pop up a warning with the info if we get a fatal error
+                if String(decoding: newTokenData, as: UTF8.self).contains("FATAL") {
+                    _ = popPrompt().fatalWarning(error: String(decoding: newTokenData, as: UTF8.self))
+                } else {
+                    // No error found leads you here:
+                    if String(decoding: newTokenData, as: UTF8.self).contains("token") {
+                        // Good credentials here, as told by there being a token
+                        //let passedURL = dataPrep.generateURL(baseURL: txtURLOutlet.stringValue, endpoint: "", identifierType: "", identifier: "", jpapi: false, jpapiVersion: "")
+                        do {
+                            // Parse the JSON to return token and Expiry
+                            print("Old Token \(self.globalToken)")
+                            print("Old Expiry \(self.globalExpiry)")
+                            let newJson = try JSON(data: newTokenData)
+                            self.globalToken = newJson["token"].stringValue
+                            self.globalExpiryString = newJson["expires"].stringValue
+                            print(self.globalToken ?? "")
+                            print(self.globalExpiryString ?? "")
+                            self.globalExpiry = self.dataPrep.convertToEpoch(dateString: self.globalExpiryString)
+                            
+                            print("New Token \(self.globalToken)")
+                            print("New Expiry \(self.globalExpiry)")
+                        } catch let error as NSError {
+                            //NSLog("[ERROR ]: Failed to load: \(error.localizedDescription)")
+                            self.logMan.errorWrite(logString: "Failed to load: \(error.localizedDescription)")
+                        }
+                    } else {
+                        // Bad credentials here
+                        DispatchQueue.main.async {
+                            // Popup warning of invalid credentials
+                            _ = popPrompt().failedToRenew()
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     @IBAction func popRecordTypeAction(_ sender: Any) {
         notReadyToRun()
         popActionTypeOutlet.isEnabled = true
@@ -913,6 +959,13 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
     @IBAction func btnCancelAction(_ sender: Any) {
         cancelRun = true
     }
+    
+    @IBAction func btnTest(_ sender: Any) {
+        
+        tokenKeepAlive()
+
+    }
+    
 
 }
 
@@ -1044,5 +1097,8 @@ extension ViewController: NSTableViewDataSource {
             mainViewDefaults.set(delimiter, forKey: "Delimiter")
         }
     }
+    
+    
+    
     
 }

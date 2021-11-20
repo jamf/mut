@@ -26,17 +26,20 @@ public class dataPreparation {
         if jpapi {
             //JPAPI URLS
             if jpapiVersion != "nil" {
-                versionEndpoint = "\(jpapiVersion)/"
+                versionEndpoint = "/\(jpapiVersion)/"
             }
             let concatURL = instancedURL + "/uapi" + versionEndpoint + endpoint
-            let cleanURL = concatURL.replacingOccurrences(of: "//uapi", with: "/uapi")
+            var cleanURL = concatURL.replacingOccurrences(of: "//", with: "/")
+            cleanURL = cleanURL.replacingOccurrences(of: "https:/", with: "https://")
             encodedURL = NSURL(string: "\(cleanURL)")! as URL
+            print(cleanURL)
         } else {
             // CAPI URLS
             let concatURL = instancedURL + "/JSSResource/" + endpoint + "/" + identifierType + "/" + identifier
             var cleanURL = concatURL.replacingOccurrences(of: "//JSSResource", with: "/JSSResource")
             cleanURL = cleanURL.replacingOccurrences(of: "JSSResource//", with: "JSSResource/")
             encodedURL = NSURL(string: "\(cleanURL)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)! as URL
+            print(cleanURL)
         }
         return encodedURL
     }
@@ -214,6 +217,26 @@ public class dataPreparation {
             column += 1
         }
         return returnArray
+    }
+    
+    public func convertFromEpoch(epochInt: Int) -> String {
+            let truncatedTime = Int(epochInt / 1000)
+            let date = Date(timeIntervalSince1970: TimeInterval(truncatedTime))
+            let formatter = DateFormatter()
+            formatter.timeZone = TimeZone(abbreviation: "UTC")
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+            return formatter.string(from: date)
+    }
+    
+    public func convertToEpoch(dateString: String) -> Int {
+        let shortenedDateString = dateString.dropLast(5) + "Z"
+        
+        let formatter = ISO8601DateFormatter()
+        let formattedDate = formatter.date(from: shortenedDateString.description)!.timeIntervalSince1970
+        let epochInt = Int(formattedDate)
+        //print("epoch time is \(epochInt)")
+        
+        return epochInt * 1000
     }
     
 }
