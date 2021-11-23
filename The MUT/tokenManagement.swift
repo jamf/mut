@@ -47,7 +47,7 @@ public class tokenManagement: NSObject {
         // Determine the request type. If we pass this in with a variable, we could use this function for PUT as well.
         request.httpMethod = "POST"
         
-        request.addValue("Basic \(base64Credentials)", forHTTPHeaderField: "Authorization" )
+        request.addValue("Basic \(base64Creds)", forHTTPHeaderField: "Authorization" )
         request.addValue("text/xml", forHTTPHeaderField: "Content-Type")
         // set session to use
         let session = sessionHandler.mySession
