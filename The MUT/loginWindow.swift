@@ -137,7 +137,7 @@ class loginWindow: NSViewController {
 
             DispatchQueue.global(qos: .background).async {
                 // Get our token data from the API class
-                tokenData = self.tokenMan.getToken(url: url, user: user, password: password, allowUntrusted: self.loginDefaults.bool(forKey: "Insecure"))
+                tokenData = self.tokenMan.getToken(url: url, user: user, password: password, base64Credentials: "", allowUntrusted: self.loginDefaults.bool(forKey: "Insecure"))
                 DispatchQueue.main.async {
                     //print(String(decoding: tokenData, as: UTF8.self)) // Uncomment for debugging
                     // Reset the GUI and pop up a warning with the info if we get a fatal error
