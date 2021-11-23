@@ -309,14 +309,14 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
         if ( globalEndpoint.contains("group") || globalEndpoint.contains("prestage") ) {
             let needNewToken = tokenMan.checkExpiry(expiry: globalExpiry)
             // Check and get a new token if needed, and performing prestage updates
-            if globalEndpoint.contains("prestage") {
-                if needNewToken {
-                    _ = popMan.generalWarning(question: "Expired Token", text: "It appears that your token has expired. This can happen if the app sits open for too long.\n\nYou will now be taken back to the login window. Please log in again to generate a new token.")
-                    //lblStatus.stringValue = ""
-                    //tabViewOutlet.selectTabViewItem(at: 0)
-                    performSegue(withIdentifier: "segueLogin", sender: self)
-                }
-            }
+//            if globalEndpoint.contains("prestage") {
+//                if needNewToken {
+//                    _ = popMan.generalWarning(question: "Expired Token", text: "It appears that your token has expired. This can happen if the app sits open for too long.\n\nYou will now be taken back to the login window. Please log in again to generate a new token.")
+//                    //lblStatus.stringValue = ""
+//                    //tabViewOutlet.selectTabViewItem(at: 0)
+//                    performSegue(withIdentifier: "segueLogin", sender: self)
+//                }
+//            }
             let recordTypeOutlet = popRecordTypeOutlet.titleOfSelectedItem!
             let endpoint = popRecordTypeOutlet.selectedItem!.identifier!.rawValue
             let prestageID = txtPrestageID.stringValue
@@ -393,6 +393,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                 
                 // Submit the JSON to the Jamf Pro API
                 let jpapiVersion = "v2"
+                tokenKeepAlive()
                 responseCode = APIFunc.updatePrestage(passedUrl: globalURL, endpoint: endpoint, prestageID: prestageID, jpapiVersion: jpapiVersion, token: globalToken, jsonToSubmit: jsonToSubmit, httpMethod: httpMethod, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
             } else {
                 // Not enough rows in the CSV to run
@@ -486,7 +487,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                         self.lblLine.stringValue = "\(row)"
                         self.barProgress.doubleValue = Double((100 * row / (csvArray.count - 1 )))
                     }
-                    
+                    tokenKeepAlive()
                     // Get a fresh version lock and build the json to submit
                     let versionLock = getCurrentPrestageVersionLock(endpoint: endpoint, prestageID: prestageID)
                     jsonToSubmit = jsonMan.buildScopeUpdatesJson(versionLock: versionLock, serialNumbers: serialArray)
@@ -638,7 +639,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                     if(putResponse.code == 201
                         && isCompatibleJamfProVersion(compatibleVersion: "10.33.0", currentVersion: jamfProVersion)
                         && json != "{}".data(using: .utf8)) {
-                        
+                        tokenKeepAlive()
                         // JPAPI requires ID in order to identify device
                         let id = mdXMLParser.getMobileDeviceIdFromResponse(data: putResponse.body!)
                         logMan.infoWrite(logString: "Submitting a request to to update the name of device \(currentRow[0]) to '\(currentRow[1])' with enforcement set to \(currentRow[2]).")
@@ -658,13 +659,8 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
     
     func getCurrentPrestageVersionLock(endpoint: String, prestageID: String) -> Int {
         let jpapiVersion = "v2"
-//        if endpoint == "computer-prestages" {
-//            jpapiVersion = "v2"
-//        } else if endpoint == "mobile-device-prestages" {
-//            jpapiVersion = "v1"
-//        }
         let myURL = dataPrep.generatePrestageURL(baseURL: globalURL, endpoint: endpoint, prestageID: prestageID, jpapiVersion: jpapiVersion, httpMethod: "")
-        
+        tokenKeepAlive()
         let response = APIFunc.getPrestageScope(passedUrl: myURL, token: globalToken, endpoint: endpoint, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
         do {
             let newJson = try JSON(data: response)
@@ -813,6 +809,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
     // Get Jamf Pro version to verify compatibility with endpoints. Should eventually
     // get moved to a Jamf Pro version manager service that could be used globally.
     func getJamfProVersion() -> String {
+        tokenKeepAlive()
         logMan.infoWrite(logString: "Attempting to GET the Jamf Pro Version from the API.")
         let getResponse = APIFunc.getData(passedUrl: globalURL, token: globalToken, endpoint: "jamf-pro-version", endpointVersion: "v1", identifier: "", allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
         let decoder = JSONDecoder()
@@ -888,10 +885,10 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
         lblStatus.stringValue = "Updates complete. See MUT.log for details."
     }
     
-    func tokenKeepAlive() {
+    public func tokenKeepAlive() {
         let needNewToken = tokenMan.checkExpiry(expiry: globalExpiry)
         if needNewToken {
-            let newTokenData = tokenMan.renewToken(version: "v1", url: globalURL, token: globalToken, expiry: globalExpiry, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
+            let newTokenData = tokenMan.getToken(url: globalURL, user: "", password: "", base64Credentials: globalBase64, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
             DispatchQueue.main.async {
                 //print(String(decoding: tokenData, as: UTF8.self)) // Uncomment for debugging
                 // Reset the GUI and pop up a warning with the info if we get a fatal error
@@ -904,17 +901,14 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                         //let passedURL = dataPrep.generateURL(baseURL: txtURLOutlet.stringValue, endpoint: "", identifierType: "", identifier: "", jpapi: false, jpapiVersion: "")
                         do {
                             // Parse the JSON to return token and Expiry
-                            print("Old Token \(self.globalToken)")
-                            print("Old Expiry \(self.globalExpiry)")
+                            //print("Old Token \(self.globalToken)")
+                            //print("Old Expiry \(self.globalExpiry)")
                             let newJson = try JSON(data: newTokenData)
                             self.globalToken = newJson["token"].stringValue
-                            self.globalExpiryString = newJson["expires"].stringValue
-                            print(self.globalToken ?? "")
-                            print(self.globalExpiryString ?? "")
-                            self.globalExpiry = self.dataPrep.convertToEpoch(dateString: self.globalExpiryString)
+                            self.globalExpiry = newJson["expires"].intValue
                             
-                            print("New Token \(self.globalToken)")
-                            print("New Expiry \(self.globalExpiry)")
+                            //print("New Token \(self.globalToken)")
+                            //print("New Expiry \(self.globalExpiry)")
                         } catch let error as NSError {
                             //NSLog("[ERROR ]: Failed to load: \(error.localizedDescription)")
                             self.logMan.errorWrite(logString: "Failed to load: \(error.localizedDescription)")
