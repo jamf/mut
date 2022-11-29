@@ -33,9 +33,7 @@ class loginWindow: NSViewController {
     // Set up global variables to be used outside functions
     var serverURL: String!
     var base64Credentials: String!
-    var token: String!
     var verified = false
-    var expiry: Int!
 
     // Punctuation character set to be used in cleaning up URLs
     let punctuation = CharacterSet(charactersIn: ".:/")
@@ -122,7 +120,6 @@ class loginWindow: NSViewController {
         Credentials.username = txtUserOutlet.stringValue
         Credentials.password = txtPassOutlet.stringValue
         Credentials.server = txtURLOutlet.stringValue
-        print(Credentials.password)
 
         // Move forward with verification if we have not flagged the doNotRun flag
         if txtURLOutlet.stringValue != "" && txtPassOutlet.stringValue != "" && txtUserOutlet.stringValue != "" {
@@ -130,30 +127,27 @@ class loginWindow: NSViewController {
             // Change the UI to a running state
             guiRunning()
 
-            var tokenData: Data!
-
             DispatchQueue.global(qos: .background).async {
                 // Get our token data from the API class
-                tokenData = self.tokenMan.getToken(url: Credentials.server!, user: Credentials.username!, password: Credentials.password!, allowUntrusted: self.loginDefaults.bool(forKey: "Insecure"))
+                Token.data = self.tokenMan.getToken(url: Credentials.server!, user: Credentials.username!, password: Credentials.password!, allowUntrusted: self.loginDefaults.bool(forKey: "Insecure"))
                 DispatchQueue.main.async {
-                    //print(String(decoding: tokenData, as: UTF8.self)) // Uncomment for debugging
+                    print(String(decoding: Token.data!, as: UTF8.self)) // Uncomment for debugging
                     // Reset the GUI and pop up a warning with the info if we get a fatal error
-                    if String(decoding: tokenData, as: UTF8.self).contains("FATAL") {
-                        _ = popPrompt().fatalWarning(error: String(decoding: tokenData, as: UTF8.self))
+                    if String(decoding: Token.data!, as: UTF8.self).contains("FATAL") {
+                        _ = popPrompt().fatalWarning(error: String(decoding: Token.data!, as: UTF8.self))
                         self.guiReset()
                     } else {
                         // No error found leads you here:
-                        if String(decoding: tokenData, as: UTF8.self).contains("token") {
+                        if String(decoding: Token.data!, as: UTF8.self).contains("token") {
                             // Good credentials here, as told by there being a token
                             self.verified = true
 
                             do {
                                 // Parse the JSON to return token and Expiry
-                                let newJson = try JSON(data: tokenData)
-                                self.token = newJson["token"].stringValue
-                                self.expiry = newJson["expires"].intValue
+                                let newJson = try JSON(data: Token.data!)
+                                Token.value = newJson["token"].stringValue
+                                Token.expiration = newJson["expires"].intValue
                             } catch let error as NSError {
-                                //NSLog("[ERROR ]: Failed to load: \(error.localizedDescription)")
                                 self.logMan.errorWrite(logString: "Failed to load: \(error.localizedDescription)")
                             }
 
@@ -177,8 +171,7 @@ class loginWindow: NSViewController {
 
                                 // Delegate stuff to pass info forward goes here
                                 let base64creds = self.dataPrep.base64Credentials(user: self.txtUserOutlet.stringValue, password: self.txtPassOutlet.stringValue)
-                                self.delegateAuth?.userDidAuthenticate(base64Credentials: base64creds, url: self.txtURLOutlet.stringValue, token: self.token, expiry: self.expiry)
-
+                                self.delegateAuth?.userDidAuthenticate(base64Credentials: base64creds, url: self.txtURLOutlet.stringValue, token: Token.value!, expiry: Token.expiration!)
                                 self.dismiss(self)
                             }
                         } else {
@@ -193,10 +186,6 @@ class loginWindow: NSViewController {
                     }
                 }
             }
-
-
-
-
         }
     }
     

@@ -70,6 +70,7 @@ public struct Credentials {
 public struct Token {
     static var value: String?
     static var expiration: Int?
+    static var data: Data?
 }
 
 extension Data {
