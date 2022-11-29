@@ -26,6 +26,7 @@
 		F7333BDB1DB55EDF00F89C00 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F7333BD91DB55EDF00F89C00 /* Main.storyboard */; };
 		F743057F22D515CC00FF229E /* jsonBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F743057E22D515CC00FF229E /* jsonBuilder.swift */; };
 		F762D7FC22D98BBC009702D4 /* LogManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F762D7FB22D98BBC009702D4 /* LogManager.swift */; };
+		F76AE9A529366FCF00A6F443 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76AE9A429366FCF00A6F443 /* KeychainHelper.swift */; };
 		F7C07DC7270548BC0089F6CC /* MUT Templates.zip in Resources */ = {isa = PBXBuildFile; fileRef = F7C07DC6270548BC0089F6CC /* MUT Templates.zip */; };
 		F7CEE52A229E3C420027CAE8 /* loginWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CEE529229E3C420027CAE8 /* loginWindow.swift */; };
 		F7CF61EA2298671E003A0CBB /* tokenManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CF61E92298671E003A0CBB /* tokenManagement.swift */; };
@@ -80,6 +81,7 @@
 		F7333BDC1DB55EDF00F89C00 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F743057E22D515CC00FF229E /* jsonBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = jsonBuilder.swift; sourceTree = "<group>"; };
 		F762D7FB22D98BBC009702D4 /* LogManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogManager.swift; sourceTree = "<group>"; };
+		F76AE9A429366FCF00A6F443 /* KeychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
 		F7C07DC6270548BC0089F6CC /* MUT Templates.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "MUT Templates.zip"; sourceTree = "<group>"; };
 		F7CEE529229E3C420027CAE8 /* loginWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginWindow.swift; sourceTree = "<group>"; };
 		F7CF61E92298671E003A0CBB /* tokenManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tokenManagement.swift; sourceTree = "<group>"; };
@@ -207,6 +209,7 @@
 				F7333BDC1DB55EDF00F89C00 /* Info.plist */,
 				F7333BD41DB55EDF00F89C00 /* The_MUT.xcdatamodeld */,
 				50D075C126DED17900252AC0 /* MobileDeviceXMLParser.swift */,
+				F76AE9A429366FCF00A6F443 /* KeychainHelper.swift */,
 			);
 			path = "The MUT";
 			sourceTree = "<group>";
@@ -379,6 +382,7 @@
 				F7333BD31DB55EDF00F89C00 /* ViewController.swift in Sources */,
 				F7333BD61DB55EDF00F89C00 /* The_MUT.xcdatamodeld in Sources */,
 				F7FF428B1EA645680044F126 /* xmlBuilder.swift in Sources */,
+				F76AE9A529366FCF00A6F443 /* KeychainHelper.swift in Sources */,
 				F7CF61EC22986736003A0CBB /* dataPreparation.swift in Sources */,
 				71FEC542238CD07B00A7AAB5 /* APIAccess.swift in Sources */,
 				71FEC543238CD07B00A7AAB5 /* APIDelegate.swift in Sources */,
