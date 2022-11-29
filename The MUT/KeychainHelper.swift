@@ -58,18 +58,18 @@ class KeyChainHelper {
 }
 
 public struct KeyVars {
-    static var key = "com.jamf.mut.login"
+    static var key = "com.jamf.mut.credentials"
 }
 
 public struct Credentials {
-    var username: String
-    var password: String
-    var server: String
+    static var username:  String?
+    static var password: String?
+    static var server: String?
 }
 
 public struct Token {
-    var value: String
-    var expiration: Int
+    static var value: String?
+    static var expiration: Int?
 }
 
 extension Data {

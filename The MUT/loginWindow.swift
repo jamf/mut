@@ -31,7 +31,6 @@ class loginWindow: NSViewController {
     @IBOutlet weak var chkBypass: NSButton!
 
     // Set up global variables to be used outside functions
-    var doNotRun: Bool!
     var serverURL: String!
     var base64Credentials: String!
     var token: String!
@@ -100,7 +99,6 @@ class loginWindow: NSViewController {
     }
 
     @IBAction func btnSubmit(_ sender: Any) {
-        doNotRun = false
 
         // Clean up whitespace at the beginning and end of the fields, in case of faulty copy/paste
         txtURLOutlet.stringValue = txtURLOutlet.stringValue.trimmingCharacters(in: CharacterSet.whitespaces)
@@ -109,35 +107,34 @@ class loginWindow: NSViewController {
         // Warn the user if they have failed to enter an instancename AND prem URL
         if txtURLOutlet.stringValue == "" {
             _ = popPrompt().noServer()
-            doNotRun = true // Set Do Not Run flag
         }
 
         // Warn the user if they have failed to enter a username
         if txtUserOutlet.stringValue == "" {
             _ = popPrompt().noUser()
-            doNotRun = true // Set Do Not Run flag
         }
 
         // Warn the user if they have failed to enter a password
         if txtPassOutlet.stringValue == "" {
             _ = popPrompt().noPass()
-            doNotRun = true // Set Do Not Run flag
         }
+        
+        Credentials.username = txtUserOutlet.stringValue
+        Credentials.password = txtPassOutlet.stringValue
+        Credentials.server = txtURLOutlet.stringValue
+        print(Credentials.password)
 
         // Move forward with verification if we have not flagged the doNotRun flag
-        if !doNotRun {
+        if txtURLOutlet.stringValue != "" && txtPassOutlet.stringValue != "" && txtUserOutlet.stringValue != "" {
             
             // Change the UI to a running state
             guiRunning()
 
-            let url = txtURLOutlet.stringValue
-            let user = txtUserOutlet.stringValue
-            let password = txtPassOutlet.stringValue
             var tokenData: Data!
 
             DispatchQueue.global(qos: .background).async {
                 // Get our token data from the API class
-                tokenData = self.tokenMan.getToken(url: url, user: user, password: password, allowUntrusted: self.loginDefaults.bool(forKey: "Insecure"))
+                tokenData = self.tokenMan.getToken(url: Credentials.server!, user: Credentials.username!, password: Credentials.password!, allowUntrusted: self.loginDefaults.bool(forKey: "Insecure"))
                 DispatchQueue.main.async {
                     //print(String(decoding: tokenData, as: UTF8.self)) // Uncomment for debugging
                     // Reset the GUI and pop up a warning with the info if we get a fatal error
@@ -149,7 +146,6 @@ class loginWindow: NSViewController {
                         if String(decoding: tokenData, as: UTF8.self).contains("token") {
                             // Good credentials here, as told by there being a token
                             self.verified = true
-                            //let passedURL = dataPrep.generateURL(baseURL: txtURLOutlet.stringValue, endpoint: "", identifierType: "", identifier: "", jpapi: false, jpapiVersion: "")
 
                             do {
                                 // Parse the JSON to return token and Expiry
@@ -201,9 +197,6 @@ class loginWindow: NSViewController {
 
 
 
-        } else {
-            // Reset the Do Not Run flag so that on subsequent runs we try the checks again.
-            doNotRun = false
         }
     }
     
