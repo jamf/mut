@@ -92,6 +92,15 @@ public class popPrompt {
         return myPopup.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn
     }
     
+    public func invalidKeychain() -> Bool {
+        let myPopup: NSAlert = NSAlert()
+        myPopup.messageText = "Invalid Keychain Info"
+        myPopup.informativeText = "The credentials stored in your keychain do not seem to have sufficient permissions. This could be due to an incorrect user/password, or possibly from insufficient permissions.\n\nMUT tests this against the user's ability to generate a token for the new JPAPI/UAPI. This token is now required for some tasks that MUT performs.\n\nMUT will now remove the stored keychain info."
+        myPopup.alertStyle = NSAlert.Style.warning
+        myPopup.addButton(withTitle: "OK")
+        return myPopup.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn
+    }
+    
     public func noServer() -> Bool {
         let myPopup: NSAlert = NSAlert()
         myPopup.messageText = "No Server Info"
