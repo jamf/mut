@@ -137,7 +137,7 @@ class loginWindow: NSViewController {
                 // Get our token data from the API class
                 Token.data = self.tokenMan.getToken(url: Credentials.server!, user: Credentials.username!, password: Credentials.password!, allowUntrusted: self.loginDefaults.bool(forKey: "Insecure"))
                 DispatchQueue.main.async {
-                    print(String(decoding: Token.data!, as: UTF8.self)) // Uncomment for debugging
+                    //print(String(decoding: Token.data!, as: UTF8.self)) // Uncomment for debugging
                     // Reset the GUI and pop up a warning with the info if we get a fatal error
                     if String(decoding: Token.data!, as: UTF8.self).contains("FATAL") {
                         _ = popPrompt().fatalWarning(error: String(decoding: Token.data!, as: UTF8.self))
