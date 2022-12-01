@@ -33,6 +33,8 @@ class loginWindow: NSViewController {
     let tokenMan = tokenManagement()
     let dataPrep = dataPreparation()
     let logMan = logManager()
+    
+    var keyChainLogin = false
 
     // This runs when the view loads
     override func viewDidLoad() {
@@ -46,6 +48,7 @@ class loginWindow: NSViewController {
             self.txtUserOutlet.stringValue = Credentials.username!
             self.txtPassOutlet.stringValue = Credentials.password!
             self.logMan.infoWrite(logString: "Found credentials stored in KeyChain. Attempting login.")
+            keyChainLogin = true
             self.btnSubmit(self)
         } catch KeychainError.noPassword {
             // No info found in keychain
@@ -90,21 +93,7 @@ class loginWindow: NSViewController {
         txtUserOutlet.stringValue = txtUserOutlet.stringValue.trimmingCharacters(in: CharacterSet.whitespaces)
         
         if self.chkRememberMe.state.rawValue != 1 {
-            DispatchQueue.global(qos: .background).async {
-                do {
-                    try KeyChainHelper.delete()
-                    self.logMan.infoWrite(logString: "Deleting information stored in keychain.")
-                } catch KeychainError.noPassword {
-                    // No info found in keychain
-                    self.logMan.infoWrite(logString: "No stored info found in KeyChain.")
-                } catch KeychainError.unexpectedPasswordData {
-                    // Info found, but it was bad
-                    self.logMan.errorWrite(logString: "Information was found in KeyChain, but it was somehow corrupt.")
-                } catch {
-                    // Something else
-                    self.logMan.fatalWrite(logString: "Unhandled exception found with extracting KeyChain info.")
-                }
-            }
+            deleteKeyChain()
         }
 
         // Warn the user if they have failed to enter an instancename AND prem URL
@@ -182,10 +171,20 @@ class loginWindow: NSViewController {
                             self.btnSubmitOutlet.isHidden = false
                         } else {
                             // Bad credentials here
-                            DispatchQueue.main.async {
-                                self.guiReset()
-                                // Popup warning of invalid credentials
-                                _ = popPrompt().invalidCredentials()
+                            if self.keyChainLogin {
+                                DispatchQueue.main.async {
+                                    self.guiReset()
+                                    // Popup warning of invalid credentials
+                                    _ = popPrompt().invalidKeychain()
+                                    self.keyChainLogin = false
+                                }
+                                self.deleteKeyChain()
+                            } else {
+                                DispatchQueue.main.async {
+                                    self.guiReset()
+                                    // Popup warning of invalid credentials
+                                    _ = popPrompt().invalidCredentials()
+                                }
                             }
                         }
                     }
@@ -222,5 +221,23 @@ class loginWindow: NSViewController {
     func guiReset() {
         spinProgress.stopAnimation(self)
         btnSubmitOutlet.isHidden = false
+    }
+    
+    func deleteKeyChain() {
+        DispatchQueue.global(qos: .background).async {
+            do {
+                try KeyChainHelper.delete()
+                self.logMan.infoWrite(logString: "Deleting information stored in keychain.")
+            } catch KeychainError.noPassword {
+                // No info found in keychain
+                self.logMan.infoWrite(logString: "No stored info found in KeyChain.")
+            } catch KeychainError.unexpectedPasswordData {
+                // Info found, but it was bad
+                self.logMan.errorWrite(logString: "Information was found in KeyChain, but it was somehow corrupt.")
+            } catch {
+                // Something else
+                self.logMan.fatalWrite(logString: "Unhandled exception found with extracting KeyChain info.")
+            }
+        }
     }
 }
