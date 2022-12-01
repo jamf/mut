@@ -88,6 +88,24 @@ class loginWindow: NSViewController {
         // Clean up whitespace at the beginning and end of the fields, in case of faulty copy/paste
         txtURLOutlet.stringValue = txtURLOutlet.stringValue.trimmingCharacters(in: CharacterSet.whitespaces)
         txtUserOutlet.stringValue = txtUserOutlet.stringValue.trimmingCharacters(in: CharacterSet.whitespaces)
+        
+        if self.chkRememberMe.state.rawValue != 1 {
+            DispatchQueue.global(qos: .background).async {
+                do {
+                    try KeyChainHelper.delete()
+                    self.logMan.infoWrite(logString: "Deleting information stored in keychain.")
+                } catch KeychainError.noPassword {
+                    // No info found in keychain
+                    self.logMan.infoWrite(logString: "No stored info found in KeyChain.")
+                } catch KeychainError.unexpectedPasswordData {
+                    // Info found, but it was bad
+                    self.logMan.errorWrite(logString: "Information was found in KeyChain, but it was somehow corrupt.")
+                } catch {
+                    // Something else
+                    self.logMan.fatalWrite(logString: "Unhandled exception found with extracting KeyChain info.")
+                }
+            }
+        }
 
         // Warn the user if they have failed to enter an instancename AND prem URL
         if txtURLOutlet.stringValue == "" {
