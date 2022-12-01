@@ -10,14 +10,7 @@ import Cocoa
 import Foundation
 import SwiftyJSON
 
-// Delegate required to send data forward to the main view controller
-protocol DataSentDelegate {
-    func userDidAuthenticate(base64Credentials: String, url: String, token: String, expiry: Int)
-}
-
 class loginWindow: NSViewController {
-
-
 
     // Declare outlets for use in the interface
     @IBOutlet weak var txtURLOutlet: NSTextField!
@@ -30,21 +23,13 @@ class loginWindow: NSViewController {
     @IBOutlet weak var chkRememberMe: NSButton!
     @IBOutlet weak var chkBypass: NSButton!
 
-    // Set up global variables to be used outside functions
-    var serverURL: String!
-    var base64Credentials: String!
-    var verified = false
-
     // Punctuation character set to be used in cleaning up URLs
     let punctuation = CharacterSet(charactersIn: ".:/")
     
     // Set up defaults to be able to save to and restore from
     let loginDefaults = UserDefaults.standard
-    
-    // Set up our delegate to pass data forward to the main view
-    var delegateAuth: DataSentDelegate? = nil
 
-    // Constructor for our classes to be used
+    // Instantiating objects
     let tokenMan = tokenManagement()
     let dataPrep = dataPreparation()
     let logMan = logManager()
@@ -52,15 +37,25 @@ class loginWindow: NSViewController {
     // This runs when the view loads
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Restore the Username to text box if we have a default stored
-        if loginDefaults.value(forKey: "UserName") != nil {
-            txtUserOutlet.stringValue = loginDefaults.value(forKey: "UserName") as! String
-        }
-
-        // Restore Prem URL to text box if we have a default stored
-        if loginDefaults.value(forKey: "InstanceURL") != nil {
-            txtURLOutlet.stringValue = loginDefaults.value(forKey: "InstanceURL") as! String
+        preferredContentSize = NSSize(width: 550, height: 550)
+        
+        // Attempt to load info from keychain
+        do {
+            try KeyChainHelper.load()
+            self.txtURLOutlet.stringValue = Credentials.server!
+            self.txtUserOutlet.stringValue = Credentials.username!
+            self.txtPassOutlet.stringValue = Credentials.password!
+            self.logMan.infoWrite(logString: "Found credentials stored in KeyChain. Attempting login.")
+            self.btnSubmit(self)
+        } catch KeychainError.noPassword {
+            // No info found in keychain
+            self.logMan.infoWrite(logString: "No stored info found in KeyChain.")
+        } catch KeychainError.unexpectedPasswordData {
+            // Info found, but it was bad
+            self.logMan.errorWrite(logString: "Information was found in KeyChain, but it was somehow corrupt.")
+        } catch {
+            // Something else
+            self.logMan.fatalWrite(logString: "Unhandled exception found with extracting KeyChain info.")
         }
 
         // Restore "remember me" checkbox settings if we have a default stored
@@ -70,8 +65,6 @@ class loginWindow: NSViewController {
             } else {
                 chkRememberMe.state = NSControl.StateValue(rawValue: 0)
             }
-        } else {
-            // Just in case you ever want to do something for no default stored
         }
         
         // Restore "Insecure SSL" checkbox settings if we have a default stored
@@ -81,8 +74,6 @@ class loginWindow: NSViewController {
             } else {
                 chkBypass.state = NSControl.StateValue(rawValue: 0)
             }
-        } else {
-            // Just in case you ever want to do something for no default stored
         }
     }
 
@@ -90,10 +81,6 @@ class loginWindow: NSViewController {
         super.viewDidAppear()
         // Forces the window to be the size we want, not resizable
         preferredContentSize = NSSize(width: 550, height: 550)
-        // If we have a URL and a User stored focus the password field
-        if loginDefaults.value(forKey: "InstanceURL") != nil  && loginDefaults.value(forKey: "UserName") != nil {
-            self.txtPassOutlet.becomeFirstResponder()
-        }
     }
 
     @IBAction func btnSubmit(_ sender: Any) {
@@ -120,6 +107,7 @@ class loginWindow: NSViewController {
         Credentials.username = txtUserOutlet.stringValue
         Credentials.password = txtPassOutlet.stringValue
         Credentials.server = txtURLOutlet.stringValue
+        Credentials.base64Encoded = self.dataPrep.base64Credentials(user: self.txtUserOutlet.stringValue, password: self.txtPassOutlet.stringValue)
 
         // Move forward with verification if we have not flagged the doNotRun flag
         if txtURLOutlet.stringValue != "" && txtPassOutlet.stringValue != "" && txtUserOutlet.stringValue != "" {
@@ -140,23 +128,31 @@ class loginWindow: NSViewController {
                         // No error found leads you here:
                         if String(decoding: Token.data!, as: UTF8.self).contains("token") {
                             // Good credentials here, as told by there being a token
-                            self.verified = true
-
                             do {
                                 // Parse the JSON to return token and Expiry
                                 let newJson = try JSON(data: Token.data!)
                                 Token.value = newJson["token"].stringValue
                                 Token.expiration = newJson["expires"].intValue
+                                
+                                self.dismiss(self)
                             } catch let error as NSError {
                                 self.logMan.errorWrite(logString: "Failed to load: \(error.localizedDescription)")
                             }
 
                             // Store username if button pressed
                             if self.chkRememberMe.state.rawValue == 1 {
-                                self.loginDefaults.set(self.txtUserOutlet.stringValue, forKey: "UserName")
-                                self.loginDefaults.set(self.txtURLOutlet.stringValue, forKey: "InstanceURL")
                                 self.loginDefaults.set(true, forKey: "Remember")
                                 self.loginDefaults.synchronize()
+                                
+                                // Attempt to save the information in keychain
+                                self.logMan.infoWrite(logString: "Remember Me checkbox checked. Storing credentials in KeyChain for later use.")
+                                DispatchQueue.global(qos: .background).async {
+                                    do {
+                                        try KeyChainHelper.save(username: Credentials.username!, password: Credentials.password!, server: Credentials.server!)
+                                    } catch {
+                                        // Issue with saving info to keychain
+                                    }
+                                }
 
                             } else {
                                 self.loginDefaults.removeObject(forKey: "UserName")
@@ -166,21 +162,12 @@ class loginWindow: NSViewController {
                             }
                             self.spinProgress.stopAnimation(self)
                             self.btnSubmitOutlet.isHidden = false
-
-                            if self.delegateAuth != nil {
-
-                                // Delegate stuff to pass info forward goes here
-                                let base64creds = self.dataPrep.base64Credentials(user: self.txtUserOutlet.stringValue, password: self.txtPassOutlet.stringValue)
-                                self.delegateAuth?.userDidAuthenticate(base64Credentials: base64creds, url: self.txtURLOutlet.stringValue, token: Token.value!, expiry: Token.expiration!)
-                                self.dismiss(self)
-                            }
                         } else {
                             // Bad credentials here
                             DispatchQueue.main.async {
                                 self.guiReset()
                                 // Popup warning of invalid credentials
                                 _ = popPrompt().invalidCredentials()
-
                             }
                         }
                     }
