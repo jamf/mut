@@ -48,13 +48,15 @@ class KeyChainHelper {
         Credentials.username = username
     }
     
-    class func delete(key: String) -> OSStatus {
-        let query = [
-            kSecClass as String       : kSecClassGenericPassword as String,
-            kSecAttrAccount as String : key
+    class func delete() throws {
+        
+        let query: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
+                                    kSecAttrLabel as String: KeyVars.key, // Looking to match this key
+                                    kSecMatchLimit as String: kSecMatchLimitOne, // Limiting to one result
         ]
-
-        return SecItemDelete(query as CFDictionary)
+        let status = SecItemDelete(query as CFDictionary)
+        guard status != errSecItemNotFound else { throw KeychainError.noPassword }
+        guard status == errSecSuccess else { throw KeychainError.unhandledError(status: status) }
     }
 
     class func createUniqueID() -> String {
