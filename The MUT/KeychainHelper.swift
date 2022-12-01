@@ -12,7 +12,7 @@ class KeyChainHelper {
 
     class func save(username: String, password: String, server: String) throws {
         let passData = password.data(using: String.Encoding.utf8)!
-        var query: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
+        let query: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
                                     kSecAttrAccount as String: username,
                                     kSecAttrServer as String: server,
                                     kSecAttrLabel as String: KeyVars.key, // This is the key we will to find it later
