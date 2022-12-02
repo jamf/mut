@@ -15,6 +15,7 @@ class KeyChainHelper {
         let query: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
                                     kSecAttrAccount as String: username,
                                     kSecAttrServer as String: server,
+                                    kSecAttrComment as String: "Server: \(server)",
                                     kSecAttrLabel as String: KeyVars.key, // This is the key we will to find it later
                                     kSecValueData as String: passData]
         SecItemDelete(query as CFDictionary)
@@ -89,16 +90,4 @@ enum KeychainError: Error {
     case noPassword
     case unexpectedPasswordData
     case unhandledError(status: OSStatus)
-}
-
-extension Data {
-
-    init<T>(from value: T) {
-        var value = value
-        self.init(buffer: UnsafeBufferPointer(start: &value, count: 1))
-    }
-
-    func to<T>(type: T.Type) -> T {
-        return self.withUnsafeBytes { $0.load(as: T.self) }
-    }
 }
