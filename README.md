@@ -4,9 +4,9 @@ _The **unofficial**, all-in-one mass update tool designed to be the perfect comp
 
 - [A note on v6:](#a-note-on-mut-and-v6)
 - [Introduction:](#introduction)
-- [What it is:](#what-it-is)
 - [Steps for use:](#steps-for-use)
   - [Log in and verify credentials:](#log-in-and-verify-credentials)
+    - [User Privileges](#user-privileges)   
   - [Download templates](#download-templates)
   - [Formatting your CSV](#formatting-your-csv)
       - [Object Updates](#object-updates)
@@ -32,12 +32,6 @@ If you'd like a quick video tour of the new features of v6, check our the intro 
 
 ## [Introduction:](#introduction)
 
-Please note that The MUT is designed, built, and maintained outside of Jamf. It is not affiliated with Jamf, it is not officially maintained by Jamf. All of MUT was written on unpaid time, and any updates that are made to it are done in what little free time we have between work, school, kids, and hobbies.
-
-This app is a learning project for us to learn how to use Xcode and program in Swift, and while we will do our best to maintain it, we cannot guarantee its functionality. If you find an issue, report it on the Issues page, and we will do our best to rectify the situation. 
-
-## [What it is:](#what-it-is)
-
 The MUT is a native macOS application written in Swift, which allows Jamf admins to make mass updates to attributes (such as username, asset tag, or extension attribute) of their devices and users in Jamf.
 
 Admins can also make mass changes to static groups, and the scope of prestage enrollments via MUT.
@@ -51,6 +45,22 @@ Admins can also make mass changes to static groups, and the scope of prestage en
 MUT will perform checks on your credentials automatically when you log in. If it senses a problem with the credentials you provide, it will let you know what those problems are.
 
 MUT performs these checks by generating a token for the new JPAPI. Any user is able to generate a token for the JPAPI, so there is no longer a need for the "bypass authentication" checkbox to exist. This checkbox has been changed to an "allow insecure SSL" checkbox. You can use this checkbox if you'd like to allow insecure SSL, but MUT will perform standard SSL checks per ATS by default.
+
+#### [User Privileges](#user-privileges) 
+
+All Privileges will be found in Jamf Pro Server Actions and only need to have Update checked — unless noted otherwise.
+
+**Computer Template** - Computers, Users
+
+**Groups and PreStage Templates** (recommended to have separate users for least privilege access):
+
+*Computer Groups / PreStage* - Static Computer Groups, Computer Prestage Enrollments
+*Device Groups / PreStage* - Static Mobile Device Groups, Mobile Device PreStage Enrollments
+*User Groups* - Static User Groups
+
+**Mobile Device template** - Mobile Devices, Users
+
+**User Template** - Users (Update / Create
 
 ### [Download templates](#download-templates)
 
