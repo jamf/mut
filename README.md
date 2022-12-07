@@ -60,7 +60,7 @@ All Privileges will be found in Jamf Pro Server Actions and only need to have Up
 
 **Mobile Device template** - Mobile Devices, Users
 
-**User Template** - Users (Update / Create
+**User Template** - Users (Update, Create)
 
 ### [Download templates](#download-templates)
 
