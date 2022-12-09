@@ -1,11 +1,127 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19162"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Menu Controller-->
+        <scene sceneID="Ivj-Cd-OpK">
+            <objects>
+                <viewController id="PNp-Nq-PNQ" customClass="MenuController" customModule="MUT" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="xNf-ix-MrY">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <tabView fixedFrame="YES" type="noTabsBezelBorder" translatesAutoresizingMaskIntoConstraints="NO" id="hrG-Yy-PEY">
+                                <rect key="frame" x="-4" y="-4" width="458" height="252"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <font key="font" metaFont="system"/>
+                                <tabViewItems>
+                                    <tabViewItem label="General" identifier="General" id="wjA-7Q-moq">
+                                        <view key="view" id="F93-Ap-UXe">
+                                            <rect key="frame" x="10" y="7" width="438" height="232"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cfu-RA-CfI">
+                                                    <rect key="frame" x="155" y="131" width="52" height="16"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="General" id="uHH-tU-p0G">
+                                                        <font key="font" usesAppearanceFont="YES"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                            </subviews>
+                                        </view>
+                                    </tabViewItem>
+                                    <tabViewItem label="Security" identifier="Security" id="0bw-Tb-Rwb">
+                                        <view key="view" id="4Tm-2k-NrW">
+                                            <rect key="frame" x="10" y="7" width="438" height="232"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1FI-0E-x0X">
+                                                    <rect key="frame" x="132" y="135" width="54" height="16"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Security" id="k8e-Uw-H6D">
+                                                        <font key="font" usesAppearanceFont="YES"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                            </subviews>
+                                        </view>
+                                    </tabViewItem>
+                                    <tabViewItem label="Keychain" identifier="Keychain" id="JSe-Jy-eDV" userLabel="Keychain">
+                                        <view key="view" id="nCF-8l-N0B">
+                                            <rect key="frame" x="10" y="7" width="438" height="232"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fKT-V3-uDl">
+                                                    <rect key="frame" x="242" y="136" width="59" height="16"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Keychain" id="yl8-mb-Aoq">
+                                                        <font key="font" usesAppearanceFont="YES"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                            </subviews>
+                                        </view>
+                                    </tabViewItem>
+                                </tabViewItems>
+                            </tabView>
+                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KDw-qr-m97">
+                                <rect key="frame" x="192" y="244" width="67" height="49.5"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="square" title="Security" bezelStyle="shadowlessSquare" imagePosition="above" alignment="center" inset="2" id="xzM-6S-VaH">
+                                    <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <imageReference key="image" image="NSLockLockedTemplate" symbolScale="large"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="btnSecurity:" target="PNp-Nq-PNQ" id="TNc-Hu-0yP"/>
+                                </connections>
+                            </button>
+                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sxW-Vh-SBa">
+                                <rect key="frame" x="267" y="244" width="67" height="52"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="square" title="Keychain" bezelStyle="shadowlessSquare" imagePosition="above" alignment="center" inset="2" id="mal-4T-RJU">
+                                    <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <imageReference key="image" image="key" catalog="system" symbolScale="large"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="btnKeychain:" target="PNp-Nq-PNQ" id="py6-2H-5ut"/>
+                                </connections>
+                            </button>
+                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oY2-KL-29r">
+                                <rect key="frame" x="117" y="244" width="67" height="50.5"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="square" title="General" bezelStyle="shadowlessSquare" imagePosition="above" alignment="center" inset="2" id="cXa-Px-wbc">
+                                    <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <imageReference key="image" image="gearshape" catalog="system" symbolScale="large"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="btnGeneral:" target="PNp-Nq-PNQ" id="9Sg-Wy-oyz"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                    </view>
+                    <connections>
+                        <outlet property="btnGeneralOutlet" destination="oY2-KL-29r" id="QZl-33-BNd"/>
+                        <outlet property="btnKeychainOutlet" destination="sxW-Vh-SBa" id="WtT-BP-I4U"/>
+                        <outlet property="btnSecurityOutlet" destination="KDw-qr-m97" id="eTU-7r-fNd"/>
+                        <outlet property="tabViewController" destination="hrG-Yy-PEY" id="Rc9-3x-KTB"/>
+                    </connections>
+                </viewController>
+                <customObject id="vhb-lM-vme" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1248" y="-666"/>
+        </scene>
         <!--Application-->
         <scene sceneID="JPo-4y-FX3">
             <objects>
@@ -94,6 +210,12 @@
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="btnOpenLog:" target="Ady-hI-5gd" id="lka-vS-GlB"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Open Menu" id="cdO-4W-x2c">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <segue destination="PNp-Nq-PNQ" kind="show" id="F8c-Zt-60N"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -571,7 +693,7 @@ DQ
                                                                             </tableCellView>
                                                                         </prototypeCellViews>
                                                                     </tableColumn>
-                                                                    <tableColumn identifier="tableValue" width="171" minWidth="40" maxWidth="1000" id="KMF-t3-fHW">
+                                                                    <tableColumn identifier="tableValue" width="162" minWidth="40" maxWidth="1000" id="KMF-t3-fHW">
                                                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                             <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -584,11 +706,11 @@ DQ
                                                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                         <prototypeCellViews>
                                                                             <tableCellView identifier="tableValue" id="K6H-Kb-VQt">
-                                                                                <rect key="frame" x="155" y="1" width="175" height="17"/>
+                                                                                <rect key="frame" x="155" y="1" width="166" height="17"/>
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <subviews>
                                                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q7Q-0M-ZJn">
-                                                                                        <rect key="frame" x="0.0" y="0.0" width="175" height="17"/>
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="166" height="17"/>
                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="1dg-aK-n88">
                                                                                             <font key="font" metaFont="system"/>
@@ -638,7 +760,7 @@ DQ
                                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                                                 <tableColumns>
-                                                                    <tableColumn identifier="csvIdentifier" width="134" minWidth="40" maxWidth="1000" id="m4m-KJ-KO3">
+                                                                    <tableColumn identifier="csvIdentifier" width="125" minWidth="40" maxWidth="1000" id="m4m-KJ-KO3">
                                                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                             <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -651,11 +773,11 @@ DQ
                                                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                         <prototypeCellViews>
                                                                             <tableCellView identifier="csvIdentifier" id="aa8-ml-LyP">
-                                                                                <rect key="frame" x="11" y="1" width="143" height="17"/>
+                                                                                <rect key="frame" x="11" y="1" width="134" height="17"/>
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <subviews>
                                                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Jc-oP-wDX">
-                                                                                        <rect key="frame" x="0.0" y="0.0" width="143" height="17"/>
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="134" height="17"/>
                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="JOX-iz-QvW">
                                                                                             <font key="font" metaFont="system"/>
@@ -776,7 +898,7 @@ DQ
                                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                                                 <tableColumns>
-                                                                    <tableColumn identifier="colScopes" width="150" minWidth="40" maxWidth="1000" id="Bgc-Uf-Svt">
+                                                                    <tableColumn identifier="colScopes" width="141" minWidth="40" maxWidth="1000" id="Bgc-Uf-Svt">
                                                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                             <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -789,11 +911,11 @@ DQ
                                                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                         <prototypeCellViews>
                                                                             <tableCellView identifier="colScopes" id="mUf-TU-ns3">
-                                                                                <rect key="frame" x="11" y="1" width="159" height="17"/>
+                                                                                <rect key="frame" x="11" y="1" width="150" height="17"/>
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <subviews>
                                                                                     <textField identifier="colScopes" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9f5-7n-Zs0">
-                                                                                        <rect key="frame" x="0.0" y="0.0" width="159" height="17"/>
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="150" height="17"/>
                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="Fu2-SZ-4ZA">
                                                                                             <font key="font" metaFont="system"/>
@@ -987,7 +1109,10 @@ DQ
         <image name="IconSafari" width="60" height="60"/>
         <image name="IconUnlocked" width="38" height="38"/>
         <image name="IconUser" width="60" height="60"/>
+        <image name="NSLockLockedTemplate" width="19" height="19"/>
         <image name="V6" width="111" height="111"/>
         <image name="V6Glow" width="230" height="230"/>
+        <image name="gearshape" catalog="system" width="21" height="21"/>
+        <image name="key" catalog="system" width="15" height="24"/>
     </resources>
 </document>
