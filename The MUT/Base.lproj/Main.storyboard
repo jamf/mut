@@ -7,120 +7,265 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Menu Controller-->
-        <scene sceneID="Ivj-Cd-OpK">
+        <!--Window Controller-->
+        <scene sceneID="Z7M-zD-k3P">
             <objects>
-                <viewController id="PNp-Nq-PNQ" customClass="MenuController" customModule="MUT" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="xNf-ix-MrY">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                <windowController id="pBs-uD-Xoj" sceneMemberID="viewController">
+                    <window key="window" title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" titlebarAppearsTransparent="YES" id="gdu-n2-TmR">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="255" y="323" width="480" height="270"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1728" height="1079"/>
+                        <view key="contentView" id="VaY-dU-f34">
+                            <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </view>
+                        <connections>
+                            <outlet property="delegate" destination="pBs-uD-Xoj" id="3kw-kX-7hg"/>
+                        </connections>
+                    </window>
+                    <connections>
+                        <segue destination="4ez-rW-ZN4" kind="relationship" relationship="window.shadowedContentViewController" id="QKS-3Y-Ps9"/>
+                    </connections>
+                </windowController>
+                <customObject id="wkh-Rk-aaY" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1073" y="-626"/>
+        </scene>
+        <!--Menu Controller-->
+        <scene sceneID="POV-4S-rhT">
+            <objects>
+                <viewController id="4ez-rW-ZN4" customClass="MenuController" customModule="MUT" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="gch-Sb-Hy6">
+                        <rect key="frame" x="0.0" y="0.0" width="550" height="325"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="KDw-qr-m97">
+                                <rect key="frame" x="286" y="270" width="54" height="48"/>
+                                <buttonCell key="cell" type="square" title="Security" bezelStyle="shadowlessSquare" imagePosition="above" alignment="center" inset="2" id="xzM-6S-VaH">
+                                    <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <imageReference key="image" image="NSAdvanced" symbolScale="large"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="btnSecurity:" target="4ez-rW-ZN4" id="S0i-Ck-vsh"/>
+                                </connections>
+                            </button>
                             <tabView fixedFrame="YES" type="noTabsBezelBorder" translatesAutoresizingMaskIntoConstraints="NO" id="hrG-Yy-PEY">
-                                <rect key="frame" x="-4" y="-4" width="458" height="252"/>
+                                <rect key="frame" x="-4" y="-6" width="558" height="272"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <font key="font" metaFont="system"/>
                                 <tabViewItems>
                                     <tabViewItem label="General" identifier="General" id="wjA-7Q-moq">
                                         <view key="view" id="F93-Ap-UXe">
-                                            <rect key="frame" x="10" y="7" width="438" height="232"/>
+                                            <rect key="frame" x="10" y="7" width="538" height="252"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
-                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cfu-RA-CfI">
-                                                    <rect key="frame" x="155" y="131" width="52" height="16"/>
+                                                <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lxm-8d-66l">
+                                                    <rect key="frame" x="211" y="200" width="180" height="25"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="General" id="uHH-tU-p0G">
-                                                        <font key="font" usesAppearanceFont="YES"/>
+                                                    <popUpButtonCell key="cell" type="push" title="Error" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="OZb-6V-KS3" id="OeB-T2-9a4">
+                                                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                                        <font key="font" metaFont="menu"/>
+                                                        <menu key="menu" id="6TH-g7-aFR">
+                                                            <items>
+                                                                <menuItem title="Error" state="on" id="OZb-6V-KS3">
+                                                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                                                </menuItem>
+                                                                <menuItem title="Warning" id="8wc-9k-gOM">
+                                                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                                                </menuItem>
+                                                                <menuItem title="Info" id="cT2-PR-3vo">
+                                                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                                                </menuItem>
+                                                            </items>
+                                                        </menu>
+                                                    </popUpButtonCell>
+                                                </popUpButton>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZBp-CJ-lDB">
+                                                    <rect key="frame" x="126" y="206" width="66" height="16"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Log Level:" id="qOe-qs-gUz">
+                                                        <font key="font" metaFont="system"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                 </textField>
+                                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QiO-vk-9P9">
+                                                    <rect key="frame" x="207" y="160" width="187" height="32"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="push" title="Open Log" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="PAn-ez-G3g">
+                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                </button>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ODq-SY-xz2">
+                                                    <rect key="frame" x="100" y="169" width="92" height="16"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Open Log File:" id="U6m-01-Dme">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="SOf-hm-c0V">
+                                                    <rect key="frame" x="14" y="138" width="510" height="5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                </box>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jBh-wI-UXY">
+                                                    <rect key="frame" x="100" y="95" width="90" height="16"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Data Settings:" id="nwG-82-6W2">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xFv-G9-RA9">
+                                                    <rect key="frame" x="212" y="94" width="175" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="check" title="Use Semicolon Delimiter" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="6YI-s2-UfG">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                </button>
+                                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Up5-TB-sOT">
+                                                    <rect key="frame" x="212" y="57" width="165" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="check" title="My Usernames are Ints" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="0h3-m3-xcd">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                </button>
                                             </subviews>
                                         </view>
                                     </tabViewItem>
                                     <tabViewItem label="Security" identifier="Security" id="0bw-Tb-Rwb">
                                         <view key="view" id="4Tm-2k-NrW">
-                                            <rect key="frame" x="10" y="7" width="438" height="232"/>
+                                            <rect key="frame" x="10" y="7" width="538" height="252"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
-                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1FI-0E-x0X">
-                                                    <rect key="frame" x="132" y="135" width="54" height="16"/>
+                                                <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="80i-4d-U1H">
+                                                    <rect key="frame" x="14" y="199" width="510" height="5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Security" id="k8e-Uw-H6D">
-                                                        <font key="font" usesAppearanceFont="YES"/>
+                                                </box>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xdY-5g-yGd">
+                                                    <rect key="frame" x="39" y="169" width="145" height="16"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Keychain Management:" id="Ms5-FG-O9b">
+                                                        <font key="font" metaFont="system"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                 </textField>
-                                            </subviews>
-                                        </view>
-                                    </tabViewItem>
-                                    <tabViewItem label="Keychain" identifier="Keychain" id="JSe-Jy-eDV" userLabel="Keychain">
-                                        <view key="view" id="nCF-8l-N0B">
-                                            <rect key="frame" x="10" y="7" width="438" height="232"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <subviews>
-                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fKT-V3-uDl">
-                                                    <rect key="frame" x="242" y="136" width="59" height="16"/>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="esQ-6P-tpd">
+                                                    <rect key="frame" x="74" y="129" width="110" height="16"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Keychain" id="yl8-mb-Aoq">
-                                                        <font key="font" usesAppearanceFont="YES"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Defaults Storage:" id="puN-Yi-ZYx">
+                                                        <font key="font" metaFont="system"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                 </textField>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KVk-Vb-Zcu">
+                                                    <rect key="frame" x="126" y="221" width="58" height="16"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Security:" id="KKf-1t-B5R">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zja-II-X8K">
+                                                    <rect key="frame" x="212" y="220" width="249" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="check" title="Allow Untrusted SSL Communication" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="j8x-BK-qGp">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                </button>
+                                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C1T-3F-imr">
+                                                    <rect key="frame" x="212" y="128" width="225" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="check" title="Store Server URL/Instance Name" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="CMx-gA-JHn">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                </button>
+                                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UDV-u2-Wch">
+                                                    <rect key="frame" x="212" y="92" width="124" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="check" title="Store Username" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="v1E-3s-dXt">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                </button>
+                                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eoS-vM-aYI">
+                                                    <rect key="frame" x="212" y="56" width="204" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="check" title="Store Untrusted SSL Settings" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="39P-vw-vRU">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                </button>
+                                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KSD-Mb-8Se">
+                                                    <rect key="frame" x="212" y="20" width="180" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="check" title="Store Delimiter Character" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="VmN-ce-YYA">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                </button>
+                                                <button horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MS6-JC-6k5">
+                                                    <rect key="frame" x="501" y="213" width="25" height="25"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ZPj-U2-j7R">
+                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                </button>
+                                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a06-LR-5BG">
+                                                    <rect key="frame" x="207" y="160" width="261" height="32"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="push" title="Clear Stored Keychain Credentials" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="6FL-xw-NuG">
+                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                </button>
                                             </subviews>
                                         </view>
                                     </tabViewItem>
                                 </tabViewItems>
                             </tabView>
-                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KDw-qr-m97">
-                                <rect key="frame" x="192" y="244" width="67" height="49.5"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="square" title="Security" bezelStyle="shadowlessSquare" imagePosition="above" alignment="center" inset="2" id="xzM-6S-VaH">
-                                    <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                    <imageReference key="image" image="NSLockLockedTemplate" symbolScale="large"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="btnSecurity:" target="PNp-Nq-PNQ" id="TNc-Hu-0yP"/>
-                                </connections>
-                            </button>
-                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sxW-Vh-SBa">
-                                <rect key="frame" x="267" y="244" width="67" height="52"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="square" title="Keychain" bezelStyle="shadowlessSquare" imagePosition="above" alignment="center" inset="2" id="mal-4T-RJU">
-                                    <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                    <imageReference key="image" image="key" catalog="system" symbolScale="large"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="btnKeychain:" target="PNp-Nq-PNQ" id="py6-2H-5ut"/>
-                                </connections>
-                            </button>
-                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oY2-KL-29r">
-                                <rect key="frame" x="117" y="244" width="67" height="50.5"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="oY2-KL-29r">
+                                <rect key="frame" x="210" y="270" width="52" height="48"/>
                                 <buttonCell key="cell" type="square" title="General" bezelStyle="shadowlessSquare" imagePosition="above" alignment="center" inset="2" id="cXa-Px-wbc">
                                     <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
-                                    <imageReference key="image" image="gearshape" catalog="system" symbolScale="large"/>
+                                    <imageReference key="image" image="NSPreferencesGeneral" symbolScale="large"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="btnGeneral:" target="PNp-Nq-PNQ" id="9Sg-Wy-oyz"/>
+                                    <action selector="btnGeneral:" target="4ez-rW-ZN4" id="gKY-bE-ecV"/>
                                 </connections>
                             </button>
                         </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="KDw-qr-m97" secondAttribute="trailing" constant="20" symbolic="YES" id="1QJ-rS-RuA"/>
+                            <constraint firstItem="KDw-qr-m97" firstAttribute="leading" secondItem="oY2-KL-29r" secondAttribute="trailing" constant="24" id="Kwc-A0-mm1"/>
+                            <constraint firstItem="oY2-KL-29r" firstAttribute="top" secondItem="gch-Sb-Hy6" secondAttribute="top" constant="7" id="Oso-YL-Sww"/>
+                            <constraint firstItem="KDw-qr-m97" firstAttribute="top" secondItem="gch-Sb-Hy6" secondAttribute="top" constant="7" id="RNO-Uc-got"/>
+                            <constraint firstItem="oY2-KL-29r" firstAttribute="leading" secondItem="gch-Sb-Hy6" secondAttribute="leading" constant="210" id="cUf-TH-I1D"/>
+                        </constraints>
                     </view>
                     <connections>
-                        <outlet property="btnGeneralOutlet" destination="oY2-KL-29r" id="QZl-33-BNd"/>
-                        <outlet property="btnKeychainOutlet" destination="sxW-Vh-SBa" id="WtT-BP-I4U"/>
-                        <outlet property="btnSecurityOutlet" destination="KDw-qr-m97" id="eTU-7r-fNd"/>
-                        <outlet property="tabViewController" destination="hrG-Yy-PEY" id="Rc9-3x-KTB"/>
+                        <outlet property="btnGeneralOutlet" destination="oY2-KL-29r" id="pa0-Gd-NIe"/>
+                        <outlet property="btnSecurityOutlet" destination="KDw-qr-m97" id="mc9-e7-Uzi"/>
+                        <outlet property="tabViewController" destination="hrG-Yy-PEY" id="GmV-CA-SgF"/>
                     </connections>
                 </viewController>
-                <customObject id="vhb-lM-vme" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <customObject id="Q8X-hd-OUk" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1248" y="-666"/>
+            <point key="canvasLocation" x="1622" y="-595"/>
         </scene>
         <!--Application-->
         <scene sceneID="JPo-4y-FX3">
@@ -139,7 +284,11 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="VOq-y0-SEH"/>
-                                        <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW"/>
+                                        <menuItem title="Preferences…" keyEquivalent="," id="BOF-NM-1cW">
+                                            <connections>
+                                                <segue destination="pBs-uD-Xoj" kind="show" id="hLC-cR-HAy"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="wFC-TO-SCJ"/>
                                         <menuItem title="Hide MUT" keyEquivalent="h" id="Olw-nP-bQN">
                                             <connections>
@@ -171,51 +320,9 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="File" id="bib-Uj-vzu">
                                     <items>
-                                        <menuItem title="Save Log File" keyEquivalent="s" id="DVo-aG-piG" userLabel="Save Log File">
-                                            <connections>
-                                                <action selector="btnSaveLog:" target="Ady-hI-5gd" id="q7G-Vc-FjU"/>
-                                            </connections>
-                                        </menuItem>
                                         <menuItem title="Close" keyEquivalent="w" id="crJ-Os-rxg">
                                             <connections>
                                                 <action selector="performClose:" target="Ady-hI-5gd" id="06S-sl-k0z"/>
-                                            </connections>
-                                        </menuItem>
-                                    </items>
-                                </menu>
-                            </menuItem>
-                            <menuItem title="Settings" id="Sta-3I-2M5">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="Settings" id="uhJ-bX-OhO">
-                                    <items>
-                                        <menuItem title="Change Delimiter" id="lE2-72-rax">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="btnChangeDelim:" target="Ady-hI-5gd" id="Ycv-Ai-bAu"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Clear Stored Values" id="xsf-6S-z4t">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="btnClearStored:" target="Ady-hI-5gd" id="fEz-1P-TL9"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="My Usernames are Ints" id="qcH-JU-i0E">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="btnUsernameInt:" target="Voe-Tx-rLC" id="D53-SN-Fah"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Open Log" id="SyU-NP-nOA" userLabel="Open Log">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="btnOpenLog:" target="Ady-hI-5gd" id="lka-vS-GlB"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Open Menu" id="cdO-4W-x2c">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <segue destination="PNp-Nq-PNQ" kind="show" id="F8c-Zt-60N"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -1109,10 +1216,9 @@ DQ
         <image name="IconSafari" width="60" height="60"/>
         <image name="IconUnlocked" width="38" height="38"/>
         <image name="IconUser" width="60" height="60"/>
-        <image name="NSLockLockedTemplate" width="19" height="19"/>
+        <image name="NSAdvanced" width="32" height="32"/>
+        <image name="NSPreferencesGeneral" width="32" height="32"/>
         <image name="V6" width="111" height="111"/>
         <image name="V6Glow" width="230" height="230"/>
-        <image name="gearshape" catalog="system" width="21" height="21"/>
-        <image name="key" catalog="system" width="15" height="24"/>
     </resources>
 </document>

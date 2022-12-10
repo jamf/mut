@@ -23,30 +23,26 @@ class MenuController: NSViewController {
     override func viewDidAppear() {
         super.viewDidAppear()
         // Forces the window to be the size we want, not resizable
-        preferredContentSize = NSSize(width: 450, height: 300)
+        preferredContentSize = NSSize(width: 550, height: 290)
     }
     
     @IBOutlet weak var tabViewController: NSTabView!
     @IBOutlet weak var btnGeneralOutlet: NSButton!
     @IBOutlet weak var btnSecurityOutlet: NSButton!
-    @IBOutlet weak var btnKeychainOutlet: NSButton!
 
     @IBAction func btnGeneral(_ sender: Any) {
         SwitchTabs(selectedButton: btnGeneralOutlet, tabIdentifier: "General")
+        preferredContentSize = NSSize(width: 550, height: 290)
     }
     
     @IBAction func btnSecurity(_ sender: Any) {
+        preferredContentSize = NSSize(width: 550, height: 325)
         SwitchTabs(selectedButton: btnSecurityOutlet, tabIdentifier: "Security")
     }
     
-    @IBAction func btnKeychain(_ sender: Any) {
-        SwitchTabs(selectedButton: btnKeychainOutlet, tabIdentifier: "Keychain")
-    }
-    
-    
     func SwitchTabs(selectedButton: NSButton, tabIdentifier: String){
         // Array of all Button Outlets
-        let buttons = [btnGeneralOutlet, btnSecurityOutlet, btnKeychainOutlet]
+        let buttons = [btnGeneralOutlet, btnSecurityOutlet]
         
         for button in buttons {
             button?.state = NSControl.StateValue.off
