@@ -223,6 +223,9 @@
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
+                                                    <connections>
+                                                        <segue destination="OWc-Ew-88a" kind="popover" popoverAnchorView="MS6-JC-6k5" popoverBehavior="t" preferredEdge="maxY" id="Yje-jX-3Mc"/>
+                                                    </connections>
                                                 </button>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a06-LR-5BG">
                                                     <rect key="frame" x="207" y="160" width="261" height="32"/>
@@ -1211,12 +1214,93 @@ DQ
             </objects>
             <point key="canvasLocation" x="1314" y="105.5"/>
         </scene>
+        <!--InsecureSSL Pop Over-->
+        <scene sceneID="Ua4-S0-SKf">
+            <objects>
+                <viewController id="OWc-Ew-88a" customClass="InsecureSSLPopOver" customModule="MUT" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="hlD-og-osV">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="355"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UqK-xs-ZCK">
+                                <rect key="frame" x="18" y="165" width="414" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" selectable="YES" id="cjD-uD-Oef">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <string key="title">If you are Jamf Cloud hosted, or you are using a third-party SSL certificate for your self-hosted server, you should not need to manage these settings.</string>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R4H-rz-u4K">
+                                <rect key="frame" x="18" y="196" width="414" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" selectable="YES" title="Use of this setting is not recommended." id="5hI-aO-bFF">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mpv-0s-lVj">
+                                <rect key="frame" x="18" y="100" width="414" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" selectable="YES" id="9ot-Ei-qqA">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <string key="title">If you are using a self-signed or other untrusted SSL certificate for your Jamf Pro server, you can install the certifcate to your keychain and trust it.</string>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LGb-OZ-O3J">
+                                <rect key="frame" x="194" y="291.5" width="62" height="59"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="NSLockUnlockedTemplate" id="Fnb-Vw-NKg"/>
+                            </imageView>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aii-fD-UWW">
+                                <rect key="frame" x="108" y="257" width="234" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Allow Untrusted SSL" id="78z-CN-umh">
+                                    <font key="font" textStyle="largeTitle" name=".SFNS-Regular"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rGm-Si-hag">
+                                <rect key="frame" x="41" y="56" width="369" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Adding a Certificate to the Keychain" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="NZH-4j-ety">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="btnAddingCertTokeychain:" target="OWc-Ew-88a" id="in2-RC-bYB"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hsu-V8-kcY">
+                                <rect key="frame" x="41" y="18" width="369" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Changing Trust Settings of a Certificate in the Keychain" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yCZ-88-gPp">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="btnChangingTrustSettings:" target="OWc-Ew-88a" id="bch-Lm-hwv"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                    </view>
+                </viewController>
+                <customObject id="TgA-rI-IiL" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2172" y="-596"/>
+        </scene>
     </scenes>
     <resources>
         <image name="IconSafari" width="60" height="60"/>
         <image name="IconUnlocked" width="38" height="38"/>
         <image name="IconUser" width="60" height="60"/>
         <image name="NSAdvanced" width="32" height="32"/>
+        <image name="NSLockUnlockedTemplate" width="21" height="19"/>
         <image name="NSPreferencesGeneral" width="32" height="32"/>
         <image name="V6" width="111" height="111"/>
         <image name="V6Glow" width="230" height="230"/>
