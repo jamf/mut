@@ -28,6 +28,7 @@
 		F762D7FC22D98BBC009702D4 /* LogManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F762D7FB22D98BBC009702D4 /* LogManager.swift */; };
 		F7A4EE48293D9ACF001263CA /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A4EE47293D9ACF001263CA /* MenuController.swift */; };
 		F7C07DC7270548BC0089F6CC /* MUT Templates.zip in Resources */ = {isa = PBXBuildFile; fileRef = F7C07DC6270548BC0089F6CC /* MUT Templates.zip */; };
+		F7C5F4B4294459D400BE7694 /* InsecureSSLPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C5F4B3294459D400BE7694 /* InsecureSSLPopover.swift */; };
 		F7CEE52A229E3C420027CAE8 /* loginWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CEE529229E3C420027CAE8 /* loginWindow.swift */; };
 		F7CF61EA2298671E003A0CBB /* tokenManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CF61E92298671E003A0CBB /* tokenManagement.swift */; };
 		F7CF61EC22986736003A0CBB /* dataPreparation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CF61EB22986736003A0CBB /* dataPreparation.swift */; };
@@ -83,6 +84,7 @@
 		F762D7FB22D98BBC009702D4 /* LogManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogManager.swift; sourceTree = "<group>"; };
 		F7A4EE47293D9ACF001263CA /* MenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		F7C07DC6270548BC0089F6CC /* MUT Templates.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "MUT Templates.zip"; sourceTree = "<group>"; };
+		F7C5F4B3294459D400BE7694 /* InsecureSSLPopover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsecureSSLPopover.swift; sourceTree = "<group>"; };
 		F7CEE529229E3C420027CAE8 /* loginWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginWindow.swift; sourceTree = "<group>"; };
 		F7CF61E92298671E003A0CBB /* tokenManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tokenManagement.swift; sourceTree = "<group>"; };
 		F7CF61EB22986736003A0CBB /* dataPreparation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dataPreparation.swift; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 		F7333BCF1DB55EDF00F89C00 /* The MUT */ = {
 			isa = PBXGroup;
 			children = (
+				F7C5F4B629445D2E00BE7694 /* Settings Menu */,
 				50D075C326DED18600252AC0 /* Models */,
 				71FEC549238CD07E00A7AAB5 /* APIAccess */,
 				F7D623911DE2C745004040F1 /* The MUT.entitlements */,
@@ -209,9 +212,17 @@
 				F7333BDC1DB55EDF00F89C00 /* Info.plist */,
 				F7333BD41DB55EDF00F89C00 /* The_MUT.xcdatamodeld */,
 				50D075C126DED17900252AC0 /* MobileDeviceXMLParser.swift */,
-				F7A4EE47293D9ACF001263CA /* MenuController.swift */,
 			);
 			path = "The MUT";
+			sourceTree = "<group>";
+		};
+		F7C5F4B629445D2E00BE7694 /* Settings Menu */ = {
+			isa = PBXGroup;
+			children = (
+				F7A4EE47293D9ACF001263CA /* MenuController.swift */,
+				F7C5F4B3294459D400BE7694 /* InsecureSSLPopover.swift */,
+			);
+			path = "Settings Menu";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -396,6 +407,7 @@
 				F7A4EE48293D9ACF001263CA /* MenuController.swift in Sources */,
 				F7333BD11DB55EDF00F89C00 /* AppDelegate.swift in Sources */,
 				7166CB71238CD161002B221A /* APIFunctions2.swift in Sources */,
+				F7C5F4B4294459D400BE7694 /* InsecureSSLPopover.swift in Sources */,
 				85C4D46922AAEF6A00512000 /* CSVFunctions.swift in Sources */,
 				71FEC545238CD07B00A7AAB5 /* HTTPStatusCode.swift in Sources */,
 				F743057F22D515CC00FF229E /* jsonBuilder.swift in Sources */,
