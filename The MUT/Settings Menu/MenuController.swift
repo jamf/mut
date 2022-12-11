@@ -101,6 +101,22 @@ class MenuController: NSViewController {
         tabViewController.selectTabViewItem(withIdentifier: tabIdentifier)
     }
     
+    public func populateSettings(logLevelValue: Int,
+                                 semicolonDelimiterValue: Bool,
+                                 userNamesAreIntsValue: Bool,
+                                 untrustedSSLValue: Bool,
+                                 storeURLValue: Bool,
+                                 storeUserNameValue: Bool,
+                                 storeUntrustedValue: Bool,
+                                 storeDelimiterValue: Bool){
+        let logLevel = Setting(name: "LogLevel", value: logLevelValue, storage: popLogLevelOutlet)
+        let semicolonDelimiter = Setting(name: "SemiColonDelimiter", value: semicolonDelimiterValue, storage: chkDelimiterOutlet)
+        let usernamesInts = Setting(name: "UsernamesAreInts", value: userNamesAreIntsValue, storage: chkUsernameIntOutlet)
+        let untrustedSSL = Setting(name: "AllowUntrustedSSL", value: untrustedSSLValue, storage: chkUntrustedSSLOutlet)
+        let storeURL = Setting(name: "StoreURL", value: storeURLValue, storage: chkStoreURLOutlet)
+        let storeUserName = Setting(name: "StoreUserName", value: storeUserNameValue, storage: chkStoreUsernameOutlet)
+        let storeUntrusted = Setting(name: "StoreUntrustedSSL", value: storeUntrustedValue, storage: chkStoreUntrustedSSLOutlet)
+        let storeDelimiter = Setting(name: "StoreDelimiter", value: storeDelimiterValue, storage: chkStoreDelimiterOutlet)
+    }
     
-    public 
 }

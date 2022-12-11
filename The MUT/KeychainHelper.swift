@@ -70,7 +70,7 @@ class KeyChainHelper {
 }
 
 public struct KeyVars {
-    static var key = "com.jamf.mut.credentials"
+    static let key = "com.jamf.mut.credentials"
 }
 
 public struct Credentials {
