@@ -27,9 +27,24 @@ class MenuController: NSViewController {
     }
     
     @IBOutlet weak var tabViewController: NSTabView!
+    
+    // Top menu outlets
     @IBOutlet weak var btnGeneralOutlet: NSButton!
     @IBOutlet weak var btnSecurityOutlet: NSButton!
-
+    
+    // General Menu Outlets
+    @IBOutlet weak var popLogLevelOutlet: NSPopUpButton!
+    @IBOutlet weak var chkDelimiterOutlet: NSButton!
+    @IBOutlet weak var chkUsernameIntOutlet: NSButton!
+    
+    // Security Menu Outlets
+    @IBOutlet weak var chkUntrustedSSLOutlet: NSButton!
+    @IBOutlet weak var chkStoreURLOutlet: NSButton!
+    @IBOutlet weak var chkStoreUsernameOutlet: NSButton!
+    @IBOutlet weak var chkStoreUntrustedSSLOutlet: NSButton!
+    @IBOutlet weak var chkStoreDelimiterOutlet: NSButton!
+    
+    // Menu Bar Actions
     @IBAction func btnGeneral(_ sender: Any) {
         SwitchTabs(selectedButton: btnGeneralOutlet, tabIdentifier: "General")
         preferredContentSize = NSSize(width: 550, height: 290)
@@ -39,6 +54,40 @@ class MenuController: NSViewController {
         preferredContentSize = NSSize(width: 550, height: 325)
         SwitchTabs(selectedButton: btnSecurityOutlet, tabIdentifier: "Security")
     }
+    
+    // General Menu Actions
+    @IBAction func popLogLevel(_ sender: Any) {
+    }
+    
+    @IBAction func btnOpenLog(_ sender: Any) {
+    }
+    
+    @IBAction func chkDelimiter(_ sender: Any) {
+    }
+    
+    @IBAction func chkUsernamesInts(_ sender: Any) {
+    }
+    
+    
+    // Security Menu Actions
+    @IBAction func chkAllowUntrusted(_ sender: Any) {
+    }
+    
+    @IBAction func btnClearKeychain(_ sender: Any) {
+    }
+    
+    @IBAction func chkStoreURL(_ sender: Any) {
+    }
+    
+    @IBAction func chkStoreUsername(_ sender: Any) {
+    }
+    
+    @IBAction func chkStoreUntrusted(_ sender: Any) {
+    }
+    
+    @IBAction func chkStoreDelimiter(_ sender: Any) {
+    }
+    
     
     func SwitchTabs(selectedButton: NSButton, tabIdentifier: String){
         // Array of all Button Outlets
@@ -52,4 +101,6 @@ class MenuController: NSViewController {
         tabViewController.selectTabViewItem(withIdentifier: tabIdentifier)
     }
     
+    
+    public 
 }
