@@ -57,7 +57,7 @@ public class dataPreparation {
         return encodedURL
     }
 
-    public func generatePrestageURL(baseURL: String, endpoint: String, prestageID: String, jpapiVersion: String, httpMethod: String) -> URL {
+    public func generatePrestageURL(endpoint: String, prestageID: String, jpapiVersion: String, httpMethod: String) -> URL {
 
         var instancedURL = Credentials.server!
         if !Credentials.server!.contains(".") {

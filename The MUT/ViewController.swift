@@ -342,7 +342,7 @@ class ViewController: NSViewController, NSTableViewDelegate {
                 
                 // Submit the JSON to the Jamf Pro API
                 let jpapiVersion = "v2"
-                responseCode = APIFunc.updatePrestage(passedUrl: Credentials.server!, endpoint: endpoint, prestageID: prestageID, jpapiVersion: jpapiVersion, token: Token.value!, jsonToSubmit: jsonToSubmit, httpMethod: httpMethod, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
+                responseCode = APIFunc.updatePrestage(endpoint: endpoint, prestageID: prestageID, jpapiVersion: jpapiVersion, token: Token.value!, jsonToSubmit: jsonToSubmit, httpMethod: httpMethod, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
             }
         } else {
             // Static Group updates here
@@ -440,7 +440,7 @@ class ViewController: NSViewController, NSTableViewDelegate {
                     
                     // Submit the update
                     let jpapiVersion = "v2"
-                    responseCode = APIFunc.updatePrestage(passedUrl: Credentials.server!, endpoint: endpoint, prestageID: prestageID, jpapiVersion: jpapiVersion, token: Token.value!, jsonToSubmit: jsonToSubmit, httpMethod: httpMethod, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
+                    responseCode = APIFunc.updatePrestage(endpoint: endpoint, prestageID: prestageID, jpapiVersion: jpapiVersion, token: Token.value!, jsonToSubmit: jsonToSubmit, httpMethod: httpMethod, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
                     
                 }
             }
@@ -599,7 +599,7 @@ class ViewController: NSViewController, NSTableViewDelegate {
     
     func getCurrentPrestageVersionLock(endpoint: String, prestageID: String) -> Int {
         let jpapiVersion = "v2"
-        let myURL = dataPrep.generatePrestageURL(baseURL: Credentials.server!, endpoint: endpoint, prestageID: prestageID, jpapiVersion: jpapiVersion, httpMethod: "")
+        let myURL = dataPrep.generatePrestageURL(endpoint: endpoint, prestageID: prestageID, jpapiVersion: jpapiVersion, httpMethod: "")
         
         let response = APIFunc.getPrestageScope(passedUrl: myURL, token: Token.value!, endpoint: endpoint, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
         do {

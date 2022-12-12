@@ -18,7 +18,7 @@ public class tokenManagement: NSObject {
     
     // This function can be used to generate a token. Pass in a URL and base64 encoded credentials.
     // The credentials are inserted into the header.
-    public func getToken(allowUntrusted: Bool) -> Data {
+    public func getToken(allowUntrusted: Bool){
         let dataPrep = dataPreparation()
 
         // Percent encode special characters that are not allowed in URLs, such as spaces
@@ -99,7 +99,7 @@ public class tokenManagement: NSObject {
         //print("Expires in \(secondsToExpire) seconds") // Uncomment for debugging
         if secondsToExpire <= 30 {
             logMan.infoWrite(logString: "Token only has \(secondsToExpire) seconds left to live. Refreshing token.")
-            getToken(url: Credentials.server!, user: Credentials.username!, password: Credentials.password!, allowUntrusted: self.tokenDefaults.bool(forKey: "Insecure"))
+            getToken(allowUntrusted: self.tokenDefaults.bool(forKey: "Insecure"))
         } else {
             logMan.infoWrite(logString: "Token has \(secondsToExpire) seconds left to live. Proceeding with current token.")
         }
