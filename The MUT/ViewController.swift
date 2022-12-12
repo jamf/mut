@@ -357,7 +357,7 @@ class ViewController: NSViewController, NSTableViewDelegate {
 
                 xmlToPUT = xmlMan.staticGroup(appendReplaceRemove: appendReplaceRemove, objectType: objectType, identifiers: serialArray)
 
-                let response = APIFunc.putData(passedUrl: Credentials.server!, credentials: Credentials.base64Encoded!, endpoint: globalEndpoint, identifierType: "id", identifier: prestageID, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPUT)
+                let response = APIFunc.putData(endpoint: globalEndpoint, identifierType: "id", identifier: prestageID, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPUT)
                 responseCode = response.code
             }
         }
@@ -469,7 +469,7 @@ class ViewController: NSViewController, NSTableViewDelegate {
                     
                     // Build the XML and submit it to Jamf Pro
                     xmlToPUT = xmlMan.staticGroup(appendReplaceRemove: appendReplaceRemove, objectType: objectType, identifiers: serialArray)
-                    let response = APIFunc.putData(passedUrl: Credentials.server!, credentials: Credentials.base64Encoded!, endpoint: globalEndpoint, identifierType: "id", identifier: prestageID, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPUT)
+                    let response = APIFunc.putData(endpoint: globalEndpoint, identifierType: "id", identifier: prestageID, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPUT)
                     responseCode = response.code
                 }
             }
@@ -569,14 +569,14 @@ class ViewController: NSViewController, NSTableViewDelegate {
                 
                 // Submit the XML to the Jamf Pro API
                 if(globalEndpoint! != "mobiledevices") {
-                    _ = APIFunc.putData(passedUrl: Credentials.server!, credentials: Credentials.base64Encoded!, endpoint: globalEndpoint!, identifierType: identifierType, identifier: currentRow[0], allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPut)
+                    _ = APIFunc.putData(endpoint: globalEndpoint!, identifierType: identifierType, identifier: currentRow[0], allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPut)
                 } else {
                     // If Jamf Pro is not compatible with the Enforce Name, alert the end-user.
                     if !isCompatibleJamfProVersion(compatibleVersion: "10.33.0", currentVersion: jamfProVersion) {
                         logMan.errorWrite(logString: "Enforcing Mobile Device Names requires Jamf Pro 10.33 or higher. Please upgrade to the latest version of Jamf Pro in order to use this feature.")
                     }
                     // Send the updates to the CAPI
-                    let putResponse = APIFunc.putData(passedUrl: Credentials.server!, credentials: Credentials.base64Encoded!, endpoint: globalEndpoint!, identifierType: identifierType, identifier: currentRow[0], allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPut)
+                    let putResponse = APIFunc.putData(endpoint: globalEndpoint!, identifierType: identifierType, identifier: currentRow[0], allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPut)
                     
                     let json = jsonMan.buildMobileDeviceUpdatesJson(data: currentRow)
                     
@@ -587,7 +587,7 @@ class ViewController: NSViewController, NSTableViewDelegate {
                         // JPAPI requires ID in order to identify device
                         let id = mdXMLParser.getMobileDeviceIdFromResponse(data: putResponse.body!)
                         logMan.infoWrite(logString: "Submitting a request to to update the name of device \(currentRow[0]) to '\(currentRow[1])' with enforcement set to \(currentRow[2]).")
-                        _ = APIFunc.patchData(passedUrl: Credentials.server!, token: Token.value!, endpoint: "mobile-devices", endpointVersion: "v2", identifier: id, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), jsonData: json)
+                        _ = APIFunc.patchData(passedUrl: Credentials.server!, endpoint: "mobile-devices", endpointVersion: "v2", identifier: id, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), jsonData: json)
                     }
                 }
             }
@@ -747,7 +747,7 @@ class ViewController: NSViewController, NSTableViewDelegate {
     // get moved to a Jamf Pro version manager service that could be used globally.
     func getJamfProVersion() -> String {
         logMan.infoWrite(logString: "Attempting to GET the Jamf Pro Version from the API.")
-        let getResponse = APIFunc.getData(passedUrl: Credentials.server!, token: Token.value!, endpoint: "jamf-pro-version", endpointVersion: "v1", identifier: "", allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
+        let getResponse = APIFunc.getData(passedUrl: Credentials.server!, endpoint: "jamf-pro-version", endpointVersion: "v1", identifier: "", allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
         let decoder = JSONDecoder()
         var jamfProVersion = ""
         if(getResponse.code == 200) {
