@@ -16,10 +16,10 @@ public class dataPreparation {
     // Functions to create URLs can be found here
     // ******************************************
     
-    public func generateURL(baseURL: String, endpoint: String, identifierType: String, identifier: String, jpapi: Bool, jpapiVersion: String) -> URL {
-        var instancedURL = baseURL
-        if !baseURL.contains(".") {
-            instancedURL = "https://" + baseURL + ".jamfcloud.com/"
+    public func generateURL(endpoint: String, identifierType: String, identifier: String, jpapi: Bool, jpapiVersion: String) -> URL {
+        var instancedURL = Credentials.server!
+        if !Credentials.server!.contains(".") {
+            instancedURL = "https://" + Credentials.server! + ".jamfcloud.com/"
         }
         var versionEndpoint = ""
         var encodedURL = NSURL(string: "https://null".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)! as URL
@@ -41,10 +41,10 @@ public class dataPreparation {
         return encodedURL
     }
     
-    public func generateJpapiURL(baseURL: String, endpoint: String, endpointVersion: String, identifier: String) -> URL {
-        var instancedURL = baseURL
-        if !baseURL.contains(".") {
-            instancedURL = "https://" + baseURL + ".jamfcloud.com/"
+    public func generateJpapiURL(endpoint: String, endpointVersion: String, identifier: String) -> URL {
+        var instancedURL = Credentials.server!
+        if !Credentials.server!.contains(".") {
+            instancedURL = "https://" + Credentials.server! + ".jamfcloud.com/"
         }
         var encodedURL = NSURL(string: "https://null".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)! as URL
         var concatURL = instancedURL + "/api/" + endpointVersion + "/" + endpoint
@@ -59,9 +59,9 @@ public class dataPreparation {
 
     public func generatePrestageURL(baseURL: String, endpoint: String, prestageID: String, jpapiVersion: String, httpMethod: String) -> URL {
 
-        var instancedURL = baseURL
-        if !baseURL.contains(".") {
-            instancedURL = "https://" + baseURL + ".jamfcloud.com/"
+        var instancedURL = Credentials.server!
+        if !Credentials.server!.contains(".") {
+            instancedURL = "https://" + Credentials.server! + ".jamfcloud.com/"
         }
         var versionEndpoint = ""
 

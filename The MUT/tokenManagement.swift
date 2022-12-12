@@ -18,18 +18,14 @@ public class tokenManagement: NSObject {
     
     // This function can be used to generate a token. Pass in a URL and base64 encoded credentials.
     // The credentials are inserted into the header.
-    public func getToken(url: String, user: String, password: String, allowUntrusted: Bool) {
+    public func getToken(allowUntrusted: Bool) -> Data {
         let dataPrep = dataPreparation()
-        
-        // Call the data manipulation class to base64 encode the credentials
-        Credentials.base64Encoded = dataPrep.base64Credentials(user: user, password: password)
-        //print("base64 creds: " + base64Credentials) // Uncomment for debugging
 
         // Percent encode special characters that are not allowed in URLs, such as spaces
-        let encodedURL = "\(url)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "https://null"
+        let encodedURL = "\(Credentials.server!)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "https://null"
 
         // Create a URL for getting a token.
-        let tokenURL = dataPrep.generateURL(baseURL: encodedURL, endpoint: "/auth/tokens", identifierType: "", identifier: "", jpapi: true, jpapiVersion: "nil")
+        let tokenURL = dataPrep.generateURL(endpoint: "/auth/tokens", identifierType: "", identifier: "", jpapi: true, jpapiVersion: "nil")
         //print("The URL is " + tokenURL) // Uncomment for debugging
         
         // The semaphore is what allows us to force the code to wait for this request to complete
