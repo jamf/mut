@@ -17,11 +17,12 @@ public class APIFunctions {
     
     let dataPrep = dataPreparation()
     let logMan = logManager()
+    let tokenMan = tokenManagement()
     // set sessionHandler to SessionHandler singleton for easy access
     let sessionHandler = SessionHandler.SharedSessionHandler
     
     public func putData(passedUrl: String, credentials: String, endpoint: String, identifierType: String, identifier: String, allowUntrusted: Bool, xmlToPut: Data) -> (code: Int, body: Data?) {
-        
+        tokenMan.tokenRefresher()
         var responseCode = 400
         
         var responseBody: Data?
@@ -77,6 +78,7 @@ public class APIFunctions {
     }
     
     public func patchData(passedUrl: String, token: String, endpoint: String, endpointVersion: String, identifier: String, allowUntrusted: Bool, jsonData: Data) -> Int {
+        tokenMan.tokenRefresher()
         var responseCode = 400
         let encodedURL = dataPrep.generateJpapiURL(baseURL: passedUrl, endpoint: endpoint, endpointVersion: endpointVersion, identifier: identifier)
         
@@ -127,7 +129,7 @@ public class APIFunctions {
     }
     
     public func getData(passedUrl: String, token: String, endpoint: String, endpointVersion: String, identifier: String, allowUntrusted: Bool) -> (code: Int, body: Data?) {
-        
+        tokenMan.tokenRefresher()
         var responseCode = 400
         var responseBody: Data?
         
@@ -178,7 +180,7 @@ public class APIFunctions {
     }
     
     public func getPrestageScope(passedUrl: URL, token: String, endpoint: String, allowUntrusted: Bool) -> Data {
-        
+        tokenMan.tokenRefresher()
         logMan.infoWrite(logString: "Getting current prestage scope from \(passedUrl.absoluteString)")
         // Changed to use SessionHandler to configure trust
         sessionHandler.setAllowUntrusted(allowUntrusted: allowUntrusted)
@@ -228,6 +230,7 @@ public class APIFunctions {
     
     // HTTP method DELETE no longer supported for prestage updates. must use /scope/delete-multiple URL
     public func updatePrestage(passedUrl: String, endpoint: String, prestageID: String, jpapiVersion: String, token: String, jsonToSubmit: Data, httpMethod: String, allowUntrusted: Bool) -> Int {
+        tokenMan.tokenRefresher()
         var returnCode = 400
         
         let baseURL = dataPrep.generatePrestageURL(baseURL: passedUrl, endpoint: endpoint, prestageID: prestageID, jpapiVersion: jpapiVersion, httpMethod: httpMethod)
@@ -287,5 +290,4 @@ public class APIFunctions {
         semaphore.wait() // Wait for the semaphore before moving on to the return value
         return returnCode
     }
-    // removing urlSession func since now using global URLSession
 }
