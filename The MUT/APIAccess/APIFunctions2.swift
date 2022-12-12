@@ -22,6 +22,7 @@ public class APIFunctions {
     let sessionHandler = SessionHandler.SharedSessionHandler
     
     public func putData(endpoint: String, identifierType: String, identifier: String, allowUntrusted: Bool, xmlToPut: Data) -> (code: Int, body: Data?) {
+        tokenMan.tokenRefresher()
         
         var responseCode = 400
         
@@ -78,6 +79,8 @@ public class APIFunctions {
     }
     
     public func patchData(passedUrl: String, endpoint: String, endpointVersion: String, identifier: String, allowUntrusted: Bool, jsonData: Data) -> Int {
+        tokenMan.tokenRefresher()
+        
         var responseCode = 400
         let encodedURL = dataPrep.generateJpapiURL(endpoint: endpoint, endpointVersion: endpointVersion, identifier: identifier)
         
@@ -128,6 +131,7 @@ public class APIFunctions {
     }
     
     public func getData(passedUrl: String, endpoint: String, endpointVersion: String, identifier: String, allowUntrusted: Bool) -> (code: Int, body: Data?) {
+        tokenMan.tokenRefresher()
         
         var responseCode = 400
         var responseBody: Data?
