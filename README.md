@@ -245,7 +245,6 @@ The log file looks a bit like this:
 
 ![MUT.log](https://i.imgur.com/nJruxUe.png)
 
-## [Top Tips](#top-tips)
 
 * There is an option in the top Menu Bar under "Settings" to change the character which separates items on your CSV file to either a comma (,) or a semicolon (;). This is especially useful for international folks who delimit their CSV files by semicolon by default, or for folks who wish to include commas in their attribute values.
 * There is an option in the top Menu Bar under "Settings" to clear any stored values that you may have by default, including Delimiter, Username, and your server URL.
