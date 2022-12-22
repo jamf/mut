@@ -181,18 +181,5 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
     }
-    
-    @IBAction func btnUsernameInt(_ sender: Any) {
-        delegateDefaults.set("true", forKey: "UserInts")
-        _ = popUp.generalWarning(question: "Usernames are Ints", text: "MUT normally assumes 'usernames' without letters are actually User IDs. By selecting this option, you are telling MUT your usernames do not have letters in them.\n\nMUT will remember this. If you wish to undo this, please choose 'Clear stored values' from the settings menu.")
-    }
-    
-    // Open Log -- DO NOT DELETE
-    // Although it appears to not be linked, it is tied to a menu option
-    @IBAction func btnOpenLog(_ sender: AnyObject) {
-        let logMan = logManager()
-        logMan.openLog()
-    }
-    
 }
 
