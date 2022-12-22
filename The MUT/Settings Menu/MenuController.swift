@@ -11,6 +11,8 @@ import Foundation
 
 class MenuController: NSViewController {
     
+    let logMan = logManager()
+    
     // Set up defaults to be able to save to and restore from
     let menuDefaults = UserDefaults.standard
     
@@ -24,6 +26,8 @@ class MenuController: NSViewController {
         super.viewDidAppear()
         // Forces the window to be the size we want, not resizable
         preferredContentSize = NSSize(width: 550, height: 290)
+        
+        restoreGUI()
     }
     
     @IBOutlet weak var tabViewController: NSTabView!
@@ -41,25 +45,23 @@ class MenuController: NSViewController {
     @IBOutlet weak var chkUntrustedSSLOutlet: NSButton!
     @IBOutlet weak var chkStoreURLOutlet: NSButton!
     @IBOutlet weak var chkStoreUsernameOutlet: NSButton!
-    @IBOutlet weak var chkStoreUntrustedSSLOutlet: NSButton!
-    @IBOutlet weak var chkStoreDelimiterOutlet: NSButton!
     
     // Menu Bar Actions
     @IBAction func btnGeneral(_ sender: Any) {
         SwitchTabs(selectedButton: btnGeneralOutlet, tabIdentifier: "General")
-        preferredContentSize = NSSize(width: 550, height: 290)
     }
     
     @IBAction func btnSecurity(_ sender: Any) {
-        preferredContentSize = NSSize(width: 550, height: 325)
         SwitchTabs(selectedButton: btnSecurityOutlet, tabIdentifier: "Security")
     }
     
     // General Menu Actions
     @IBAction func popLogLevel(_ sender: Any) {
+        menuDefaults.set(popLogLevelOutlet.selectedTag(), forKey: "LogLevel")
     }
     
     @IBAction func btnOpenLog(_ sender: Any) {
+        logMan.openLog()
     }
     
     @IBAction func chkDelimiter(_ sender: Any) {
@@ -74,6 +76,21 @@ class MenuController: NSViewController {
     }
     
     @IBAction func btnClearKeychain(_ sender: Any) {
+        DispatchQueue.global(qos: .background).async {
+            do {
+                try KeyChainHelper.delete()
+                self.logMan.infoWrite(logString: "Deleting information stored in keychain.")
+            } catch KeychainError.noPassword {
+                // No info found in keychain
+                self.logMan.infoWrite(logString: "No stored info found in KeyChain.")
+            } catch KeychainError.unexpectedPasswordData {
+                // Info found, but it was bad
+                self.logMan.errorWrite(logString: "Information was found in KeyChain, but it was somehow corrupt.")
+            } catch {
+                // Something else
+                self.logMan.fatalWrite(logString: "Unhandled exception found with extracting KeyChain info.")
+            }
+        }
     }
     
     @IBAction func chkStoreURL(_ sender: Any) {
@@ -81,13 +98,6 @@ class MenuController: NSViewController {
     
     @IBAction func chkStoreUsername(_ sender: Any) {
     }
-    
-    @IBAction func chkStoreUntrusted(_ sender: Any) {
-    }
-    
-    @IBAction func chkStoreDelimiter(_ sender: Any) {
-    }
-    
     
     func SwitchTabs(selectedButton: NSButton, tabIdentifier: String){
         // Array of all Button Outlets
@@ -101,22 +111,29 @@ class MenuController: NSViewController {
         tabViewController.selectTabViewItem(withIdentifier: tabIdentifier)
     }
     
-    public func populateSettings(logLevelValue: Int,
-                                 semicolonDelimiterValue: Bool,
-                                 userNamesAreIntsValue: Bool,
-                                 untrustedSSLValue: Bool,
-                                 storeURLValue: Bool,
-                                 storeUserNameValue: Bool,
-                                 storeUntrustedValue: Bool,
-                                 storeDelimiterValue: Bool){
-        let logLevel = Setting(name: "LogLevel", value: logLevelValue, storage: popLogLevelOutlet)
-        let semicolonDelimiter = Setting(name: "SemiColonDelimiter", value: semicolonDelimiterValue, storage: chkDelimiterOutlet)
-        let usernamesInts = Setting(name: "UsernamesAreInts", value: userNamesAreIntsValue, storage: chkUsernameIntOutlet)
-        let untrustedSSL = Setting(name: "AllowUntrustedSSL", value: untrustedSSLValue, storage: chkUntrustedSSLOutlet)
-        let storeURL = Setting(name: "StoreURL", value: storeURLValue, storage: chkStoreURLOutlet)
-        let storeUserName = Setting(name: "StoreUserName", value: storeUserNameValue, storage: chkStoreUsernameOutlet)
-        let storeUntrusted = Setting(name: "StoreUntrustedSSL", value: storeUntrustedValue, storage: chkStoreUntrustedSSLOutlet)
-        let storeDelimiter = Setting(name: "StoreDelimiter", value: storeDelimiterValue, storage: chkStoreDelimiterOutlet)
+    func restoreGUI(){
+        if menuDefaults.value(forKey: "UserName") != nil {
+            chkStoreUsernameOutlet.state = NSControl.StateValue.on
+        }
+
+        if menuDefaults.value(forKey: "InstanceURL") != nil {
+            chkStoreURLOutlet.state = NSControl.StateValue.on
+        }
+
+        if menuDefaults.bool(forKey: "AllowUntrusted") == true {
+            chkStoreURLOutlet.state = NSControl.StateValue.on
+        }
+
+        if menuDefaults.bool(forKey: "Delimiter") == true {
+            chkDelimiterOutlet.state = NSControl.StateValue.on
+        }
+
+        if menuDefaults.bool(forKey: "UserInts") == true {
+            chkUsernameIntOutlet.state = NSControl.StateValue.on
+        }
+        
+        if menuDefaults.value(forKey: "LogLevel") != nil {
+            popLogLevelOutlet.selectItem(withTag: menuDefaults.integer(forKey: "LogLevel"))
+        }
     }
-    
 }
