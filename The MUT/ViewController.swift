@@ -102,6 +102,7 @@ class ViewController: NSViewController, NSTableViewDelegate {
             logMan.infoWrite(logString: "No stored delimiter found. Using default delimiter of , .")
             delimiter = ","
         }
+        Setting(key: nil, value: nil).restoreDefaults()
     }
 
     override func viewWillAppear() {
@@ -990,6 +991,14 @@ extension ViewController: NSTableViewDataSource {
             logMan.infoWrite(logString: "The new delimiter is semi-colon. This delimiter will be stored to defaults.")
             delimiter = ";"
             mainViewDefaults.set(delimiter, forKey: "Delimiter")
+        }
+    }
+    
+    func restoreDefaults(){
+        for setting in Setting.allDefaults{
+            setting.value = mainViewDefaults.value(forKey: setting.key)
+            print(setting.key)
+            print(setting.value)
         }
     }
     
