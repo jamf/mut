@@ -65,30 +65,44 @@ class MenuController: NSViewController {
     }
     
     @IBAction func chkDelimiter(_ sender: Any) {
+        if chkDelimiterOutlet.state == NSControl.StateValue.on {
+            menuDefaults.set(";", forKey: "Delimiter")
+            logMan.infoWrite(logString: "The new delimiter is semi-colon. This delimiter will be stored to defaults.")
+        } else {
+            menuDefaults.removeObject(forKey: "Delimiter")
+            logMan.infoWrite(logString: "Removing semi-colon delimiter from defaults storage. Comma delimiter will be used.")
+        }
     }
     
     @IBAction func chkUsernamesInts(_ sender: Any) {
+        if chkUsernameIntOutlet.state == NSControl.StateValue.on {
+            menuDefaults.set(true, forKey: "UserInts")
+        } else {
+            menuDefaults.removeObject(forKey: "UserInts")
+        }
+        
     }
-    
     
     // Security Menu Actions
     @IBAction func chkAllowUntrusted(_ sender: Any) {
     }
     
     @IBAction func btnClearKeychain(_ sender: Any) {
-        DispatchQueue.global(qos: .background).async {
-            do {
-                try KeyChainHelper.delete()
-                self.logMan.infoWrite(logString: "Deleting information stored in keychain.")
-            } catch KeychainError.noPassword {
-                // No info found in keychain
-                self.logMan.infoWrite(logString: "No stored info found in KeyChain.")
-            } catch KeychainError.unexpectedPasswordData {
-                // Info found, but it was bad
-                self.logMan.errorWrite(logString: "Information was found in KeyChain, but it was somehow corrupt.")
-            } catch {
-                // Something else
-                self.logMan.fatalWrite(logString: "Unhandled exception found with extracting KeyChain info.")
+        if popPrompt().clearKeychain() {
+            DispatchQueue.global(qos: .background).async {
+                do {
+                    try KeyChainHelper.delete()
+                    self.logMan.infoWrite(logString: "Deleting information stored in keychain.")
+                } catch KeychainError.noPassword {
+                    // No info found in keychain
+                    self.logMan.infoWrite(logString: "No stored info found in KeyChain.")
+                } catch KeychainError.unexpectedPasswordData {
+                    // Info found, but it was bad
+                    self.logMan.errorWrite(logString: "Information was found in KeyChain, but it was somehow corrupt.")
+                } catch {
+                    // Something else
+                    self.logMan.fatalWrite(logString: "Unhandled exception found with extracting KeyChain info.")
+                }
             }
         }
     }
@@ -124,7 +138,7 @@ class MenuController: NSViewController {
             chkStoreURLOutlet.state = NSControl.StateValue.on
         }
 
-        if menuDefaults.bool(forKey: "Delimiter") == true {
+        if menuDefaults.string(forKey: "Delimiter") == ";" {
             chkDelimiterOutlet.state = NSControl.StateValue.on
         }
 
