@@ -95,13 +95,15 @@ class ViewController: NSViewController, NSTableViewDelegate {
         super.viewDidLoad()
         
         // Set up delimiter
-        if mainViewDefaults.value(forKey: "Delimiter") != nil {
-            delimiter = mainViewDefaults.value(forKey: "Delimiter")! as! String
-            logMan.infoWrite(logString: "A stored delimiter was found. Using the stored delimiter of \(delimiter) .")
+        if mainViewDefaults.string(forKey: "Delimiter") == ";" {
+            delimiter = ";"
+            logMan.infoWrite(logString: "Semi-colon delimiter preferences found in defaults storage.")
         } else {
-            logMan.infoWrite(logString: "No stored delimiter found. Using default delimiter of , .")
+            logMan.infoWrite(logString: "No stored delimiter found. Using default comma delimiter.")
             delimiter = ","
         }
+        
+        // Load all defaults into their settings
         Setting(key: nil, value: nil).restoreDefaults()
     }
 
@@ -554,7 +556,7 @@ class ViewController: NSViewController, NSTableViewDelegate {
                 if globalEndpoint! == "users" {
                     // Generate the XML to submit
                     if currentRow[0].isInt {
-                        if mainViewDefaults.value(forKey: "UserInts") != nil {
+                        if mainViewDefaults.bool(forKey: "UserInts") {
                             identifierType = "name"
                         } else {
                             identifierType = "id"
@@ -975,22 +977,6 @@ extension ViewController: NSTableViewDataSource {
         //Clear all stored values
         if let bundle = Bundle.main.bundleIdentifier {
             UserDefaults.standard.removePersistentDomain(forName: bundle)
-        }
-    }
-    
-    // Change Delimiter -- DO NOT DELETE
-    // Although it appears to not be linked, it is tied to a menu option
-    @IBAction func btnChangeDelim(_ sender: AnyObject) {
-        
-        let newDelim = popPrompt().selectDelim(question: "Change Delimiter", text: "What would you like your new delimiter to be?")
-        if newDelim == true {
-            logMan.infoWrite(logString: "The new delimiter is comma. This delimiter will be stored to defaults.")
-            delimiter = ","
-            mainViewDefaults.set(delimiter, forKey: "Delimiter")
-        } else {
-            logMan.infoWrite(logString: "The new delimiter is semi-colon. This delimiter will be stored to defaults.")
-            delimiter = ";"
-            mainViewDefaults.set(delimiter, forKey: "Delimiter")
         }
     }
     
