@@ -137,4 +137,14 @@ public class popPrompt {
         return myPopup.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn
     }
     
+    public func clearKeychain() -> Bool {
+        let myPopup: NSAlert = NSAlert()
+        myPopup.messageText = "Clear Keychain?"
+        myPopup.informativeText = "This will remove your MUT credentials from keychain. You will need to re-enter your credentials when you next log in."
+        myPopup.alertStyle = NSAlert.Style.warning
+        myPopup.addButton(withTitle: "Make it so")
+        myPopup.addButton(withTitle: "Cancel")
+        return myPopup.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn
+    }
+    
 }
