@@ -508,27 +508,27 @@ Gw
                                                         </buttonCell>
                                                     </button>
                                                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="12z-RX-JCY">
-                                                        <rect key="frame" x="27" y="13" width="22" height="23"/>
+                                                        <rect key="frame" x="27" y="12" width="22" height="23"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <buttonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="left" inset="2" id="8LL-mM-5Ms">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                             <font key="font" size="16" name="HelveticaNeue-Light"/>
                                                         </buttonCell>
                                                         <connections>
-                                                            <action selector="chkBypassAction:" target="joq-rD-vnU" id="IQU-SR-E9y"/>
+                                                            <action selector="chkAutoLoginAction:" target="joq-rD-vnU" id="yL2-aH-kjw"/>
                                                         </connections>
                                                     </button>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VYX-ov-V7s">
-                                                        <rect key="frame" x="45" y="14" width="137" height="23"/>
+                                                        <rect key="frame" x="45" y="10" width="143" height="23"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Allow Insecure SSL" id="3zh-z8-SuA">
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Log In Automatically" id="3zh-z8-SuA">
                                                             <font key="font" size="16" name="HelveticaNeue-Light"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tu3-Oo-lHv">
-                                                        <rect key="frame" x="240" y="14" width="107" height="23"/>
+                                                        <rect key="frame" x="240" y="10" width="107" height="23"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Remember Me" id="OIj-2r-a9o">
                                                             <font key="font" size="16" name="HelveticaNeue-Light"/>
@@ -537,9 +537,9 @@ Gw
                                                         </textFieldCell>
                                                     </textField>
                                                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L5l-WM-R2q">
-                                                        <rect key="frame" x="221" y="13" width="18" height="23"/>
+                                                        <rect key="frame" x="221" y="12" width="18" height="23"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <buttonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="overlaps" state="on" inset="2" id="AgC-NC-2Uh">
+                                                        <buttonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="overlaps" inset="2" id="AgC-NC-2Uh">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                             <font key="font" size="16" name="HelveticaNeue-Light"/>
                                                         </buttonCell>
@@ -619,8 +619,9 @@ DQ
                     </view>
                     <connections>
                         <outlet property="btnSubmitOutlet" destination="WUb-Z1-3Ry" id="eET-Q1-c0a"/>
-                        <outlet property="chkBypass" destination="12z-RX-JCY" id="Pg3-DN-hWO"/>
+                        <outlet property="chkAutoLoginOutlet" destination="12z-RX-JCY" id="Ool-CB-70u"/>
                         <outlet property="chkRememberMe" destination="L5l-WM-R2q" id="BiC-4V-esh"/>
+                        <outlet property="lblAutoLogin" destination="VYX-ov-V7s" id="E1x-Nf-i8w"/>
                         <outlet property="spinProgress" destination="UGZ-Cb-nSM" id="q7Z-HU-bLP"/>
                         <outlet property="txtPassOutlet" destination="Gba-Xu-esz" id="uFz-in-6IS"/>
                         <outlet property="txtURLOutlet" destination="eLh-eC-clr" id="D9g-D3-j0J"/>
