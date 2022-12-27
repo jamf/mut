@@ -85,6 +85,11 @@ class MenuController: NSViewController {
     
     // Security Menu Actions
     @IBAction func chkAllowUntrusted(_ sender: Any) {
+        if chkUntrustedSSLOutlet.state == NSControl.StateValue.on {
+            menuDefaults.set(true, forKey: "Insecure")
+        } else {
+            menuDefaults.removeObject(forKey: "Insecure")
+        }
     }
     
     @IBAction func btnClearKeychain(_ sender: Any) {
@@ -134,8 +139,8 @@ class MenuController: NSViewController {
             chkStoreURLOutlet.state = NSControl.StateValue.on
         }
 
-        if menuDefaults.bool(forKey: "AllowUntrusted") == true {
-            chkStoreURLOutlet.state = NSControl.StateValue.on
+        if menuDefaults.bool(forKey: "Insecure") == true {
+            chkUntrustedSSLOutlet.state = NSControl.StateValue.on
         }
 
         if menuDefaults.string(forKey: "Delimiter") == ";" {
