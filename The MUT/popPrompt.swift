@@ -147,4 +147,14 @@ public class popPrompt {
         return myPopup.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn
     }
     
+    public func hardReset() -> Bool {
+        let myPopup: NSAlert = NSAlert()
+        myPopup.messageText = "Perform Hard Reset?"
+        myPopup.informativeText = "If you are experiencing odd behavior with MUT it may help to perform a hard reset.\n\n This will remove all stored settings, including MUT crednetials stored in keychain, and quit the application immediately."
+        myPopup.alertStyle = NSAlert.Style.warning
+        myPopup.addButton(withTitle: "Make it so")
+        myPopup.addButton(withTitle: "Cancel")
+        return myPopup.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn
+    }
+    
 }
