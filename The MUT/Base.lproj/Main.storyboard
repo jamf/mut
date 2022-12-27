@@ -161,11 +161,15 @@
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="80i-4d-U1H">
-                                                    <rect key="frame" x="14" y="184" width="510" height="5"/>
+                                                    <rect key="frame" x="14" y="189" width="510" height="5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                </box>
+                                                <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="kKh-OP-vZN">
+                                                    <rect key="frame" x="14" y="64" width="510" height="5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 </box>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xdY-5g-yGd">
-                                                    <rect key="frame" x="39" y="154" width="145" height="16"/>
+                                                    <rect key="frame" x="39" y="159" width="145" height="16"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Keychain Management:" id="Ms5-FG-O9b">
                                                         <font key="font" metaFont="system"/>
@@ -173,8 +177,17 @@
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                 </textField>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fRS-Nb-bmS">
+                                                    <rect key="frame" x="116" y="29" width="68" height="16"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Advanced:" id="fzC-NE-qh1">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="esQ-6P-tpd">
-                                                    <rect key="frame" x="74" y="114" width="110" height="16"/>
+                                                    <rect key="frame" x="74" y="119" width="110" height="16"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Defaults Storage:" id="puN-Yi-ZYx">
                                                         <font key="font" metaFont="system"/>
@@ -183,7 +196,7 @@
                                                     </textFieldCell>
                                                 </textField>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KVk-Vb-Zcu">
-                                                    <rect key="frame" x="126" y="206" width="58" height="16"/>
+                                                    <rect key="frame" x="126" y="211" width="58" height="16"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Security:" id="KKf-1t-B5R">
                                                         <font key="font" metaFont="system"/>
@@ -192,7 +205,7 @@
                                                     </textFieldCell>
                                                 </textField>
                                                 <button toolTip="Choose whether Untrusted SSL Certificates should be allowed for this session." verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zja-II-X8K">
-                                                    <rect key="frame" x="212" y="205" width="249" height="18"/>
+                                                    <rect key="frame" x="212" y="210" width="249" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="check" title="Allow Untrusted SSL Communication" bezelStyle="regularSquare" imagePosition="left" inset="2" id="j8x-BK-qGp">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -203,7 +216,7 @@
                                                     </connections>
                                                 </button>
                                                 <button toolTip="Choose whether or not Server URL/Instance Name should be stored for future sessions." verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C1T-3F-imr">
-                                                    <rect key="frame" x="212" y="113" width="225" height="18"/>
+                                                    <rect key="frame" x="212" y="118" width="225" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="check" title="Store Server URL/Instance Name" bezelStyle="regularSquare" imagePosition="left" inset="2" id="CMx-gA-JHn">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -214,7 +227,7 @@
                                                     </connections>
                                                 </button>
                                                 <button toolTip="Choose whether or not Username should be stored for future sessions." verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UDV-u2-Wch">
-                                                    <rect key="frame" x="212" y="77" width="124" height="18"/>
+                                                    <rect key="frame" x="212" y="82" width="124" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="check" title="Store Username" bezelStyle="regularSquare" imagePosition="left" inset="2" id="v1E-3s-dXt">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -225,7 +238,7 @@
                                                     </connections>
                                                 </button>
                                                 <button horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MS6-JC-6k5">
-                                                    <rect key="frame" x="501" y="198" width="25" height="25"/>
+                                                    <rect key="frame" x="501" y="203" width="25" height="25"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ZPj-U2-j7R">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -236,7 +249,7 @@
                                                     </connections>
                                                 </button>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a06-LR-5BG">
-                                                    <rect key="frame" x="207" y="145" width="261" height="32"/>
+                                                    <rect key="frame" x="207" y="150" width="261" height="32"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="push" title="Clear Stored Keychain Credentials" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="6FL-xw-NuG">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -244,6 +257,17 @@
                                                     </buttonCell>
                                                     <connections>
                                                         <action selector="btnClearKeychain:" target="4ez-rW-ZN4" id="RpT-mh-myD"/>
+                                                    </connections>
+                                                </button>
+                                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="irg-bO-aGR">
+                                                    <rect key="frame" x="207" y="20" width="261" height="32"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="push" title="Hard Reset All Stored Settings" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ab1-tx-a8B">
+                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <action selector="btnHardReset:" target="4ez-rW-ZN4" id="JXE-LR-uKz"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
