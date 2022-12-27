@@ -79,6 +79,14 @@ class loginWindow: NSViewController {
         } else {
             chkAutoLoginOutlet.state = NSControl.StateValue.off
         }
+        
+        if loginDefaults.string(forKey: "InstanceURL") != nil {
+            self.txtURLOutlet.stringValue = loginDefaults.string(forKey: "InstanceURL")!
+        }
+        
+        if loginDefaults.string(forKey: "UserName") != nil {
+            self.txtUserOutlet.stringValue = loginDefaults.string(forKey: "UserName")!
+        }
     }
 
     override func viewDidAppear() {
@@ -150,6 +158,24 @@ class loginWindow: NSViewController {
                             } catch let error as NSError {
                                 self.logMan.errorWrite(logString: "Failed to load: \(error.localizedDescription)")
                             }
+                            
+                            // Store the username if we should
+                            if self.loginDefaults.bool(forKey: "StoreUsername"){
+                                self.loginDefaults.set(self.txtUserOutlet.stringValue, forKey: "UserName")
+                                self.loginDefaults.synchronize()
+                            } else {
+                                print("Removing username")
+                                self.loginDefaults.removeObject(forKey: "UserName")
+                            }
+                            
+                            // Store the URL if we should
+                            if self.loginDefaults.bool(forKey: "StoreURL"){
+                                print("Storing URL")
+                                self.loginDefaults.set(self.txtURLOutlet.stringValue, forKey: "InstanceURL")
+                                self.loginDefaults.synchronize()
+                            } else {
+                                self.loginDefaults.removeObject(forKey: "InstanceURL")
+                            }
 
                             // Store username if button pressed
                             if self.loginDefaults.bool(forKey: "Remember") {
@@ -162,13 +188,11 @@ class loginWindow: NSViewController {
                                                                 password: Credentials.password!,
                                                                 server: Credentials.server!)
                                     } catch {
-                                        // Issue with saving info to keychain
+                                        self.logMan.errorWrite(logString: "Error writing credentials to keychain. \(error)")
                                     }
                                 }
 
                             } else {
-                                self.loginDefaults.removeObject(forKey: "UserName")
-                                self.loginDefaults.removeObject(forKey: "InstanceURL")
                                 self.loginDefaults.removeObject(forKey: "Remember")
                             }
                             self.spinProgress.stopAnimation(self)
