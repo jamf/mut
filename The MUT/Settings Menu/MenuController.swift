@@ -49,10 +49,12 @@ class MenuController: NSViewController {
     // Menu Bar Actions
     @IBAction func btnGeneral(_ sender: Any) {
         SwitchTabs(selectedButton: btnGeneralOutlet, tabIdentifier: "General")
+        preferredContentSize = NSSize(width: 550, height: 290)
     }
     
     @IBAction func btnSecurity(_ sender: Any) {
         SwitchTabs(selectedButton: btnSecurityOutlet, tabIdentifier: "Security")
+        preferredContentSize = NSSize(width: 550, height: 320)
     }
     
     // General Menu Actions
@@ -80,7 +82,6 @@ class MenuController: NSViewController {
         } else {
             menuDefaults.removeObject(forKey: "UserInts")
         }
-        
     }
     
     // Security Menu Actions
@@ -113,9 +114,47 @@ class MenuController: NSViewController {
     }
     
     @IBAction func chkStoreURL(_ sender: Any) {
+        if chkStoreURLOutlet.state == NSControl.StateValue.on {
+            menuDefaults.set(true, forKey: "StoreURL")
+        } else {
+            menuDefaults.removeObject(forKey: "StoreURL")
+        }
     }
     
     @IBAction func chkStoreUsername(_ sender: Any) {
+        if chkStoreUsernameOutlet.state == NSControl.StateValue.on {
+            menuDefaults.set(true, forKey: "StoreUsername")
+        } else {
+            menuDefaults.removeObject(forKey: "StoreUsername")
+        }
+    }
+    
+    @IBAction func btnHardReset(_ sender: Any) {
+        if popPrompt().hardReset() {
+            
+            // Clear the keychain
+            DispatchQueue.global(qos: .background).async {
+                do {
+                    try KeyChainHelper.delete()
+                    self.logMan.infoWrite(logString: "Deleting information stored in keychain.")
+                } catch KeychainError.noPassword {
+                    // No info found in keychain
+                    self.logMan.infoWrite(logString: "No stored info found in KeyChain.")
+                } catch KeychainError.unexpectedPasswordData {
+                    // Info found, but it was bad
+                    self.logMan.errorWrite(logString: "Information was found in KeyChain, but it was somehow corrupt.")
+                } catch {
+                    // Something else
+                    self.logMan.fatalWrite(logString: "Unhandled exception found with extracting KeyChain info.")
+                }
+            }
+            
+            // Clear all stored defaults
+            if let bundle = Bundle.main.bundleIdentifier {
+                UserDefaults.standard.removePersistentDomain(forName: bundle)
+            }
+            exit(0)
+        }
     }
     
     func SwitchTabs(selectedButton: NSButton, tabIdentifier: String){
@@ -131,15 +170,15 @@ class MenuController: NSViewController {
     }
     
     func restoreGUI(){
-        if menuDefaults.value(forKey: "UserName") != nil {
+        if menuDefaults.bool(forKey: "StoreUsername") {
             chkStoreUsernameOutlet.state = NSControl.StateValue.on
         }
 
-        if menuDefaults.value(forKey: "InstanceURL") != nil {
+        if menuDefaults.bool(forKey: "StoreURL") {
             chkStoreURLOutlet.state = NSControl.StateValue.on
         }
 
-        if menuDefaults.bool(forKey: "Insecure") == true {
+        if menuDefaults.bool(forKey: "Insecure") {
             chkUntrustedSSLOutlet.state = NSControl.StateValue.on
         }
 
@@ -147,7 +186,7 @@ class MenuController: NSViewController {
             chkDelimiterOutlet.state = NSControl.StateValue.on
         }
 
-        if menuDefaults.bool(forKey: "UserInts") == true {
+        if menuDefaults.bool(forKey: "UserInts") {
             chkUsernameIntOutlet.state = NSControl.StateValue.on
         }
         
