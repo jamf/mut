@@ -198,7 +198,7 @@ class loginWindow: NSViewController {
     }
     
     @IBAction func btnQuit(_ sender: Any) {
-        self.dismiss(self)zx
+        self.dismiss(self)
         NSApplication.shared.terminate(self)
     }
     
