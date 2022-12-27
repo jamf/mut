@@ -970,22 +970,4 @@ extension ViewController: NSTableViewDataSource {
         //print("returning cell...")
         return cell
     }
-    
-    // Clear Stored Values -- DO NOT DELETE
-    // Although it appears to not be linked, it is tied to a menu option
-    @IBAction func btnClearStored(_ sender: AnyObject) {
-        //Clear all stored values
-        if let bundle = Bundle.main.bundleIdentifier {
-            UserDefaults.standard.removePersistentDomain(forName: bundle)
-        }
-    }
-    
-    func restoreDefaults(){
-        for setting in Setting.allDefaults{
-            setting.value = mainViewDefaults.value(forKey: setting.key)
-            print(setting.key)
-            print(setting.value)
-        }
-    }
-    
 }
