@@ -57,6 +57,7 @@ class loginWindow: NSViewController {
         } catch KeychainError.noPassword {
             // No info found in keychain
             self.logMan.infoWrite(logString: "No stored info found in KeyChain.")
+            disableAutoLogin()
         } catch KeychainError.unexpectedPasswordData {
             // Info found, but it was bad
             self.logMan.errorWrite(logString: "Information was found in KeyChain, but it was somehow corrupt.")
@@ -279,6 +280,7 @@ class loginWindow: NSViewController {
     
     func disableAutoLogin(){
         // Disable option to auto login if rememberme unchecked
+        loginDefaults.removeObject(forKey: "AutoLogin")
         chkAutoLoginOutlet.state = NSControl.StateValue.off
         chkAutoLoginOutlet.isEnabled = false
         lblAutoLogin.textColor = .secondaryLabelColor
