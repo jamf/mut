@@ -261,7 +261,6 @@ class ViewController: NSViewController, NSTableViewDelegate {
             //print("currentData should be the same as csvData: \(currentData)")
             tblScopes.reloadData()
         }
-        
     }
 
     @IBAction func btnExportCSV(_ sender: Any) {
@@ -271,16 +270,7 @@ class ViewController: NSViewController, NSTableViewDelegate {
     
     @IBAction func submitRequests(_ sender: Any) {
         if ( globalEndpoint.contains("group") || globalEndpoint.contains("prestage") ) {
-            let needNewToken = tokenMan.checkExpiry(expiry: Token.expiration!)
-            // Check and get a new token if needed, and performing prestage updates
-            if globalEndpoint.contains("prestage") {
-                if needNewToken {
-                    _ = popMan.generalWarning(question: "Expired Token", text: "It appears that your token has expired. This can happen if the app sits open for too long.\n\nYou will now be taken back to the login window. Please log in again to generate a new token.")
-                    //lblStatus.stringValue = ""
-                    //tabViewOutlet.selectTabViewItem(at: 0)
-                    performSegue(withIdentifier: "segueLogin", sender: self)
-                }
-            }
+            tokenMan.tokenRefresher() // This is likely extraneus, but also not a bad idea.
             let recordTypeOutlet = popRecordTypeOutlet.titleOfSelectedItem!
             let endpoint = popRecordTypeOutlet.selectedItem!.identifier!.rawValue
             let prestageID = txtPrestageID.stringValue
@@ -320,10 +310,8 @@ class ViewController: NSViewController, NSTableViewDelegate {
             default:
                 objectType = "computers"
             }
-            if !needNewToken {
-                DispatchQueue.global(qos: .background).async {
-                    self.submitScopeUpdates(recordTypeOutlet: recordTypeOutlet, endpoint: endpoint, prestageID: prestageID, httpMethod: httpMethod, objectType: objectType, appendReplaceRemove: appendReplaceRemove)
-                }
+            DispatchQueue.global(qos: .background).async {
+                self.submitScopeUpdates(recordTypeOutlet: recordTypeOutlet, endpoint: endpoint, prestageID: prestageID, httpMethod: httpMethod, objectType: objectType, appendReplaceRemove: appendReplaceRemove)
             }
 
         } else {
