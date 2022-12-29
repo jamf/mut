@@ -56,9 +56,10 @@ class ViewController: NSViewController, NSTableViewDelegate {
     var jsonToSubmit: Data!
     var globalDelimiter: UnicodeScalar!
     var csvArray = [[String]]()
+    var countSuccess: Int!
+    var countFailure: Int!
     
     var delimiter = ","
-
     var cancelRun = false
     
     let dataPrep = dataPreparation()
@@ -70,6 +71,7 @@ class ViewController: NSViewController, NSTableViewDelegate {
     let jsonMan = jsonManager()
     let logMan = logManager()
     let mdXMLParser = MobileDeviceXMLParser()
+    
     
     // Declare variable for defaults on main view
     let mainViewDefaults = UserDefaults.standard
@@ -107,7 +109,7 @@ class ViewController: NSViewController, NSTableViewDelegate {
     override func viewWillAppear() {
         //resize the view
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 550, height: 490)
+        preferredContentSize = NSSize(width: 550, height: 500)
         performSegue(withIdentifier: "segueLogin", sender: self)
     }
     
@@ -502,6 +504,8 @@ class ViewController: NSViewController, NSTableViewDelegate {
         var ea_values = [String]()
         let headerRow = csvArray[0]
         let numberOfColumns = headerRow.count
+        countSuccess = 0
+        countFailure = 0
         
         // Get the expected columns based off update type and calculate number of EAs present
         let expectedColumns = dataPrep.expectedColumns(endpoint: globalEndpoint!)
@@ -581,7 +585,17 @@ class ViewController: NSViewController, NSTableViewDelegate {
                 
                 // Submit the XML to the Jamf Pro API
                 if(globalEndpoint! != "mobiledevices") {
-                    _ = APIFunc.putData(passedUrl: Credentials.server!, credentials: Credentials.base64Encoded!, endpoint: globalEndpoint!, identifierType: identifierType, identifier: currentRow[0], allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPut)
+                    let putResponse = APIFunc.putData(passedUrl: Credentials.server!, credentials: Credentials.base64Encoded!, endpoint: globalEndpoint!, identifierType: identifierType, identifier: currentRow[0], allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPut)
+                    
+                    if putResponse.code >= 199 && putResponse.code <= 299 {
+                        countSuccess = countSuccess + 1
+                        //print("Computer success detected \(countSuccess)")
+                    }
+                    else {
+                        countFailure = countFailure + 1
+                        //print("Computer failure detected \(countFailure)")
+                    }
+                        
                 } else {
                     // If Jamf Pro is not compatible with the Enforce Name, alert the end-user.
                     if !isCompatibleJamfProVersion(compatibleVersion: "10.33.0", currentVersion: jamfProVersion) {
@@ -589,6 +603,13 @@ class ViewController: NSViewController, NSTableViewDelegate {
                     }
                     // Send the updates to the CAPI
                     let putResponse = APIFunc.putData(passedUrl: Credentials.server!, credentials: Credentials.base64Encoded!, endpoint: globalEndpoint!, identifierType: identifierType, identifier: currentRow[0], allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPut)
+                    
+                    if putResponse.code >= 199 && putResponse.code <= 299 {
+                        countSuccess = countSuccess + 1
+                    }
+                    else {
+                        countFailure = countFailure + 1
+                    }
                     
                     let json = jsonMan.buildMobileDeviceUpdatesJson(data: currentRow)
                     
@@ -603,10 +624,15 @@ class ViewController: NSViewController, NSTableViewDelegate {
                     }
                 }
             }
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [self] in
                 self.guiAttributeDone()
+                //print("Failures = \(countFailure)")
+                //print("Success = \(countSuccess)")
+                //_ = popMan.runComplete(success: countSuccess, failed: countFailure)
             }
         }
+
+    
     }
     
     func getCurrentPrestageVersionLock(endpoint: String, prestageID: String) -> Int {
@@ -737,14 +763,14 @@ class ViewController: NSViewController, NSTableViewDelegate {
             } else if globalEndpoint == "scope" {
                 if csvArray.count > 1 {
                     tabViewOutlet.selectTabViewItem(at: 2)
-                    preferredContentSize = NSSize(width: 550, height: 550)
+                    preferredContentSize = NSSize(width: 550, height: 560)
                     lblStatus.isHidden = false
                     lblStatus.stringValue = "Populate the dropdowns above, and then run your preflight check."
                 }
             } else {
                 if csvArray.count > 1 {
                     tabViewOutlet.selectTabViewItem(at: 1)
-                    preferredContentSize = NSSize(width: 550, height: 550)
+                    preferredContentSize = NSSize(width: 550, height: 560)
                     lblStatus.isHidden = false
                     lblStatus.stringValue = "Review the changes shown above. If everything looks good, hit submit."
                 }
@@ -812,7 +838,7 @@ class ViewController: NSViewController, NSTableViewDelegate {
     func guiAttributeRun() {
         btnSubmitOutlet.isHidden = true
         btnCancelOutlet.isHidden = false
-        preferredContentSize = NSSize(width: 550, height: 570)
+        preferredContentSize = NSSize(width: 550, height: 580)
         lblCurrent.isHidden = false
         lblLine.isHidden = false
         lblEndLine.isHidden = false
@@ -824,13 +850,13 @@ class ViewController: NSViewController, NSTableViewDelegate {
     func guiAttributeDone() {
         btnSubmitOutlet.isHidden = false
         btnCancelOutlet.isHidden = true
-        preferredContentSize = NSSize(width: 550, height: 550)
+        preferredContentSize = NSSize(width: 550, height: 560)
         lblCurrent.isHidden = true
         lblLine.isHidden = true
         lblEndLine.isHidden = true
         lblOf.isHidden = true
         barProgress.isHidden = true
-        lblStatus.stringValue = "Updates complete. See MUT.log for details."
+        lblStatus.stringValue = "Updates complete. \(countSuccess ?? 0 ) successful, \(countFailure ?? 0) failed updates.\nSee MUT.log for details."
     }
     
     @IBAction func popRecordTypeAction(_ sender: Any) {
