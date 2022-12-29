@@ -19,7 +19,6 @@
 		71FEC547238CD07B00A7AAB5 /* SessionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FEC540238CD07B00A7AAB5 /* SessionHandler.swift */; };
 		85C4D46922AAEF6A00512000 /* CSVFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C4D46822AAEF6A00512000 /* CSVFunctions.swift */; };
 		F70A48EA22B7106B003145E0 /* The_MUT_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70A48E922B7106B003145E0 /* The_MUT_Tests.swift */; };
-		F71AEE282946825900DF5528 /* MenuHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F71AEE272946825900DF5528 /* MenuHelper.swift */; };
 		F7333BD11DB55EDF00F89C00 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7333BD01DB55EDF00F89C00 /* AppDelegate.swift */; };
 		F7333BD31DB55EDF00F89C00 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7333BD21DB55EDF00F89C00 /* ViewController.swift */; };
 		F7333BD61DB55EDF00F89C00 /* The_MUT.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F7333BD41DB55EDF00F89C00 /* The_MUT.xcdatamodeld */; };
@@ -75,7 +74,6 @@
 		F70A48E722B7106A003145E0 /* MUT Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MUT Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F70A48E922B7106B003145E0 /* The_MUT_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = The_MUT_Tests.swift; sourceTree = "<group>"; };
 		F70A48EB22B7106B003145E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F71AEE272946825900DF5528 /* MenuHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuHelper.swift; sourceTree = "<group>"; };
 		F7333BCD1DB55EDF00F89C00 /* MUT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MUT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7333BD01DB55EDF00F89C00 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F7333BD21DB55EDF00F89C00 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -226,7 +224,6 @@
 			children = (
 				F7A4EE47293D9ACF001263CA /* MenuController.swift */,
 				F7C5F4B3294459D400BE7694 /* InsecureSSLPopover.swift */,
-				F71AEE272946825900DF5528 /* MenuHelper.swift */,
 			);
 			path = "Settings Menu";
 			sourceTree = "<group>";
@@ -412,7 +409,6 @@
 				50D075C526DED19900252AC0 /* MobileDeviceV2.swift in Sources */,
 				F7CF61EA2298671E003A0CBB /* tokenManagement.swift in Sources */,
 				F7A4EE48293D9ACF001263CA /* MenuController.swift in Sources */,
-				F71AEE282946825900DF5528 /* MenuHelper.swift in Sources */,
 				F7333BD11DB55EDF00F89C00 /* AppDelegate.swift in Sources */,
 				7166CB71238CD161002B221A /* APIFunctions2.swift in Sources */,
 				F7C5F4B4294459D400BE7694 /* InsecureSSLPopover.swift in Sources */,

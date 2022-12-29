@@ -102,9 +102,6 @@ class ViewController: NSViewController, NSTableViewDelegate {
             logMan.infoWrite(logString: "No stored delimiter found. Using default comma delimiter.")
             delimiter = ","
         }
-        
-        // Load all defaults into their settings
-        Setting(key: nil, value: nil).restoreDefaults()
     }
 
     override func viewWillAppear() {

@@ -134,7 +134,7 @@ class loginWindow: NSViewController {
 
             DispatchQueue.global(qos: .background).async {
                 // Get our token data from the API class
-                Token.data = self.tokenMan.getToken(url: Credentials.server!,
+                self.tokenMan.getToken(url: Credentials.server!,
                                                     user: Credentials.username!,
                                                     password: Credentials.password!,
                                                     allowUntrusted: self.loginDefaults.bool(forKey: "Insecure"))
