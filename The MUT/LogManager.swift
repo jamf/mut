@@ -15,6 +15,24 @@ import Cocoa
 // Level 2 - Info
 // Level 3 - Verbose
 
+public enum logLevel: String {
+    case debug
+    case info
+    case warn
+    case error
+    case fatal
+    
+    public var severity: Int {
+        switch self {
+        case .debug: return 3
+        case .info: return 2
+        case .warn: return 1
+        case .error: return 0
+        case .fatal: return -1
+        }
+    }
+}
+
 public class logManager {
     
     let logDefaults = UserDefaults.standard
@@ -48,44 +66,16 @@ public class logManager {
         return (formatter.string(from: Date()) as NSString) as String
     }
     
-    // Fatal will always write
-    func fatalWrite(logString: String) {
-        createDirectory()
-        let currentTime = generateCurrentTimeStamp()
-        let logURL = libraryURL?.appendingPathComponent("MUT.log")
-        let dateLogString = currentTime + " [FATAL ]: " + logString
-        //NSLog("[INFO  ]: Writing to MUT log file: '\(logString)'.")
-        do {
-            try dateLogString.appendLineToURL(fileURL: logURL!)
-        }
-        catch {
-            //NSLog("[ERROR ]: An error occured while writing to the Log. \(error).")
-        }
-    }
-    
-    // Error will always write
-    func errorWrite(logString: String) {
-        createDirectory()
-        let currentTime = generateCurrentTimeStamp()
-        let logURL = libraryURL?.appendingPathComponent("MUT.log")
-        let dateLogString = currentTime + " [ERROR ]: " + logString
-        //NSLog("[INFO  ]: Writing to MUT log file: '\(logString)'.")
-        do {
-            try dateLogString.appendLineToURL(fileURL: logURL!)
-        }
-        catch {
-            //NSLog("[ERROR ]: An error occured while writing to the Log. \(error).")
-        }
-    }
-
-    // Warn will write at levels 1 and higher
-    func warnWrite(logString: String) {
-        if logDefaults.integer(forKey: "LogLevel") >= 1 {
+    func writeLog(level: logLevel, logString: String) {
+        
+        let logLabel = "[\(level.rawValue.uppercased().padding(toLength: 6, withPad: " ", startingAt: 0))]:"
+        
+        if logDefaults.integer(forKey: "LogLevel") >= level.severity {
             createDirectory()
             let currentTime = generateCurrentTimeStamp()
             let logURL = libraryURL?.appendingPathComponent("MUT.log")
-            let dateLogString = currentTime + " [WARN  ]: " + logString
-            //NSLog("[INFO  ]: Writing to MUT log file: '\(logString)'.")
+            let dateLogString = currentTime + " " + logLabel + " " + logString
+            //NSLog("[INFO  ]: Writing to MUT log file: '\(logString)'."
             do {
                 try dateLogString.appendLineToURL(fileURL: logURL!)
             }
@@ -94,41 +84,88 @@ public class logManager {
             }
         }
     }
-
-    // Info will write at levels 2 and higher
-    func infoWrite(logString: String) {
-        if logDefaults.integer(forKey: "LogLevel") >= 2 {
-            createDirectory()
-            let currentTime = generateCurrentTimeStamp()
-            let logURL = libraryURL?.appendingPathComponent("MUT.log")
-            let dateLogString = currentTime + " [INFO  ]: " + logString
-            //NSLog("[INFO  ]: Writing to MUT log file: '\(logString)'.")
-            do {
-                try dateLogString.appendLineToURL(fileURL: logURL!)
-            }
-            catch {
-                //NSLog("[ERROR ]: An error occured while writing to the Log. \(error).")
-            }
-        }
-    }
-    
-    
-    // Verbose will write at levels 2 and higher
-    func verboseWrite(logString: String) {
-        if logDefaults.integer(forKey: "LogLevel") >= 3 {
-            createDirectory()
-            let currentTime = generateCurrentTimeStamp()
-            let logURL = libraryURL?.appendingPathComponent("MUT.log")
-            let dateLogString = currentTime + " [DEBUG ]: " + logString
-            //NSLog("[INFO  ]: Writing to MUT log file: '\(logString)'.")
-            do {
-                try dateLogString.appendLineToURL(fileURL: logURL!)
-            }
-            catch {
-                //NSLog("[ERROR ]: An error occured while writing to the Log. \(error).")
-            }
-        }
-    }
+//
+//    // Fatal will always write
+//    func fatalWrite(logString: String) {
+//        createDirectory()
+//        let currentTime = generateCurrentTimeStamp()
+//        let logURL = libraryURL?.appendingPathComponent("MUT.log")
+//        let dateLogString = currentTime + " [FATAL ]: " + logString
+//        //NSLog("[INFO  ]: Writing to MUT log file: '\(logString)'.")
+//        do {
+//            try dateLogString.appendLineToURL(fileURL: logURL!)
+//        }
+//        catch {
+//            //NSLog("[ERROR ]: An error occured while writing to the Log. \(error).")
+//        }
+//    }
+//
+//    // Error will always write
+//    func errorWrite(logString: String) {
+//        createDirectory()
+//        let currentTime = generateCurrentTimeStamp()
+//        let logURL = libraryURL?.appendingPathComponent("MUT.log")
+//        let dateLogString = currentTime + " [ERROR ]: " + logString
+//        //NSLog("[INFO  ]: Writing to MUT log file: '\(logString)'.")
+//        do {
+//            try dateLogString.appendLineToURL(fileURL: logURL!)
+//        }
+//        catch {
+//            //NSLog("[ERROR ]: An error occured while writing to the Log. \(error).")
+//        }
+//    }
+//
+//    // Warn will write at levels 1 and higher
+//    func warnWrite(logString: String) {
+//        if logDefaults.integer(forKey: "LogLevel") >= 1 {
+//            createDirectory()
+//            let currentTime = generateCurrentTimeStamp()
+//            let logURL = libraryURL?.appendingPathComponent("MUT.log")
+//            let dateLogString = currentTime + " [WARN  ]: " + logString
+//            //NSLog("[INFO  ]: Writing to MUT log file: '\(logString)'.")
+//            do {
+//                try dateLogString.appendLineToURL(fileURL: logURL!)
+//            }
+//            catch {
+//                //NSLog("[ERROR ]: An error occured while writing to the Log. \(error).")
+//            }
+//        }
+//    }
+//
+//    // Info will write at levels 2 and higher
+//    func infoWrite(logString: String) {
+//        if logDefaults.integer(forKey: "LogLevel") >= 2 {
+//            createDirectory()
+//            let currentTime = generateCurrentTimeStamp()
+//            let logURL = libraryURL?.appendingPathComponent("MUT.log")
+//            let dateLogString = currentTime + " [INFO  ]: " + logString
+//            //NSLog("[INFO  ]: Writing to MUT log file: '\(logString)'.")
+//            do {
+//                try dateLogString.appendLineToURL(fileURL: logURL!)
+//            }
+//            catch {
+//                //NSLog("[ERROR ]: An error occured while writing to the Log. \(error).")
+//            }
+//        }
+//    }
+//
+//
+//    // Verbose will write at levels 2 and higher
+//    func verboseWrite(logString: String) {
+//        if logDefaults.integer(forKey: "LogLevel") >= 3 {
+//            createDirectory()
+//            let currentTime = generateCurrentTimeStamp()
+//            let logURL = libraryURL?.appendingPathComponent("MUT.log")
+//            let dateLogString = currentTime + " [DEBUG ]: " + logString
+//            //NSLog("[INFO  ]: Writing to MUT log file: '\(logString)'.")
+//            do {
+//                try dateLogString.appendLineToURL(fileURL: logURL!)
+//            }
+//            catch {
+//                //NSLog("[ERROR ]: An error occured while writing to the Log. \(error).")
+//            }
+//        }
+//    }
     
 }
 

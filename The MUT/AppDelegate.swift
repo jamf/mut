@@ -177,7 +177,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         if let url = URL(string: "https://github.com/mike-levenick/mut/blob/master/README.md") {
             if NSWorkspace.shared.open(url) {
-                logMan.infoWrite(logString: "Opening ReadMe.")
+                logMan.writeLog(level: .info, logString: "Opening ReadMe.")
             }
         }
     }

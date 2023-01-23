@@ -50,20 +50,20 @@ class loginWindow: NSViewController {
             self.txtUserOutlet.stringValue = Credentials.username!
             self.txtPassOutlet.stringValue = Credentials.password!
             if loginDefaults.bool(forKey: "AutoLogin") {
-                self.logMan.infoWrite(logString: "Found credentials stored in KeyChain. Attempting login.")
+                self.logMan.writeLog(level: .info, logString: "Found credentials stored in KeyChain. Attempting login.")
                 keyChainLogin = true
                 self.btnSubmit(self)
             }
         } catch KeychainError.noPassword {
             // No info found in keychain
-            self.logMan.infoWrite(logString: "No stored info found in KeyChain.")
+            self.logMan.writeLog(level: .info, logString: "No stored info found in KeyChain.")
             disableAutoLogin()
         } catch KeychainError.unexpectedPasswordData {
             // Info found, but it was bad
-            self.logMan.errorWrite(logString: "Information was found in KeyChain, but it was somehow corrupt.")
+            self.logMan.writeLog(level: .error, logString: "Information was found in KeyChain, but it was somehow corrupt.")
         } catch {
             // Something else
-            self.logMan.fatalWrite(logString: "Unhandled exception found with extracting KeyChain info.")
+            self.logMan.writeLog(level: .fatal, logString: "Unhandled exception found with extracting KeyChain info.")
         }
         
         // Restore Remember Me checkbox settings if we have a default stored
@@ -157,7 +157,7 @@ class loginWindow: NSViewController {
                                 
                                 self.dismiss(self)
                             } catch let error as NSError {
-                                self.logMan.errorWrite(logString: "Failed to load: \(error.localizedDescription)")
+                                self.logMan.writeLog(level: .error, logString: "Failed to load: \(error.localizedDescription)")
                             }
                             
                             // Store the username if we should
@@ -182,14 +182,14 @@ class loginWindow: NSViewController {
                             if self.loginDefaults.bool(forKey: "Remember") {
                                 
                                 // Attempt to save the information in keychain
-                                self.logMan.infoWrite(logString: "Remember Me checkbox checked. Storing credentials in KeyChain for later use.")
+                                self.logMan.writeLog(level: .info, logString: "Remember Me checkbox checked. Storing credentials in KeyChain for later use.")
                                 DispatchQueue.global(qos: .background).async {
                                     do {
                                         try KeyChainHelper.save(username: Credentials.username!,
                                                                 password: Credentials.password!,
                                                                 server: Credentials.server!)
                                     } catch {
-                                        self.logMan.errorWrite(logString: "Error writing credentials to keychain. \(error)")
+                                        self.logMan.writeLog(level: .error, logString: "Error writing credentials to keychain. \(error)")
                                     }
                                 }
 
@@ -264,16 +264,16 @@ class loginWindow: NSViewController {
         DispatchQueue.global(qos: .background).async {
             do {
                 try KeyChainHelper.delete()
-                self.logMan.infoWrite(logString: "Deleting information stored in keychain.")
+                self.logMan.writeLog(level: .info, logString: "Deleting information stored in keychain.")
             } catch KeychainError.noPassword {
                 // No info found in keychain
-                self.logMan.infoWrite(logString: "No stored info found in KeyChain.")
+                self.logMan.writeLog(level: .info, logString: "No stored info found in KeyChain.")
             } catch KeychainError.unexpectedPasswordData {
                 // Info found, but it was bad
-                self.logMan.errorWrite(logString: "Information was found in KeyChain, but it was somehow corrupt.")
+                self.logMan.writeLog(level: .error, logString: "Information was found in KeyChain, but it was somehow corrupt.")
             } catch {
                 // Something else
-                self.logMan.fatalWrite(logString: "Unhandled exception found with extracting KeyChain info.")
+                self.logMan.writeLog(level: .fatal, logString: "Unhandled exception found with extracting KeyChain info.")
             }
         }
     }

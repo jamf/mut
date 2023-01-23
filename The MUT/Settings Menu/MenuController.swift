@@ -69,10 +69,10 @@ class MenuController: NSViewController {
     @IBAction func chkDelimiter(_ sender: Any) {
         if chkDelimiterOutlet.state == NSControl.StateValue.on {
             menuDefaults.set(";", forKey: "Delimiter")
-            logMan.infoWrite(logString: "The new delimiter is semi-colon. This delimiter will be stored to defaults.")
+            logMan.writeLog(level: .info, logString: "The new delimiter is semi-colon. This delimiter will be stored to defaults.")
         } else {
             menuDefaults.removeObject(forKey: "Delimiter")
-            logMan.infoWrite(logString: "Removing semi-colon delimiter from defaults storage. Comma delimiter will be used.")
+            logMan.writeLog(level: .info, logString: "Removing semi-colon delimiter from defaults storage. Comma delimiter will be used.")
         }
     }
     
@@ -98,16 +98,16 @@ class MenuController: NSViewController {
             DispatchQueue.global(qos: .background).async {
                 do {
                     try KeyChainHelper.delete()
-                    self.logMan.infoWrite(logString: "Deleting information stored in keychain.")
+                    self.logMan.writeLog(level: .info, logString: "Deleting information stored in keychain.")
                 } catch KeychainError.noPassword {
                     // No info found in keychain
-                    self.logMan.infoWrite(logString: "No stored info found in KeyChain.")
+                    self.logMan.writeLog(level: .info, logString: "No stored info found in KeyChain.")
                 } catch KeychainError.unexpectedPasswordData {
                     // Info found, but it was bad
-                    self.logMan.errorWrite(logString: "Information was found in KeyChain, but it was somehow corrupt.")
+                    self.logMan.writeLog(level: .error, logString: "Information was found in KeyChain, but it was somehow corrupt.")
                 } catch {
                     // Something else
-                    self.logMan.fatalWrite(logString: "Unhandled exception found with extracting KeyChain info.")
+                    self.logMan.writeLog(level: .fatal, logString: "Unhandled exception found with extracting KeyChain info.")
                 }
             }
         }
@@ -136,16 +136,16 @@ class MenuController: NSViewController {
             DispatchQueue.global(qos: .background).async {
                 do {
                     try KeyChainHelper.delete()
-                    self.logMan.infoWrite(logString: "Deleting information stored in keychain.")
+                    self.logMan.writeLog(level: .info, logString: "Deleting information stored in keychain.")
                 } catch KeychainError.noPassword {
                     // No info found in keychain
-                    self.logMan.infoWrite(logString: "No stored info found in KeyChain.")
+                    self.logMan.writeLog(level: .info, logString: "No stored info found in KeyChain.")
                 } catch KeychainError.unexpectedPasswordData {
                     // Info found, but it was bad
-                    self.logMan.errorWrite(logString: "Information was found in KeyChain, but it was somehow corrupt.")
+                    self.logMan.writeLog(level: .error, logString: "Information was found in KeyChain, but it was somehow corrupt.")
                 } catch {
                     // Something else
-                    self.logMan.fatalWrite(logString: "Unhandled exception found with extracting KeyChain info.")
+                    self.logMan.writeLog(level: .fatal, logString: "Unhandled exception found with extracting KeyChain info.")
                 }
             }
             

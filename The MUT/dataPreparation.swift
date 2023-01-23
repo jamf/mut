@@ -129,7 +129,7 @@ public class dataPreparation {
             let clean_ea_id = headerRow[i].replacingOccurrences(of: "EA_", with: "")
             ea_ids = ea_ids + [clean_ea_id]
             if !clean_ea_id.isInt {
-                logMan.errorWrite(logString: "Problem with EA ID field: \(headerRow[i]) in column \(i + 1).")
+                logMan.writeLog(level: .error, logString: "Problem with EA ID field: \(headerRow[i]) in column \(i + 1).")
                 //print("Problem with EA ID field \(i)")
             }
         }
