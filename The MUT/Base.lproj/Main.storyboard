@@ -270,6 +270,17 @@
                                                         <action selector="btnHardReset:" target="4ez-rW-ZN4" id="JXE-LR-uKz"/>
                                                     </connections>
                                                 </button>
+                                                <button horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ic0-Sl-hd1">
+                                                    <rect key="frame" x="501" y="153" width="25" height="25"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="eVY-Fq-0ht">
+                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <segue destination="21H-V6-la7" kind="popover" popoverAnchorView="ic0-Sl-hd1" popoverBehavior="t" preferredEdge="maxY" id="bng-iY-FLL"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                         </view>
                                     </tabViewItem>
@@ -1336,6 +1347,87 @@ DQ
             </objects>
             <point key="canvasLocation" x="2172" y="-596.5"/>
         </scene>
+        <!--Keychain Defaults Popover-->
+        <scene sceneID="2pp-w4-KP8">
+            <objects>
+                <viewController id="21H-V6-la7" customClass="KeychainDefaultsPopover" customModule="MUT" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="kk7-ch-xOk">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="425"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VlQ-9R-29V">
+                                <rect key="frame" x="18" y="200" width="414" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" selectable="YES" id="LGn-Of-w2e">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <string key="title">This information is encrypted and stored securely on your Mac, but we understand you may not want to store your password, even if it is encrypted and stored securely.</string>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k0j-fH-lST">
+                                <rect key="frame" x="18" y="266" width="414" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" selectable="YES" id="iPk-dN-N8a">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <string key="title">Using the "Remember Me" checkbox on the login window of MUT will store your server information, username, and password all in the secure storage of your Mac's Keychain. </string>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xpq-UM-hk8">
+                                <rect key="frame" x="18" y="100" width="414" height="80"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" selectable="YES" id="ih0-Ww-ouD">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <string key="title">Because of this, we also give you the option to store only your username, server information, or both in the "defaults" storage for MUT. It is possible to use both the Keychain storage and the Defaults storage, but there generally should not be any reason to do so.</string>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="avs-3o-BAt">
+                                <rect key="frame" x="194" y="361.5" width="62.5" height="58"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="key" catalog="system" id="WDq-Of-jMj"/>
+                            </imageView>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1y0-yc-40D">
+                                <rect key="frame" x="61" y="327" width="329" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Keychain vs Defaults Storage" id="9Ha-TZ-1YK">
+                                    <font key="font" textStyle="largeTitle" name=".SFNS-Regular"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IzI-uy-3mh">
+                                <rect key="frame" x="13" y="57" width="404" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="View Apple Documentation on Keychain Storage" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ID0-SS-45I">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="btnKeychainStorage:" target="21H-V6-la7" id="SRO-0p-SvW"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="97e-dC-BoJ">
+                                <rect key="frame" x="13" y="19" width="404" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="View Apple Documentation on Defaults Storage" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="LJf-WI-cit">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="btnDefaultsStorage:" target="21H-V6-la7" id="uvf-HV-ubb"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                    </view>
+                </viewController>
+                <customObject id="7ba-Tk-Rbk" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2650" y="-562.5"/>
+        </scene>
     </scenes>
     <resources>
         <image name="IconSafari" width="60" height="60"/>
@@ -1346,5 +1438,6 @@ DQ
         <image name="NSPreferencesGeneral" width="32" height="32"/>
         <image name="V6" width="111" height="111"/>
         <image name="V6Glow" width="230" height="230"/>
+        <image name="key" catalog="system" width="12" height="18"/>
     </resources>
 </document>
