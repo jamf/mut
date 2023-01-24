@@ -19,6 +19,7 @@
 		71FEC547238CD07B00A7AAB5 /* SessionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FEC540238CD07B00A7AAB5 /* SessionHandler.swift */; };
 		85C4D46922AAEF6A00512000 /* CSVFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C4D46822AAEF6A00512000 /* CSVFunctions.swift */; };
 		F70A48EA22B7106B003145E0 /* The_MUT_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70A48E922B7106B003145E0 /* The_MUT_Tests.swift */; };
+		F721E4EF2980444A003284A0 /* KeychainDefaultsPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = F721E4EE2980444A003284A0 /* KeychainDefaultsPopover.swift */; };
 		F7333BD11DB55EDF00F89C00 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7333BD01DB55EDF00F89C00 /* AppDelegate.swift */; };
 		F7333BD31DB55EDF00F89C00 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7333BD21DB55EDF00F89C00 /* ViewController.swift */; };
 		F7333BD61DB55EDF00F89C00 /* The_MUT.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F7333BD41DB55EDF00F89C00 /* The_MUT.xcdatamodeld */; };
@@ -74,6 +75,7 @@
 		F70A48E722B7106A003145E0 /* MUT Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MUT Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F70A48E922B7106B003145E0 /* The_MUT_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = The_MUT_Tests.swift; sourceTree = "<group>"; };
 		F70A48EB22B7106B003145E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F721E4EE2980444A003284A0 /* KeychainDefaultsPopover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainDefaultsPopover.swift; sourceTree = "<group>"; };
 		F7333BCD1DB55EDF00F89C00 /* MUT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MUT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7333BD01DB55EDF00F89C00 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F7333BD21DB55EDF00F89C00 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 			children = (
 				F7A4EE47293D9ACF001263CA /* MenuController.swift */,
 				F7C5F4B3294459D400BE7694 /* InsecureSSLPopover.swift */,
+				F721E4EE2980444A003284A0 /* KeychainDefaultsPopover.swift */,
 			);
 			path = "Settings Menu";
 			sourceTree = "<group>";
@@ -404,6 +407,7 @@
 				50D075C726DFEAF200252AC0 /* JamfProVersionV1.swift in Sources */,
 				71FEC544238CD07B00A7AAB5 /* HTTPMethod.swift in Sources */,
 				50D075C226DED17900252AC0 /* MobileDeviceXMLParser.swift in Sources */,
+				F721E4EF2980444A003284A0 /* KeychainDefaultsPopover.swift in Sources */,
 				F7D670BE1EA54E51006010AA /* popPrompt.swift in Sources */,
 				F7CEE52A229E3C420027CAE8 /* loginWindow.swift in Sources */,
 				50D075C526DED19900252AC0 /* MobileDeviceV2.swift in Sources */,

@@ -23,7 +23,7 @@ class InsecureSSLPopOver: NSViewController {
     @IBAction func btnAddingCertTokeychain(_ sender: Any) {
        if let url = URL(string: "https://support.apple.com/en-is/guide/keychain-access/kyca2431/mac") {
             if NSWorkspace.shared.open(url) {
-                logMan.writeLog(level: .info, logString: "Opening Apple documentation on adding certificates to KeyChain.")
+                logMan.writeLog(level: .info, logString: "Opening Apple documentation on adding certificates to Keychain.")
             }
         }
     }
