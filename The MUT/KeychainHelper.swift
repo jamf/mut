@@ -16,7 +16,8 @@ class KeyChainHelper {
                                     kSecAttrAccount as String: username,
                                     kSecAttrServer as String: server,
                                     kSecAttrComment as String: "Server: \(server)",
-                                    kSecAttrLabel as String: KeyVars.key, // This is the key we will to find it later
+                                    kSecAttrLabel as String: KeyVars.label,
+                                    kSecAttrApplicationTag as String: KeyVars.tag,
                                     kSecValueData as String: passData]
         SecItemDelete(query as CFDictionary)
         let status  = SecItemAdd(query as CFDictionary, nil)
@@ -26,7 +27,8 @@ class KeyChainHelper {
     class func load() throws {
         // Build the query for what to find
         let query: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
-                                    kSecAttrLabel as String: KeyVars.key, // Looking to match this key
+                                    kSecAttrLabel as String: KeyVars.label,
+                                    kSecAttrApplicationTag as String: KeyVars.tag,
                                     kSecMatchLimit as String: kSecMatchLimitOne, // Limiting to one result
                                     kSecReturnAttributes as String: true,
                                     kSecReturnData as String: true]
@@ -52,7 +54,8 @@ class KeyChainHelper {
     class func delete() throws {
         
         let query: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
-                                    kSecAttrLabel as String: KeyVars.key, // Looking to match this key
+                                    kSecAttrLabel as String: KeyVars.label,
+                                    kSecAttrApplicationTag as String: KeyVars.tag,
                                     kSecMatchLimit as String: kSecMatchLimitOne, // Limiting to one result
         ]
         let status = SecItemDelete(query as CFDictionary)
@@ -70,7 +73,8 @@ class KeyChainHelper {
 }
 
 public struct KeyVars {
-    static let key = "com.jamf.mut.credentials"
+    static let label = "com.jamf.mut.credentials"
+    static let tag = label.data(using: .utf8)!
 }
 
 public struct Credentials {
