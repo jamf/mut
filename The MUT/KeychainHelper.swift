@@ -12,15 +12,26 @@ class KeyChainHelper {
 
     class func save(username: String, password: String, server: String) throws {
         let passData = password.data(using: String.Encoding.utf8)!
-        let query: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
+        
+        // When deleting old credentials, only care if it's another MUT password.
+        let deleteQuery: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
+                                    kSecAttrLabel as String: KeyVars.label,
+                                    kSecAttrApplicationTag as String: KeyVars.tag]
+        
+        // When saving, care about everything.
+        let saveQuery: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
                                     kSecAttrAccount as String: username,
                                     kSecAttrServer as String: server,
                                     kSecAttrComment as String: "Server: \(server)",
                                     kSecAttrLabel as String: KeyVars.label,
                                     kSecAttrApplicationTag as String: KeyVars.tag,
                                     kSecValueData as String: passData]
-        SecItemDelete(query as CFDictionary)
-        let status  = SecItemAdd(query as CFDictionary, nil)
+        
+        // Delete old credentials before re-saving new, valid credentials.
+        SecItemDelete(deleteQuery as CFDictionary)
+        
+        // Save the new credentials that are confirmed-good.
+        let status  = SecItemAdd(saveQuery as CFDictionary, nil)
         guard status == errSecSuccess else { throw KeychainError.unhandledError(status: status)}
     }
     
