@@ -30,7 +30,7 @@ public class APIFunctions {
         let baseURL = dataPrep.generateURL(baseURL: passedUrl, endpoint: endpoint, identifierType: identifierType, identifier: identifier, jpapi: false, jpapiVersion: "")
         
         let encodedURL = NSURL(string: "\(baseURL)")! as URL
-        logMan.infoWrite(logString: "Submitting a PUT to \(encodedURL.absoluteString)")
+        logMan.writeLog(level: .info, logString: "Submitting a PUT to \(encodedURL.absoluteString)")
         // Changed to use SessionHandler to configure trust
         sessionHandler.setAllowUntrusted(allowUntrusted: allowUntrusted)
         // The semaphore is what allows us to force the code to wait for this request to complete
@@ -55,19 +55,19 @@ public class APIFunctions {
                 responseCode = httpResponse.statusCode
                 if httpResponse.statusCode >= 199 && httpResponse.statusCode <= 299 {
                     // Good response from API
-                    self.logMan.infoWrite(logString: "Successful PUT completed. \(httpResponse.statusCode).")
-                    self.logMan.infoWrite(logString: String(decoding: data!, as: UTF8.self))
+                    self.logMan.writeLog(level: .info, logString: "Successful PUT completed. \(httpResponse.statusCode).")
+                    self.logMan.writeLog(level: .info, logString: String(decoding: data!, as: UTF8.self))
                 } else {
                     // Bad Response from API
-                    self.logMan.errorWrite(logString: "Failed PUT. \(httpResponse.statusCode).")
-                    self.logMan.errorWrite(logString: String(decoding: data!, as: UTF8.self)) // ADVANCED DEBUGGING
+                    self.logMan.writeLog(level: .error, logString: "Failed PUT. \(httpResponse.statusCode).")
+                    self.logMan.writeLog(level: .error, logString: String(decoding: data!, as: UTF8.self)) // ADVANCED DEBUGGING
                 }
                 responseBody = data
                 semaphore.signal() // Signal completion to the semaphore
             }
             
             if error != nil {
-                self.logMan.fatalWrite(logString: error!.localizedDescription)
+                self.logMan.writeLog(level: .fatal, logString: error!.localizedDescription)
                 semaphore.signal() // Signal completion to the semaphore
                 
             }
@@ -82,8 +82,8 @@ public class APIFunctions {
         var responseCode = 400
         let encodedURL = dataPrep.generateJpapiURL(baseURL: passedUrl, endpoint: endpoint, endpointVersion: endpointVersion, identifier: identifier)
         
-        //logMan.infoWrite(logString: "Submitting a PATCH to \(encodedURL.absoluteString)") // Re-enable these in debug mode when available.
-        //logMan.infoWrite(logString: String(decoding: jsonData, as: UTF8.self)) // Re-enable these in debug mode when available.
+        //logMan.writeLog(level: .info, logString: "Submitting a PATCH to \(encodedURL.absoluteString)") // Re-enable these in debug mode when available.
+        //logMan.writeLog(level: .info, logString: String(decoding: jsonData, as: UTF8.self)) // Re-enable these in debug mode when available.
         // Changed to use SessionHandler to configure trust
         sessionHandler.setAllowUntrusted(allowUntrusted: allowUntrusted)
         // The semaphore is what allows us to force the code to wait for this request to complete
@@ -106,19 +106,19 @@ public class APIFunctions {
                 responseCode = httpResponse.statusCode
                 if httpResponse.statusCode >= 199 && httpResponse.statusCode <= 299 {
                     // Good response from API
-                    self.logMan.infoWrite(logString: "Successful name enforcement request. \(httpResponse.statusCode).")
+                    self.logMan.writeLog(level: .info, logString: "Successful name enforcement request. \(httpResponse.statusCode).")
                     // DEBUGGING
-                    //self.logMan.infoWrite(logString: String(decoding: data!, as: UTF8.self))
+                    //self.logMan.writeLog(level: .info, logString: String(decoding: data!, as: UTF8.self))
                 } else {
                     // Bad Response from API
-                    self.logMan.errorWrite(logString: "Failed name enforcement request. \(httpResponse.statusCode).")
-                    self.logMan.errorWrite(logString: String(decoding: data!, as: UTF8.self))
+                    self.logMan.writeLog(level: .error, logString: "Failed name enforcement request. \(httpResponse.statusCode).")
+                    self.logMan.writeLog(level: .error, logString: String(decoding: data!, as: UTF8.self))
                 }
                 semaphore.signal() // Signal completion to the semaphore
             }
             
             if error != nil {
-                self.logMan.fatalWrite(logString: error!.localizedDescription)
+                self.logMan.writeLog(level: .fatal, logString: error!.localizedDescription)
                 semaphore.signal() // Signal completion to the semaphore
                 
             }
@@ -135,7 +135,7 @@ public class APIFunctions {
         
         let encodedURL = dataPrep.generateJpapiURL(baseURL: passedUrl, endpoint: endpoint, endpointVersion: endpointVersion, identifier: identifier)
         
-        //logMan.infoWrite(logString: "Submitting a GET to \(encodedURL.absoluteString)")
+        //logMan.writeLog(level: .info, logString: "Submitting a GET to \(encodedURL.absoluteString)")
         // Changed to use SessionHandler to configure trust
         sessionHandler.setAllowUntrusted(allowUntrusted: allowUntrusted)
         // The semaphore is what allows us to force the code to wait for this request to complete
@@ -156,20 +156,20 @@ public class APIFunctions {
                 responseCode = httpResponse.statusCode
                 if httpResponse.statusCode >= 199 && httpResponse.statusCode <= 299 {
                     // Good response from API
-                    self.logMan.infoWrite(logString: "Successful GET completed. \(httpResponse.statusCode).")
+                    self.logMan.writeLog(level: .info, logString: "Successful GET completed. \(httpResponse.statusCode).")
                     // DEBUGGING
-                    //self.logMan.infoWrite(logString: String(decoding: data!, as: UTF8.self))
+                    //self.logMan.writeLog(level: .info, logString: String(decoding: data!, as: UTF8.self))
                 } else {
                     // Bad Response from API
-                    self.logMan.errorWrite(logString: "Failed PATCH. \(httpResponse.statusCode).")
-                    self.logMan.errorWrite(logString: String(decoding: data!, as: UTF8.self))
+                    self.logMan.writeLog(level: .error, logString: "Failed PATCH. \(httpResponse.statusCode).")
+                    self.logMan.writeLog(level: .error, logString: String(decoding: data!, as: UTF8.self))
                 }
                 responseBody = data
                 semaphore.signal() // Signal completion to the semaphore
             }
             
             if error != nil {
-                self.logMan.fatalWrite(logString: error!.localizedDescription)
+                self.logMan.writeLog(level: .fatal, logString: error!.localizedDescription)
                 semaphore.signal() // Signal completion to the semaphore
                 
             }
@@ -181,7 +181,7 @@ public class APIFunctions {
     
     public func getPrestageScope(passedUrl: URL, token: String, endpoint: String, allowUntrusted: Bool) -> Data {
         tokenMan.tokenRefresher()
-        logMan.infoWrite(logString: "Getting current prestage scope from \(passedUrl.absoluteString)")
+        logMan.writeLog(level: .info, logString: "Getting current prestage scope from \(passedUrl.absoluteString)")
         // Changed to use SessionHandler to configure trust
         sessionHandler.setAllowUntrusted(allowUntrusted: allowUntrusted)
         var globalResponse = "nil".data(using: String.Encoding.utf8, allowLossyConversion: false)!        // The semaphore is what allows us to force the code to wait for this request to complete
@@ -205,20 +205,20 @@ public class APIFunctions {
                 if httpResponse.statusCode >= 199 && httpResponse.statusCode <= 299 {
                     // Good response from API
                     globalResponse = data!
-                    self.logMan.infoWrite(logString: "Successful GET completed. \(httpResponse.statusCode).")
-                    //self.logMan.infoWrite(logString: String(decoding: data!, as: UTF8.self))
+                    self.logMan.writeLog(level: .info, logString: "Successful GET completed. \(httpResponse.statusCode).")
+                    //self.logMan.writeLog(level: .info, logString: String(decoding: data!, as: UTF8.self))
                 } else {
                     // Bad Response from API
                     globalResponse = data!
-                    self.logMan.errorWrite(logString: "Failed GET. \(httpResponse.statusCode).")
-                    self.logMan.errorWrite(logString: String(decoding: data!, as: UTF8.self)) // ADVANCED DEBUGGING
+                    self.logMan.writeLog(level: .error, logString: "Failed GET. \(httpResponse.statusCode).")
+                    self.logMan.writeLog(level: .error, logString: String(decoding: data!, as: UTF8.self)) // ADVANCED DEBUGGING
                 }
                 semaphore.signal() // Signal completion to the semaphore
             }
             
             if error != nil {
                 globalResponse = data!
-                self.logMan.fatalWrite(logString: error!.localizedDescription)
+                self.logMan.writeLog(level: .fatal, logString: error!.localizedDescription)
                 semaphore.signal() // Signal completion to the semaphore
                 
             }
@@ -236,7 +236,7 @@ public class APIFunctions {
         let baseURL = dataPrep.generatePrestageURL(baseURL: passedUrl, endpoint: endpoint, prestageID: prestageID, jpapiVersion: jpapiVersion, httpMethod: httpMethod)
         
         let encodedURL = NSURL(string: "\(baseURL)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "https://null")! as URL
-        logMan.infoWrite(logString: "Updating the current prestage scope at \(encodedURL.absoluteString)")
+        logMan.writeLog(level: .info, logString: "Updating the current prestage scope at \(encodedURL.absoluteString)")
         // Changed to use SessionHandler to configure trust
         sessionHandler.setAllowUntrusted(allowUntrusted: allowUntrusted)
         var globalResponse = "nil".data(using: String.Encoding.utf8, allowLossyConversion: false)!        // The semaphore is what allows us to force the code to wait for this request to complete
@@ -268,20 +268,20 @@ public class APIFunctions {
                 if httpResponse.statusCode >= 199 && httpResponse.statusCode <= 299 {
                     // Good response from API
                     globalResponse = data!
-                    self.logMan.infoWrite(logString: "Successful scope update completed. \(httpResponse.statusCode).")
-                    //self.logMan.infoWrite(logString: String(decoding: data!, as: UTF8.self))
+                    self.logMan.writeLog(level: .info, logString: "Successful scope update completed. \(httpResponse.statusCode).")
+                    //self.logMan.writeLog(level: .info, logString: String(decoding: data!, as: UTF8.self))
                 } else {
                     // Bad Response from API
                     globalResponse = data!
-                    self.logMan.errorWrite(logString: "Failed scope update. \(httpResponse.statusCode).")
-                    self.logMan.errorWrite(logString: String(decoding: data!, as: UTF8.self)) // ADVANCED DEBUGGING
+                    self.logMan.writeLog(level: .error, logString: "Failed scope update. \(httpResponse.statusCode).")
+                    self.logMan.writeLog(level: .error, logString: String(decoding: data!, as: UTF8.self)) // ADVANCED DEBUGGING
                 }
                 semaphore.signal() // Signal completion to the semaphore
             }
             
             if error != nil {
                 globalResponse = data!
-                self.logMan.fatalWrite(logString: error!.localizedDescription)
+                self.logMan.writeLog(level: .fatal, logString: error!.localizedDescription)
                 semaphore.signal() // Signal completion to the semaphore
                 
             }

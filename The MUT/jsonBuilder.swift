@@ -22,7 +22,7 @@ public class jsonManager {
             jsonToReturn = try json.rawData()
         } catch let error as NSError {
             //NSLog("[ERROR ]: Failed to get data from jsonToReturn" + error.debugDescription)
-            logMan.errorWrite(logString: "Failed to get data from jsonToReturn" + error.debugDescription)
+            logMan.writeLog(level: .error, logString: "Failed to get data from jsonToReturn" + error.debugDescription)
         }
         return jsonToReturn ?? "".data(using: .utf8)!
     }
@@ -36,7 +36,7 @@ public class jsonManager {
             encodeMobileDevice = try jsonEncoder.encode(mobileDeviceUpdate)
         } catch let error as NSError {
             //NSLog("[ERROR ]: Failed to get data from jsonEncoder" + error.debugDescription)
-            logMan.errorWrite(logString: "Failed to get data from jsonEncoder" + error.debugDescription)
+            logMan.writeLog(level: .error, logString: "Failed to get data from jsonEncoder" + error.debugDescription)
         }
         return encodeMobileDevice ?? "".data(using: .utf8)!
     }

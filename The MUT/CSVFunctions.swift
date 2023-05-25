@@ -27,15 +27,15 @@ public class CSVManipulation {
                 guard let saveURL = savePanel.url else {return}
                 guard let sourceURL = Bundle.main.url(forResource: "MUT Templates", withExtension: "zip")
                     else {
-                    self.logMan.errorWrite(logString: "Error with getting the URL of the README file.")
+                    self.logMan.writeLog(level: .error, logString: "Error with getting the URL of the README file.")
                         return
                     }
                 let fileManager = FileManager.default
                 do {
                     try fileManager.copyItem(at: sourceURL, to: saveURL)
-                    logMan.infoWrite(logString: "Saving template zip file to \(savePanel.url!.absoluteString.description.replacingOccurrences(of: "file://", with: ""))")
+                    logMan.writeLog(level: .info, logString: "Saving template zip file to \(savePanel.url!.absoluteString.description.replacingOccurrences(of: "file://", with: ""))")
                 } catch {
-                    logMan.errorWrite(logString: "Error copying the readme file to the templates directory.")
+                    logMan.writeLog(level: .error, logString: "Error copying the readme file to the templates directory.")
                 }
             }
         }
