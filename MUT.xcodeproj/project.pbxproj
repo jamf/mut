@@ -31,6 +31,7 @@
 		F7CF61EA2298671E003A0CBB /* tokenManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CF61E92298671E003A0CBB /* tokenManagement.swift */; };
 		F7CF61EC22986736003A0CBB /* dataPreparation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CF61EB22986736003A0CBB /* dataPreparation.swift */; };
 		F7D670BE1EA54E51006010AA /* popPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D670BD1EA54E51006010AA /* popPrompt.swift */; };
+		F7FCA4E52A6F553800950820 /* catalog-info.yaml in Resources */ = {isa = PBXBuildFile; fileRef = F7FCA4E42A6F553800950820 /* catalog-info.yaml */; };
 		F7FF428B1EA645680044F126 /* xmlBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7FF428A1EA645680044F126 /* xmlBuilder.swift */; };
 		FD2EDE42B3B6EF7D03C1045B /* Pods_MUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4A4E4816FB48B10BA87E49A /* Pods_MUT.framework */; };
 /* End PBXBuildFile section */
@@ -86,6 +87,7 @@
 		F7CF61EB22986736003A0CBB /* dataPreparation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dataPreparation.swift; sourceTree = "<group>"; };
 		F7D623911DE2C745004040F1 /* The MUT.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "The MUT.entitlements"; sourceTree = "<group>"; };
 		F7D670BD1EA54E51006010AA /* popPrompt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = popPrompt.swift; sourceTree = "<group>"; };
+		F7FCA4E42A6F553800950820 /* catalog-info.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = "catalog-info.yaml"; sourceTree = "<group>"; };
 		F7FF428A1EA645680044F126 /* xmlBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = xmlBuilder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -168,6 +170,7 @@
 		F7333BC41DB55EDF00F89C00 = {
 			isa = PBXGroup;
 			children = (
+				F7FCA4E42A6F553800950820 /* catalog-info.yaml */,
 				F7333BCF1DB55EDF00F89C00 /* The MUT */,
 				F70A48E822B7106B003145E0 /* The MUT Tests */,
 				F7333BCE1DB55EDF00F89C00 /* Products */,
@@ -313,6 +316,7 @@
 			files = (
 				F7C07DC7270548BC0089F6CC /* MUT Templates.zip in Resources */,
 				F7333BD81DB55EDF00F89C00 /* Assets.xcassets in Resources */,
+				F7FCA4E52A6F553800950820 /* catalog-info.yaml in Resources */,
 				F7333BDB1DB55EDF00F89C00 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
