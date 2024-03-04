@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -18,6 +18,8 @@
 		71FEC546238CD07B00A7AAB5 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FEC53F238CD07B00A7AAB5 /* StringExtension.swift */; };
 		71FEC547238CD07B00A7AAB5 /* SessionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FEC540238CD07B00A7AAB5 /* SessionHandler.swift */; };
 		85C4D46922AAEF6A00512000 /* CSVFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C4D46822AAEF6A00512000 /* CSVFunctions.swift */; };
+		F71E4D0E2B965BCB0097BE57 /* CSV in Frameworks */ = {isa = PBXBuildFile; productRef = F71E4D0D2B965BCB0097BE57 /* CSV */; };
+		F71E4D112B965BEA0097BE57 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = F71E4D102B965BEA0097BE57 /* SwiftyJSON */; };
 		F721E4EF2980444A003284A0 /* KeychainDefaultsPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = F721E4EE2980444A003284A0 /* KeychainDefaultsPopover.swift */; };
 		F7333BD11DB55EDF00F89C00 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7333BD01DB55EDF00F89C00 /* AppDelegate.swift */; };
 		F7333BD31DB55EDF00F89C00 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7333BD21DB55EDF00F89C00 /* ViewController.swift */; };
@@ -36,7 +38,6 @@
 		F7D670BE1EA54E51006010AA /* popPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D670BD1EA54E51006010AA /* popPrompt.swift */; };
 		F7FCA4E52A6F553800950820 /* catalog-info.yaml in Resources */ = {isa = PBXBuildFile; fileRef = F7FCA4E42A6F553800950820 /* catalog-info.yaml */; };
 		F7FF428B1EA645680044F126 /* xmlBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7FF428A1EA645680044F126 /* xmlBuilder.swift */; };
-		FD2EDE42B3B6EF7D03C1045B /* Pods_MUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4A4E4816FB48B10BA87E49A /* Pods_MUT.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,14 +51,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		00D7FF2F39C342765443BEE7 /* Pods_The_MUTTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_The_MUTTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		073ABF91EFD14ABB51B35FD3 /* Pods-The MUTTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-The MUTTests.debug.xcconfig"; path = "Target Support Files/Pods-The MUTTests/Pods-The MUTTests.debug.xcconfig"; sourceTree = "<group>"; };
-		0EC2D98B803002D228093627 /* Pods-The MUTUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-The MUTUITests.release.xcconfig"; path = "Target Support Files/Pods-The MUTUITests/Pods-The MUTUITests.release.xcconfig"; sourceTree = "<group>"; };
 		50D075C126DED17900252AC0 /* MobileDeviceXMLParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileDeviceXMLParser.swift; sourceTree = "<group>"; };
 		50D075C426DED19900252AC0 /* MobileDeviceV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileDeviceV2.swift; sourceTree = "<group>"; };
 		50D075C626DFEAF200252AC0 /* JamfProVersionV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JamfProVersionV1.swift; sourceTree = "<group>"; };
-		5D24CA59F173F09D24CF81E6 /* Pods-The MUTUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-The MUTUITests.debug.xcconfig"; path = "Target Support Files/Pods-The MUTUITests/Pods-The MUTUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		653C5ABC4F2A053D8824333F /* Pods-The MUT.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-The MUT.release.xcconfig"; path = "Target Support Files/Pods-The MUT/Pods-The MUT.release.xcconfig"; sourceTree = "<group>"; };
 		7166CB70238CD161002B221A /* APIFunctions2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIFunctions2.swift; sourceTree = "<group>"; };
 		71FEC53B238CD07B00A7AAB5 /* APIAccess.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIAccess.swift; sourceTree = "<group>"; };
 		71FEC53C238CD07B00A7AAB5 /* APIDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIDelegate.swift; sourceTree = "<group>"; };
@@ -65,13 +61,7 @@
 		71FEC53E238CD07B00A7AAB5 /* HTTPStatusCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPStatusCode.swift; sourceTree = "<group>"; };
 		71FEC53F238CD07B00A7AAB5 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		71FEC540238CD07B00A7AAB5 /* SessionHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionHandler.swift; sourceTree = "<group>"; };
-		7F024CD838B9592865655070 /* Pods-The MUTTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-The MUTTests.release.xcconfig"; path = "Target Support Files/Pods-The MUTTests/Pods-The MUTTests.release.xcconfig"; sourceTree = "<group>"; };
 		85C4D46822AAEF6A00512000 /* CSVFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVFunctions.swift; sourceTree = "<group>"; };
-		961A6C241D1FB20265321E05 /* Pods-MUT.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MUT.debug.xcconfig"; path = "Target Support Files/Pods-MUT/Pods-MUT.debug.xcconfig"; sourceTree = "<group>"; };
-		A3882D5F8FDADBDFD025DDAB /* Pods-MUT.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MUT.release.xcconfig"; path = "Target Support Files/Pods-MUT/Pods-MUT.release.xcconfig"; sourceTree = "<group>"; };
-		AD44CCECF8E8A8F8B5926F8C /* Pods_The_MUTUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_The_MUTUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B4A4E4816FB48B10BA87E49A /* Pods_MUT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MUT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F1D0A74B1515FA252F13A885 /* Pods-The MUT.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-The MUT.debug.xcconfig"; path = "Target Support Files/Pods-The MUT/Pods-The MUT.debug.xcconfig"; sourceTree = "<group>"; };
 		F70A48E722B7106A003145E0 /* MUT Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MUT Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F721E4EE2980444A003284A0 /* KeychainDefaultsPopover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainDefaultsPopover.swift; sourceTree = "<group>"; };
 		F7333BCD1DB55EDF00F89C00 /* MUT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MUT.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -108,28 +98,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD2EDE42B3B6EF7D03C1045B /* Pods_MUT.framework in Frameworks */,
+				F71E4D112B965BEA0097BE57 /* SwiftyJSON in Frameworks */,
+				F71E4D0E2B965BCB0097BE57 /* CSV in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2976E11D356FC1A99CF37045 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				F1D0A74B1515FA252F13A885 /* Pods-The MUT.debug.xcconfig */,
-				653C5ABC4F2A053D8824333F /* Pods-The MUT.release.xcconfig */,
-				073ABF91EFD14ABB51B35FD3 /* Pods-The MUTTests.debug.xcconfig */,
-				7F024CD838B9592865655070 /* Pods-The MUTTests.release.xcconfig */,
-				5D24CA59F173F09D24CF81E6 /* Pods-The MUTUITests.debug.xcconfig */,
-				0EC2D98B803002D228093627 /* Pods-The MUTUITests.release.xcconfig */,
-				961A6C241D1FB20265321E05 /* Pods-MUT.debug.xcconfig */,
-				A3882D5F8FDADBDFD025DDAB /* Pods-MUT.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		50D075C326DED18600252AC0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -153,24 +129,12 @@
 			path = APIAccess;
 			sourceTree = "<group>";
 		};
-		771EE706A4988F146EA2B139 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				00D7FF2F39C342765443BEE7 /* Pods_The_MUTTests.framework */,
-				AD44CCECF8E8A8F8B5926F8C /* Pods_The_MUTUITests.framework */,
-				B4A4E4816FB48B10BA87E49A /* Pods_MUT.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		F7333BC41DB55EDF00F89C00 = {
 			isa = PBXGroup;
 			children = (
 				F7FCA4E42A6F553800950820 /* catalog-info.yaml */,
 				F7333BCF1DB55EDF00F89C00 /* The MUT */,
 				F7333BCE1DB55EDF00F89C00 /* Products */,
-				2976E11D356FC1A99CF37045 /* Pods */,
-				771EE706A4988F146EA2B139 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -246,17 +210,19 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F7333BF51DB55EDF00F89C00 /* Build configuration list for PBXNativeTarget "MUT" */;
 			buildPhases = (
-				37481AA6DE1BF49C03AE1608 /* [CP] Check Pods Manifest.lock */,
 				F7333BC91DB55EDF00F89C00 /* Sources */,
 				F7333BCA1DB55EDF00F89C00 /* Frameworks */,
 				F7333BCB1DB55EDF00F89C00 /* Resources */,
-				ED5B4415733D735EDB1B8F73 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = MUT;
+			packageProductDependencies = (
+				F71E4D0D2B965BCB0097BE57 /* CSV */,
+				F71E4D102B965BEA0097BE57 /* SwiftyJSON */,
+			);
 			productName = "The MUT";
 			productReference = F7333BCD1DB55EDF00F89C00 /* MUT.app */;
 			productType = "com.apple.product-type.application";
@@ -299,6 +265,10 @@
 				Base,
 			);
 			mainGroup = F7333BC41DB55EDF00F89C00;
+			packageReferences = (
+				F71E4D0C2B965BCB0097BE57 /* XCRemoteSwiftPackageReference "CSV" */,
+				F71E4D0F2B965BEA0097BE57 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+			);
 			productRefGroup = F7333BCE1DB55EDF00F89C00 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -329,48 +299,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		37481AA6DE1BF49C03AE1608 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MUT-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		ED5B4415733D735EDB1B8F73 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MUT/Pods-MUT-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MUT/Pods-MUT-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MUT/Pods-MUT-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F70A48E322B7106A003145E0 /* Sources */ = {
@@ -604,7 +532,6 @@
 		};
 		F7333BF61DB55EDF00F89C00 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 961A6C241D1FB20265321E05 /* Pods-MUT.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -612,7 +539,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 6.2.0;
-				DEVELOPMENT_TEAM = 483DWKW443;
+				DEVELOPMENT_TEAM = DPNY9XCGW6;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "The MUT/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -631,7 +558,6 @@
 		};
 		F7333BF71DB55EDF00F89C00 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A3882D5F8FDADBDFD025DDAB /* Pods-MUT.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -639,7 +565,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 6.2.0;
-				DEVELOPMENT_TEAM = 483DWKW443;
+				DEVELOPMENT_TEAM = DPNY9XCGW6;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "The MUT/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -687,6 +613,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F71E4D0C2B965BCB0097BE57 /* XCRemoteSwiftPackageReference "CSV" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/yaslab/CSV.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.4.3;
+			};
+		};
+		F71E4D0F2B965BEA0097BE57 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F71E4D0D2B965BCB0097BE57 /* CSV */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F71E4D0C2B965BCB0097BE57 /* XCRemoteSwiftPackageReference "CSV" */;
+			productName = CSV;
+		};
+		F71E4D102B965BEA0097BE57 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F71E4D0F2B965BEA0097BE57 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		F7333BD41DB55EDF00F89C00 /* The_MUT.xcdatamodeld */ = {
