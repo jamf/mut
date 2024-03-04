@@ -95,11 +95,11 @@ class ViewController: NSViewController, NSTableViewDelegate {
         super.viewDidLoad()
         
         // Set up delimiter
-        if mainViewDefaults.value(forKey: "Delimiter") != nil {
-            delimiter = mainViewDefaults.value(forKey: "Delimiter")! as! String
-            logMan.infoWrite(logString: "A stored delimiter was found. Using the stored delimiter of \(delimiter) .")
+        if mainViewDefaults.string(forKey: "Delimiter") == ";" {
+            delimiter = ";"
+            logMan.writeLog(level: .info, logString: "Semi-colon delimiter preferences found in defaults storage.")
         } else {
-            logMan.infoWrite(logString: "No stored delimiter found. Using default delimiter of , .")
+            logMan.writeLog(level: .info, logString: "No stored delimiter found. Using default comma delimiter.")
             delimiter = ","
         }
     }
@@ -261,7 +261,7 @@ class ViewController: NSViewController, NSTableViewDelegate {
     }
 
     @IBAction func btnExportCSV(_ sender: Any) {
-        logMan.infoWrite(logString: "Presenting template save dialogue.")
+        logMan.writeLog(level: .info, logString: "Presenting template save dialogue.")
         CSVMan.copyZip()
     }
     
@@ -325,7 +325,7 @@ class ViewController: NSViewController, NSTableViewDelegate {
             self.guiAttributeRun()
         }
 
-        logMan.infoWrite(logString: "Beginning CSV Parse - Scope update.")
+        logMan.writeLog(level: .info, logString: "Beginning CSV Parse - Scope update.")
         let csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path ?? "/dev/null", delimiter: globalDelimiter!)
         if recordTypeOutlet.contains("Prestage") {
             // Prestage updates here
@@ -375,7 +375,7 @@ class ViewController: NSViewController, NSTableViewDelegate {
                     if FailoverResult == 1001 {
                         if let url = URL(string: "https://github.com/mike-levenick/mut#classic-mode-groupprestage-updates") {
                             if NSWorkspace.shared.open(url) {
-                                self.logMan.infoWrite(logString: "Opening ReadMe.")
+                                self.logMan.writeLog(level: .info, logString: "Opening ReadMe.")
                             }
                         }
                     }
@@ -391,7 +391,7 @@ class ViewController: NSViewController, NSTableViewDelegate {
                     } else if FailoverResult == 1002 {
                         if let url = URL(string: "https://github.com/mike-levenick/mut#classic-mode-groupprestage-updates") {
                             if NSWorkspace.shared.open(url) {
-                                self.logMan.infoWrite(logString: "Opening ReadMe.")
+                                self.logMan.writeLog(level: .info, logString: "Opening ReadMe.")
                             }
                         }
                     }
@@ -408,7 +408,7 @@ class ViewController: NSViewController, NSTableViewDelegate {
             self.guiAttributeRun()
         }
 
-        logMan.infoWrite(logString: "Beginning failover run of individual uploads.")
+        logMan.writeLog(level: .info, logString: "Beginning failover run of individual uploads.")
         let csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path ?? "/dev/null", delimiter: globalDelimiter!)
         if recordTypeOutlet.contains("Prestage") {
             // Prestage updates here
@@ -482,7 +482,7 @@ class ViewController: NSViewController, NSTableViewDelegate {
     }
     
     func submitAttributeUpdates() {
-        logMan.infoWrite(logString: "Beginning CSV Parse - Attributes update.")
+        logMan.writeLog(level: .info, logString: "Beginning CSV Parse - Attributes update.")
         let csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path ?? "/dev/null", delimiter: globalDelimiter!)
         
         // Set variables needed for the run
@@ -506,7 +506,7 @@ class ViewController: NSViewController, NSTableViewDelegate {
         }
         
         let jamfProVersion = getJamfProVersion()
-        logMan.infoWrite(logString: "Jamf Pro Version: " + jamfProVersion)
+        logMan.writeLog(level: .info, logString: "Jamf Pro Version: " + jamfProVersion)
         
         // Begin looping through the CSV sheet
         
@@ -519,7 +519,7 @@ class ViewController: NSViewController, NSTableViewDelegate {
                 var identifierType: String!
 
                 if cancelRun {
-                    logMan.warnWrite(logString: "Update run cancelled by user on row \(row + 1) with identifier \(currentRow[0]).")
+                    logMan.writeLog(level: .warn, logString: "Update run cancelled by user on row \(row + 1) with identifier \(currentRow[0]).")
                     cancelRun = false
                     break updateLoop
                 }
@@ -541,7 +541,7 @@ class ViewController: NSViewController, NSTableViewDelegate {
                 if globalEndpoint! == "users" {
                     // Generate the XML to submit
                     if currentRow[0].isInt {
-                        if mainViewDefaults.value(forKey: "UserInts") != nil {
+                        if mainViewDefaults.bool(forKey: "UserInts") {
                             identifierType = "name"
                         } else {
                             identifierType = "id"
@@ -573,7 +573,7 @@ class ViewController: NSViewController, NSTableViewDelegate {
                 } else {
                     // If Jamf Pro is not compatible with the Enforce Name, alert the end-user.
                     if !isCompatibleJamfProVersion(compatibleVersion: "10.33.0", currentVersion: jamfProVersion) {
-                        logMan.errorWrite(logString: "Enforcing Mobile Device Names requires Jamf Pro 10.33 or higher. Please upgrade to the latest version of Jamf Pro in order to use this feature.")
+                        logMan.writeLog(level: .error, logString: "Enforcing Mobile Device Names requires Jamf Pro 10.33 or higher. Please upgrade to the latest version of Jamf Pro in order to use this feature.")
                     }
                     // Send the updates to the CAPI
                     let putResponse = APIFunc.putData(endpoint: globalEndpoint!, identifierType: identifierType, identifier: currentRow[0], allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPut)
@@ -586,7 +586,7 @@ class ViewController: NSViewController, NSTableViewDelegate {
                         
                         // JPAPI requires ID in order to identify device
                         let id = mdXMLParser.getMobileDeviceIdFromResponse(data: putResponse.body!)
-                        logMan.infoWrite(logString: "Submitting a request to to update the name of device \(currentRow[0]) to '\(currentRow[1])' with enforcement set to \(currentRow[2]).")
+                        logMan.writeLog(level: .info, logString: "Submitting a request to to update the name of device \(currentRow[0]) to '\(currentRow[1])' with enforcement set to \(currentRow[2]).")
                         _ = APIFunc.patchData(passedUrl: Credentials.server!, endpoint: "mobile-devices", endpointVersion: "v2", identifier: id, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), jsonData: json)
                     }
                 }
@@ -607,7 +607,7 @@ class ViewController: NSViewController, NSTableViewDelegate {
             let newVersionLock = newJson["versionLock"].intValue
             return newVersionLock
         } catch let error as NSError {
-            logMan.errorWrite(logString: "Failed to load: \(error.localizedDescription)")
+            logMan.writeLog(level: .error, logString: "Failed to load: \(error.localizedDescription)")
             return -1
         }
     }
@@ -746,7 +746,7 @@ class ViewController: NSViewController, NSTableViewDelegate {
     // Get Jamf Pro version to verify compatibility with endpoints. Should eventually
     // get moved to a Jamf Pro version manager service that could be used globally.
     func getJamfProVersion() -> String {
-        logMan.infoWrite(logString: "Attempting to GET the Jamf Pro Version from the API.")
+        logMan.writeLog(level: .info, logString: "Attempting to GET the Jamf Pro Version from the API.")
         let getResponse = APIFunc.getData(passedUrl: Credentials.server!, endpoint: "jamf-pro-version", endpointVersion: "v1", identifier: "", allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
         let decoder = JSONDecoder()
         var jamfProVersion = ""
@@ -755,7 +755,7 @@ class ViewController: NSViewController, NSTableViewDelegate {
                 let jamfProVersionObject = try decoder.decode(JamfProVersionV1.self, from: getResponse.body!)
                 jamfProVersion = jamfProVersionObject.version!
             } catch let error as NSError {
-                logMan.errorWrite(logString: "Failed to retrieve Jamf Pro version: \(error.localizedDescription)")
+                logMan.writeLog(level: .error, logString: "Failed to retrieve Jamf Pro version: \(error.localizedDescription)")
             }
         }
         return jamfProVersion
@@ -955,30 +955,4 @@ extension ViewController: NSTableViewDataSource {
         //print("returning cell...")
         return cell
     }
-    
-    // Clear Stored Values -- DO NOT DELETE
-    // Although it appears to not be linked, it is tied to a menu option
-    @IBAction func btnClearStored(_ sender: AnyObject) {
-        //Clear all stored values
-        if let bundle = Bundle.main.bundleIdentifier {
-            UserDefaults.standard.removePersistentDomain(forName: bundle)
-        }
-    }
-    
-    // Change Delimiter -- DO NOT DELETE
-    // Although it appears to not be linked, it is tied to a menu option
-    @IBAction func btnChangeDelim(_ sender: AnyObject) {
-        
-        let newDelim = popPrompt().selectDelim(question: "Change Delimiter", text: "What would you like your new delimiter to be?")
-        if newDelim == true {
-            logMan.infoWrite(logString: "The new delimiter is comma. This delimiter will be stored to defaults.")
-            delimiter = ","
-            mainViewDefaults.set(delimiter, forKey: "Delimiter")
-        } else {
-            logMan.infoWrite(logString: "The new delimiter is semi-colon. This delimiter will be stored to defaults.")
-            delimiter = ";"
-            mainViewDefaults.set(delimiter, forKey: "Delimiter")
-        }
-    }
-    
 }
