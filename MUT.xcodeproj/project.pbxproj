@@ -18,7 +18,6 @@
 		71FEC546238CD07B00A7AAB5 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FEC53F238CD07B00A7AAB5 /* StringExtension.swift */; };
 		71FEC547238CD07B00A7AAB5 /* SessionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FEC540238CD07B00A7AAB5 /* SessionHandler.swift */; };
 		85C4D46922AAEF6A00512000 /* CSVFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C4D46822AAEF6A00512000 /* CSVFunctions.swift */; };
-		F70A48EA22B7106B003145E0 /* The_MUT_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70A48E922B7106B003145E0 /* The_MUT_Tests.swift */; };
 		F721E4EF2980444A003284A0 /* KeychainDefaultsPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = F721E4EE2980444A003284A0 /* KeychainDefaultsPopover.swift */; };
 		F7333BD11DB55EDF00F89C00 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7333BD01DB55EDF00F89C00 /* AppDelegate.swift */; };
 		F7333BD31DB55EDF00F89C00 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7333BD21DB55EDF00F89C00 /* ViewController.swift */; };
@@ -74,8 +73,6 @@
 		B4A4E4816FB48B10BA87E49A /* Pods_MUT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MUT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1D0A74B1515FA252F13A885 /* Pods-The MUT.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-The MUT.debug.xcconfig"; path = "Target Support Files/Pods-The MUT/Pods-The MUT.debug.xcconfig"; sourceTree = "<group>"; };
 		F70A48E722B7106A003145E0 /* MUT Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MUT Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F70A48E922B7106B003145E0 /* The_MUT_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = The_MUT_Tests.swift; sourceTree = "<group>"; };
-		F70A48EB22B7106B003145E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F721E4EE2980444A003284A0 /* KeychainDefaultsPopover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainDefaultsPopover.swift; sourceTree = "<group>"; };
 		F7333BCD1DB55EDF00F89C00 /* MUT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MUT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7333BD01DB55EDF00F89C00 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -166,21 +163,11 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		F70A48E822B7106B003145E0 /* The MUT Tests */ = {
-			isa = PBXGroup;
-			children = (
-				F70A48E922B7106B003145E0 /* The_MUT_Tests.swift */,
-				F70A48EB22B7106B003145E0 /* Info.plist */,
-			);
-			path = "The MUT Tests";
-			sourceTree = "<group>";
-		};
 		F7333BC41DB55EDF00F89C00 = {
 			isa = PBXGroup;
 			children = (
 				F7FCA4E42A6F553800950820 /* catalog-info.yaml */,
 				F7333BCF1DB55EDF00F89C00 /* The MUT */,
-				F70A48E822B7106B003145E0 /* The MUT Tests */,
 				F7333BCE1DB55EDF00F89C00 /* Products */,
 				2976E11D356FC1A99CF37045 /* Pods */,
 				771EE706A4988F146EA2B139 /* Frameworks */,
@@ -390,7 +377,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F70A48EA22B7106B003145E0 /* The_MUT_Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -625,8 +611,8 @@
 				CODE_SIGN_ENTITLEMENTS = "The MUT/The MUT.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 6.1.0;
-				DEVELOPMENT_TEAM = "";
+				CURRENT_PROJECT_VERSION = 6.2.0;
+				DEVELOPMENT_TEAM = 483DWKW443;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "The MUT/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -634,7 +620,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 6.1.0;
+				MARKETING_VERSION = 6.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jamf.mut;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -652,8 +638,8 @@
 				CODE_SIGN_ENTITLEMENTS = "The MUT/The MUT.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 6.1.0;
-				DEVELOPMENT_TEAM = "";
+				CURRENT_PROJECT_VERSION = 6.2.0;
+				DEVELOPMENT_TEAM = 483DWKW443;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "The MUT/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -661,7 +647,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 6.1.0;
+				MARKETING_VERSION = 6.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jamf.mut;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
