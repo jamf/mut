@@ -116,7 +116,7 @@ public class xmlManager {
 
 
         // Print the XML
-        NSLog(xml.debugDescription) // Uncomment for debugging
+        //NSLog(xml.debugDescription) // Uncomment for debugging
         return xml.xmlData
     }
 
@@ -284,7 +284,7 @@ public class xmlManager {
         }
 
         // Print the XML
-        NSLog(xml.debugDescription) // Uncomment for debugging
+        //NSLog(xml.debugDescription) // Uncomment for debugging
         return xml.xmlData
     }
     
@@ -459,7 +459,7 @@ public class xmlManager {
         }
         
         // Print the XML
-        NSLog(xml.debugDescription) // Uncomment for debugging
+        //NSLog(xml.debugDescription) // Uncomment for debugging
         return xml.xmlData
     }
 

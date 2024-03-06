@@ -21,13 +21,14 @@ public class APIFunctions {
     // set sessionHandler to SessionHandler singleton for easy access
     let sessionHandler = SessionHandler.SharedSessionHandler
     
-    public func putData(passedUrl: String, credentials: String, endpoint: String, identifierType: String, identifier: String, allowUntrusted: Bool, xmlToPut: Data) -> (code: Int, body: Data?) {
+    public func putData(endpoint: String, identifierType: String, identifier: String, allowUntrusted: Bool, xmlToPut: Data) -> (code: Int, body: Data?) {
         tokenMan.tokenRefresher()
+        
         var responseCode = 400
         
         var responseBody: Data?
         
-        let baseURL = dataPrep.generateURL(baseURL: passedUrl, endpoint: endpoint, identifierType: identifierType, identifier: identifier, jpapi: false, jpapiVersion: "")
+        let baseURL = dataPrep.generateURL(endpoint: endpoint, identifierType: identifierType, identifier: identifier, jpapi: false, jpapiVersion: "")
         
         let encodedURL = NSURL(string: "\(baseURL)")! as URL
         logMan.infoWrite(logString: "Submitting a PUT to \(encodedURL.absoluteString)")
@@ -42,7 +43,7 @@ public class APIFunctions {
         request.httpMethod = "PUT"
         request.httpBody = xmlToPut
         // add headers to request for content-type and authorization since not using URLSession headers
-        request.addValue("Basic \(credentials)", forHTTPHeaderField: "Authorization" )
+        request.addValue("Bearer \(Token.value!)", forHTTPHeaderField: "Authorization" )
         request.addValue("text/xml", forHTTPHeaderField: "Content-Type")
         // set session to use
         let session = sessionHandler.mySession
@@ -77,10 +78,11 @@ public class APIFunctions {
         return (responseCode, responseBody)
     }
     
-    public func patchData(passedUrl: String, token: String, endpoint: String, endpointVersion: String, identifier: String, allowUntrusted: Bool, jsonData: Data) -> Int {
+    public func patchData(passedUrl: String, endpoint: String, endpointVersion: String, identifier: String, allowUntrusted: Bool, jsonData: Data) -> Int {
         tokenMan.tokenRefresher()
+        
         var responseCode = 400
-        let encodedURL = dataPrep.generateJpapiURL(baseURL: passedUrl, endpoint: endpoint, endpointVersion: endpointVersion, identifier: identifier)
+        let encodedURL = dataPrep.generateJpapiURL(endpoint: endpoint, endpointVersion: endpointVersion, identifier: identifier)
         
         //logMan.infoWrite(logString: "Submitting a PATCH to \(encodedURL.absoluteString)") // Re-enable these in debug mode when available.
         //logMan.infoWrite(logString: String(decoding: jsonData, as: UTF8.self)) // Re-enable these in debug mode when available.
@@ -94,7 +96,7 @@ public class APIFunctions {
         request.httpMethod = "PATCH"
         request.httpBody = jsonData
         // add headers to request for content-type and authorization since not using URLSession headers
-        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization" )
+        request.addValue("Bearer \(Token.value!)", forHTTPHeaderField: "Authorization" )
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         // set session to use
         let session = sessionHandler.mySession
@@ -128,12 +130,13 @@ public class APIFunctions {
         return responseCode
     }
     
-    public func getData(passedUrl: String, token: String, endpoint: String, endpointVersion: String, identifier: String, allowUntrusted: Bool) -> (code: Int, body: Data?) {
+    public func getData(passedUrl: String, endpoint: String, endpointVersion: String, identifier: String, allowUntrusted: Bool) -> (code: Int, body: Data?) {
         tokenMan.tokenRefresher()
+        
         var responseCode = 400
         var responseBody: Data?
         
-        let encodedURL = dataPrep.generateJpapiURL(baseURL: passedUrl, endpoint: endpoint, endpointVersion: endpointVersion, identifier: identifier)
+        let encodedURL = dataPrep.generateJpapiURL(endpoint: endpoint, endpointVersion: endpointVersion, identifier: identifier)
         
         //logMan.infoWrite(logString: "Submitting a GET to \(encodedURL.absoluteString)")
         // Changed to use SessionHandler to configure trust
@@ -144,7 +147,7 @@ public class APIFunctions {
         let request = NSMutableURLRequest(url: encodedURL)
         request.httpMethod = "GET"
         // add headers to request for content-type and authorization since not using URLSession headers
-        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization" )
+        request.addValue("Bearer \(Token.value!)", forHTTPHeaderField: "Authorization" )
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         // set session to use
         let session = sessionHandler.mySession
@@ -229,11 +232,11 @@ public class APIFunctions {
     }
     
     // HTTP method DELETE no longer supported for prestage updates. must use /scope/delete-multiple URL
-    public func updatePrestage(passedUrl: String, endpoint: String, prestageID: String, jpapiVersion: String, token: String, jsonToSubmit: Data, httpMethod: String, allowUntrusted: Bool) -> Int {
+    public func updatePrestage(endpoint: String, prestageID: String, jpapiVersion: String, token: String, jsonToSubmit: Data, httpMethod: String, allowUntrusted: Bool) -> Int {
         tokenMan.tokenRefresher()
         var returnCode = 400
         
-        let baseURL = dataPrep.generatePrestageURL(baseURL: passedUrl, endpoint: endpoint, prestageID: prestageID, jpapiVersion: jpapiVersion, httpMethod: httpMethod)
+        let baseURL = dataPrep.generatePrestageURL(endpoint: endpoint, prestageID: prestageID, jpapiVersion: jpapiVersion, httpMethod: httpMethod)
         
         let encodedURL = NSURL(string: "\(baseURL)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "https://null")! as URL
         logMan.infoWrite(logString: "Updating the current prestage scope at \(encodedURL.absoluteString)")
