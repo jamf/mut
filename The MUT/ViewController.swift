@@ -11,7 +11,7 @@ import CSV
 import Foundation
 import SwiftyJSON
 
-class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
+class ViewController: NSViewController, NSTableViewDelegate {
 
     // Outlet of tab view to determine which tab is active
     @IBOutlet weak var tabViewOutlet: NSTabView!
@@ -34,11 +34,6 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
     //Scopes Table
     @IBOutlet weak var tblScopes: NSTableView!
     @IBOutlet weak var lblScopeType: NSTextField!
-    
-    
-    
-    //@IBOutlet weak var identifierHeader: NSTableHeaderView!
-    //@IBOutlet weak var identifierText: NSTextField!
 
     // Progress bar and labels for runtime
     @IBOutlet weak var barProgress: NSProgressIndicator!
@@ -46,7 +41,6 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
     @IBOutlet weak var lblOf: NSTextField!
     @IBOutlet weak var lblEndLine: NSTextField!
     @IBOutlet weak var lblLine: NSTextField!
-    
     @IBOutlet weak var lblStatus: NSTextField!
     
     // DropDowns for Attributes etc
@@ -56,12 +50,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
     @IBOutlet weak var txtPrestageID: NSTextField!
     
     var globalPathToCSV: NSURL!
-    var globalToken: String!
-    var globalURL: String!
-    var globalExpiry: Int!
-    var globalBase64: String!
     var globalEndpoint: String!
-    //Added globalTab to contain all the scope tab endpoints for table drawing
     var globalTab: String!
     var xmlToPut: Data!
     var jsonToSubmit: Data!
@@ -102,48 +91,23 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
 
     let computerCSV = ["Computer Serial","Display Name","Asset Tag","Barcode 1","Barcode 2","Username","Real Name","Email Address","Position","Phone Number","Department","Building","Room","PO Number","Vendor","Purchase Price","PO Date","Warranty Expires","Is Leased","Lease Expires","AppleCare ID","Site (ID or Name)"]
     
-    func userDidAuthenticate(base64Credentials: String, url: String, token: String, expiry: Int) {
-        globalExpiry = expiry
-        globalToken = token
-        globalURL = url
-        globalBase64 = base64Credentials
-        if txtCSV.stringValue == "" {
-            preferredContentSize = NSSize(width: 550, height: 490)
-        } else {
-            preferredContentSize = NSSize(width: 550, height: 550)
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Set up delimiter
-        if mainViewDefaults.value(forKey: "Delimiter") != nil {
-            delimiter = mainViewDefaults.value(forKey: "Delimiter")! as! String
-            logMan.infoWrite(logString: "A stored delimiter was found. Using the stored delimiter of \(delimiter) .")
+        if mainViewDefaults.string(forKey: "Delimiter") == ";" {
+            delimiter = ";"
+            logMan.writeLog(level: .info, logString: "Semi-colon delimiter preferences found in defaults storage.")
         } else {
-            logMan.infoWrite(logString: "No stored delimiter found. Using default delimiter of , .")
+            logMan.writeLog(level: .info, logString: "No stored delimiter found. Using default comma delimiter.")
             delimiter = ","
-        }
-    }
-    
-    override var representedObject: Any? {
-        didSet {
-            // Update the view, if already loaded.
-        }
-    }
-
-    override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
-        if segue.identifier == "segueLogin" {
-            let loginWindow: loginWindow = segue.destinationController as! loginWindow
-            loginWindow.delegateAuth = self as DataSentDelegate
         }
     }
 
     override func viewWillAppear() {
         //resize the view
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 550, height: 443)
+        preferredContentSize = NSSize(width: 550, height: 490)
         performSegue(withIdentifier: "segueLogin", sender: self)
     }
     
@@ -294,26 +258,16 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
             //print("currentData should be the same as csvData: \(currentData)")
             tblScopes.reloadData()
         }
-        
     }
 
     @IBAction func btnExportCSV(_ sender: Any) {
-        logMan.infoWrite(logString: "Presenting template save dialogue.")
+        logMan.writeLog(level: .info, logString: "Presenting template save dialogue.")
         CSVMan.copyZip()
     }
     
     @IBAction func submitRequests(_ sender: Any) {
         if ( globalEndpoint.contains("group") || globalEndpoint.contains("prestage") ) {
-            let needNewToken = tokenMan.checkExpiry(expiry: globalExpiry)
-            // Check and get a new token if needed, and performing prestage updates
-            if globalEndpoint.contains("prestage") {
-                if needNewToken {
-                    _ = popMan.generalWarning(question: "Expired Token", text: "It appears that your token has expired. This can happen if the app sits open for too long.\n\nYou will now be taken back to the login window. Please log in again to generate a new token.")
-                    //lblStatus.stringValue = ""
-                    //tabViewOutlet.selectTabViewItem(at: 0)
-                    performSegue(withIdentifier: "segueLogin", sender: self)
-                }
-            }
+            tokenMan.tokenRefresher() // This is likely extraneus, but also not a bad idea.
             let recordTypeOutlet = popRecordTypeOutlet.titleOfSelectedItem!
             let endpoint = popRecordTypeOutlet.selectedItem!.identifier!.rawValue
             let prestageID = txtPrestageID.stringValue
@@ -353,10 +307,8 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
             default:
                 objectType = "computers"
             }
-            if !needNewToken {
-                DispatchQueue.global(qos: .background).async {
-                    self.submitScopeUpdates(recordTypeOutlet: recordTypeOutlet, endpoint: endpoint, prestageID: prestageID, httpMethod: httpMethod, objectType: objectType, appendReplaceRemove: appendReplaceRemove)
-                }
+            DispatchQueue.global(qos: .background).async {
+                self.submitScopeUpdates(recordTypeOutlet: recordTypeOutlet, endpoint: endpoint, prestageID: prestageID, httpMethod: httpMethod, objectType: objectType, appendReplaceRemove: appendReplaceRemove)
             }
 
         } else {
@@ -373,7 +325,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
             self.guiAttributeRun()
         }
 
-        logMan.infoWrite(logString: "Beginning CSV Parse - Scope update.")
+        logMan.writeLog(level: .info, logString: "Beginning CSV Parse - Scope update.")
         let csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path ?? "/dev/null", delimiter: globalDelimiter!)
         if recordTypeOutlet.contains("Prestage") {
             // Prestage updates here
@@ -390,9 +342,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                 
                 // Submit the JSON to the Jamf Pro API
                 let jpapiVersion = "v2"
-                responseCode = APIFunc.updatePrestage(passedUrl: globalURL, endpoint: endpoint, prestageID: prestageID, jpapiVersion: jpapiVersion, token: globalToken, jsonToSubmit: jsonToSubmit, httpMethod: httpMethod, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
-            } else {
-                // Not enough rows in the CSV to run
+                responseCode = APIFunc.updatePrestage(endpoint: endpoint, prestageID: prestageID, jpapiVersion: jpapiVersion, token: Token.value!, jsonToSubmit: jsonToSubmit, httpMethod: httpMethod, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
             }
         } else {
             // Static Group updates here
@@ -407,7 +357,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
 
                 xmlToPUT = xmlMan.staticGroup(appendReplaceRemove: appendReplaceRemove, objectType: objectType, identifiers: serialArray)
 
-                let response = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint, identifierType: "id", identifier: prestageID, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPUT)
+                let response = APIFunc.putData(endpoint: globalEndpoint, identifierType: "id", identifier: prestageID, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPUT)
                 responseCode = response.code
             }
         }
@@ -425,7 +375,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                     if FailoverResult == 1001 {
                         if let url = URL(string: "https://github.com/mike-levenick/mut#classic-mode-groupprestage-updates") {
                             if NSWorkspace.shared.open(url) {
-                                self.logMan.infoWrite(logString: "Opening ReadMe.")
+                                self.logMan.writeLog(level: .info, logString: "Opening ReadMe.")
                             }
                         }
                     }
@@ -441,7 +391,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                     } else if FailoverResult == 1002 {
                         if let url = URL(string: "https://github.com/mike-levenick/mut#classic-mode-groupprestage-updates") {
                             if NSWorkspace.shared.open(url) {
-                                self.logMan.infoWrite(logString: "Opening ReadMe.")
+                                self.logMan.writeLog(level: .info, logString: "Opening ReadMe.")
                             }
                         }
                     }
@@ -458,7 +408,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
             self.guiAttributeRun()
         }
 
-        logMan.infoWrite(logString: "Beginning failover run of individual uploads.")
+        logMan.writeLog(level: .info, logString: "Beginning failover run of individual uploads.")
         let csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path ?? "/dev/null", delimiter: globalDelimiter!)
         if recordTypeOutlet.contains("Prestage") {
             // Prestage updates here
@@ -490,11 +440,9 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                     
                     // Submit the update
                     let jpapiVersion = "v2"
-                    responseCode = APIFunc.updatePrestage(passedUrl: globalURL, endpoint: endpoint, prestageID: prestageID, jpapiVersion: jpapiVersion, token: globalToken, jsonToSubmit: jsonToSubmit, httpMethod: httpMethod, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
+                    responseCode = APIFunc.updatePrestage(endpoint: endpoint, prestageID: prestageID, jpapiVersion: jpapiVersion, token: Token.value!, jsonToSubmit: jsonToSubmit, httpMethod: httpMethod, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
                     
                 }
-            } else {
-                // Not enough rows in the CSV to run
             }
         } else {
             // Static Group updates here
@@ -521,7 +469,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                     
                     // Build the XML and submit it to Jamf Pro
                     xmlToPUT = xmlMan.staticGroup(appendReplaceRemove: appendReplaceRemove, objectType: objectType, identifiers: serialArray)
-                    let response = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint, identifierType: "id", identifier: prestageID, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPUT)
+                    let response = APIFunc.putData(endpoint: globalEndpoint, identifierType: "id", identifier: prestageID, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPUT)
                     responseCode = response.code
                 }
             }
@@ -534,7 +482,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
     }
     
     func submitAttributeUpdates() {
-        logMan.infoWrite(logString: "Beginning CSV Parse - Attributes update.")
+        logMan.writeLog(level: .info, logString: "Beginning CSV Parse - Attributes update.")
         let csvArray = CSVMan.readCSV(pathToCSV: self.globalPathToCSV.path ?? "/dev/null", delimiter: globalDelimiter!)
         
         // Set variables needed for the run
@@ -558,7 +506,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
         }
         
         let jamfProVersion = getJamfProVersion()
-        logMan.infoWrite(logString: "Jamf Pro Version: " + jamfProVersion)
+        logMan.writeLog(level: .info, logString: "Jamf Pro Version: " + jamfProVersion)
         
         // Begin looping through the CSV sheet
         
@@ -571,7 +519,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                 var identifierType: String!
 
                 if cancelRun {
-                    logMan.warnWrite(logString: "Update run cancelled by user on row \(row + 1) with identifier \(currentRow[0]).")
+                    logMan.writeLog(level: .warn, logString: "Update run cancelled by user on row \(row + 1) with identifier \(currentRow[0]).")
                     cancelRun = false
                     break updateLoop
                 }
@@ -593,7 +541,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                 if globalEndpoint! == "users" {
                     // Generate the XML to submit
                     if currentRow[0].isInt {
-                        if mainViewDefaults.value(forKey: "UserInts") != nil {
+                        if mainViewDefaults.bool(forKey: "UserInts") {
                             identifierType = "name"
                         } else {
                             identifierType = "id"
@@ -621,14 +569,14 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                 
                 // Submit the XML to the Jamf Pro API
                 if(globalEndpoint! != "mobiledevices") {
-                    _ = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint!, identifierType: identifierType, identifier: currentRow[0], allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPut)
+                    _ = APIFunc.putData(endpoint: globalEndpoint!, identifierType: identifierType, identifier: currentRow[0], allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPut)
                 } else {
                     // If Jamf Pro is not compatible with the Enforce Name, alert the end-user.
                     if !isCompatibleJamfProVersion(compatibleVersion: "10.33.0", currentVersion: jamfProVersion) {
-                        logMan.errorWrite(logString: "Enforcing Mobile Device Names requires Jamf Pro 10.33 or higher. Please upgrade to the latest version of Jamf Pro in order to use this feature.")
+                        logMan.writeLog(level: .error, logString: "Enforcing Mobile Device Names requires Jamf Pro 10.33 or higher. Please upgrade to the latest version of Jamf Pro in order to use this feature.")
                     }
                     // Send the updates to the CAPI
-                    let putResponse = APIFunc.putData(passedUrl: globalURL, credentials: globalBase64, endpoint: globalEndpoint!, identifierType: identifierType, identifier: currentRow[0], allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPut)
+                    let putResponse = APIFunc.putData(endpoint: globalEndpoint!, identifierType: identifierType, identifier: currentRow[0], allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), xmlToPut: xmlToPut)
                     
                     let json = jsonMan.buildMobileDeviceUpdatesJson(data: currentRow)
                     
@@ -638,40 +586,28 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                         
                         // JPAPI requires ID in order to identify device
                         let id = mdXMLParser.getMobileDeviceIdFromResponse(data: putResponse.body!)
-                        logMan.infoWrite(logString: "Submitting a request to to update the name of device \(currentRow[0]) to '\(currentRow[1])' with enforcement set to \(currentRow[2]).")
-                        _ = APIFunc.patchData(passedUrl: globalURL, token: globalToken, endpoint: "mobile-devices", endpointVersion: "v2", identifier: id, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), jsonData: json)
+                        logMan.writeLog(level: .info, logString: "Submitting a request to to update the name of device \(currentRow[0]) to '\(currentRow[1])' with enforcement set to \(currentRow[2]).")
+                        _ = APIFunc.patchData(passedUrl: Credentials.server!, endpoint: "mobile-devices", endpointVersion: "v2", identifier: id, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"), jsonData: json)
                     }
                 }
             }
-
             DispatchQueue.main.async {
                 self.guiAttributeDone()
             }
-
-        } else {
-            // Not enough rows in the CSV to run
         }
     }
     
     func getCurrentPrestageVersionLock(endpoint: String, prestageID: String) -> Int {
         let jpapiVersion = "v2"
-//        if endpoint == "computer-prestages" {
-//            jpapiVersion = "v2"
-//        } else if endpoint == "mobile-device-prestages" {
-//            jpapiVersion = "v1"
-//        }
-        let myURL = dataPrep.generatePrestageURL(baseURL: globalURL, endpoint: endpoint, prestageID: prestageID, jpapiVersion: jpapiVersion, httpMethod: "")
+        let myURL = dataPrep.generatePrestageURL(endpoint: endpoint, prestageID: prestageID, jpapiVersion: jpapiVersion, httpMethod: "")
         
-        let response = APIFunc.getPrestageScope(passedUrl: myURL, token: globalToken, endpoint: endpoint, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
+        let response = APIFunc.getPrestageScope(passedUrl: myURL, token: Token.value!, endpoint: endpoint, allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
         do {
             let newJson = try JSON(data: response)
             let newVersionLock = newJson["versionLock"].intValue
-            // Commenting out the previous serials array, as they are no longer needed. Leaving the code in case that changes.
-            //let newSerials = newJson["assignments"][0]["serialNumber"].stringValue
-            //let newSerialArray = newJson["assignments"].arrayValue.map {$0["serialNumber"].stringValue}
             return newVersionLock
         } catch let error as NSError {
-            logMan.errorWrite(logString: "Failed to load: \(error.localizedDescription)")
+            logMan.writeLog(level: .error, logString: "Failed to load: \(error.localizedDescription)")
             return -1
         }
     }
@@ -810,8 +746,8 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
     // Get Jamf Pro version to verify compatibility with endpoints. Should eventually
     // get moved to a Jamf Pro version manager service that could be used globally.
     func getJamfProVersion() -> String {
-        logMan.infoWrite(logString: "Attempting to GET the Jamf Pro Version from the API.")
-        let getResponse = APIFunc.getData(passedUrl: globalURL, token: globalToken, endpoint: "jamf-pro-version", endpointVersion: "v1", identifier: "", allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
+        logMan.writeLog(level: .info, logString: "Attempting to GET the Jamf Pro Version from the API.")
+        let getResponse = APIFunc.getData(passedUrl: Credentials.server!, endpoint: "jamf-pro-version", endpointVersion: "v1", identifier: "", allowUntrusted: mainViewDefaults.bool(forKey: "Insecure"))
         let decoder = JSONDecoder()
         var jamfProVersion = ""
         if(getResponse.code == 200) {
@@ -819,7 +755,7 @@ class ViewController: NSViewController, NSTableViewDelegate, DataSentDelegate {
                 let jamfProVersionObject = try decoder.decode(JamfProVersionV1.self, from: getResponse.body!)
                 jamfProVersion = jamfProVersionObject.version!
             } catch let error as NSError {
-                logMan.errorWrite(logString: "Failed to retrieve Jamf Pro version: \(error.localizedDescription)")
+                logMan.writeLog(level: .error, logString: "Failed to retrieve Jamf Pro version: \(error.localizedDescription)")
             }
         }
         return jamfProVersion
@@ -1019,30 +955,4 @@ extension ViewController: NSTableViewDataSource {
         //print("returning cell...")
         return cell
     }
-    
-    // Clear Stored Values -- DO NOT DELETE
-    // Although it appears to not be linked, it is tied to a menu option
-    @IBAction func btnClearStored(_ sender: AnyObject) {
-        //Clear all stored values
-        if let bundle = Bundle.main.bundleIdentifier {
-            UserDefaults.standard.removePersistentDomain(forName: bundle)
-        }
-    }
-    
-    // Change Delimiter -- DO NOT DELETE
-    // Although it appears to not be linked, it is tied to a menu option
-    @IBAction func btnChangeDelim(_ sender: AnyObject) {
-        
-        let newDelim = popPrompt().selectDelim(question: "Change Delimiter", text: "What would you like your new delimiter to be?")
-        if newDelim == true {
-            logMan.infoWrite(logString: "The new delimiter is comma. This delimiter will be stored to defaults.")
-            delimiter = ","
-            mainViewDefaults.set(delimiter, forKey: "Delimiter")
-        } else {
-            logMan.infoWrite(logString: "The new delimiter is semi-colon. This delimiter will be stored to defaults.")
-            delimiter = ";"
-            mainViewDefaults.set(delimiter, forKey: "Delimiter")
-        }
-    }
-    
 }

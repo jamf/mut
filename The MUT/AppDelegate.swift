@@ -177,22 +177,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         if let url = URL(string: "https://github.com/mike-levenick/mut/blob/master/README.md") {
             if NSWorkspace.shared.open(url) {
-                logMan.infoWrite(logString: "Opening ReadMe.")
+                logMan.writeLog(level: .info, logString: "Opening ReadMe.")
             }
         }
     }
-    
-    @IBAction func btnUsernameInt(_ sender: Any) {
-        delegateDefaults.set("true", forKey: "UserInts")
-        _ = popUp.generalWarning(question: "Usernames are Ints", text: "MUT normally assumes 'usernames' without letters are actually User IDs. By selecting this option, you are telling MUT your usernames do not have letters in them.\n\nMUT will remember this. If you wish to undo this, please choose 'Clear stored values' from the settings menu.")
-    }
-    
-    // Open Log -- DO NOT DELETE
-    // Although it appears to not be linked, it is tied to a menu option
-    @IBAction func btnOpenLog(_ sender: AnyObject) {
-        let logMan = logManager()
-        logMan.openLog()
-    }
-    
 }
 

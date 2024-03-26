@@ -10,14 +10,7 @@ import Cocoa
 import Foundation
 import SwiftyJSON
 
-// Delegate required to send data forward to the main view controller
-protocol DataSentDelegate {
-    func userDidAuthenticate(base64Credentials: String, url: String, token: String, expiry: Int)
-}
-
 class loginWindow: NSViewController {
-
-
 
     // Declare outlets for use in the interface
     @IBOutlet weak var txtURLOutlet: NSTextField!
@@ -28,64 +21,72 @@ class loginWindow: NSViewController {
 
     @IBOutlet weak var btnSubmitOutlet: NSButton!
     @IBOutlet weak var chkRememberMe: NSButton!
-    @IBOutlet weak var chkBypass: NSButton!
-
-    // Set up global variables to be used outside functions
-    var doNotRun: Bool!
-    var serverURL: String!
-    var base64Credentials: String!
-    var token: String!
-    var verified = false
-    var expiry: Int!
-
+    
+    @IBOutlet weak var chkAutoLoginOutlet: NSButton!
+    @IBOutlet weak var lblAutoLogin: NSTextField!
+    
     // Punctuation character set to be used in cleaning up URLs
     let punctuation = CharacterSet(charactersIn: ".:/")
     
     // Set up defaults to be able to save to and restore from
     let loginDefaults = UserDefaults.standard
-    
-    // Set up our delegate to pass data forward to the main view
-    var delegateAuth: DataSentDelegate? = nil
 
-    // Constructor for our classes to be used
+    // Instantiating objects
     let tokenMan = tokenManagement()
     let dataPrep = dataPreparation()
     let logMan = logManager()
+    
+    var keyChainLogin = false
 
     // This runs when the view loads
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Restore the Username to text box if we have a default stored
-        if loginDefaults.value(forKey: "UserName") != nil {
-            txtUserOutlet.stringValue = loginDefaults.value(forKey: "UserName") as! String
-        }
-
-        // Restore Prem URL to text box if we have a default stored
-        if loginDefaults.value(forKey: "InstanceURL") != nil {
-            txtURLOutlet.stringValue = loginDefaults.value(forKey: "InstanceURL") as! String
-        }
-
-        // Restore "remember me" checkbox settings if we have a default stored
-        if loginDefaults.value(forKey: "Remember") != nil {
-            if loginDefaults.bool(forKey: "Remember") {
-                chkRememberMe.state = NSControl.StateValue(rawValue: 1)
-            } else {
-                chkRememberMe.state = NSControl.StateValue(rawValue: 0)
+        preferredContentSize = NSSize(width: 550, height: 550)
+        
+        // Attempt to load info from keychain
+        do {
+            try KeyChainHelper.load()
+            self.txtURLOutlet.stringValue = Credentials.server!
+            self.txtUserOutlet.stringValue = Credentials.username!
+            self.txtPassOutlet.stringValue = Credentials.password!
+            if loginDefaults.bool(forKey: "AutoLogin") {
+                self.logMan.writeLog(level: .info, logString: "Found credentials stored in KeyChain. Attempting login.")
+                keyChainLogin = true
+                self.btnSubmit(self)
             }
-        } else {
-            // Just in case you ever want to do something for no default stored
+        } catch KeychainError.noPassword {
+            // No info found in keychain
+            self.logMan.writeLog(level: .info, logString: "No stored info found in KeyChain.")
+            disableAutoLogin()
+        } catch KeychainError.unexpectedPasswordData {
+            // Info found, but it was bad
+            self.logMan.writeLog(level: .error, logString: "Information was found in KeyChain, but it was somehow corrupt.")
+        } catch {
+            // Something else
+            self.logMan.writeLog(level: .fatal, logString: "Unhandled exception found with extracting KeyChain info.")
         }
         
-        // Restore "Insecure SSL" checkbox settings if we have a default stored
-        if loginDefaults.value(forKey: "Insecure") != nil {
-            if loginDefaults.bool(forKey: "Insecure") {
-                chkBypass.state = NSControl.StateValue(rawValue: 1)
-            } else {
-                chkBypass.state = NSControl.StateValue(rawValue: 0)
-            }
+        // Restore Remember Me checkbox settings if we have a default stored
+        if loginDefaults.bool(forKey: "Remember") {
+            chkRememberMe.state = NSControl.StateValue.on
         } else {
-            // Just in case you ever want to do something for no default stored
+            chkRememberMe.state = NSControl.StateValue.off
+            disableAutoLogin()
+        }
+        
+        // Restore Auto Login checkbox settings if we have a default stored
+        if loginDefaults.bool(forKey: "AutoLogin") {
+            chkAutoLoginOutlet.state = NSControl.StateValue.on
+        } else {
+            chkAutoLoginOutlet.state = NSControl.StateValue.off
+        }
+        
+        if loginDefaults.string(forKey: "InstanceURL") != nil {
+            self.txtURLOutlet.stringValue = loginDefaults.string(forKey: "InstanceURL")!
+        }
+        
+        if loginDefaults.string(forKey: "UserName") != nil {
+            self.txtUserOutlet.stringValue = loginDefaults.string(forKey: "UserName")!
         }
     }
 
@@ -93,14 +94,9 @@ class loginWindow: NSViewController {
         super.viewDidAppear()
         // Forces the window to be the size we want, not resizable
         preferredContentSize = NSSize(width: 550, height: 550)
-        // If we have a URL and a User stored focus the password field
-        if loginDefaults.value(forKey: "InstanceURL") != nil  && loginDefaults.value(forKey: "UserName") != nil {
-            self.txtPassOutlet.becomeFirstResponder()
-        }
     }
 
     @IBAction func btnSubmit(_ sender: Any) {
-        doNotRun = false
 
         // Clean up whitespace at the beginning and end of the fields, in case of faulty copy/paste
         txtURLOutlet.stringValue = txtURLOutlet.stringValue.trimmingCharacters(in: CharacterSet.whitespaces)
@@ -109,101 +105,116 @@ class loginWindow: NSViewController {
         // Warn the user if they have failed to enter an instancename AND prem URL
         if txtURLOutlet.stringValue == "" {
             _ = popPrompt().noServer()
-            doNotRun = true // Set Do Not Run flag
         }
 
         // Warn the user if they have failed to enter a username
         if txtUserOutlet.stringValue == "" {
             _ = popPrompt().noUser()
-            doNotRun = true // Set Do Not Run flag
         }
 
         // Warn the user if they have failed to enter a password
         if txtPassOutlet.stringValue == "" {
             _ = popPrompt().noPass()
-            doNotRun = true // Set Do Not Run flag
         }
+        
+        // Store the credentials information for later use
+        Credentials.username = txtUserOutlet.stringValue
+        Credentials.password = txtPassOutlet.stringValue
+        Credentials.server = txtURLOutlet.stringValue
+        Credentials.base64Encoded = self.dataPrep.base64Credentials(user: self.txtUserOutlet.stringValue,
+                                                                    password: self.txtPassOutlet.stringValue)
 
-        // Move forward with verification if we have not flagged the doNotRun flag
-        if !doNotRun {
+        // Move forward with verification
+        if txtURLOutlet.stringValue != ""
+            && txtPassOutlet.stringValue != ""
+            && txtUserOutlet.stringValue != "" {
             
             // Change the UI to a running state
             guiRunning()
 
-            let url = txtURLOutlet.stringValue
-            let user = txtUserOutlet.stringValue
-            let password = txtPassOutlet.stringValue
-            var tokenData: Data!
-
             DispatchQueue.global(qos: .background).async {
                 // Get our token data from the API class
-                tokenData = self.tokenMan.getToken(url: url, user: user, password: password, allowUntrusted: self.loginDefaults.bool(forKey: "Insecure"))
+                self.tokenMan.getToken(allowUntrusted: self.loginDefaults.bool(forKey: "Insecure"))
                 DispatchQueue.main.async {
-                    //print(String(decoding: tokenData, as: UTF8.self)) // Uncomment for debugging
+                    //print(String(decoding: Token.data!, as: UTF8.self)) // Uncomment for debugging
                     // Reset the GUI and pop up a warning with the info if we get a fatal error
-                    if String(decoding: tokenData, as: UTF8.self).contains("FATAL") {
-                        _ = popPrompt().fatalWarning(error: String(decoding: tokenData, as: UTF8.self))
+                    if String(decoding: Token.data!, as: UTF8.self).contains("FATAL") {
+                        _ = popPrompt().fatalWarning(error: String(decoding: Token.data!, as: UTF8.self))
                         self.guiReset()
                     } else {
                         // No error found leads you here:
-                        if String(decoding: tokenData, as: UTF8.self).contains("token") {
+                        if String(decoding: Token.data!, as: UTF8.self).contains("token") {
                             // Good credentials here, as told by there being a token
-                            self.verified = true
-                            //let passedURL = dataPrep.generateURL(baseURL: txtURLOutlet.stringValue, endpoint: "", identifierType: "", identifier: "", jpapi: false, jpapiVersion: "")
-
                             do {
                                 // Parse the JSON to return token and Expiry
-                                let newJson = try JSON(data: tokenData)
-                                self.token = newJson["token"].stringValue
-                                self.expiry = newJson["expires"].intValue
+                                let newJson = try JSON(data: Token.data!)
+                                Token.value = newJson["token"].stringValue
+                                Token.expiration = newJson["expires"].intValue
+                                
+                                self.dismiss(self)
                             } catch let error as NSError {
-                                //NSLog("[ERROR ]: Failed to load: \(error.localizedDescription)")
-                                self.logMan.errorWrite(logString: "Failed to load: \(error.localizedDescription)")
+                                self.logMan.writeLog(level: .error, logString: "Failed to load: \(error.localizedDescription)")
+                            }
+                            
+                            // Store the username if we should
+                            if self.loginDefaults.bool(forKey: "StoreUsername"){
+                                self.loginDefaults.set(self.txtUserOutlet.stringValue, forKey: "UserName")
+                                self.loginDefaults.synchronize()
+                            } else {
+                                print("Removing username")
+                                self.loginDefaults.removeObject(forKey: "UserName")
+                            }
+                            
+                            // Store the URL if we should
+                            if self.loginDefaults.bool(forKey: "StoreURL"){
+                                print("Storing URL")
+                                self.loginDefaults.set(self.txtURLOutlet.stringValue, forKey: "InstanceURL")
+                                self.loginDefaults.synchronize()
+                            } else {
+                                self.loginDefaults.removeObject(forKey: "InstanceURL")
                             }
 
                             // Store username if button pressed
-                            if self.chkRememberMe.state.rawValue == 1 {
-                                self.loginDefaults.set(self.txtUserOutlet.stringValue, forKey: "UserName")
-                                self.loginDefaults.set(self.txtURLOutlet.stringValue, forKey: "InstanceURL")
-                                self.loginDefaults.set(true, forKey: "Remember")
-                                self.loginDefaults.synchronize()
+                            if self.loginDefaults.bool(forKey: "Remember") {
+                                
+                                // Attempt to save the information in keychain
+                                self.logMan.writeLog(level: .info, logString: "Remember Me checkbox checked. Storing credentials in KeyChain for later use.")
+                                DispatchQueue.global(qos: .background).async {
+                                    do {
+                                        try KeyChainHelper.save(username: Credentials.username!,
+                                                                password: Credentials.password!,
+                                                                server: Credentials.server!)
+                                    } catch {
+                                        self.logMan.writeLog(level: .error, logString: "Error writing credentials to keychain. \(error)")
+                                    }
+                                }
 
                             } else {
-                                self.loginDefaults.removeObject(forKey: "UserName")
-                                self.loginDefaults.removeObject(forKey: "InstanceURL")
-                                self.loginDefaults.set(false, forKey: "Remember")
-                                self.loginDefaults.synchronize()
+                                self.loginDefaults.removeObject(forKey: "Remember")
                             }
                             self.spinProgress.stopAnimation(self)
                             self.btnSubmitOutlet.isHidden = false
-
-                            if self.delegateAuth != nil {
-
-                                // Delegate stuff to pass info forward goes here
-                                let base64creds = self.dataPrep.base64Credentials(user: self.txtUserOutlet.stringValue, password: self.txtPassOutlet.stringValue)
-                                self.delegateAuth?.userDidAuthenticate(base64Credentials: base64creds, url: self.txtURLOutlet.stringValue, token: self.token, expiry: self.expiry)
-
-                                self.dismiss(self)
-                            }
                         } else {
                             // Bad credentials here
-                            DispatchQueue.main.async {
-                                self.guiReset()
-                                // Popup warning of invalid credentials
-                                _ = popPrompt().invalidCredentials()
-
+                            if self.keyChainLogin {
+                                DispatchQueue.main.async {
+                                    self.guiReset()
+                                    // Popup warning of invalid credentials
+                                    _ = popPrompt().invalidKeychain()
+                                    self.keyChainLogin = false
+                                }
+                                self.deleteKeyChain()
+                            } else {
+                                DispatchQueue.main.async {
+                                    self.guiReset()
+                                    // Popup warning of invalid credentials
+                                    _ = popPrompt().invalidCredentials()
+                                }
                             }
                         }
                     }
                 }
             }
-
-
-
-
-        } else {
-            // Reset the Do Not Run flag so that on subsequent runs we try the checks again.
-            doNotRun = false
         }
     }
     
@@ -212,19 +223,27 @@ class loginWindow: NSViewController {
         NSApplication.shared.terminate(self)
     }
     
-    @IBAction func chkBypassAction(_ sender: Any) {
-        if chkBypass.state == NSControl.StateValue(rawValue: 1) {
-            self.loginDefaults.set(true, forKey: "Insecure")
+    @IBAction func chkRememberAction(_ sender: Any) {
+        if chkRememberMe.state == NSControl.StateValue.on {
+            loginDefaults.set(true, forKey: "Remember")
+            enableAutoLogin()
         } else {
-            self.loginDefaults.set(false, forKey: "Insecure")
+            // Remove both auto login and rememberme from defaults
+            loginDefaults.removeObject(forKey: "AutoLogin")
+            loginDefaults.removeObject(forKey: "Remember")
+            
+            disableAutoLogin()
+            
+            // Clear the keychain, just in case.
+            deleteKeyChain()
         }
     }
     
-    @IBAction func chkRememberAction(_ sender: Any) {
-        if chkRememberMe.state == NSControl.StateValue(rawValue: 1) {
-            // Do nothing
+    @IBAction func chkAutoLoginAction(_ sender: Any) {
+        if chkAutoLoginOutlet.state == NSControl.StateValue.on {
+            loginDefaults.set(true, forKey: "AutoLogin")
         } else {
-            
+            loginDefaults.removeObject(forKey: "AutoLogin")
         }
     }
     
@@ -235,5 +254,37 @@ class loginWindow: NSViewController {
     func guiReset() {
         spinProgress.stopAnimation(self)
         btnSubmitOutlet.isHidden = false
+    }
+    
+    func deleteKeyChain() {
+        DispatchQueue.global(qos: .background).async {
+            do {
+                try KeyChainHelper.delete()
+                self.logMan.writeLog(level: .info, logString: "Deleting information stored in keychain.")
+            } catch KeychainError.noPassword {
+                // No info found in keychain
+                self.logMan.writeLog(level: .info, logString: "No stored info found in KeyChain.")
+            } catch KeychainError.unexpectedPasswordData {
+                // Info found, but it was bad
+                self.logMan.writeLog(level: .error, logString: "Information was found in KeyChain, but it was somehow corrupt.")
+            } catch {
+                // Something else
+                self.logMan.writeLog(level: .fatal, logString: "Unhandled exception found with extracting KeyChain info.")
+            }
+        }
+    }
+    
+    func disableAutoLogin(){
+        // Disable option to auto login if rememberme unchecked
+        loginDefaults.removeObject(forKey: "AutoLogin")
+        chkAutoLoginOutlet.state = NSControl.StateValue.off
+        chkAutoLoginOutlet.isEnabled = false
+        lblAutoLogin.textColor = .secondaryLabelColor
+    }
+    
+    func enableAutoLogin(){
+        // Re-enable option to auto login if rememberme checked
+        chkAutoLoginOutlet.isEnabled = true
+        lblAutoLogin.textColor = .labelColor
     }
 }
