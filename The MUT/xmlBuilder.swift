@@ -15,8 +15,16 @@ public class xmlManager {
     let removalValue = "CLEAR!"
     let xmlDefaults = UserDefaults.standard
 
-
-    public func userObject(username: String, full_name: String, email_address: String, phone_number: String, position: String, ldap_server: String, ea_ids: [String], ea_values: [String], site_ident: String, managedAppleID: String) -> Data {
+    public func userObject(username: String,
+                           full_name: String,
+                           email_address: String,
+                           phone_number: String,
+                           position: String,
+                           ldap_server: String,
+                           ea_ids: [String],
+                           ea_values: [String],
+                           site_ident: String,
+                           managedAppleID: String) -> Data {
 
         // User Object update XML Creation:
  
@@ -83,7 +91,6 @@ public class xmlManager {
             root.addChild(sitesElement)
         }
 
-
         // Extension Attributes
         let extensionAttributesElement = XMLElement(name: "extension_attributes")
         
@@ -111,16 +118,34 @@ public class xmlManager {
                 // Add the EA subset to the root element
                 root.addChild(extensionAttributesElement)
             }
-
         }
 
-
         // Print the XML
-        NSLog(xml.debugDescription) // Uncomment for debugging
+        //NSLog(xml.debugDescription) // Uncomment for debugging
         return xml.xmlData
     }
 
-    public func iosObject(assetTag: String, username: String, full_name: String, email_address: String, phone_number: String, position: String, department: String, building: String, room: String, poNumber: String, vendor: String, purchasePrice: String, poDate: String, warrantyExpires: String, isLeased: String, leaseExpires: String, appleCareID: String, airplayPassword: String, site_ident: String, ea_ids: [String], ea_values: [String]) -> Data {
+    public func iosObject(assetTag: String,
+                          username: String,
+                          full_name: String,
+                          email_address: String,
+                          phone_number: String,
+                          position: String,
+                          department: String,
+                          building: String,
+                          room: String,
+                          poNumber: String,
+                          vendor: String,
+                          purchasePrice: String,
+                          poDate: String,
+                          warrantyExpires: String,
+                          isLeased: String,
+                          leaseExpires: String,
+                          appleCareID: String,
+                          airplayPassword: String,
+                          site_ident: String,
+                          ea_ids: [String],
+                          ea_values: [String]) -> Data {
 
 
         // iOS Object update XML Creation:
@@ -284,14 +309,35 @@ public class xmlManager {
         }
 
         // Print the XML
-        NSLog(xml.debugDescription) // Uncomment for debugging
+        //NSLog(xml.debugDescription) // Uncomment for debugging
         return xml.xmlData
     }
     
-    public func macosObject(displayName: String, assetTag: String, barcode1: String, barcode2: String, username: String, full_name: String, email_address: String, position: String, phone_number: String, department: String, building: String, room: String, poNumber: String, vendor: String, purchasePrice: String, poDate: String, warrantyExpires: String, isLeased: String, leaseExpires: String, appleCareID: String, site_ident: String, ea_ids: [String], ea_values: [String]) -> Data {
+    public func macosObject(displayName: String,
+                            assetTag: String,
+                            barcode1: String,
+                            barcode2: String,
+                            username: String,
+                            full_name: String,
+                            email_address: String,
+                            position: String,
+                            phone_number: String,
+                            department: String,
+                            building: String,
+                            room: String,
+                            poNumber: String,
+                            vendor: String,
+                            purchasePrice: String,
+                            poDate: String,
+                            warrantyExpires: String,
+                            isLeased: String,
+                            leaseExpires: String,
+                            appleCareID: String,
+                            site_ident: String,
+                            ea_ids: [String],
+                            ea_values: [String]) -> Data {
         
         // macOS Object update XML Creation:
-        
         let generalStuff = displayName + assetTag + barcode1 + barcode2 + site_ident
         let locationStuff = username + full_name + email_address + phone_number + position + department + building + room
         let purchasingStuff = poNumber + vendor + purchasePrice + poDate + warrantyExpires + leaseExpires + appleCareID + isLeased
@@ -354,7 +400,6 @@ public class xmlManager {
         populateElement(variableToCheck: full_name, elementName: "realname", elementToAdd: realnameElement, whereToAdd: location)
         populateElement(variableToCheck: full_name, elementName: "real_name", elementToAdd: real_nameElement, whereToAdd: location)
         
-        
         // Email Address
         let emailAddressElement = XMLElement(name: "email_address", stringValue: email_address)
         populateElement(variableToCheck: email_address, elementName: "email_address", elementToAdd: emailAddressElement, whereToAdd: location)
@@ -416,6 +461,7 @@ public class xmlManager {
         // isLeased
         let isLeasedIDElement = XMLElement(name: "is_leased", stringValue: isLeased)
         populateElement(variableToCheck: isLeased, elementName: "is_leased", elementToAdd: isLeasedIDElement, whereToAdd: purchasing)
+        
         // ----------------------
         // EXTENSION ATTRIBUTES
         // ----------------------
@@ -445,7 +491,6 @@ public class xmlManager {
             if hasEAs > 0 {
                 root.addChild(extensionAttributesElement)
             }
-
         }
         
         if generalStuff != "" {
@@ -459,11 +504,13 @@ public class xmlManager {
         }
         
         // Print the XML
-        NSLog(xml.debugDescription) // Uncomment for debugging
+        //NSLog(xml.debugDescription) // Uncomment for debugging
         return xml.xmlData
     }
 
-    public func staticGroup(appendReplaceRemove: String, objectType: String, identifiers: [String]) -> Data {
+    public func staticGroup(appendReplaceRemove: String,
+                            objectType: String,
+                            identifiers: [String]) -> Data {
 
         // Static Group XML Creation:
 
@@ -591,7 +638,10 @@ public class xmlManager {
         return Data("nil".utf8)
     }
     
-    func populateElement(variableToCheck: String, elementName: String, elementToAdd: XMLElement, whereToAdd: XMLElement) {
+    func populateElement(variableToCheck: String,
+                         elementName: String,
+                         elementToAdd: XMLElement,
+                         whereToAdd: XMLElement) {
         // Populate the element as needed
         var elementToAdd = XMLElement(name: elementName, stringValue: variableToCheck)
         
@@ -601,8 +651,5 @@ public class xmlManager {
         } else if variableToCheck != "" {
             whereToAdd.addChild(elementToAdd)
         }
-        
     }
-
-
 }

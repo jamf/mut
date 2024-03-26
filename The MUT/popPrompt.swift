@@ -92,6 +92,15 @@ public class popPrompt {
         return myPopup.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn
     }
     
+    public func invalidKeychain() -> Bool {
+        let myPopup: NSAlert = NSAlert()
+        myPopup.messageText = "Invalid Keychain Info"
+        myPopup.informativeText = "The credentials stored in your keychain do not seem to have sufficient permissions. This could be due to an incorrect user/password, or possibly from insufficient permissions.\n\nMUT tests this against the user's ability to generate a token for the new JPAPI/UAPI. This token is now required for some tasks that MUT performs.\n\nMUT will now remove the stored keychain info."
+        myPopup.alertStyle = NSAlert.Style.warning
+        myPopup.addButton(withTitle: "OK")
+        return myPopup.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn
+    }
+    
     public func noServer() -> Bool {
         let myPopup: NSAlert = NSAlert()
         myPopup.messageText = "No Server Info"
@@ -125,6 +134,26 @@ public class popPrompt {
         myPopup.informativeText = "The MUT received a fatal error at authentication. The most common cause of this is an incorrect server URL. The full error output is below. \n\n \(error))"
         myPopup.alertStyle = NSAlert.Style.warning
         myPopup.addButton(withTitle: "OK")
+        return myPopup.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn
+    }
+    
+    public func clearKeychain() -> Bool {
+        let myPopup: NSAlert = NSAlert()
+        myPopup.messageText = "Clear Keychain?"
+        myPopup.informativeText = "This will remove your MUT credentials from keychain. You will need to re-enter your credentials when you next log in."
+        myPopup.alertStyle = NSAlert.Style.warning
+        myPopup.addButton(withTitle: "Make it so")
+        myPopup.addButton(withTitle: "Cancel")
+        return myPopup.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn
+    }
+    
+    public func hardReset() -> Bool {
+        let myPopup: NSAlert = NSAlert()
+        myPopup.messageText = "Perform Hard Reset?"
+        myPopup.informativeText = "If you are experiencing odd behavior with MUT it may help to perform a hard reset.\n\n This will remove all stored settings, including MUT crednetials stored in keychain, and quit the application immediately."
+        myPopup.alertStyle = NSAlert.Style.warning
+        myPopup.addButton(withTitle: "Make it so")
+        myPopup.addButton(withTitle: "Cancel")
         return myPopup.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn
     }
     
