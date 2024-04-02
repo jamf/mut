@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:The MUT.xcodeproj">
+      location = "self:">
    </FileRef>
 </Workspace>

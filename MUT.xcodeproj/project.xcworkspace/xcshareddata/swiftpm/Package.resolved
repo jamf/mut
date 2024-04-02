@@ -1,0 +1,24 @@
+{
+  "originHash" : "5c90e43ced418c97649ce419de2c1007492787de981c13f7324849584830eeb4",
+  "pins" : [
+    {
+      "identity" : "csv.swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/yaslab/CSV.swift",
+      "state" : {
+        "revision" : "81d2874c51db364d7e1d71b0d99018a294c87ac1",
+        "version" : "2.4.3"
+      }
+    },
+    {
+      "identity" : "swiftyjson",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftyJSON/SwiftyJSON.git",
+      "state" : {
+        "revision" : "af76cf3ef710b6ca5f8c05f3a31307d44a3c5828",
+        "version" : "5.0.2"
+      }
+    }
+  ],
+  "version" : 3
+}
