@@ -40,16 +40,6 @@
 		F7FF428B1EA645680044F126 /* xmlBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7FF428A1EA645680044F126 /* xmlBuilder.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		F70A48EC22B7106B003145E0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F7333BC51DB55EDF00F89C00 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = F7333BCC1DB55EDF00F89C00;
-			remoteInfo = "The MUT";
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		50D075C126DED17900252AC0 /* MobileDeviceXMLParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileDeviceXMLParser.swift; sourceTree = "<group>"; };
 		50D075C426DED19900252AC0 /* MobileDeviceV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileDeviceV2.swift; sourceTree = "<group>"; };
@@ -62,7 +52,6 @@
 		71FEC53F238CD07B00A7AAB5 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		71FEC540238CD07B00A7AAB5 /* SessionHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionHandler.swift; sourceTree = "<group>"; };
 		85C4D46822AAEF6A00512000 /* CSVFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVFunctions.swift; sourceTree = "<group>"; };
-		F70A48E722B7106A003145E0 /* MUT Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MUT Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F721E4EE2980444A003284A0 /* KeychainDefaultsPopover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainDefaultsPopover.swift; sourceTree = "<group>"; };
 		F7333BCD1DB55EDF00F89C00 /* MUT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MUT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7333BD01DB55EDF00F89C00 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -87,13 +76,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		F70A48E422B7106A003145E0 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		F7333BCA1DB55EDF00F89C00 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -142,7 +124,6 @@
 			isa = PBXGroup;
 			children = (
 				F7333BCD1DB55EDF00F89C00 /* MUT.app */,
-				F70A48E722B7106A003145E0 /* MUT Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -188,24 +169,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		F70A48E622B7106A003145E0 /* MUT Tests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = F70A48F022B7106B003145E0 /* Build configuration list for PBXNativeTarget "MUT Tests" */;
-			buildPhases = (
-				F70A48E322B7106A003145E0 /* Sources */,
-				F70A48E422B7106A003145E0 /* Frameworks */,
-				F70A48E522B7106A003145E0 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				F70A48ED22B7106B003145E0 /* PBXTargetDependency */,
-			);
-			name = "MUT Tests";
-			productName = "The MUT Tests";
-			productReference = F70A48E722B7106A003145E0 /* MUT Tests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		F7333BCC1DB55EDF00F89C00 /* MUT */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F7333BF51DB55EDF00F89C00 /* Build configuration list for PBXNativeTarget "MUT" */;
@@ -237,10 +200,6 @@
 				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "Levenick Enterprises LLC";
 				TargetAttributes = {
-					F70A48E622B7106A003145E0 = {
-						CreatedOnToolsVersion = 10.2.1;
-						TestTargetID = F7333BCC1DB55EDF00F89C00;
-					};
 					F7333BCC1DB55EDF00F89C00 = {
 						CreatedOnToolsVersion = 8.0;
 						LastSwiftMigration = 1010;
@@ -274,19 +233,11 @@
 			projectRoot = "";
 			targets = (
 				F7333BCC1DB55EDF00F89C00 /* MUT */,
-				F70A48E622B7106A003145E0 /* MUT Tests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		F70A48E522B7106A003145E0 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		F7333BCB1DB55EDF00F89C00 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -301,13 +252,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		F70A48E322B7106A003145E0 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		F7333BC91DB55EDF00F89C00 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -342,14 +286,6 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		F70A48ED22B7106B003145E0 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = F7333BCC1DB55EDF00F89C00 /* MUT */;
-			targetProxy = F70A48EC22B7106B003145E0 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXVariantGroup section */
 		F7333BD91DB55EDF00F89C00 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -362,63 +298,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		F70A48EE22B7106B003145E0 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = "";
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = "The MUT Tests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.jamf.mut-tests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MUT.app/Contents/MacOS/MUT";
-			};
-			name = Debug;
-		};
-		F70A48EF22B7106B003145E0 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = "";
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = "The MUT Tests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.jamf.mut-tests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MUT.app/Contents/MacOS/MUT";
-			};
-			name = Release;
-		};
 		F7333BF31DB55EDF00F89C00 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -539,7 +418,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 6.2.0;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 483DWKW443;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "The MUT/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -565,7 +444,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 6.2.0;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 483DWKW443;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "The MUT/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -585,15 +464,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		F70A48F022B7106B003145E0 /* Build configuration list for PBXNativeTarget "MUT Tests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				F70A48EE22B7106B003145E0 /* Debug */,
-				F70A48EF22B7106B003145E0 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		F7333BC81DB55EDF00F89C00 /* Build configuration list for PBXProject "MUT" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
