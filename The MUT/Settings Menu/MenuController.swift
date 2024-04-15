@@ -192,6 +192,8 @@ class MenuController: NSViewController {
         
         if menuDefaults.value(forKey: "LogLevel") != nil {
             popLogLevelOutlet.selectItem(withTag: menuDefaults.integer(forKey: "LogLevel"))
+        } else {
+            popLogLevelOutlet.selectItem(withTag: 3)
         }
     }
 }
