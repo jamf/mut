@@ -393,7 +393,6 @@ public class xmlManager {
         }
         
         // Managed
-        
         let managedElement = XMLElement(name: "remote_management")
         let managedElementValue = XMLElement(name: "managed", stringValue: managedValue)
             managedElement.addChild(managedElementValue)
