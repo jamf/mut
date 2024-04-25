@@ -339,7 +339,11 @@ public class xmlManager {
                             ea_values: [String]) -> Data {
         
         // macOS Object update XML Creation:
-        let generalStuff = displayName + assetTag + barcode1 + barcode2 + site_ident + managed
+        var generalStuff = displayName + assetTag + barcode1 + barcode2 + site_ident
+        let managedValue = managed.lowercased()
+        if managedValue == "true" || managedValue == "false" {
+            generalStuff = displayName + assetTag + barcode1 + barcode2 + site_ident + managedValue
+        }
         let locationStuff = username + full_name + email_address + phone_number + position + department + building + room
         let purchasingStuff = poNumber + vendor + purchasePrice + poDate + warrantyExpires + leaseExpires + appleCareID + isLeased
         
@@ -389,15 +393,11 @@ public class xmlManager {
         }
         
         // Managed
-        if managed.lowercased() == "true" || managed.lowercased() == "false" {
-            let managedElement = XMLElement(name: "remote_management")
-            var managedElementValue = XMLElement(name: "managed", stringValue: managed)
-            managedElementValue = XMLElement(name: "managed", stringValue: managed)
+        
+        let managedElement = XMLElement(name: "remote_management")
+        let managedElementValue = XMLElement(name: "managed", stringValue: managedValue)
             managedElement.addChild(managedElementValue)
             general.addChild(managedElement)
-        } else if managed != "" {
-            print ("LOL YOU SUCK")
-        }
         
         // ----------------------
         // LOCATION ATTRIBUTES
