@@ -25,8 +25,7 @@ public class tokenManagement: NSObject {
         let encodedURL = "\(Credentials.server!)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "https://null"
 
         // Create a URL for getting a token.
-        let tokenURL = dataPrep.generateURL(endpoint: "/auth/tokens", identifierType: "", identifier: "", jpapi: true, jpapiVersion: "nil")
-        //print("The URL is " + tokenURL) // Uncomment for debugging
+        let tokenURL = dataPrep.generateJpapiURL(endpoint: "auth/token", endpointVersion: "v1", identifier: "")
         
         // The semaphore is what allows us to force the code to wait for this request to complete
         // Without the semaphore, MUT will queue up a request for every single line of the CSV simultaneously
@@ -83,7 +82,19 @@ public class tokenManagement: NSObject {
                     // Parse the JSON to return token and Expiry
                     let newJson = try JSON(data: Token.data!)
                     Token.value = newJson["token"].stringValue
-                    Token.expiration = newJson["expires"].intValue
+                    
+                    // Get the expiry and attempt to convert to epoch
+                    let expireString = newJson["expires"].stringValue
+                    let dateFormatter = ISO8601DateFormatter()
+                    dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+
+                    // If we can convert successfully, store it to the Token object. Otherwise throw an error.
+                    if let date = dateFormatter.date(from: expireString) {
+                        Token.expiration = Int(date.timeIntervalSince1970 * 1000)
+                    } else {
+                        self.logMan.writeLog(level: .error, logString: "Failed to convert token expiry to epoch. Received \(expireString).")
+                    }
+                    
                 } catch let error as NSError {
                     self.logMan.writeLog(level: .error, logString: "Failed to load: \(error.localizedDescription)")
                 }
@@ -93,10 +104,10 @@ public class tokenManagement: NSObject {
     
     public func tokenRefresher() {
         let currentEpoch = Int(Date().timeIntervalSince1970 * 1000)
-        // print(currentEpoch) // Uncomment for debugging
+        
         // Find the difference between expiry time and current epoch
         let secondsToExpire = (Token.expiration! - currentEpoch)/1000
-        //print("Expires in \(secondsToExpire) seconds") // Uncomment for debugging
+        
         if secondsToExpire <= 30 {
             logMan.writeLog(level: .info, logString: "Token only has \(secondsToExpire) seconds left to live. Refreshing token.")
             getToken(allowUntrusted: self.tokenDefaults.bool(forKey: "Insecure"))
