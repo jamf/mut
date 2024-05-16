@@ -1,6 +1,6 @@
 //
 //  xmlBuilder.swift
-//  The MUT v5
+//  The MUT
 //
 //  Created by Michael Levenick on 5/24/19.
 //  Copyright © 2019 Levenick Enterprises, LLC. All rights reserved.
@@ -14,6 +14,7 @@ public class xmlManager {
     var xml: XMLDocument?
     let removalValue = "CLEAR!"
     let xmlDefaults = UserDefaults.standard
+    let logMan = logManager()
 
     public func userObject(username: String,
                            full_name: String,
@@ -393,10 +394,15 @@ public class xmlManager {
         }
         
         // Managed
-        let managedElement = XMLElement(name: "remote_management")
-        let managedElementValue = XMLElement(name: "managed", stringValue: managedValue)
-            managedElement.addChild(managedElementValue)
-            general.addChild(managedElement)
+        if managedValue == "true" || managedValue == "false" {
+            let managedElement = XMLElement(name: "remote_management")
+            let managedElementValue = XMLElement(name: "managed", stringValue: managedValue)
+                managedElement.addChild(managedElementValue)
+                general.addChild(managedElement)
+        } else if managedValue != "" {
+            logMan.writeLog(level: .error, logString: "Invalid value found for \"Managed\". Expected \"true\" or \"false\", found \(managedValue).")
+            logMan.writeLog(level: .error, logString: "Skipping \"Managed\", continuing with PUT command.")
+        }
         
         // ----------------------
         // LOCATION ATTRIBUTES
