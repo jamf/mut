@@ -149,7 +149,19 @@ class loginWindow: NSViewController {
                                 // Parse the JSON to return token and Expiry
                                 let newJson = try JSON(data: Token.data!)
                                 Token.value = newJson["token"].stringValue
-                                Token.expiration = newJson["expires"].intValue
+                                
+                                // Get the expiry and attempt to convert to epoch
+                                let expireString = newJson["expires"].stringValue
+                                let dateFormatter = ISO8601DateFormatter()
+                                dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+
+                                // If we can convert successfully, store it to the Token object. Otherwise throw an error.
+                                if let date = dateFormatter.date(from: expireString) {
+                                    print("storing expiry of \(Int(date.timeIntervalSince1970 * 1000))")
+                                    Token.expiration = Int(date.timeIntervalSince1970 * 1000)
+                                } else {
+                                    self.logMan.writeLog(level: .error, logString: "Failed to convert token expiry to epoch. Received \(expireString).")
+                                }
                                 
                                 self.dismiss(self)
                             } catch let error as NSError {
