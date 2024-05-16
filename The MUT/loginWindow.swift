@@ -157,6 +157,7 @@ class loginWindow: NSViewController {
 
                                 // If we can convert successfully, store it to the Token object. Otherwise throw an error.
                                 if let date = dateFormatter.date(from: expireString) {
+                                    print("storing expiry of \(Int(date.timeIntervalSince1970 * 1000))")
                                     Token.expiration = Int(date.timeIntervalSince1970 * 1000)
                                 } else {
                                     self.logMan.writeLog(level: .error, logString: "Failed to convert token expiry to epoch. Received \(expireString).")
@@ -172,11 +173,13 @@ class loginWindow: NSViewController {
                                 self.loginDefaults.set(self.txtUserOutlet.stringValue, forKey: "UserName")
                                 self.loginDefaults.synchronize()
                             } else {
+                                print("Removing username")
                                 self.loginDefaults.removeObject(forKey: "UserName")
                             }
                             
                             // Store the URL if we should
                             if self.loginDefaults.bool(forKey: "StoreURL"){
+                                print("Storing URL")
                                 self.loginDefaults.set(self.txtURLOutlet.stringValue, forKey: "InstanceURL")
                                 self.loginDefaults.synchronize()
                             } else {
