@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D30EF2E2BDAD05B00BB7E1E /* MUT Templates.zip in Resources */ = {isa = PBXBuildFile; fileRef = 2D30EF2D2BDAD05B00BB7E1E /* MUT Templates.zip */; };
 		50D075C226DED17900252AC0 /* MobileDeviceXMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D075C126DED17900252AC0 /* MobileDeviceXMLParser.swift */; };
 		50D075C526DED19900252AC0 /* MobileDeviceV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D075C426DED19900252AC0 /* MobileDeviceV2.swift */; };
 		50D075C726DFEAF200252AC0 /* JamfProVersionV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D075C626DFEAF200252AC0 /* JamfProVersionV1.swift */; };
@@ -30,7 +31,6 @@
 		F762D7FC22D98BBC009702D4 /* LogManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F762D7FB22D98BBC009702D4 /* LogManager.swift */; };
 		F76AE9A529366FCF00A6F443 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76AE9A429366FCF00A6F443 /* KeychainHelper.swift */; };
 		F7A4EE48293D9ACF001263CA /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A4EE47293D9ACF001263CA /* MenuController.swift */; };
-		F7C07DC7270548BC0089F6CC /* MUT Templates.zip in Resources */ = {isa = PBXBuildFile; fileRef = F7C07DC6270548BC0089F6CC /* MUT Templates.zip */; };
 		F7C5F4B4294459D400BE7694 /* InsecureSSLPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C5F4B3294459D400BE7694 /* InsecureSSLPopover.swift */; };
 		F7CEE52A229E3C420027CAE8 /* loginWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CEE529229E3C420027CAE8 /* loginWindow.swift */; };
 		F7CF61EA2298671E003A0CBB /* tokenManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7CF61E92298671E003A0CBB /* tokenManagement.swift */; };
@@ -41,6 +41,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2D30EF2D2BDAD05B00BB7E1E /* MUT Templates.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "MUT Templates.zip"; sourceTree = "<group>"; };
 		50D075C126DED17900252AC0 /* MobileDeviceXMLParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileDeviceXMLParser.swift; sourceTree = "<group>"; };
 		50D075C426DED19900252AC0 /* MobileDeviceV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileDeviceV2.swift; sourceTree = "<group>"; };
 		50D075C626DFEAF200252AC0 /* JamfProVersionV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JamfProVersionV1.swift; sourceTree = "<group>"; };
@@ -64,7 +65,6 @@
 		F762D7FB22D98BBC009702D4 /* LogManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogManager.swift; sourceTree = "<group>"; };
 		F76AE9A429366FCF00A6F443 /* KeychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
 		F7A4EE47293D9ACF001263CA /* MenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
-		F7C07DC6270548BC0089F6CC /* MUT Templates.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "MUT Templates.zip"; sourceTree = "<group>"; };
 		F7C5F4B3294459D400BE7694 /* InsecureSSLPopover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsecureSSLPopover.swift; sourceTree = "<group>"; };
 		F7CEE529229E3C420027CAE8 /* loginWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginWindow.swift; sourceTree = "<group>"; };
 		F7CF61E92298671E003A0CBB /* tokenManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tokenManagement.swift; sourceTree = "<group>"; };
@@ -137,8 +137,8 @@
 				F7D623911DE2C745004040F1 /* The MUT.entitlements */,
 				F7333BD01DB55EDF00F89C00 /* AppDelegate.swift */,
 				F7333BD21DB55EDF00F89C00 /* ViewController.swift */,
-				F7C07DC6270548BC0089F6CC /* MUT Templates.zip */,
 				F762D7FB22D98BBC009702D4 /* LogManager.swift */,
+				2D30EF2D2BDAD05B00BB7E1E /* MUT Templates.zip */,
 				85C4D46822AAEF6A00512000 /* CSVFunctions.swift */,
 				F7CF61E92298671E003A0CBB /* tokenManagement.swift */,
 				F7CF61EB22986736003A0CBB /* dataPreparation.swift */,
@@ -242,10 +242,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F7C07DC7270548BC0089F6CC /* MUT Templates.zip in Resources */,
 				F7333BD81DB55EDF00F89C00 /* Assets.xcassets in Resources */,
 				F7FCA4E52A6F553800950820 /* catalog-info.yaml in Resources */,
 				F7333BDB1DB55EDF00F89C00 /* Main.storyboard in Resources */,
+				2D30EF2E2BDAD05B00BB7E1E /* MUT Templates.zip in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -417,7 +417,7 @@
 				CODE_SIGN_ENTITLEMENTS = "The MUT/The MUT.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 6.2.1;
+				CURRENT_PROJECT_VERSION = 6.3.0;
 				DEVELOPMENT_TEAM = 483DWKW443;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "The MUT/Info.plist";
@@ -426,7 +426,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 6.2.1;
+				MARKETING_VERSION = 6.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jssmut.jssmut;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -443,7 +443,7 @@
 				CODE_SIGN_ENTITLEMENTS = "The MUT/The MUT.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 6.2.1;
+				CURRENT_PROJECT_VERSION = 6.3.0;
 				DEVELOPMENT_TEAM = 483DWKW443;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "The MUT/Info.plist";
@@ -452,7 +452,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 6.2.1;
+				MARKETING_VERSION = 6.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jssmut.jssmut;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
