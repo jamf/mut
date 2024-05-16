@@ -89,7 +89,7 @@ class ViewController: NSViewController, NSTableViewDelegate {
     
     let mobileDeviceCSV = ["Mobile Device Serial","Display Name","Enforce Name","Asset Tag","Username","Real Name","Email Address","Position","Phone Number","Department","Building","Room","PO Number","Vendor","Purchase Price","PO Date","Warranty Expires","Is Leased","Lease Expires","AppleCare ID","Airplay Password (tvOS Only)","Site (ID or Name)"]
 
-    let computerCSV = ["Computer Serial","Display Name","Asset Tag","Barcode 1","Barcode 2","Username","Real Name","Email Address","Position","Phone Number","Department","Building","Room","PO Number","Vendor","Purchase Price","PO Date","Warranty Expires","Is Leased","Lease Expires","AppleCare ID","Site (ID or Name)"]
+    let computerCSV = ["Computer Serial","Display Name","Asset Tag","Barcode 1","Barcode 2","Username","Real Name","Email Address","Position","Phone Number","Department","Building","Room","PO Number","Vendor","Purchase Price","PO Date","Warranty Expires","Is Leased","Lease Expires","AppleCare ID","Site (ID or Name)","Managed"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -556,7 +556,7 @@ class ViewController: NSViewController, NSTableViewDelegate {
                     } else {
                         identifierType = "serialnumber"
                     }
-                    xmlToPut = xmlMan.macosObject(displayName: currentRow[1], assetTag: currentRow[2], barcode1: currentRow[3], barcode2: currentRow[4], username: currentRow[5], full_name: currentRow[6], email_address: currentRow[7], position: currentRow[8], phone_number: currentRow[9], department: currentRow[10], building: currentRow[11], room: currentRow[12], poNumber: currentRow[13], vendor: currentRow[14], purchasePrice: currentRow[15], poDate: currentRow[16], warrantyExpires: currentRow[17], isLeased: currentRow[18], leaseExpires: currentRow[19], appleCareID: currentRow[20], site_ident: currentRow[21], ea_ids: ea_ids, ea_values: ea_values)
+                    xmlToPut = xmlMan.macosObject(displayName: currentRow[1], assetTag: currentRow[2], barcode1: currentRow[3], barcode2: currentRow[4], username: currentRow[5], full_name: currentRow[6], email_address: currentRow[7], position: currentRow[8], phone_number: currentRow[9], department: currentRow[10], building: currentRow[11], room: currentRow[12], poNumber: currentRow[13], vendor: currentRow[14], purchasePrice: currentRow[15], poDate: currentRow[16], warrantyExpires: currentRow[17], isLeased: currentRow[18], leaseExpires: currentRow[19], appleCareID: currentRow[20], site_ident: currentRow[21], managed: currentRow[22], ea_ids: ea_ids, ea_values: ea_values)
                     
                 } else if globalEndpoint! == "mobiledevices" {
                     if currentRow[0].isInt {

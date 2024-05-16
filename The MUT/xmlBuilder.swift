@@ -1,6 +1,6 @@
 //
 //  xmlBuilder.swift
-//  The MUT v5
+//  The MUT
 //
 //  Created by Michael Levenick on 5/24/19.
 //  Copyright © 2019 Levenick Enterprises, LLC. All rights reserved.
@@ -14,6 +14,7 @@ public class xmlManager {
     var xml: XMLDocument?
     let removalValue = "CLEAR!"
     let xmlDefaults = UserDefaults.standard
+    let logMan = logManager()
 
     public func userObject(username: String,
                            full_name: String,
@@ -334,11 +335,16 @@ public class xmlManager {
                             leaseExpires: String,
                             appleCareID: String,
                             site_ident: String,
+                            managed: String,
                             ea_ids: [String],
                             ea_values: [String]) -> Data {
         
         // macOS Object update XML Creation:
-        let generalStuff = displayName + assetTag + barcode1 + barcode2 + site_ident
+        var generalStuff = displayName + assetTag + barcode1 + barcode2 + site_ident
+        let managedValue = managed.lowercased()
+        if managedValue == "true" || managedValue == "false" {
+            generalStuff = displayName + assetTag + barcode1 + barcode2 + site_ident + managedValue
+        }
         let locationStuff = username + full_name + email_address + phone_number + position + department + building + room
         let purchasingStuff = poNumber + vendor + purchasePrice + poDate + warrantyExpires + leaseExpires + appleCareID + isLeased
         
@@ -368,6 +374,7 @@ public class xmlManager {
         // Barcode 2
         let barcode2Element = XMLElement(name: "barcode_2", stringValue: barcode2)
         populateElement(variableToCheck: barcode2, elementName: "barcode_2", elementToAdd: barcode2Element, whereToAdd: general)
+        
 
         // Site
         let siteElement = XMLElement(name: "site")
@@ -384,6 +391,17 @@ public class xmlManager {
             }
             siteElement.addChild(siteIDElement)
             general.addChild(siteElement)
+        }
+        
+        // Managed
+        if managedValue == "true" || managedValue == "false" {
+            let managedElement = XMLElement(name: "remote_management")
+            let managedElementValue = XMLElement(name: "managed", stringValue: managedValue)
+                managedElement.addChild(managedElementValue)
+                general.addChild(managedElement)
+        } else if managedValue != "" {
+            logMan.writeLog(level: .error, logString: "Invalid value found for \"Managed\". Expected \"true\" or \"false\", found \(managedValue).")
+            logMan.writeLog(level: .error, logString: "Skipping \"Managed\", continuing with PUT command.")
         }
         
         // ----------------------
@@ -504,7 +522,7 @@ public class xmlManager {
         }
         
         // Print the XML
-        //NSLog(xml.debugDescription) // Uncomment for debugging
+        NSLog(xml.debugDescription) // Uncomment for debugging
         return xml.xmlData
     }
 
