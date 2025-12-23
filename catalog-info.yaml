@@ -4,9 +4,9 @@ metadata:
   name: mut
   description: A Mass Update Tool that allows Jamf Pro admins to update their inventory records.
   labels:
-    jira-key: AEGIS
+    jira-key: HAL
 spec:
   type: application
   lifecycle: production
-  owner: Aegis
+  owner: hal
   system: mut
