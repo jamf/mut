@@ -1,5 +1,5 @@
 //
-//  API.swift
+//  tokenManagement.swift
 //  The MUT v5
 //
 //  Created by Michael Levenick on 5/24/19.
@@ -18,19 +18,11 @@ public class tokenManagement: NSObject {
     
     // This function can be used to generate a token using OAuth client credentials.
     public func getToken(allowUntrusted: Bool){
-        // Percent encode special characters that are not allowed in URLs, such as spaces
-        let encodedURL = "\(Credentials.server!)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "https://null"
+        let dataPrep = dataPreparation()
 
-        // Create OAuth token URL
-        var instancedURL = Credentials.server!
-        if !Credentials.server!.contains(".") {
-            instancedURL = "https://" + Credentials.server! + ".jamfcloud.com"
-        }
-        
-        guard let tokenURL = URL(string: "\(instancedURL)/api/oauth/token") else {
-            self.logMan.writeLog(level: .error, logString: "Failed to create token URL")
-            return
-        }
+        // Create OAuth token URL using the existing URL builder
+        // OAuth endpoint is /api/oauth/token (no version number)
+        let tokenURL = dataPrep.generateJpapiURL(endpoint: "oauth/token", endpointVersion: "", identifier: "")
         
         // The semaphore is what allows us to force the code to wait for this request to complete
         // Without the semaphore, MUT will queue up a request for every single line of the CSV simultaneously
