@@ -10,8 +10,8 @@ import Foundation
 
 class KeyChainHelper {
 
-    class func save(username: String, password: String, server: String) throws {
-        let passData = password.data(using: String.Encoding.utf8)!
+    class func save(clientId: String, clientSecret: String, server: String) throws {
+        let secretData = clientSecret.data(using: String.Encoding.utf8)!
         
         // When deleting old credentials, only care if it's another MUT password.
         let deleteQuery: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
@@ -20,12 +20,12 @@ class KeyChainHelper {
         
         // When saving, care about everything.
         let saveQuery: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
-                                    kSecAttrAccount as String: username,
+                                    kSecAttrAccount as String: clientId,
                                     kSecAttrServer as String: server,
                                     kSecAttrComment as String: "Server: \(server)",
                                     kSecAttrLabel as String: KeyVars.label,
                                     kSecAttrApplicationTag as String: KeyVars.tag,
-                                    kSecValueData as String: passData]
+                                    kSecValueData as String: secretData]
         
         // Delete old credentials before re-saving new, valid credentials.
         SecItemDelete(deleteQuery as CFDictionary)
@@ -50,16 +50,16 @@ class KeyChainHelper {
         guard status == errSecSuccess else { throw KeychainError.unhandledError(status: status) }
         
         guard let existingItem = item as? [String : Any],
-            let passwordData = existingItem[kSecValueData as String] as? Data,
-            let password = String(data: passwordData, encoding: String.Encoding.utf8),
-            let username = existingItem[kSecAttrAccount as String] as? String,
+            let secretData = existingItem[kSecValueData as String] as? Data,
+            let clientSecret = String(data: secretData, encoding: String.Encoding.utf8),
+            let clientId = existingItem[kSecAttrAccount as String] as? String,
             let server = existingItem[kSecAttrServer as String] as? String
         else {
             throw KeychainError.unexpectedPasswordData
         }
         Credentials.server = server
-        Credentials.password = password
-        Credentials.username = username
+        Credentials.clientSecret = clientSecret
+        Credentials.clientId = clientId
     }
     
     class func delete() throws {
@@ -89,10 +89,9 @@ public struct KeyVars {
 }
 
 public struct Credentials {
-    static var username:  String?
-    static var password: String?
+    static var clientId:  String?
+    static var clientSecret: String?
     static var server: String?
-    static var base64Encoded: String?
 }
 
 public struct Token {

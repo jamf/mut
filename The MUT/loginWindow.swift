@@ -14,8 +14,8 @@ class loginWindow: NSViewController {
 
     // Declare outlets for use in the interface
     @IBOutlet weak var txtURLOutlet: NSTextField!
-    @IBOutlet weak var txtUserOutlet: NSTextField!
-    @IBOutlet weak var txtPassOutlet: NSSecureTextField!
+    @IBOutlet weak var txtClientIdOutlet: NSTextField!
+    @IBOutlet weak var txtClientSecretOutlet: NSSecureTextField!
 
     @IBOutlet weak var spinProgress: NSProgressIndicator!
 
@@ -47,8 +47,8 @@ class loginWindow: NSViewController {
         do {
             try KeyChainHelper.load()
             self.txtURLOutlet.stringValue = Credentials.server!
-            self.txtUserOutlet.stringValue = Credentials.username!
-            self.txtPassOutlet.stringValue = Credentials.password!
+            self.txtClientIdOutlet.stringValue = Credentials.clientId!
+            self.txtClientSecretOutlet.stringValue = Credentials.clientSecret!
             if loginDefaults.bool(forKey: "AutoLogin") {
                 self.logMan.writeLog(level: .info, logString: "Found credentials stored in KeyChain. Attempting login.")
                 keyChainLogin = true
@@ -85,8 +85,8 @@ class loginWindow: NSViewController {
             self.txtURLOutlet.stringValue = loginDefaults.string(forKey: "InstanceURL")!
         }
         
-        if loginDefaults.string(forKey: "UserName") != nil {
-            self.txtUserOutlet.stringValue = loginDefaults.string(forKey: "UserName")!
+        if loginDefaults.string(forKey: "ClientId") != nil {
+            self.txtClientIdOutlet.stringValue = loginDefaults.string(forKey: "ClientId")!
         }
     }
 
@@ -100,34 +100,32 @@ class loginWindow: NSViewController {
 
         // Clean up whitespace at the beginning and end of the fields, in case of faulty copy/paste
         txtURLOutlet.stringValue = txtURLOutlet.stringValue.trimmingCharacters(in: CharacterSet.whitespaces)
-        txtUserOutlet.stringValue = txtUserOutlet.stringValue.trimmingCharacters(in: CharacterSet.whitespaces)
+        txtClientIdOutlet.stringValue = txtClientIdOutlet.stringValue.trimmingCharacters(in: CharacterSet.whitespaces)
 
         // Warn the user if they have failed to enter an instancename AND prem URL
         if txtURLOutlet.stringValue == "" {
             _ = popPrompt().noServer()
         }
 
-        // Warn the user if they have failed to enter a username
-        if txtUserOutlet.stringValue == "" {
-            _ = popPrompt().noUser()
+        // Warn the user if they have failed to enter a client ID
+        if txtClientIdOutlet.stringValue == "" {
+            _ = popPrompt().noClientId()
         }
 
-        // Warn the user if they have failed to enter a password
-        if txtPassOutlet.stringValue == "" {
-            _ = popPrompt().noPass()
+        // Warn the user if they have failed to enter a client secret
+        if txtClientSecretOutlet.stringValue == "" {
+            _ = popPrompt().noClientSecret()
         }
         
         // Store the credentials information for later use
-        Credentials.username = txtUserOutlet.stringValue
-        Credentials.password = txtPassOutlet.stringValue
+        Credentials.clientId = txtClientIdOutlet.stringValue
+        Credentials.clientSecret = txtClientSecretOutlet.stringValue
         Credentials.server = txtURLOutlet.stringValue
-        Credentials.base64Encoded = self.dataPrep.base64Credentials(user: self.txtUserOutlet.stringValue,
-                                                                    password: self.txtPassOutlet.stringValue)
 
         // Move forward with verification
         if txtURLOutlet.stringValue != ""
-            && txtPassOutlet.stringValue != ""
-            && txtUserOutlet.stringValue != "" {
+            && txtClientSecretOutlet.stringValue != ""
+            && txtClientIdOutlet.stringValue != "" {
             
             // Change the UI to a running state
             guiRunning()
@@ -143,36 +141,29 @@ class loginWindow: NSViewController {
                         self.guiReset()
                     } else {
                         // No error found leads you here:
-                        if String(decoding: Token.data!, as: UTF8.self).contains("token") {
-                            // Good credentials here, as told by there being a token
+                        if String(decoding: Token.data!, as: UTF8.self).contains("access_token") {
+                            // Good credentials here, as told by there being an access_token
                             do {
                                 // Parse the JSON to return token and Expiry
                                 let newJson = try JSON(data: Token.data!)
-                                Token.value = newJson["token"].stringValue
+                                Token.value = newJson["access_token"].stringValue
                                 
-                                // Get the expiry and attempt to convert to epoch
-                                let expireString = newJson["expires"].stringValue
-                                let dateFormatter = ISO8601DateFormatter()
-                                dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-
-                                // If we can convert successfully, store it to the Token object. Otherwise throw an error.
-                                if let date = dateFormatter.date(from: expireString) {
-                                    Token.expiration = Int(date.timeIntervalSince1970 * 1000)
-                                } else {
-                                    self.logMan.writeLog(level: .error, logString: "Failed to convert token expiry to epoch. Received \(expireString).")
-                                }
+                                // OAuth returns expires_in as seconds from now
+                                let expiresIn = newJson["expires_in"].intValue
+                                let currentTime = Int(Date().timeIntervalSince1970 * 1000)
+                                Token.expiration = currentTime + (expiresIn * 1000)
                                 
                                 self.dismiss(self)
                             } catch let error as NSError {
                                 self.logMan.writeLog(level: .error, logString: "Failed to load: \(error.localizedDescription)")
                             }
                             
-                            // Store the username if we should
-                            if self.loginDefaults.bool(forKey: "StoreUsername"){
-                                self.loginDefaults.set(self.txtUserOutlet.stringValue, forKey: "UserName")
+                            // Store the client ID if we should
+                            if self.loginDefaults.bool(forKey: "StoreClientId"){
+                                self.loginDefaults.set(self.txtClientIdOutlet.stringValue, forKey: "ClientId")
                                 self.loginDefaults.synchronize()
                             } else {
-                                self.loginDefaults.removeObject(forKey: "UserName")
+                                self.loginDefaults.removeObject(forKey: "ClientId")
                             }
                             
                             // Store the URL if we should
@@ -183,15 +174,15 @@ class loginWindow: NSViewController {
                                 self.loginDefaults.removeObject(forKey: "InstanceURL")
                             }
 
-                            // Store username if button pressed
+                            // Store credentials if button pressed
                             if self.loginDefaults.bool(forKey: "Remember") {
                                 
                                 // Attempt to save the information in keychain
                                 self.logMan.writeLog(level: .info, logString: "Remember Me checkbox checked. Storing credentials in KeyChain for later use.")
                                 DispatchQueue.global(qos: .background).async {
                                     do {
-                                        try KeyChainHelper.save(username: Credentials.username!,
-                                                                password: Credentials.password!,
+                                        try KeyChainHelper.save(clientId: Credentials.clientId!,
+                                                                clientSecret: Credentials.clientSecret!,
                                                                 server: Credentials.server!)
                                     } catch {
                                         self.logMan.writeLog(level: .error, logString: "Error writing credentials to keychain. \(error)")
