@@ -86,7 +86,7 @@ public class popPrompt {
     public func invalidCredentials() -> Bool {
         let myPopup: NSAlert = NSAlert()
         myPopup.messageText = "Invalid Credentials"
-        myPopup.informativeText = "The credentials you entered do not seem to have sufficient permissions. This could be due to an incorrect user/password, or possibly from insufficient permissions.\n\nMUT tests this against the user's ability to generate a token for the new JPAPI/UAPI. This token is now required for some tasks that MUT performs."
+        myPopup.informativeText = "The API Client credentials you entered do not seem to have sufficient permissions. This could be due to an incorrect Client ID or Client Secret, or possibly from insufficient API role privileges.\n\nMUT tests this against the API Client's ability to generate an OAuth token for the Jamf Pro API. This token is required for all tasks that MUT performs.\n\nPlease verify your Client ID and Client Secret, and ensure the API Client has appropriate permissions in Jamf Pro."
         myPopup.alertStyle = NSAlert.Style.warning
         myPopup.addButton(withTitle: "OK")
         return myPopup.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn
@@ -95,7 +95,7 @@ public class popPrompt {
     public func invalidKeychain() -> Bool {
         let myPopup: NSAlert = NSAlert()
         myPopup.messageText = "Invalid Keychain Info"
-        myPopup.informativeText = "The credentials stored in your keychain do not seem to have sufficient permissions. This could be due to an incorrect user/password, or possibly from insufficient permissions.\n\nMUT tests this against the user's ability to generate a token for the new JPAPI/UAPI. This token is now required for some tasks that MUT performs.\n\nMUT will now remove the stored keychain info."
+        myPopup.informativeText = "The API Client credentials stored in your keychain do not seem to have sufficient permissions. This could be due to an incorrect Client ID or Client Secret, or possibly from insufficient API role privileges.\n\nMUT tests this against the API Client's ability to generate an OAuth token for the Jamf Pro API. This token is required for all tasks that MUT performs.\n\nMUT will now remove the stored keychain info. You will need to re-enter valid API Client credentials."
         myPopup.alertStyle = NSAlert.Style.warning
         myPopup.addButton(withTitle: "OK")
         return myPopup.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn
@@ -110,19 +110,19 @@ public class popPrompt {
         return myPopup.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn
     }
     
-    public func noUser() -> Bool {
+    public func noClientId() -> Bool {
         let myPopup: NSAlert = NSAlert()
-        myPopup.messageText = "No Username Found"
-        myPopup.informativeText = "It appears that you have not entered a username for MUT to use while accessing Jamf Pro. Please enter your username and password, and try again."
+        myPopup.messageText = "No Client ID Found"
+        myPopup.informativeText = "It appears that you have not entered a Client ID for MUT to use while accessing Jamf Pro. Please enter your API Client credentials and try again.\n\nYou can create API Clients in Jamf Pro under Settings > System > API Roles and Clients."
         myPopup.alertStyle = NSAlert.Style.warning
         myPopup.addButton(withTitle: "OK")
         return myPopup.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn
     }
     
-    public func noPass() -> Bool {
+    public func noClientSecret() -> Bool {
         let myPopup: NSAlert = NSAlert()
-        myPopup.messageText = "No Password Found"
-        myPopup.informativeText = "It appears that you have not entered a password for MUT to use while accessing Jamf Pro. Please enter your username and password, and try again."
+        myPopup.messageText = "No Client Secret Found"
+        myPopup.informativeText = "It appears that you have not entered a Client Secret for MUT to use while accessing Jamf Pro. Please enter your API Client credentials and try again.\n\nYou can create API Clients in Jamf Pro under Settings > System > API Roles and Clients."
         myPopup.alertStyle = NSAlert.Style.warning
         myPopup.addButton(withTitle: "OK")
         return myPopup.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn
@@ -140,7 +140,7 @@ public class popPrompt {
     public func clearKeychain() -> Bool {
         let myPopup: NSAlert = NSAlert()
         myPopup.messageText = "Clear Keychain?"
-        myPopup.informativeText = "This will remove your MUT credentials from keychain. You will need to re-enter your credentials when you next log in."
+        myPopup.informativeText = "This will remove your MUT API Client credentials from keychain. You will need to re-enter your credentials when you next log in."
         myPopup.alertStyle = NSAlert.Style.warning
         myPopup.addButton(withTitle: "Make it so")
         myPopup.addButton(withTitle: "Cancel")
@@ -150,7 +150,7 @@ public class popPrompt {
     public func hardReset() -> Bool {
         let myPopup: NSAlert = NSAlert()
         myPopup.messageText = "Perform Hard Reset?"
-        myPopup.informativeText = "If you are experiencing odd behavior with MUT it may help to perform a hard reset.\n\n This will remove all stored settings, including MUT crednetials stored in keychain, and quit the application immediately."
+        myPopup.informativeText = "If you are experiencing odd behavior with MUT it may help to perform a hard reset.\n\n This will remove all stored settings, including MUT API Client credentials stored in keychain, and quit the application immediately."
         myPopup.alertStyle = NSAlert.Style.warning
         myPopup.addButton(withTitle: "Make it so")
         myPopup.addButton(withTitle: "Cancel")
