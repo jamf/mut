@@ -40,21 +40,30 @@ public class logManager {
     let libraryDirectory = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first
     let libraryURL = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first?.appendingPathComponent("MUT")
     
-    func openLog(){
-        let pathToOpen = libraryDirectory!.resolvingSymlinksInPath().standardizedFileURL.absoluteString.replacingOccurrences(of: "file://", with: "") + "MUT/MUT.log"
+    func openLog() {
+        guard let libraryDir = libraryDirectory else {
+            // Log the error and return early
+            NSLog("[ERROR]: Unable to locate library directory")
+            return
+        }
+        
+        let pathToOpen = libraryDir.resolvingSymlinksInPath().standardizedFileURL.absoluteString.replacingOccurrences(of: "file://", with: "") + "MUT/MUT.log"
         NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: pathToOpen)
-        //print(pathToOpen)
     }
     
-    func createDirectory(){
-        if fileManager.fileExists(atPath: libraryURL!.path) {
-            //NSLog("[INFO  ]: Template Directory already exists. Skipping creation.")
+    func createDirectory() {
+        guard let libURL = libraryURL else {
+            NSLog("[ERROR]: Unable to locate library URL")
+            return
+        }
+        
+        if fileManager.fileExists(atPath: libURL.path) {
+            // Already exists
         } else {
-            //NSLog("[INFO  ]: Template Directory does not exist. Creating.")
             do {
-                try FileManager.default.createDirectory(at: libraryURL!, withIntermediateDirectories: true, attributes: nil)
+                try FileManager.default.createDirectory(at: libURL, withIntermediateDirectories: true, attributes: nil)
             } catch {
-                //NSLog("[ERROR ]: An error occured while creating the Template Directory. \(error).")
+                NSLog("[ERROR]: An error occurred while creating the directory. \(error)")
             }
         }
     }
@@ -79,14 +88,17 @@ public class logManager {
         if defaultLogLevelInt >= level.severity {
             createDirectory()
             let currentTime = generateCurrentTimeStamp()
-            let logURL = libraryURL?.appendingPathComponent("MUT.log")
+            guard let logURL = libraryURL?.appendingPathComponent("MUT.log") else {
+                NSLog("[ERROR]: Unable to create log URL")
+                return
+            }
             let dateLogString = currentTime + " " + logLabel + " " + logString
             //NSLog("[INFO  ]: Writing to MUT log file: '\(logString)'."
             do {
-                try dateLogString.appendLineToURL(fileURL: logURL!)
+                try dateLogString.appendLineToURL(fileURL: logURL)
             }
             catch {
-                //NSLog("[ERROR ]: An error occured while writing to the Log. \(error).")
+                NSLog("[ERROR ]: An error occurred while writing to the Log. \(error).")
             }
         }
     }
@@ -98,7 +110,10 @@ extension String {
     }
     
     func appendToURL(fileURL: URL) throws {
-        let data = self.data(using: String.Encoding.utf8)!
+        guard let data = self.data(using: String.Encoding.utf8) else {
+            throw NSError(domain: "LogManager", code: -1,
+                         userInfo: [NSLocalizedDescriptionKey: "Unable to encode string as UTF-8"])
+        }
         try data.append(fileURL: fileURL)
     }
 }
