@@ -82,14 +82,6 @@ public class dataPreparation {
     // Functions to encode/decode data can be found here
     // ******************************************
     
-    public func base64Credentials(user: String, password: String) -> String {
-        // Concatenate the credentials and base64 encode the resulting string
-        let concatCredentials = "\(user):\(password)"
-        let utf8Credentials = concatCredentials.data(using: String.Encoding.utf8)
-        let base64Credentials = utf8Credentials?.base64EncodedString() ?? "nil"
-        return base64Credentials
-    }
-    
     public func expectedColumns(endpoint: String) -> Int {
         switch endpoint {
         case "users":
