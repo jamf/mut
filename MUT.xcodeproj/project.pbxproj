@@ -417,16 +417,18 @@
 				CODE_SIGN_ENTITLEMENTS = "The MUT/The MUT.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 7.0.0;
 				DEVELOPMENT_TEAM = 483DWKW443;
-				CURRENT_PROJECT_VERSION = 6.4.0;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "The MUT/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = MUT;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 6.4.0;
+				MARKETING_VERSION = 7.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jssmut.jssmut;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -443,16 +445,18 @@
 				CODE_SIGN_ENTITLEMENTS = "The MUT/The MUT.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 7.0.0;
 				DEVELOPMENT_TEAM = 483DWKW443;
-				CURRENT_PROJECT_VERSION = 6.4.0;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "The MUT/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = MUT;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 6.4.0;
+				MARKETING_VERSION = 7.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jssmut.jssmut;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

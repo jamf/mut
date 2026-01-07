@@ -444,7 +444,7 @@
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController storyboardIdentifier="MainStoryBoard" id="B8D-0N-5wS" sceneMemberID="viewController">
-                    <window key="window" identifier="MainWindow" title="The MUT v6.3.0" autorecalculatesKeyViewLoop="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
+                    <window key="window" identifier="MainWindow" title="The MUT v7.0.0" autorecalculatesKeyViewLoop="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
                         <windowCollectionBehavior key="collectionBehavior" fullScreenNone="YES"/>
                         <rect key="contentRect" x="100" y="100" width="568" height="667"/>
@@ -482,7 +482,7 @@
                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JWv-iR-Fgp">
                                             <rect key="frame" x="120" y="300" width="302" height="230"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="V6Glow" id="KN0-Q3-SQb"/>
+                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="V7" id="KN0-Q3-SQb"/>
                                         </imageView>
                                         <box appearanceType="aqua" fixedFrame="YES" boxType="custom" borderType="line" borderWidth="0.0" cornerRadius="5" title="LoginBox" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="ZjO-Ur-FK9">
                                             <rect key="frame" x="82" y="40" width="378" height="216"/>
@@ -638,7 +638,7 @@ DQ
                                             <color key="fillColor" red="0.94525176286697388" green="0.94596821069717407" blue="0.94536274671554565" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </box>
                                         <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="URn-ae-IjB">
-                                            <rect key="frame" x="78" y="271" width="386" height="28"/>
+                                            <rect key="frame" x="78" y="268" width="386" height="28"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Enter your Jamf Pro API Client and Secret" id="TZ0-l9-lLK">
                                                 <font key="font" size="21" name="HelveticaNeue-Light"/>
@@ -771,7 +771,7 @@ DQ
                                                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xFc-1w-UrI">
                                                     <rect key="frame" x="-4" y="294" width="112" height="111"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="V6" id="rDQ-C0-hrA"/>
+                                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="V7" id="rDQ-C0-hrA"/>
                                                 </imageView>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3H2-fu-eTR">
                                                     <rect key="frame" x="3" y="6" width="510" height="23"/>
@@ -785,19 +785,10 @@ DQ
                                                     </connections>
                                                 </button>
                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uAi-d0-jMc">
-                                                    <rect key="frame" x="111" y="334" width="391" height="53"/>
+                                                    <rect key="frame" x="114" y="323" width="391" height="53"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Welcome to MUT v6" id="hrB-j6-Wdr">
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Welcome to MUT v7" id="hrB-j6-Wdr">
                                                         <font key="font" size="44" name="HelveticaNeue-Light"/>
-                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                    </textFieldCell>
-                                                </textField>
-                                                <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q1G-ZB-fTf">
-                                                    <rect key="frame" x="116" y="313" width="398" height="23"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <textFieldCell key="cell" selectable="YES" title="New fields added! Please re-download templates." id="DoY-zO-sfK">
-                                                        <font key="font" size="18" name="HelveticaNeue-Light"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
@@ -1436,8 +1427,7 @@ DQ
         <image name="NSAdvanced" width="32" height="32"/>
         <image name="NSLockUnlockedTemplate" width="21" height="19"/>
         <image name="NSPreferencesGeneral" width="32" height="32"/>
-        <image name="V6" width="111" height="111"/>
-        <image name="V6Glow" width="230" height="230"/>
+        <image name="V7" width="1024" height="1024"/>
         <image name="key" catalog="system" width="12" height="18"/>
     </resources>
 </document>
